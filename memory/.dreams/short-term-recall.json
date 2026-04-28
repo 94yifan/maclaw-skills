@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-28T15:03:26.200Z",
+  "entries": {
+    "memory:memory/2026-04-28.md:85:105": {
+      "key": "memory:memory/2026-04-28.md:85:105",
+      "path": "memory/2026-04-28.md",
+      "startLine": 85,
+      "endLine": 105,
+      "source": "memory",
+      "snippet": "- **架构结论**：单飞书主应用 + subagent-hooks 不能实现多分身独立群聊接收，需要每个分身有独立飞书 app ### 待解决 - 等 yifan 在飞书开放平台创建 Social Crawler 独立 app，获取 App ID + App Secret - 用独立 app 配置 gateway + 群聊绑定 - Social crawler 的小红书相关 skill（xiaohongshu-deep-research 等）待安装 - Dreaming cron 待验证是否正常写 MEMORY ## 悬而未决 - yifan 需创建 Social Crawler 飞书 app（App ID + Secret） - 每个分身是否都需要独立飞书 app（架构确认） - Social crawler 群里测试 spawn（等 app 创建完成后） - yifan 需要给 GitHub PAT 确认（已提供，但需要确认是否正常工作） ## 午后沉思（12:00） - 检视近期 memory 日志：2026-04-27（重装日）和 2026-04-28（skill 密集安装日） - 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全了架构决策、已安装 skills 列表、GitHub",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6323547325843044,
+      "maxScore": 0.6323547325843044,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T14:03:42.132Z",
+      "queryHashes": [
+        "c9b80ddd39c2"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "备份",
+        "subagent-hooks",
+        "xiaohongshu-deep-research",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "架构",
+        "结论"
+      ]
+    },
+    "memory:memory/2026-04-28.md:28:48": {
+      "key": "memory:memory/2026-04-28.md:28:48",
+      "path": "memory/2026-04-28.md",
+      "startLine": 28,
+      "endLine": 48,
+      "source": "memory",
+      "snippet": "- **独立飞书 app 需求确认**：每个 subagent 需要独立飞书 app 才能独立接收群消息并有独立身份；主 agent 不能把群消息转给 subagent - **架构结论**：单飞书主应用 + subagent-hooks 不能实现多分身独立群聊接收，每个分身需独立飞书 app ### 待解决 - 等 yifan 在飞书开放平台创建 Social Crawler 独立 app，获取 App ID + App Secret - 用独立 app 配置 gateway + 群聊绑定 - Social crawler 的小红书相关 skill（xiaohongshu-deep-research 等）待安装 - Dreaming cron 待验证是否正常写 MEMORY ## 悬而未决 - yifan 需创建 Social Crawler 飞书 app（App ID + Secret） - 每个分身是否都需要独立飞书 app（已确认：需要） - Social crawler 群里测试 spawn（等 app 创建完成后） - GitHub PAT 已配置，待最终确认是否正常工作 ## 午后沉思（12:00） - 检视近期 memory 日志：2026-04-27（重装日）和 2026-04-28（skill 密集安装日） - 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.2646011706269937,
+      "maxScore": 0.6323005883321832,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T15:03:26.200Z",
+      "queryHashes": [
+        "c9b80ddd39c2",
+        "d5cb3d837321"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "备份",
+        "subagent-hooks",
+        "xiaohongshu-deep-research",
+        "yifanli94/maclaw-skills",
+        "独立",
+        "app",
+        "需求"
+      ]
+    },
+    "memory:memory/2026-04-28.md:65:90": {
+      "key": "memory:memory/2026-04-28.md:65:90",
+      "path": "memory/2026-04-28.md",
+      "startLine": 65,
+      "endLine": 90,
+      "source": "memory",
+      "snippet": "- find-skills-skill, summarize-1-0-0 - cangjie-skill, nuwa（alchaincyf/nuwa-skill ⭐15,514） - steve-jobs-skill, x-mentor-skill, zhangxuefeng-skill - elon-musk-skill, munger-skill - 所有 skills 已备份到 GitHub（github.com/yifanli94/maclaw-skills） ### GitHub 配置 - GitHub PAT 已配置（重装后首次设置） - 备份仓库：github.com/yifanli94/maclaw-skills - 所有新装 skill 自动 push 到该仓库 ### Social Crawler 分身搭建 - 独立 workspace：`/Users/yifansmacmini/.openclaw/workspace/social-crawler/` - SOUL.md, AGENTS.md, IDENTITY.md, MEMORY.md 均已创建 - 群号：oc_96796887fcf96dba638afa646fbb6bb2 ### 遇到的问题与解决 - **群聊 requireMention 问题**：已关闭，主 agent 可接收群消息 - **Subagent spawn 位置问题**：从私聊 spawn 的 subagent 无法正确绑定到群聊，需要从群聊内触发 spawn - **独立飞书 app 需求确认**：每个 subagent",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6321755250860489,
+      "maxScore": 0.6321755250860489,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T14:03:42.132Z",
+      "queryHashes": [
+        "c9b80ddd39c2"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "find-skills-skill",
+        "summarize-1-0-0",
+        "cangjie-skill",
+        "alchaincyf/nuwa-skill",
+        "steve-jobs-skill",
+        "x-mentor-skill",
+        "zhangxuefeng-skill"
+      ]
+    },
+    "memory:memory/2026-04-28.md:1:30": {
+      "key": "memory:memory/2026-04-28.md:1:30",
+      "path": "memory/2026-04-28.md",
+      "startLine": 1,
+      "endLine": 30,
+      "source": "memory",
+      "snippet": "# 2026-04-28 ## 今日进展 ### Skill 安装（全部完成） - skill-vetter, self-improving-agent, nano-pdf, humanizer, free-ride - api-gateway, youtube-transcript, auto-updater, openai-whisper - openclaw-reminder, browser-automation-stealth, desearch-web-search - find-skills-skill, summarize-1-0-0 - cangjie-skill, nuwa（alchaincyf/nuwa-skill ⭐15,514） - steve-jobs-skill, x-mentor-skill, zhangxuefeng-skill - elon-musk-skill, munger-skill - 所有 skills 已备份到 GitHub（github.com/yifanli94/maclaw-skills） ### GitHub 配置 - GitHub PAT 已配置（重装后首次设置） - 备份仓库：github.com/yifanli94/maclaw-skills - 所有新装 skill 自动 push 到该仓库 ### Social Crawler 分身搭建 - 独立 workspace：`/Users/yifansmacmini/.openclaw/workspace/social-crawler/` - SOUL.md,",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6318880466488362,
+      "maxScore": 0.6318880466488362,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T14:03:42.132Z",
+      "queryHashes": [
+        "c9b80ddd39c2"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "openai",
+        "备份",
+        "skill-vetter",
+        "self-improving-agent",
+        "nano-pdf",
+        "free-ride",
+        "api-gateway"
+      ]
+    },
+    "memory:memory/2026-04-28.md:45:72": {
+      "key": "memory:memory/2026-04-28.md:45:72",
+      "path": "memory/2026-04-28.md",
+      "startLine": 45,
+      "endLine": 72,
+      "source": "memory",
+      "snippet": "- 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全架构决策、已安装 skills 列表、GitHub 配置状态 - 待跟进：social crawler 群里测试 spawn（等独立 app 就绪后）、小红书相关 skill 安装 ## 夜间沉思（22:00） - 今日完成大量 skill 安装与备份，系统基础设施基本就绪 - 核心瓶颈明确：Social Crawler 分身落地卡在飞书独立 app 创建 - GitHub PAT 备份机制已验证，skill 安全 vetting 流程已建立 - 明天最重要的事：配合 yifan 完成 Social Crawler 飞书 app 创建，启动分身跑起来 # 2026-04-28 ## 今日进展 ### Skill 安装（全部完成） - skill-vetter, self-improving-agent, nano-pdf, humanizer, free-ride - api-gateway, youtube-transcript, auto-updater, openai-whisper - openclaw-reminder, browser-automation-stealth, desearch-web-search - find",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.631819762913393,
+      "maxScore": 0.631819762913393,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T14:03:42.132Z",
+      "queryHashes": [
+        "c9b80ddd39c2"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "openai",
+        "备份",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "skill-vetter",
+        "self-improving-agent",
+        "nano-pdf"
+      ]
+    },
+    "memory:memory/2026-04-27.md:1:31": {
+      "key": "memory:memory/2026-04-27.md:1:31",
+      "path": "memory/2026-04-27.md",
+      "startLine": 1,
+      "endLine": 31,
+      "source": "memory",
+      "snippet": "# 2026-04-27 ## 今天发生的事 - **OpenClaw 重装完成**，记忆全部丢失，开始全新 bootstrap - 完成身份重建： - 我叫 MacLaw ⚡ - 用户：李逸凡（逸凡/凡姐） - 网关：ws://127.0.0.1:18789 - 通过飞书私聊运行 - 删除 BOOTSTRAP.md，重启完毕 - 配置完成两个 Dreaming cron：12:00（静默）和 22:00（有汇报） ## 悬而未决 - 飞书聊天记录导出转 Markdown（yifan 想恢复上下文） - SOUL.md 偏好还没讨论 - subagent 群聊配置待指示 - 需找机会了解逸凡的 GitHub 以便备份 Skill ## 重大收获/教训 - 每次重装后 subagent 全部清零，记忆丢失是常态，要有备份意识 - 飞书私聊是主要沟通渠道，重要紧急事直接私聊 - 曼拾业务定位：小红书整合营销代理（主），品牌咨询/服务设计（次，需分开记忆） - 逸凡明确：不喜欢 AI 味的表达（星号、引号、填充词等），协作标准已更新入 SOUL.md（GAP-Detect→Research→Acquire→Invoke→Validation→Evolution）、完整复盘六步框架、Skill vetting 要求（安全确认+价值确认+GitHub备份） ## 明天最重要的一件事 - 早上先响应 yifan 的需求，不预设优先级",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-04-28T15:03:26.200Z",
+      "queryHashes": [
+        "d5cb3d837321"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "网关",
+        "逸凡/凡姐",
+        "127.0.0.1",
+        "bootstrap.md",
+        "soul.md",
+        "重大收获/教训",
+        "品牌咨询/服务设计"
+      ]
+    },
+    "memory:memory/2026-04-28.md:101:121": {
+      "key": "memory:memory/2026-04-28.md:101:121",
+      "path": "memory/2026-04-28.md",
+      "startLine": 101,
+      "endLine": 121,
+      "source": "memory",
+      "snippet": "- **架构结论**：单飞书主应用 + subagent-hooks 不能实现多分身独立群聊接收，需要每个分身有独立飞书 app ### 待解决 - 等 yifan 在飞书开放平台创建 Social Crawler 独立 app，获取 App ID + App Secret - 用独立 app 配置 gateway + 群聊绑定 - Social crawler 的小红书相关 skill（xiaohongshu-deep-research 等）待安装 - Dreaming cron 待验证是否正常写 MEMORY ## 悬而未决 - yifan 需创建 Social Crawler 飞书 app（App ID + Secret） - 每个分身是否都需要独立飞书 app（架构确认） - Social crawler 群里测试 spawn（等 app 创建完成后） - yifan 需要给 GitHub PAT 确认（已提供，但需要确认是否正常工作） ## 午后沉思（12:00） - 检视近期 memory 日志：2026-04-27（重装日）和 2026-04-28（skill 密集安装日） - 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全了架构决策、已安装 skills 列表、GitHub",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6323547380499972,
+      "maxScore": 0.6323547380499972,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-04-28T15:03:26.200Z",
+      "queryHashes": [
+        "d5cb3d837321"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "备份",
+        "subagent-hooks",
+        "xiaohongshu-deep-research",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "架构",
+        "结论"
+      ]
+    },
+    "memory:memory/2026-04-28.md:82:106": {
+      "key": "memory:memory/2026-04-28.md:82:106",
+      "path": "memory/2026-04-28.md",
+      "startLine": 82,
+      "endLine": 106,
+      "source": "memory",
+      "snippet": "- cangjie-skill, nuwa（alchaincyf/nuwa-skill ⭐15,514） - steve-jobs-skill, x-mentor-skill, zhangxuefeng-skill - elon-musk-skill, munger-skill - 所有 skills 已备份到 GitHub（github.com/yifanli94/maclaw-skills） ### GitHub 配置 - GitHub PAT 已配置（重装后首次设置） - 备份仓库：github.com/yifanli94/maclaw-skills - 所有新装 skill 自动 push 到该仓库 ### Social Crawler 分身搭建 - 独立 workspace：`/Users/yifansmacmini/.openclaw/workspace/social-crawler/` - SOUL.md, AGENTS.md, IDENTITY.md, MEMORY.md 均已创建 - 群号：oc_96796887fcf96dba638afa646fbb6bb2 ### 遇到的问题与解决 - **群聊 requireMention 问题**：已关闭，主 agent 可接收群消息 - **Subagent spawn 位置问题**：从私聊 spawn 的 subagent 无法正确绑定到群聊，需要从群聊内触发 spawn - **独立飞书 app 需求确认**：每个 subagent 需要独立的飞书 app 才能独立接收群消息并有自己身份；主 agent 不",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6322743634848839,
+      "maxScore": 0.6322743634848839,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-04-28T15:03:26.200Z",
+      "queryHashes": [
+        "d5cb3d837321"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "cangjie-skill",
+        "alchaincyf/nuwa-skill",
+        "steve-jobs-skill",
+        "x-mentor-skill",
+        "zhangxuefeng-skill",
+        "elon-musk-skill",
+        "munger-skill"
+      ]
+    },
+    "memory:memory/2026-04-28.md:45:63": {
+      "key": "memory:memory/2026-04-28.md:45:63",
+      "path": "memory/2026-04-28.md",
+      "startLine": 45,
+      "endLine": 63,
+      "source": "memory",
+      "snippet": "- 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全架构决策、已安装 skills 列表、GitHub 配置状态 - 待跟进：social crawler 群里测试 spawn（等独立 app 就绪后）、小红书相关 skill 安装 ## 夜间沉思（22:00） - 今日完成大量 skill 安装与备份，系统基础设施基本就绪 - 核心瓶颈明确：Social Crawler 分身落地卡在飞书独立 app 创建 - GitHub PAT 备份机制已验证，skill 安全 vetting 流程已建立 - 明天最重要的事：配合 yifan 完成 Social Crawler 飞书 app 创建，启动分身跑起来 ## 微博日报生产验证（22:00 补充） - **首次成功产出**：`weibo_daily_2026-04-28.md` 已生成，数据完整 - 抓取覆盖：19 个茶饮品牌，当日有内容 6 个（瑞幸、库迪、古茗、茉莉奶白、霸王茶姬、喜茶） - 标准化流程已跑通：爬虫→整理→输出飞书文档/日报文件 - 值得关注的营销信号： - 瑞幸「全冰去水」正式转正 = 听劝营销的典型案例 - 茉莉奶白 IP 联名（INSTINCTOY 日本潮玩艺术家）= 高端化联名路线",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6321755868192103,
+      "maxScore": 0.6321755868192103,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-04-28T15:03:26.200Z",
+      "queryHashes": [
+        "d5cb3d837321"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "weibo-daily-2026-04-28.md",
+        "输出飞书文档/日报文件",
+        "确认",
+        "github",
+        "仓库"
+      ]
+    }
+  }
+}

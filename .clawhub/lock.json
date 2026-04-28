@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "skills": {
+    "skill-vetter": {
+      "version": "1.0.0",
+      "installedAt": 1777301112092
+    },
+    "self-improving-agent": {
+      "version": "3.0.18",
+      "installedAt": 1777301635948
+    },
+    "nano-pdf": {
+      "version": "1.0.0",
+      "installedAt": 1777301637574
+    },
+    "humanizer": {
+      "version": "1.0.0",
+      "installedAt": 1777301639374
+    },
+    "api-gateway": {
+      "version": "1.0.84",
+      "installedAt": 1777301653652
+    },
+    "auto-updater": {
+      "version": "1.0.0",
+      "installedAt": 1777301656801
+    },
+    "openai-whisper": {
+      "version": "1.0.0",
+      "installedAt": 1777301658593
+    },
+    "free-ride": {
+      "version": "1.0.9",
+      "installedAt": 1777301676515
+    },
+    "youtube-transcript": {
+      "version": "1.0.1",
+      "installedAt": 1777301678285
+    },
+    "openclaw-reminder": {
+      "version": "1.0.5",
+      "installedAt": 1777301788154
+    },
+    "browser-automation-stealth": {
+      "version": "1.0.0",
+      "installedAt": 1777301796315
+    },
+    "desearch-web-search": {
+      "version": "1.0.1",
+      "installedAt": 1777301995653
+    },
+    "find-skills-skill": {
+      "version": "1.0.0",
+      "installedAt": 1777301998053
+    },
+    "summarize-1-0-0": {
+      "version": "1.0.0",
+      "installedAt": 1777301999548
+    },
+    "browser-automation": {
+      "version": "1.0.1",
+      "installedAt": 1777341710399
+    },
+    "web-scraping": {
+      "version": "1.0.0",
+      "installedAt": 1777341712480
+    },
+    "spider": {
+      "version": "1.0.0",
+      "installedAt": 1777341722596
+    }
+  }
+}

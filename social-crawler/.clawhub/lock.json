@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "skills": {
+    "desk-research": {
+      "version": "1.0.0",
+      "installedAt": 1777306728984
+    },
+    "data-analysis-reporting": {
+      "version": "0.1.0",
+      "installedAt": 1777306730096
+    },
+    "xiaohongshu-crawler": {
+      "version": "1.0.1",
+      "installedAt": 1777306730313
+    },
+    "xiaohongshu-viral-copy": {
+      "version": "1.0.0",
+      "installedAt": 1777306746278
+    },
+    "copywriting-pro": {
+      "version": "1.0.0",
+      "installedAt": 1777306746350
+    },
+    "copywriting-zh-pro": {
+      "version": "0.1.1",
+      "installedAt": 1777306746467
+    },
+    "browser-automation-stealth": {
+      "version": "1.0.0",
+      "installedAt": 1777306774178
+    },
+    "feishu-doc-manager": {
+      "version": "1.0.0",
+      "installedAt": 1777306774918
+    }
+  }
+}

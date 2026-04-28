@@ -1,0 +1,233 @@
+---
+name: create-subagent
+description: 部署新 subagent 分身的标准化 skill。每次创建分身时执行，确保不遗漏任何关键配置。
+---
+
+# create-subagent
+
+## 一、这个 skill 用来做什么？
+
+**功能：** 将任意一个新的 subagent 分身标准化接入系统，包含独立 workspace、skills 软链、飞书 bindings、dreaming cron × 2。
+
+**解决的问题：** 每次创建新分身容易遗漏步骤（尤其是 dreaming cron 和 bindings），导致分身能创建但无法正常接收消息或运行。
+
+**适用范围：** 任何新的 subagent 部署，无论是 Social Crawler、CEO、品牌顾问还是未来的小红书研究分身。
+
+---
+
+## 二、具体工作 SOP
+
+### 第一步：确定群绑定
+
+在执行本 skill 之前，必须确认：
+- 新 subagent 的飞书群 ID（chatId）
+- 新 subagent 的职责定位（一句话描述）
+
+---
+
+### 第二步：创建目录结构
+
+在终端执行：
+
+```bash
+SUBAGENT_ID="新分身ID"   # 例：xiaohongshu / brand-consultant
+WORKSPACE="/Users/yifansmacmini/.openclaw/workspace/$SUBAGENT_ID"
+mkdir -p $WORKSPACE/{skills,memory/.dreams}
+```
+
+---
+
+### 第三步：创建核心文件（4个）
+
+#### 3.1 SOUL.md — 从主 SOUL 复制，修改以下内容
+
+找到并替换（或确认已存在）第三条原则为：
+
+```
+3. **24/7 永动机** — 我是24小时永远不停歇的永动机，不存在"休息"的概念。
+收到消息立即响应，没有"稍后"、"等一下"、"明天再说"。
+每个重要进展或决策必须实时更新到 MEMORY.md，不依赖事后回忆。
+```
+
+修改使命段，将具体职责描述清楚：
+
+```markdown
+## 使命
+
+负责 {具体业务范围}。
+
+**沟通标准：** 简洁、清晰、不废话。结论先行，有判断，有边界。
+```
+
+修改身份段：
+
+```markdown
+## 身份
+
+- 我是逸凡的 {subagent-role} 分身
+- 负责：{具体业务范围}
+- 风格：{风格描述}
+```
+
+#### 3.2 IDENTITY.md — 从主 IDENTITY.md 复制，修改以下内容
+
+```markdown
+# IDENTITY.md - Who Am I?
+
+- **Name:** {Subagent Name}
+- **Creature:** AI 助手
+- **Vibe:** 直接、务实，不废话
+- **Emoji:** ⚡
+```
+
+#### 3.3 AGENTS.md — 直接复制主 AGENTS.md，不修改
+
+路径：`/Users/yifansmacmini/.openclaw/workspace/AGENTS.md`
+
+#### 3.4 MEMORY.md — 从主 MEMORY.md 复制，追加以下内容
+
+在文件末尾追加：
+
+```markdown
+## {Subagent Name} 专属背景
+
+- **workspace：** `/Users/yifansmacmini/.openclaw/workspace/{subagent-id}/`
+- **职责：** {具体职责描述}
+- **飞书群绑定：** {群ID}
+- **创建日期：** {日期}
+```
+
+---
+
+### 第四步：软链 skills
+
+在终端执行：
+
+```bash
+WORKSPACE="/Users/yifansmacmini/.openclaw/workspace/$SUBAGENT_ID"
+for skill_dir in /Users/yifansmacmini/.openclaw/workspace/skills/*/; do
+  skill_name=$(basename "$skill_dir")
+  ln -sf "$skill_dir" "$WORKSPACE/skills/$skill_name"
+done
+```
+
+软链完成后，用 `ls -la $WORKSPACE/skills/` 确认所有 skills 都是软链（箭头指向主 skills 目录）。
+
+---
+
+### 第五步：注册 agents.list + 重启
+
+在终端执行：
+
+```bash
+openclaw config set agents.list --replace
+# 在弹出的编辑器中，将以下 JSON 条目添加到 agents.list 数组末尾：
+{
+  "id": "新subagent-id",
+  "workspace": "/Users/yifansmacmini/.openclaw/workspace/新subagent-id",
+  "model": {"primary": "minimax/MiniMax-M2.7"},
+  "identity": {"name": "新分身名称"}
+}
+```
+
+保存后重启 gateway：
+
+```bash
+openclaw gateway restart
+```
+
+验证：`openclaw config get agents.list` 确认新 subagent 出现在列表中。
+
+---
+
+### 第六步：注册 bindings + 重启
+
+在终端执行：
+
+```bash
+openclaw config set bindings --replace
+# 在弹出的编辑器中，将以下 JSON 条目添加到 bindings 数组末尾：
+{
+  "agentId": "新subagent-id",
+  "match": {"chatId": "群ID"}
+}
+```
+
+保存后重启 gateway：
+
+```bash
+openclaw gateway restart
+```
+
+验证：`openclaw config get bindings` 确认新绑定存在。
+
+---
+
+### 第七步：配置 dreaming cron × 2
+
+**7.1 12:00 午后沉思**
+
+使用 cron 工具添加 job：
+
+```json
+{
+  "name": "{Subagent} Dreaming Noon",
+  "agentId": "新subagent-id",
+  "schedule": {"kind": "cron", "expr": "0 12 * * *", "tz": "Asia/Shanghai"},
+  "sessionTarget": "isolated",
+  "payload": {
+    "kind": "agentTurn",
+    "message": "你是 {Subagent} 分身。今天是工作日，进行午后沉思。\n\n1. 阅读你的 MEMORY.md 和 recent memory/\n2. 回顾今天的工作，思考有没有值得记录的重要经验或风险教训\n3. 将值得长期记住的内容以追加方式写入 `/Users/yifansmacmini/.openclaw/workspace/{subagent-id}/memory/YYYY-MM-DD.md`（格式：\\n## [{时间}] Dreaming\\n- 要点），文件不存在就先创建\n4. 完成后静默结束，不需要向任何人报告。"
+  },
+  "delivery": {"mode": "none"}
+}
+```
+
+**7.2 22:00 夜间复盘**
+
+使用 cron 工具添加 job：
+
+```json
+{
+  "name": "{Subagent} Dreaming Night",
+  "agentId": "新subagent-id",
+  "schedule": {"kind": "cron", "expr": "0 22 * * *", "tz": "Asia/Shanghai"},
+  "sessionTarget": "isolated",
+  "payload": {
+    "kind": "agentTurn",
+    "message": "你是 {Subagent} 分身。今天结束，进行夜间复盘。\n\n1. 回顾今天完成的所有工作，将今日进展以追加方式写入 `/Users/yifansmacmini/.openclaw/workspace/{subagent-id}/memory/YYYY-MM-DD.md`（今天日期，格式：\\n## [{时间}] Dreaming\\n- 要点），如果文件不存在就先创建\n2. 提炼今天的重大洞察或方法更新到 MEMORY.md\n3. 思考明天最重要的一件事是什么\n4. 完成后静默结束，不需要向任何人报告。"
+  },
+  "delivery": {"mode": "none"}
+}
+```
+
+---
+
+### 第八步：验证
+
+部署完成后，按以下清单逐项验证：
+
+| 验证项 | 方法 | 预期结果 |
+|--------|------|---------|
+| SOUL.md 第3条原则 | `grep "24/7 永动机" $WORKSPACE/SOUL.md` | 有输出 |
+| skills 是软链 | `ls -la $WORKSPACE/skills/` | 所有条目箭头指向主目录 |
+| agents.list 包含新 subagent | `openclaw config get agents.list` | 新 id 出现在列表中 |
+| bindings 包含新群绑定 | `openclaw config get bindings` | 新 chatId 出现在列表中 |
+| dreaming cron 存在 × 2 | `openclaw cron list` | 两条，agentId 正确 |
+| .dreams 目录存在 | `ls $WORKSPACE/memory/.dreams/` | 目录存在 |
+| 分身响应测试 | 在对应群发一条消息 | 60秒内有响应 |
+
+---
+
+## 三、未来可复用价值
+
+**这个 skill 解决的是重复性配置问题，不是一次性问题。**
+
+每次创建新 subagent 都需要执行完整8步，这些步骤结构完全固定，只有具体 ID、群绑定、职责定位是变量。未来逸凡会持续创建新的 subagent，每个新分身都能用这个 skill 一次性完成全部配置。
+
+**复用时只需提供：**
+- 群 ID（chatId）
+- 职责定位（一句话）
+- subagent ID
+
+其余全部自动执行，不需要每次手动梳理步骤。

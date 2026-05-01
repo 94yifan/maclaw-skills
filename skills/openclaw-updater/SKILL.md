@@ -33,11 +33,27 @@ openclaw update check
 openclaw update run
 ```
 
-等待升级完成。OpenClaw 会在升级后自动重启 gateway。
+等待升级完成。OpenClaw 升级后会自动重启 gateway（SIGUSR1）。
+
+**关键：** update.run 完成后不等于 gateway 已经用新版本跑起来——需要等 gateway 重启生效（约2-3秒）。用 `openclaw gateway status` 确认新版本已经在跑，再进行第三步。
+
+如果 gateway 状态异常（如卡在旧的进程上），手动重启：
+```bash
+openclaw gateway restart
+```
+
+### 第三步：验证新版本
+
+```bash
+openclaw gateway status
+openclaw version
+```
+
+确认版本号已更新、gateway 进程已刷新。
 
 ---
 
-### 第三步：汇报新功能
+### 第四步：汇报新功能
 
 升级完成后，用自然语言向逸凡汇报：
 

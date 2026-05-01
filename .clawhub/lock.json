@@ -68,6 +68,50 @@
     "spider": {
       "version": "1.0.0",
       "installedAt": 1777341722596
+    },
+    "human-writing": {
+      "version": "1.0.0",
+      "installedAt": 1777424610519
+    },
+    "communication-skill": {
+      "version": "0.1.0",
+      "installedAt": 1777424612883
+    },
+    "thinking-model-enhancer": {
+      "version": "1.0.0",
+      "installedAt": 1777426500797
+    },
+    "wukong": {
+      "version": "1.0.0",
+      "installedAt": 1777426506896
+    },
+    "Strategy": {
+      "version": "1.0.0",
+      "installedAt": 1777426854262
+    },
+    "weixin-reader-oc": {
+      "version": "1.0.0",
+      "installedAt": 1777477408582
+    },
+    "wechat-mp-reader": {
+      "version": "1.0.0",
+      "installedAt": 1777477564891
+    },
+    "gtm-icp-definition": {
+      "version": "1.0.0",
+      "installedAt": 1777480297687
+    },
+    "gtm-skill-packs": {
+      "version": "1.0.0",
+      "installedAt": 1777480299556
+    },
+    "go-to-market-strategy": {
+      "version": "1.0.0",
+      "installedAt": 1777480301009
+    },
+    "ocr-local": {
+      "version": "1.0.0",
+      "installedAt": 1777481788372
     }
   }
 }

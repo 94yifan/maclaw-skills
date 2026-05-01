@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-01T04:07:22.074Z",
+  "entries": {
+    "memory:memory/2026-04-28.md:1:25": {
+      "key": "memory:memory/2026-04-28.md:1:25",
+      "path": "memory/2026-04-28.md",
+      "startLine": 1,
+      "endLine": 25,
+      "source": "memory",
+      "snippet": "# 2026-04-28 日记 ## [15:08] Dreaming - **飞书写入位置最终确认**：用户明确要求内容插入到「文档标题（茶饮品牌热点日报 H1）」下方第一个位置，而非文档最顶部。飞书文档结构：标题H1 → 分割线 → 日期H1内容 → 汇总表。插入动作发生在标题下方、分割线上方 - **今日上午Cron运行状态**：aa3cf834 session（09:54-14:46 CST）正常完成，写入飞书doc，memory已同步 - **Chrome+Playwright CDP爬取方案稳定**：端口9333，用户profile已登入，pw-test.mjs测试通过 - **OpenClaw config更新方式**：`openclaw config set --replace` 可覆盖受保护路径（agents.list、bindings等），需要该flag - **品牌顺序固定**：18个品牌，严格按固定顺序，除非用户明确要求调整 --- ## 茶饮品牌热点报告 - 完成 ### 飞书文档 - Token: PEJadXoKiorPI2xNFgvcqdOFnHL - 地址: https://feishu.cn/docx/PEJadXoKiorPI2xNFgvcqdOFnHL ### 技术方案 - 连接: playwright CDP 端口 9333（Chrome 已登录用户 profile） - 测试: `node /tmp/pw-test.mjs` - Chrome 启动: `/Applications/Google Chrome.app/Cont",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-30T04:04:00.669Z",
+      "lastRecalledAt": "2026-04-30T04:04:00.669Z",
+      "queryHashes": [
+        "32789d9fdd09"
+      ],
+      "recallDays": [
+        "2026-04-30"
+      ],
+      "conceptTags": [
+        "54-14",
+        "pw-test.mjs测试通过",
+        "agents.list",
+        "tmp/pw-test.mjs",
+        "applications/google",
+        "chrome.app/cont",
+        "日记",
+        "dreaming"
+      ]
+    },
+    "memory:memory/2026-04-29.md:60:94": {
+      "key": "memory:memory/2026-04-29.md:60:94",
+      "path": "memory/2026-04-29.md",
+      "startLine": 60,
+      "endLine": 94,
+      "source": "memory",
+      "snippet": "- 18个品牌全部完成，总耗时约18分钟（品牌间12-18秒随机等待） - 去重机制：state文件断点续跑有效，若中间中断可从done=N继续 - 效率评估：稳定，比昨天持平 **最耗时步骤：** - 等待间隔（随机12-18秒/品牌）约10分钟，占总时间一半以上 - 当前等待策略合理（防风控），暂无需优化 **风控评估：** - 无触发风控迹象，内容抓取正常 - 间隔等待有效 --- ## 明日预判 **明日（4月30日）重点关注：** - 古茗超A芝士葡萄正式回归（4月30日） - 茶百道黑糖粉粿、生酪奥利奥奶茶正式上新 - 奈雪霸气杨梅系列正式上线 - 星巴克熊店长小镇开放（4月29日10:00已开放） - 皮爷咖啡新品（预告\"明天见\"，大概率4月30日） **CDP稳定性：** - 今日稳定，明日预计继续稳定 - Chrome 9333端口需保持运行（今日已有教训：用户真实Chrome，禁止关闭） --- ## 今日品牌数据摘要 | 品牌 | 新品 | IP联名 | 营销 | 亮点 | |------|------|--------|------|------| | 瑞幸咖啡 | 牛油果酸奶昔、小黄油美式转正 | - | 听劝营销、蛋仔联动 | 全冰去水转正 | | 库迪 | 超大杯畅饮季 | 杨幂代言、异人之下 | 苏超赞助 | 周边发售 |",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-30T04:04:00.669Z",
+      "lastRecalledAt": "2026-04-30T04:04:00.669Z",
+      "queryHashes": [
+        "32789d9fdd09"
+      ],
+      "recallDays": [
+        "2026-04-30"
+      ],
+      "conceptTags": [
+        "品牌间12-18秒随机等待",
+        "随机12-18秒/品牌",
+        "品牌",
+        "全部",
+        "完成",
+        "分钟",
+        "随机",
+        "等待"
+      ]
+    },
+    "memory:memory/2026-04-29.md:33:65": {
+      "key": "memory:memory/2026-04-29.md:33:65",
+      "path": "memory/2026-04-29.md",
+      "startLine": 33,
+      "endLine": 65,
+      "source": "memory",
+      "snippet": "1. **季节性产品回归潮（4月底）** - 古茗超A芝士葡萄：第8年回归，显示成熟SKU的持续生命力 - 奈雪霸气杨梅：第11年，口碑产品长线运营 - 规律：春季交替期（4月底-5月）是茶饮品牌年度重磅新品密集期 2. **听劝营销成标配** - 瑞幸：小黄油美式\"全冰去水\"从用户呼声到正式转正 - 古茗：超A芝士葡萄\"真的听劝了\"作为文案点 - 意义：用户共创成为新品开发和产品迭代的重要方式 3. **国际扩张信号** - 茉莉奶白：温哥华列治文店4月18日开业 - 树夏酸奶：成都机场首店 - 意义：茶饮品牌出海/国内特殊渠道布局加速 4. **男性代言+游戏联动持续** - 爷爷不泡茶×李昀锐（明星）+ 呆萌町（IP） - CoCo×胜利女神Nikke（游戏） - 库迪×杨幂（明星）+ 异人之下（IP） **无新数据源发现。** --- ## 效率评估 **今日执行：** - 18个品牌全部完成，总耗时约18分钟（品牌间12-18秒随机等待） - 去重机制：state文件断点续跑有效，若中间中断可从done=N继续 - 效率评估：稳定，比昨天持平 **最耗时步骤：** - 等待间隔（随机12-18秒/品牌）约10分钟，占总时间一半以上",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-30T04:04:00.669Z",
+      "lastRecalledAt": "2026-04-30T04:04:00.669Z",
+      "queryHashes": [
+        "32789d9fdd09"
+      ],
+      "recallDays": [
+        "2026-04-30"
+      ],
+      "conceptTags": [
+        "4月底-5月",
+        "茶饮品牌出海/国内特殊渠道布局加速",
+        "品牌间12-18秒随机等待",
+        "随机12-18秒/品牌",
+        "季节",
+        "产品",
+        "回归",
+        "月底"
+      ]
+    },
+    "memory:memory/2026-04-29.md:91:106": {
+      "key": "memory:memory/2026-04-29.md:91:106",
+      "path": "memory/2026-04-29.md",
+      "startLine": 91,
+      "endLine": 106,
+      "source": "memory",
+      "snippet": "| 品牌 | 新品 | IP联名 | 营销 | 亮点 | |------|------|--------|------|------| | 瑞幸咖啡 | 牛油果酸奶昔、小黄油美式转正 | - | 听劝营销、蛋仔联动 | 全冰去水转正 | | 库迪 | 超大杯畅饮季 | 杨幂代言、异人之下 | 苏超赞助 | 周边发售 | | 古茗 | 超A芝士葡萄4/30回归 | Pingu第二弹 | - | 8年经典回归 | | 茉莉奶白 | 漂亮水·浓抹 | - | 春日主题店、海外开业 | 温哥华列治文店 | | 霸王茶姬 | - | - | 会员日、走走系列 | 福贴彩色版 | | 喜茶 | - | - | 甘草水果瓶装 | 南姜风味地方特色 | | 星巴克 | 星冰粽青绿 | 只此青绿 | 熊店长小镇 | 4/28开放 | | 茶百道 | 黑糖粉粿、生酪奥利奥4/29 | - | 新小料预热 | 闽南糖水元素 | | 奈雪的茶 | 霸气杨梅4/28 | - | 高圆圆代言 | 第十一年 | | CoCo | 牛乳千层吐司 | Nikke联动 | 周三五折 | 游戏联动 | | 爷爷不泡茶 | - | 李昀锐+呆萌町 | 绿联耳机联动 | 明星+IP双线 | | 沪上阿姨 | 鲜打柠檬美式 | - | 美团×故宫、西双版纳瓜田 | 原料溯源营销 | | 乐乐茶 | 杨梅荔枝四果冰 | 科大讯飞 | 美团青山计划 | 联名AI | | 皮爷咖啡 | 瑰夏挂耳 | - | 奇遇森林新玩法4/30 | 产地故事 |",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-30T04:04:00.669Z",
+      "lastRecalledAt": "2026-04-30T04:04:00.669Z",
+      "queryHashes": [
+        "32789d9fdd09"
+      ],
+      "recallDays": [
+        "2026-04-30"
+      ],
+      "conceptTags": [
+        "超a芝士葡萄4/30回归",
+        "4/28开放",
+        "生酪奥利奥4/29",
+        "霸气杨梅4/28",
+        "奇遇森林新玩法4/30",
+        "品牌",
+        "新品",
+        "联名"
+      ]
+    },
+    "memory:memory/2026-04-28.md:47:64": {
+      "key": "memory:memory/2026-04-28.md:47:64",
+      "path": "memory/2026-04-28.md",
+      "startLine": 47,
+      "endLine": 64,
+      "source": "memory",
+      "snippet": "- 文档结构：H1日期标题 → 分割线 → 品牌内容（新品/IP/营销三段） → 汇总表 - **顺序固定不可改，除非用户明确要求调整** ### 去痕迹规则 - 删除：转发、关注、点赞、评论、抽X位、揪X位、互动送、来自微博网页版、来自超话、来自iPhone、Live、已编辑 - 改写：转发抽奖送→参与互动有机会获得 ### Skill - 路径: skills/tea-brand-daily-report/ - 名称: social-content-crawler（通用爬取Skill） - 内容: Chrome连接、内容选择器、去痕迹规则 - 品牌列表/分类规则/文档结构 → 在 cron prompt 中 ### Cron - ID: 943c62ba-07ae-44ea-bb95-124e32fc23dc - 时间: 每天北京时间 10:05（UTC 02:05） - 执行: isolated session，完成后飞书群简报",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-01T04:07:22.074Z",
+      "lastRecalledAt": "2026-05-01T04:07:22.074Z",
+      "queryHashes": [
+        "4bccda4892a8"
+      ],
+      "recallDays": [
+        "2026-05-01"
+      ],
+      "conceptTags": [
+        "新品/ip/营销三段",
+        "skills/tea-brand-daily-report",
+        "social-content-crawler",
+        "品牌列表/分类规则/文档结构",
+        "结构",
+        "日期",
+        "标题",
+        "分割"
+      ]
+    },
+    "memory:memory/2026-04-30.md:48:85": {
+      "key": "memory:memory/2026-04-30.md:48:85",
+      "path": "memory/2026-04-30.md",
+      "startLine": 48,
+      "endLine": 85,
+      "source": "memory",
+      "snippet": "**现象：** 今日 10:05 AM Cron 触发，爬虫成功跑完 18/18 品牌，但 Cron session 没有生成 `memory/2026-04-30.md`，群里也没有发出今日日报。 **根因分析：** 两个问题叠加： 1. `browser.disconnect()` 导致脚本崩溃（`process.exit(1)`），Cron session 认为执行失败 2. Gateway 重启循环可能影响了 Cron session 的上下文保存 **影响：** 今天（4月30日）的品牌数据完全丢失，逸凡没有收到今日日报。 **怎么修复：** - 立即修复 `browser.disconnect()` 问题（见错误1） - 考虑在 state 文件中断点续跑机制：今日已有部分品牌数据（根据 /tmp/crawl-tea.log 显示全部 18 个品牌已爬取），但数据没有写入 memory 文件 - **根本解决方案**：Cron session 产出必须写入 workspace 文件才算完成，不能只依赖 session 结束后自动保存 **预防：** 爬虫完成后立即写文件，不要等 session 结束后依赖自动保存；加入 `process.exit(0)` 确保正常退出。 --- ### CDP 连接评估 - 今日 9333 端口稳定，连接成功 - 无需担心 --- ### 页面结构变化 - 无变化，`article` 标签选择器仍然有效 - 无风控触发迹象 --- ### 品牌耗时 - 根据日志，品牌间等待 12-18 秒，总计约 18 分",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-01T04:07:22.074Z",
+      "lastRecalledAt": "2026-05-01T04:07:22.074Z",
+      "queryHashes": [
+        "4bccda4892a8"
+      ],
+      "recallDays": [
+        "2026-05-01"
+      ],
+      "conceptTags": [
+        "gateway",
+        "18/18",
+        "memory/2026-04-30.md",
+        "browser.disconnect",
+        "process.exit",
+        "tmp/crawl-tea.log",
+        "12-18",
+        "现象"
+      ]
+    }
+  }
+}

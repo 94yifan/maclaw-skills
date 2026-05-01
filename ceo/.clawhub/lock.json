@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "Management": {
+      "version": "1.0.0",
+      "installedAt": 1777426797034
+    },
+    "Strategy": {
+      "version": "1.0.0",
+      "installedAt": 1777427068676
+    },
+    "Decision-Frameworks": {
+      "version": "1.0.0",
+      "installedAt": 1777427090537
+    },
+    "Leadership-Strategy-Playbook": {
+      "version": "1.0.0",
+      "installedAt": 1777427092547
+    },
+    "afrexai-strategic-thinking": {
+      "version": "1.0.0",
+      "installedAt": 1777427128260
+    },
+    "Thinking-Frameworks": {
+      "version": "1.0.0",
+      "installedAt": 1777427131932
+    }
+  }
+}

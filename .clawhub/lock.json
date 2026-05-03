@@ -111,7 +111,35 @@
     },
     "ocr-local": {
       "version": "1.0.0",
-      "installedAt": 1777481788372
+      "installedAt": 1777827154521
+    },
+    "superdesign": {
+      "version": "1.0.0",
+      "installedAt": 1777827144390
+    },
+    "brand-identity": {
+      "version": "0.1.0",
+      "installedAt": 1777827156811
+    },
+    "marketing-psychology": {
+      "version": "1.0.0",
+      "installedAt": 1777827158726
+    },
+    "copywriting-pro": {
+      "version": "1.0.0",
+      "installedAt": 1777827160803
+    },
+    "gemini-deep-research": {
+      "version": "1.0.0",
+      "installedAt": 1777827168464
+    },
+    "academic-deep-research-pro": {
+      "version": "1.0.0",
+      "installedAt": 1777827172407
+    },
+    "xiaohongshu-deep-research": {
+      "version": "1.2.1",
+      "installedAt": 1777827175007
     }
   }
 }

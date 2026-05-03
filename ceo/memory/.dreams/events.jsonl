@@ -1,1 +1,2 @@
 {"type":"memory.recall.recorded","timestamp":"2026-04-29T16:22:12.494Z","query":"Naval skill 安装","resultCount":1,"results":[{"path":"memory/2026-04-29.md","startLine":1,"endLine":31,"score":0.6332796701936877}]}
+{"type":"memory.recall.recorded","timestamp":"2026-05-02T04:07:15.921Z","query":"飞书独立App创建","resultCount":3,"results":[{"path":"memory/2026-04-29.md","startLine":25,"endLine":49,"score":1},{"path":"memory/2026-04-29.md","startLine":45,"endLine":67,"score":1},{"path":"memory/2026-04-29.md","startLine":1,"endLine":31,"score":1}]}

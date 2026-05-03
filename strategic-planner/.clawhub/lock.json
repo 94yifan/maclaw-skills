@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "storytelling": {
+      "version": "1.0.0",
+      "installedAt": 1777826966180
+    },
+    "copywriting-pro": {
+      "version": "1.0.0",
+      "installedAt": 1777826968910
+    },
+    "branding": {
+      "version": "1.0.0",
+      "installedAt": 1777826971255
+    },
+    "marketing-psychology": {
+      "version": "1.0.0",
+      "installedAt": 1777826973620
+    },
+    "feishu-assistant": {
+      "version": "1.1.1",
+      "installedAt": 1777826988476
+    },
+    "ocr-local": {
+      "version": "1.0.0",
+      "installedAt": 1777826995885
+    }
+  }
+}

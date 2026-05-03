@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "skills": {
+    "financial-analysis-agent": {
+      "version": "98.0.1",
+      "installedAt": 1777822841148
+    },
+    "data-analyst-cn": {
+      "version": "1.0.23",
+      "installedAt": 1777822841224
+    },
+    "corporate-lawyer": {
+      "version": "1.0.0",
+      "installedAt": 1777822841404
+    },
+    "lawyer": {
+      "version": "1.0.0",
+      "installedAt": 1777822841569
+    },
+    "afrexai-spreadsheet-master": {
+      "version": "1.0.0",
+      "installedAt": 1777822841828
+    },
+    "cfo": {
+      "version": "1.0.3",
+      "installedAt": 1777822842606
+    },
+    "china-legal-analysis": {
+      "version": "1.0.1",
+      "installedAt": 1777822994654
+    },
+    "china-legal-query": {
+      "version": "1.0.2",
+      "installedAt": 1777822994768
+    }
+  }
+}

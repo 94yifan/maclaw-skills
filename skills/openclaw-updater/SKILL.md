@@ -53,7 +53,40 @@ openclaw version
 
 ---
 
-### 第四步：汇报新功能
+### 第四步：重建所有 subagent cron job（关键防呆）
+
+OpenClaw 升级后，所有带 `agentId` 的 cron job 的模块路径哈希会过期（如 `delivery-subagent-registry.runtime-旧哈希.js` → `delivery-subagent-registry.runtime-新哈希.js`），直接触发 `ERR_MODULE_NOT_FOUND`。
+
+**必须重建所有 `agentId!=main` 的 cron job。**
+
+查询并重建步骤：
+
+```bash
+# 1. 列出所有 cron job，找到 agentId 不是 main 的
+openclaw cron list --json | python3 -c "
+import sys,json
+data=json.load(sys.stdin)
+for j in data.get('jobs',[]):
+    if j.get('agentId') not in (None,'main',''):
+        print(f\"REBUILD: {j['id']} agentId={j['agentId']} name={j['name']}\")
+"
+
+# 2. 对每个需要重建的 job：
+#    a. 记录它的 schedule/payload/delivery/name
+#    b. openclaw cron rm <id>
+#    c. openclaw cron add <同配置>
+```
+
+**重建原则：**
+- `agentId=main` 的不需要重建（走 main agent 路径，不触发 subagent delivery）
+- `agentId=social-crawler`、`agentId=ceo` 等需要重建
+- 重建后新 job 的模块路径哈希是当前版本的，不会再报错
+
+**防呆自动化（推荐）：** 在 `openclaw update run` 之后立即执行重建，而不是等下次 cron 触发。避免定时任务先跑一次报错。
+
+---
+
+### 第五步：汇报新功能
 
 升级完成后，用自然语言向逸凡汇报：
 

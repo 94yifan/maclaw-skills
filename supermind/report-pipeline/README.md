@@ -177,4 +177,4 @@ Prompt 模板包含：
 
 ---
 
-*基于 report_schema.json v1.2 / report_playbook.md v4 | 五维分析模型由逸凡定义 | 所有方法论框架归属逸凡品牌咨询体系*
+*基于 report_schema.json v1.2 / report_playbook.md v4 | 五维分析模型由逸凡定义 | 所有方法论框架归属燃创咨询 BreaC Lab体系*

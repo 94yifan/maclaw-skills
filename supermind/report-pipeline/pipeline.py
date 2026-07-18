@@ -7,7 +7,7 @@
     python pipeline.py --config project_config.json --step 3     # 从 Step 3 开始
     python pipeline.py --config project_config.json --dry-run    # 预览流程
 
-Pipeline 流程（17步，含新增的3个模块）：
+Pipeline 流程（16步，Schema v1.4）：
   Step  1 [手动] Init — 确认行业/品牌范围/深度/框架版本/数据平台
   Step  2 [手动] 前置调研 — 赛道框定+竞品筛选+创始人背景挖掘（2026-07新增）
   Step  3 [半自动] 数据采集 — 财报/电商/行业研报/社交（含电商必采）

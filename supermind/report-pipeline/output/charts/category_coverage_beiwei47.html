@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=800,height=420">
+<title>品类覆盖度对比 · 北纬47度 vs 十月稻田</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#fff}
+  #chart{width:800px;height:420px}
+  .source{text-align:right;font-size:9px;color:#999;padding:2px 8px 0 0}
+</style>
+</head>
+<body>
+<div id="chart"></div>
+<div class="source">来源：天猫旗舰店，2026-07-18实时抓取 · 东北农嫂/佳农/京鲜生无天猫旗舰店</div>
+<script>
+var chart = echarts.init(document.getElementById('chart'));
+var categories = ['鲜食玉米','大米','糙米/杂粮','玉米粒','饮品','干货/豆类','有机认证','低GI认证','出口'];
+var brands = ['北纬47度','十月稻田'];
+// [north47, shiyuedaotian]
+var coverage = [
+  [1,1],  // 鲜食玉米
+  [0,1],  // 大米
+  [0,1],  // 糙米杂粮
+  [1,1],  // 玉米粒
+  [1,0],  // 饮品
+  [0,1],  // 干货豆类
+  [1,0],  // 有机认证
+  [1,0],  // 低GI认证
+  [1,0],  // 出口
+];
+var colors = ['#1B5E20','#E65100'];
+
+var option = {
+  tooltip: {
+    trigger:'item',
+    formatter:function(p){
+      var brandIdx = p.value[1];
+      var catIdx = p.value[0];
+      return brands[brandIdx]+' · '+categories[catIdx]+'<br/>'+(coverage[catIdx][brandIdx]?'✓ 覆盖':'✗ 未覆盖');
+    }
+  },
+  grid: {left:120,right:40,top:20,bottom:50},
+  xAxis: {
+    type:'category', data:categories,
+    axisLabel:{rotate:30,fontSize:10},
+    position:'top'
+  },
+  yAxis: {
+    type:'category', data:brands,
+    axisLabel:{fontSize:12,fontWeight:'bold'}
+  },
+  series: [{
+    type:'scatter',
+    symbolSize:function(val){return val[2]?22:7;},
+    data: categories.reduce(function(acc, cat, ci){ brands.forEach(function(b,bi){ acc.push({value:[ci,bi,coverage[ci][bi]],itemStyle:{color:coverage[ci][bi]?colors[bi]:'#E8E8E8',borderColor:coverage[ci][bi]?colors[bi]:'#D0D0D0',borderWidth:1}}); }); return acc; },[]),
+    label:{show:true,formatter:function(p){return p.value[2]?'●':'○';},fontSize:14,color:'#333'}
+  }]
+};
+chart.setOption(option);
+window.addEventListener('resize',()=>chart.resize());
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=800,height=420">
+<title>天猫旗舰店爆款销量对比 · 北纬47度 vs 十月稻田</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#fff}
+  #chart{width:800px;height:420px}
+  .source{text-align:right;font-size:9px;color:#999;padding:2px 8px 0 0}
+</style>
+</head>
+<body>
+<div id="chart"></div>
+<div class="source">来源：天猫旗舰店，2026-07-18实时抓取 · 东北农嫂/佳农/京鲜生无天猫旗舰店</div>
+<script>
+var chart = echarts.init(document.getElementById('chart'));
+var allData = [
+  {name:'糯玉米', value:40, brand:'十月稻田'},
+  {name:'长粒香大米5kg', value:20, brand:'十月稻田'},
+  {name:'七色糙米', value:20, brand:'十月稻田'},
+  {name:'五常大米', value:10, brand:'十月稻田'},
+  {name:'五色糙米', value:10, brand:'十月稻田'},
+  {name:'玉米段', value:10, brand:'十月稻田'},
+  {name:'水果玉米', value:5, brand:'十月稻田'},
+  {name:'低GI水果玉米', value:5, brand:'北纬47度'},
+  {name:'黄糯玉米', value:2, brand:'北纬47度'},
+];
+allData.sort((a,b)=>b.value-a.value);
+var colors = {'北纬47度':'#1B5E20','十月稻田':'#E65100'};
+var itemColors = allData.map(d=>colors[d.brand]);
+
+// Reversed for horizontal bar (bottom to top)
+var yData = allData.map(d=>d.name).reverse();
+var yValues = allData.map(d=>d.value).reverse();
+var yColors = allData.map(d=>colors[d.brand]).reverse();
+
+var option = {
+  tooltip: {
+    trigger:'axis', axisPointer:{type:'shadow'},
+    formatter:function(p){
+      var d=allData.find(x=>x.name===p[0].name);
+      return d.brand+' · '+d.name+'<br/>已售 <b>'+d.value+'万+</b>';
+    }
+  },
+  grid: {left:140,right:60,top:30,bottom:40},
+  xAxis: {
+    type:'value', name:'已售（万+）', nameLocation:'middle', nameGap:28,
+    axisLabel:{formatter:'{value}w'}
+  },
+  yAxis: {
+    type:'category', data:yData, axisLabel:{fontSize:10}
+  },
+  series: [{
+    type:'bar',
+    data:yValues.map((v,i)=>({value:v,itemStyle:{color:yColors[i],borderRadius:[0,6,6,0]}})),
+    barMaxWidth:24,
+    label:{show:true,position:'right',formatter:function(p){
+      var d=allData.find(x=>x.name===p.name);
+      return p.value+'万+';
+    },fontSize:10},
+    emphasis:{itemStyle:{shadowBlur:8,shadowColor:'rgba(0,0,0,0.15)'}}
+  }]
+};
+chart.setOption(option);
+window.addEventListener('resize',()=>chart.resize());
+</script>
+</body>
+</html>

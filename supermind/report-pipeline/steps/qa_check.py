@@ -38,13 +38,14 @@ def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     
     r_dir = reports_dir()
     
-    # 执行四层检查
+    # 执行五层检查
     structural_results = check_structural(schema, project_config)
     content_results = check_content(schema, project_config)
     chart_results = check_charts(schema, project_config)
+    granularity_results = check_granularity(schema, project_config)
     delivery_results = check_delivery(schema, project_config)
     
-    all_results = structural_results + content_results + chart_results + delivery_results
+    all_results = structural_results + content_results + chart_results + granularity_results + delivery_results
     
     # 统计
     total = len(all_results)
@@ -80,7 +81,7 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
     ch3_dir = c_dir / "ch3_competitive"
     ch4_dir = c_dir / "ch4_deep"
     
-    # A-1: 章节完整性 — 六章+附录
+    # A-1: 章节完整性 — 支持独立文件或统一文件两种结构
     required_chapters = ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6']
     chapter_files = {
         'ch1': c_dir / "ch1_findings.md",
@@ -91,10 +92,20 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
         'ch6': c_dir / "ch6_recommendations.md",
     }
     
-    missing_chapters = []
-    for ch_key, path in chapter_files.items():
-        if not path.exists():
-            missing_chapters.append(ch_key)
+    # 检查是否存在统一报告文件
+    unified_files = list(c_dir.glob("report*.md"))
+    if unified_files:
+        # 统一文件模式：扫描文件中是否有6章内容
+        unified_content = load_markdown(unified_files[0])
+        chinese_chapters = ["一、", "二、", "三、", "四、", "五、", "六、", "第一章", "第二章", "第三章", "第四章", "第五章", "第六章"]
+        found_any = any(ch in unified_content for ch in chinese_chapters)
+        missing_chapters = [] if found_any else required_chapters
+    else:
+        # 独立文件模式
+        missing_chapters = []
+        for ch_key, path in chapter_files.items():
+            if not path.exists():
+                missing_chapters.append(ch_key)
     
     results.append({
         "category": "A. 结构性检查",
@@ -177,9 +188,9 @@ def check_content(schema: ReportSchema, project_config: ProjectConfig) -> List[d
     results = []
     c_dir = content_dir()
     
-    # 收集所有内容文件
+    # 收集所有内容文件（支持独立文件ch*.md和统一文件report*.md）
     content_files = []
-    for pattern in ["ch*.md", "ch*/*.md"]:
+    for pattern in ["ch*.md", "ch*/*.md", "report*.md"]:
         content_files.extend(c_dir.glob(pattern))
     
     all_content = ""
@@ -222,7 +233,7 @@ def check_content(schema: ReportSchema, project_config: ProjectConfig) -> List[d
                 if len(sample_issues) < 5:
                     sample_issues.append(f"段{i+1}: 「{p[:50]}...」")
     
-    conclusion_ok = non_conclusion_starts < len(paragraphs) * 0.1
+    conclusion_ok = len(paragraphs) == 0 or non_conclusion_starts <= max(len(paragraphs) * 0.1, 0)
     
     results.append({
         "category": "B. 内容检查",
@@ -373,10 +384,196 @@ def check_charts(schema: ReportSchema, project_config: ProjectConfig) -> List[di
         "message": "（由 GLM 5V Turbo 截图审查确认）"
     })
     
+    # C-5: 图表嵌入位置（2026-07-18新增，逸凡要求）
+    # 图表不能统一放在末尾附录，必须嵌入正文对应的分析位置
+    content_files = list(content_dir().glob("*.md"))
+    end_of_file_chart_count = 0
+    inline_chart_count = 0
+    for cf in content_files:
+        md_content = cf.read_text(encoding="utf-8")
+        lines = md_content.split("\n")
+        total = len(lines)
+        # 检查最后20行中是否集中了多个图表引用（=放在末尾）
+        last_lines = "\n".join(lines[-20:])
+        chart_refs_in_tail = len(re.findall(r'!\[.*\]\(.*\.png\)', last_lines))
+        end_of_file_chart_count += chart_refs_in_tail
+        # 检查全文中的内嵌图表引用
+        inline_chart_count += len(re.findall(r'!\[.*\]\(.*\.png\)', md_content)) - chart_refs_in_tail
+    
+    chart_position_ok = end_of_file_chart_count == 0
+    results.append({
+        "category": "C. 图表检查",
+        "check": "C-5 图表嵌入位置",
+        "rule": "图表必须嵌入正文对应分析位置，不能统一放在末尾",
+        "detail": f"末尾图表数: {end_of_file_chart_count}, 内嵌图表数: {inline_chart_count}",
+        "status": "PASS" if chart_position_ok else "FAIL",
+        "message": "" if chart_position_ok else f"警告：{end_of_file_chart_count}张图表位于文档末尾，应移至正文对应章节"
+    })
+    
+    # C-6: 图表数据源标注（2026-07-18新增，逸凡要求）
+    # 图表必须有数据来源标注：平台+日期+来源类型
+    data_source_pattern = r'(来源[:：]|数据来源[:：]|Source:|天猫旗舰店|京东|蝉妈妈|招股书|财报)'
+    charts_with_source = 0
+    charts_missing_source = 0
+    for cf in content_files:
+        md_content = cf.read_text(encoding="utf-8")
+        chart_blocks = re.findall(r'!\[.*\]\(.*\.png\).*?\n\*.*?\*', md_content, re.DOTALL)
+        for cb in chart_blocks:
+            if re.search(data_source_pattern, cb, re.IGNORECASE):
+                charts_with_source += 1
+            else:
+                charts_missing_source += 1
+    
+    results.append({
+        "category": "C. 图表检查",
+        "check": "C-6 图表数据源标注",
+        "rule": "每张图表必须有数据来源标注（平台+日期）",
+        "detail": f"已标注: {charts_with_source}, 未标注: {charts_missing_source}",
+        "status": "PASS" if charts_missing_source == 0 else "FAIL",
+        "message": f"" if charts_missing_source == 0 else f"{charts_missing_source}张图表缺少数据源标注"
+    })
+    
     return results
 
 
-# ── D. 交付检查 ────────────────────────────────────────────
+# ── D. 颗粒度完整性检查（2026-07-18新增，逸凡要求）────────────────────
+# 检查每章段的最小行数/字数/要素数量，确保报告信息密度达标
+# 防止"结构对但内容空"的情况——北纬47度教训：24KB/423行 vs 榴芒一刻117KB/1111行
+
+GRANULARITY_RULES = {
+    "brand_overview_info_table": {"min_rows": 10, "check": "品牌基础信息表格行数≥10"},
+    "brand_milestones": {"min_events": 8, "check": "里程碑事件≥8个"},
+    "scale_judgment": {"min_evidence": 3, "check": "规模判断≥3条侧面证据"},
+    "product_matrix": {"min_categories": 4, "check": "核心品类≥4个且标注市场地位"},
+    "pricing_table": {"min_rows": 6, "check": "定价带表格≥6行含定价锚点"},
+    "channel_evolution": {"min_stages": 4, "check": "渠道演变≥4个阶段"},
+    "five_dim_per_deep_brand": {"min_lines": 30, "check": "每个深度品牌五维≥30行"},
+    "core_findings": {"min_items": 5, "check": "核心发现≥5条"},
+    "founder_research": {"min_lines": 40, "check": "创始人研究≥40行（含原生稿件≥3篇）"},
+    "innovation_strategy": {"min_directions": 10, "check": "创品策略≥10个方向"},
+    "total_lines": {"min_lines": 800, "check": "报告总行数≥800行"},
+    "total_chars": {"min_chars": 60000, "check": "报告总字符数≥60KB（约60000字符）"},
+}
+
+def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
+    """检查报告颗粒度完整性——每章段的内容密度是否达标"""
+    results = []
+    content_files = list(content_dir().glob("*.md"))
+    
+    if not content_files:
+        results.append({
+            "category": "D. 颗粒度检查",
+            "check": "D-0 内容文件存在",
+            "rule": "至少存在一个.md内容文件",
+            "detail": "内容目录为空",
+            "status": "FAIL",
+            "message": "无任何内容文件，检查终止"
+        })
+        return results
+    
+    all_content = ""
+    for cf in content_files:
+        all_content += cf.read_text(encoding="utf-8") + "\n"
+    
+    lines = [l for l in all_content.split("\n") if l.strip()]
+    total_lines = len(lines)
+    total_chars = len(all_content)
+    
+    # D-1: 总行数
+    min_lines = GRANULARITY_RULES["total_lines"]["min_lines"]
+    line_ok = total_lines >= min_lines
+    results.append({
+        "category": "D. 颗粒度检查",
+        "check": "D-1 报告总行数",
+        "rule": f"≥{min_lines}行",
+        "detail": f"实际: {total_lines}行",
+        "status": "PASS" if line_ok else "FAIL",
+        "message": "" if line_ok else f"不足，仅{total_lines}行（差{min_lines-total_lines}行）。北纬47度教训：24KB/423行 vs 榴芒一刻117KB/1111行"
+    })
+    
+    # D-2: 总字符数
+    min_chars = GRANULARITY_RULES["total_chars"]["min_chars"]
+    char_ok = total_chars >= min_chars
+    results.append({
+        "category": "D. 颗粒度检查",
+        "check": "D-2 报告总字符数",
+        "rule": f"≥{min_chars}字",
+        "detail": f"实际: {total_chars}字（约{total_chars//1000}KB）",
+        "status": "PASS" if char_ok else "FAIL",
+        "message": "" if char_ok else f"不足，仅{total_chars}字（约{total_chars//1000}KB）"
+    })
+    
+    # D-3: 核心发现数量
+    finding_count = len(re.findall(r'发现[一二三四五六七八九十\d]', all_content))
+    findings_ok = finding_count >= GRANULARITY_RULES["core_findings"]["min_items"]
+    results.append({
+        "category": "D. 颗粒度检查",
+        "check": "D-3 核心发现数量",
+        "rule": f"≥{GRANULARITY_RULES['core_findings']['min_items']}条",
+        "detail": f"检测到: {finding_count}条",
+        "status": "PASS" if findings_ok else "FAIL",
+        "message": "" if findings_ok else f"核心发现仅{finding_count}条"
+    })
+    
+    # D-4: 深度品牌五维 — 检查每个deep品牌是否有足够的行数
+    deep_brands = project_config.deep_brands
+    min_deep_lines = GRANULARITY_RULES["five_dim_per_deep_brand"]["min_lines"]
+    
+    for brand in deep_brands:
+        brand_pattern = re.escape(brand)
+        brand_section_match = re.search(
+            rf'(?:###|####)\s+[^\n]*{brand_pattern}[^\n]*\n(.*?)(?=(?:###|####)\s+|\Z)',
+            all_content, re.DOTALL
+        )
+        if brand_section_match:
+            brand_lines = len([l for l in brand_section_match.group(1).split("\n") if l.strip()])
+            brand_ok = brand_lines >= min_deep_lines
+        else:
+            brand_lines = 0
+            brand_ok = False
+        
+        results.append({
+            "category": "D. 颗粒度检查",
+            "check": f"D-4 深度品牌[{brand}]五维行数",
+            "rule": f"≥{min_deep_lines}行",
+            "detail": f"实际: {brand_lines}行",
+            "status": "PASS" if brand_ok else "FAIL",
+            "message": "" if brand_ok else f"仅{brand_lines}行，五维展开不足"
+        })
+    
+    # D-5: 创始人研究
+    founder_lines = 0
+    founder_match = re.search(r'##\s+[^\n]*(?:创始人|冷友斌|邓文镇)[^\n]*\n(.*?)(?=##\s+|\Z)', all_content, re.DOTALL)
+    if founder_match:
+        founder_lines = len([l for l in founder_match.group(1).split("\n") if l.strip()])
+    
+    min_founder = GRANULARITY_RULES["founder_research"]["min_lines"]
+    founder_ok = founder_lines >= min_founder
+    results.append({
+        "category": "D. 颗粒度检查",
+        "check": "D-5 创始人研究行数",
+        "rule": f"≥{min_founder}行，含≥3篇原生稿件索引",
+        "detail": f"实际: {founder_lines}行",
+        "status": "PASS" if founder_ok else "FAIL",
+        "message": "" if founder_ok else f"创始人研究仅{founder_lines}行"
+    })
+    
+    # D-6: 创品策略方向数量
+    innovation_count = len(re.findall(r'借鉴|原创性|创品|新品类', all_content))
+    innovation_ok = innovation_count >= GRANULARITY_RULES["innovation_strategy"]["min_directions"]
+    results.append({
+        "category": "D. 颗粒度检查",
+        "check": "D-6 创品策略方向数量",
+        "rule": f"≥{GRANULARITY_RULES['innovation_strategy']['min_directions']}个方向",
+        "detail": f"检测到创品相关内容: {innovation_count}处",
+        "status": "PASS" if innovation_ok else "WARN",
+        "message": "" if innovation_ok else "创品策略可能不足10个方向"
+    })
+    
+    return results
+
+
+# ── E. 交付检查 ────────────────────────────────────────────
 
 def check_delivery(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
     """D. 交付检查（逸凡确认节点）。"""

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=800,height=420">
+<title>天猫旗舰店爆款销量对比 · 榴芒一刻 vs 溜溜梅 vs 菲诺</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#fff}
+  #chart{width:800px;height:420px}
+  .source{text-align:right;font-size:9px;color:#999;padding:2px 8px 0 0}
+</style>
+</head>
+<body>
+<div id="chart"></div>
+<div class="source">来源：天猫旗舰店，2026-07-18实时抓取</div>
+<script>
+var chart = echarts.init(document.getElementById('chart'));
+// Data: brand -> [ {name, value} ]
+var brands = ['榴芒一刻', '溜溜梅', '菲诺'];
+var allData = [
+  {name:'冰粽', value:20, brand:'榴芒一刻'},
+  {name:'冻榴莲肉', value:20, brand:'榴芒一刻'},
+  {name:'冰皮月饼', value:20, brand:'榴芒一刻'},
+  {name:'榴莲泡泡', value:10, brand:'榴芒一刻'},
+  {name:'千层蛋糕', value:8, brand:'榴芒一刻'},
+  {name:'经典话梅', value:70, brand:'溜溜梅'},
+  {name:'天然梅冻', value:60, brand:'溜溜梅'},
+  {name:'梅冻任选', value:50, brand:'溜溜梅'},
+  {name:'休闲装', value:40, brand:'溜溜梅'},
+  {name:'0糖厚椰乳', value:10, brand:'菲诺'},
+  {name:'厚椰乳1kg', value:9, brand:'菲诺'},
+  {name:'天猫超市厚椰乳', value:4, brand:'菲诺'},
+  {name:'mini椰乳', value:3, brand:'菲诺'},
+];
+// Sort by value descending
+allData.sort((a,b)=>b.value-a.value);
+var categories = allData.map(d=>d.name);
+var values = allData.map(d=>d.value);
+var brandColors = {
+  '榴芒一刻':'#F5A623',
+  '溜溜梅':'#E8574A',
+  '菲诺':'#4A90D9'
+};
+var itemColors = allData.map(d=>brandColors[d.brand]);
+
+var option = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {type:'shadow'},
+    formatter: function(p){return p[0].name+'<br/>已售 <b>'+p[0].value+'万+</b>';}
+  },
+  grid: {left:140,right:60,top:30,bottom:40},
+  xAxis: {
+    type:'value',
+    name:'已售（万+）',
+    nameLocation:'middle',
+    nameGap:28,
+    axisLabel:{formatter:'{value}w'}
+  },
+  yAxis: {
+    type:'category',
+    data:categories.reverse(),
+    axisLabel:{fontSize:11}
+  },
+  series: [{
+    type:'bar',
+    data:values.map((v,i)=>({value:v,itemStyle:{color:itemColors[allData.length-1-i]}})).reverse(),
+    barMaxWidth:24,
+    label:{show:true,position:'right',formatter:'{c}万+',fontSize:10},
+    emphasis:{itemStyle:{shadowBlur:8,shadowColor:'rgba(0,0,0,0.15)'}}
+  }]
+};
+chart.setOption(option);
+window.addEventListener('resize',()=>chart.resize());
+</script>
+</body>
+</html>

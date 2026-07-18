@@ -1,0 +1,34 @@
+{
+  "project_name": "北纬47度 品牌竞品研究",
+  "industry": "鲜食玉米/农产品品牌化",
+  "industry_type": "food_agriculture",
+  "report_type": "品牌竞品研究咨询报告",
+  "framework_version": "V5",
+  "brands": {
+    "focus": "北纬47度",
+    "deep": ["十月稻田", "东北农嫂", "佳农", "京鲜生"],
+    "reference": ["三胖蛋", "黄天鹅", "认养一头牛", "褚橙"],
+    "summary": ["柴火大院", "北纯", "正大食品", "三只松鼠"]
+  },
+  "founder_name": "冷友斌",
+  "founder_note": "同时为中国飞鹤创始人兼董事长，北纬47度为第二曲线",
+  "data_sources": {
+    "ecommerce_platforms": ["tmall", "jd", "douyin"],
+    "ecommerce_required": true,
+    "retail_channels": ["盒马", "叮咚买菜", "山姆"]
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "scale_estimation": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true
+  },
+  "industry_trends": {
+    "dimensions": ["农产品品牌化", "鲜食化/即食化", "健康粗粮消费升级", "全龄营养", "产地IP化"]
+  },
+  "special_methodology": {},
+  "ch5_brand_comparison_dimensions": "五维对比（市场渠道/品牌力/产品/趋势/人群）",
+  "output_dir": "./output/beiwei47_20260718"
+}

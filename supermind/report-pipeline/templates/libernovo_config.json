@@ -1,0 +1,38 @@
+{
+  "project_name": "清闲LiberNovo",
+  "industry": "人体工学椅",
+  "report_type": "竞品研究",
+  "focus_brand": "清闲解放椅 LiberNovo",
+  "deep_brands": [
+    "西昊 Sihoo",
+    "永艺 UE",
+    "黑白调 Hbada",
+    "保友 Ergonor"
+  ],
+  "summary_brands": [
+    "网易严选 人体工学椅",
+    "震旦 Aurora",
+    "习格",
+    "网易智造",
+    "冈村 Okamura",
+    "Steelcase"
+  ],
+  "data_platforms": {
+    "tmall": true,
+    "jd": true,
+    "douyin": true
+  },
+  "listed_competitors": {
+    "永艺股份": {
+      "code": "603600",
+      "market": "A股",
+      "exchange": "上海证券交易所"
+    }
+  },
+  "focus_brand_market": "非上市",
+  "output_dir": "./output",
+  "notes": {
+    "ch5_dimensions": "待逸凡定义 — 当前建议用ch3五维模型做横向对比",
+    "industry_note": "人体工学椅行业涉及办公家具、消费电子、健康科技三个交叉领域。永艺股份(603600)为A股上市公司，可作为财报分析锚点。"
+  }
+}

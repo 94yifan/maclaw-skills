@@ -1,0 +1,40 @@
+{
+  "project_name": "【项目名称】品牌研究报告",
+  "industry": "消费品/FMCG",
+  "industry_type": "consumables",
+  "report_type": "深度品牌扫描",
+  "framework_version": "V4",
+  "generation_date": "2026-07-15",
+  "brands": {
+    "focus": "【本品品牌名】",
+    "deep": [
+      "【深度品牌1】",
+      "【深度品牌2】",
+      "【深度品牌3】"
+    ],
+    "summary": [
+      "【汇总品牌1】",
+      "【汇总品牌2】"
+    ]
+  },
+  "data_sources": {
+    "ecommerce_platforms": ["天猫", "京东", "抖音"],
+    "financial_listing": "A股",
+    "financial_sources": ["巨潮资讯网", "东方财富网"],
+    "research_reports": true,
+    "social_media": true
+  },
+  "depth_config": {
+    "deep_max_brands": 6,
+    "summary_max_brands": 15,
+    "deep_dimensions": 5,
+    "deep_per_dimension_paragraphs": [1, 3],
+    "summary_per_brand_paragraphs": 1
+  },
+  "ch5_brand_comparison_dimensions": "待逸凡定义",
+  "output_settings": {
+    "docx_filename": "【项目名】_品牌研究报告.docx",
+    "include_optional_charts": false,
+    "qa_tier": "full"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "project_name": "榴芒一刻 品牌竞品研究",
+  "industry": "榴莲食品/冷冻甜品",
+  "industry_type": "food_snack",
+  "report_type": "品牌竞品研究咨询报告（含创品策略+创始人研究）",
+  "framework_version": "V5",
+  "brands": {
+    "focus": "榴芒一刻",
+    "deep": ["溜溜梅", "菲诺"],
+    "summary": ["榴莲西施", "佳沃", "21cake廿一客", "诺心LECAKE", "布歌东京", "褚橙"],
+    "reference": ["辻利茶铺"]
+  },
+  "founder_name": "邓文镇",
+  "data_sources": {
+    "ecommerce_platforms": ["tmall", "jd", "douyin"],
+    "ecommerce_required": true,
+    "_note_ecommerce": "电商数据为必采项。天猫/京东爆品销量档位+价格带+评价关键词；抖音(蝉妈妈)品牌号+直播GMV趋势+爆品视频数据"
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "scale_estimation": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true
+  },
+  "industry_trends": {
+    "_note": "行业特定趋势维度，食品行业示例",
+    "dimensions": ["健康功能化", "冷冻甜品零售化", "区域风味出圈", "一人食/轻量化", "情绪价值/身份消费"]
+  },
+  "special_methodology": {
+    "_note": "行业特殊方法论，仅在特定行业触发",
+    "tcm_meridian": {
+      "enabled": true,
+      "description": "中式养生归经配伍研究——榴莲入脾胃肾经，性甘温。仅适用于食材/原料可入中医体系的产品品类。"
+    }
+  },
+  "ch5_brand_comparison_dimensions": "五维对比（市场渠道/品牌力/产品/趋势/人群）",
+  "output_dir": "./output/liumang_20260718"
+}

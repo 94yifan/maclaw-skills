@@ -40,8 +40,12 @@ def assemble_docx(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     step_start("docx_assembly", "DOCX 生成 — 6步法组装文字 + 图表")
     
     out_dir = ensure_output_dir()
-    docx_path = out_dir / project_config.get("output_settings.docx_filename",
-                                              f"{project_config.project_name}_品牌研究报告.docx")
+    docx_filename = project_config.get("output_settings.docx_filename",
+                                        f"{project_config.project_name}_品牌研究报告.docx")
+    docx_path = out_dir / docx_filename
+    
+    # 版本号命名格式检查
+    _validate_docx_naming(docx_filename)
     
     # Step 1: 创建基础文档
     print("  Step 1/6: 创建基础文档骨架...")
@@ -83,6 +87,16 @@ def ensure_output_dir() -> Path:
     return output_dir("reports")
 
 
+def _validate_docx_naming(filename: str) -> None:
+    """验证 docx 文件名是否符合版本号命名规范「品牌中文名-行业-V数字.数字-日期.docx」。"""
+    pattern = r'^.+?-.+-V\d+(\.\d+)?-\d{8}\.docx$'
+    if not re.match(pattern, filename):
+        print(f"  ⚠ 版本号命名警告：当前文件名「{filename}」不符合规范格式「品牌中文名-行业-V数字.数字-日期.docx」")
+        print(f"     整数升版=结构改动（增删章节/补全模块），小数升版=文字改动（修bug/改措辞/调数据）")
+    else:
+        print(f"  ✓ 文件名版本号格式合规: {filename}")
+
+
 def create_base_document(schema: ReportSchema, project_config: ProjectConfig):
     """
     Step 1 of 6: 用 python-docx 创建基础文档骨架。
@@ -121,6 +135,8 @@ def create_base_document(schema: ReportSchema, project_config: ProjectConfig):
     
     # ── TOC 页 ──
     toc_title = doc.add_heading('目录', level=1)
+    p = doc.add_paragraph("品牌概览")
+    p.paragraph_format.space_after = Pt(4)
     for ch_key in ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6', 'appendix']:
         ch_title = schema.get_chapter_title(ch_key)
         p = doc.add_paragraph(f"{ch_key.upper()}  {ch_title}")
@@ -128,11 +144,18 @@ def create_base_document(schema: ReportSchema, project_config: ProjectConfig):
     
     doc.add_page_break()
     
+    # ── brand_overview 占位 ──
+    overview_heading = doc.add_heading('品牌概览', level=1)
+    marker = doc.add_paragraph()
+    marker_run = marker.add_run("__SECTION_PLACEHOLDER_brand_overview__")
+    marker_run.font.size = Pt(1)
+    marker_run.font.color.rgb = RGBColor(255, 255, 255)
+    doc.add_page_break()
+    
     # ── 各章 H1 占位 ──
     for ch_key in ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6', 'appendix']:
         ch_title = schema.get_chapter_title(ch_key)
         heading = doc.add_heading(f"第{ch_key[2:]}章 {ch_title}", level=1)
-        # Add a marker paragraph for lxml boundary detection
         marker = doc.add_paragraph()
         marker_run = marker.add_run(f"__SECTION_PLACEHOLDER_{ch_key}__")
         marker_run.font.size = Pt(1)
@@ -149,11 +172,19 @@ def load_chapter_content(schema: ReportSchema, project_config: ProjectConfig) ->
     ch4_dir = c_dir / "ch4_deep"
     
     content = {}
+    
+    # brand_overview: 品牌概览模板（module_h），放在正文最前面
+    brand_overview_path = c_dir / "brand_overview.md"
+    if brand_overview_path.exists():
+        content['brand_overview'] = load_markdown(brand_overview_path)
+    
     chapter_map = {
         'ch1': c_dir / "ch1_findings.md",
         'ch2': c_dir / "ch2_industry.md",
-        'ch5': c_dir / "ch5_gap.md",
-        'ch6': c_dir / "ch6_recommendations.md",
+        'ch3': c_dir / "ch3_competitor_scan.md",
+        'ch4': c_dir / "ch4_deep_analysis.md",
+        'ch5': c_dir / "ch5_strategy.md",
+        'ch6': c_dir / "ch6_innovation.md",
     }
     
     for ch_key, path in chapter_map.items():
@@ -163,43 +194,45 @@ def load_chapter_content(schema: ReportSchema, project_config: ProjectConfig) ->
             print(f"  ⚠ {ch_key} 内容文件未找到: {path}，使用占位")
             content[ch_key] = f"\n\n{ch_key.upper()}：{schema.get_chapter_title(ch_key)}\n\n[内容待 DeepSeek V4 Pro 生成]\n\n"
     
-    # ch3: 合并所有竞品文件
-    ch3_content = []
-    if ch3_dir.exists():
-        deep_files = sorted(ch3_dir.glob("deep_*.md"))
-        summary_files = list(ch3_dir.glob("summary_*.md"))
-        for f in deep_files + summary_files:
-            try:
-                ch3_content.append(load_markdown(f))
-            except FileNotFoundError:
+    # ch3 自动合并：将 deep_*.md 完整五维内容嵌入到竞品扫描章节
+    if 'ch3' in content and ch3_dir.exists():
+        for brand_file in sorted(ch3_dir.glob("deep_*.md")):
+            if brand_file.name.endswith("_prompt.md"):
                 continue
-    content['ch3'] = "\n\n".join(ch3_content) if ch3_content else "\n\n[竞品扫描内容待生成]\n\n"
+            brand_name = brand_file.stem.replace("deep_", "")
+            deep_content = load_markdown(brand_file)
+            lines = deep_content.strip().split('\n')
+            if lines and lines[0].startswith('# '):
+                lines = lines[1:]
+            while lines and not lines[0].strip():
+                lines = lines[1:]
+            body = '\n'.join(lines).strip()
+            link = f'→ [完整五维分析](ch3_competitive/deep_{brand_name}.md)'
+            if link in content['ch3']:
+                content['ch3'] = content['ch3'].replace(link, body)
     
-    # ch4: 合并本品分析
-    ch4_content = []
-    if ch4_dir.exists():
-        for f in sorted(ch4_dir.glob("*.md")):
-            if f.name.endswith("_prompt.md"):
-                continue
-            try:
-                ch4_content.append(load_markdown(f))
-            except FileNotFoundError:
-                continue
-    content['ch4'] = "\n\n".join(ch4_content) if ch4_content else "\n\n[本品分析内容待生成]\n\n"
+    # founder_research: 创始人研究，附加到附录
+    founder_path = c_dir / "founder_research.md"
+    if founder_path.exists():
+        founder_content = load_markdown(founder_path)
+        if 'appendix' in content:
+            content['appendix'] = content['appendix'] + "\n\n" + founder_content
+        else:
+            content['appendix'] = "\n\n# 附录\n\n" + founder_content
     
     return content
 
 
 def insert_chapter_content(doc, ch_key: str, markdown_content: str, schema: ReportSchema):
     """
-    Step 3 of 6: 使用 lxml 将 markdown 内容插入到对应章节占位处。
+    Step 3 of 6: 将 markdown 内容（含标题、段落、表格）插入 docx 章节占位处。
     
-    使用 lxml.etree 操作 document.xml:
-    - 找到占位段落（含 __SECTION_PLACEHOLDER_{ch_key}__）
-    - 使用 addprevious() 插入新段落
-    - reversed() 顺序插入
+    使用 python-docx 创建格式正确的元素（Heading/Paragraph/Table），
+    然后用 lxml 将这些元素的 XML 插入到占位段落之前。
     """
     from lxml import etree
+    from docx.shared import Pt, Inches, RGBColor
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
     
     # 访问 document.xml
     document_part = doc.part
@@ -211,7 +244,6 @@ def insert_chapter_content(doc, ch_key: str, markdown_content: str, schema: Repo
     nsmap = {
         'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main',
         'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-        'wp': 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing',
     }
     
     # 查找占位段落
@@ -230,57 +262,154 @@ def insert_chapter_content(doc, ch_key: str, markdown_content: str, schema: Repo
         print(f"  ⚠ 未找到 {ch_key} 的占位段落")
         return
     
-    # 将 markdown 转为简单段落，插入到 placeholder 前（逆序）
-    lines = markdown_content.strip().split('\n')
-    new_elements = []
+    # 解析 markdown 为块
+    blocks = _parse_markdown_blocks(markdown_content)
     
-    for line in lines:
-        line = line.strip()
-        if not line:
-            continue
-        
-        new_para = etree.SubElement(body, f'{{{nsmap["w"]}}}p')
-        
-        # 判断是否为标题
-        if line.startswith('# '):
-            style = etree.SubElement(new_para, f'{{{nsmap["w"]}}}pPr')
-            pstyle = etree.SubElement(style, f'{{{nsmap["w"]}}}pStyle')
-            pstyle.set(f'{{{nsmap["w"]}}}val', 'Heading1')
-            text = line[2:].strip()
-        elif line.startswith('## '):
-            style = etree.SubElement(new_para, f'{{{nsmap["w"]}}}pPr')
-            pstyle = etree.SubElement(style, f'{{{nsmap["w"]}}}pStyle')
-            pstyle.set(f'{{{nsmap["w"]}}}val', 'Heading2')
-            text = line[3:].strip()
-        elif line.startswith('### '):
-            style = etree.SubElement(new_para, f'{{{nsmap["w"]}}}pPr')
-            pstyle = etree.SubElement(style, f'{{{nsmap["w"]}}}pStyle')
-            pstyle.set(f'{{{nsmap["w"]}}}val', 'Heading3')
-            text = line[4:].strip()
-        else:
-            text = line
-        
-        # 添加文本 run
-        if text:
-            run_elem = etree.SubElement(new_para, f'{{{nsmap["w"]}}}r')
-            t_elem = etree.SubElement(run_elem, f'{{{nsmap["w"]}}}t')
-            t_elem.text = text
-        
-        new_elements.append(new_para)
+    # 用 python-docx 创建格式化元素
+    elements_xml = []
+    for block in blocks:
+        if block["type"] == "heading":
+            # 标题去掉 ** 标记（标题本身已加粗）
+            clean_text = block["text"].replace('**', '')
+            heading = doc.add_heading(clean_text, level=block["level"])
+            elements_xml.append(etree.fromstring(heading._element.xml))
+        elif block["type"] == "table":
+            table_xml = _create_word_table(doc, block["headers"], block["rows"])
+            elements_xml.append(table_xml)
+        elif block["type"] == "paragraph":
+            # 段落使用行内格式渲染（**bold** → 真粗体）
+            para_xml = _render_formatted_text(doc, block["text"], default_size=10)
+            elements_xml.append(para_xml)
     
-    # 逆序插入（addprevious 特性）
-    for para in reversed(new_elements):
+    # addprevious 正序插入：先插入的元素离placeholder最远，正确呈现原始顺序
+    for elem in elements_xml:
         try:
-            # 将 placeholder 父元素中插入
-            placeholder_para.addprevious(para)
+            placeholder_para.addprevious(elem)
         except Exception as e:
-            print(f"    ⚠ lxml 插入段落失败: {e}")
+            print(f"    ⚠ lxml 插入元素失败: {e}")
     
     # 删除占位段落
     try:
         placeholder_para.getparent().remove(placeholder_para)
     except Exception:
         pass
+
+
+def _parse_markdown_blocks(content: str) -> list:
+    """解析 markdown 为结构化块（标题/段落/表格），保留行内格式标记供后续渲染。"""
+    lines = content.strip().split('\n')
+    blocks = []
+    i = 0
+    
+    while i < len(lines):
+        line = lines[i].strip()
+        
+        # 空行或分隔线跳过
+        if not line or line.replace('-', '').strip() == '':
+            i += 1
+            continue
+        
+        # 标题
+        if line.startswith('# '):
+            blocks.append({"type": "heading", "level": 1, "text": line[2:].strip()})
+            i += 1
+        elif line.startswith('## '):
+            blocks.append({"type": "heading", "level": 2, "text": line[3:].strip()})
+            i += 1
+        elif line.startswith('### '):
+            blocks.append({"type": "heading", "level": 3, "text": line[4:].strip()})
+            i += 1
+        elif line.startswith('#### '):
+            blocks.append({"type": "heading", "level": 4, "text": line[5:].strip()})
+            i += 1
+        
+        # 表格：检测 pipe 分隔的行
+        elif line.startswith('|') and line.endswith('|'):
+            table_lines = []
+            while i < len(lines) and lines[i].strip().startswith('|') and lines[i].strip().endswith('|'):
+                table_lines.append(lines[i].strip())
+                i += 1
+            
+            if len(table_lines) >= 2:
+                headers = [c.strip() for c in table_lines[0].split('|')[1:-1]]
+                rows = []
+                start_row = 1
+                if table_lines[1].replace('|', '').replace('-', '').replace(' ', '').replace(':', '') == '':
+                    start_row = 2
+                for r in range(start_row, len(table_lines)):
+                    cells = [c.strip() for c in table_lines[r].split('|')[1:-1]]
+                    if cells:
+                        rows.append(cells)
+                
+                if headers and rows:
+                    blocks.append({"type": "table", "headers": headers, "rows": rows})
+        
+        # 普通段落
+        else:
+            blocks.append({"type": "paragraph", "text": line})
+            i += 1
+    
+    return blocks
+
+
+def _render_inline_runs(para, text: str, default_size: int = 10) -> None:
+    """将含 **bold** 行内标记的文本渲染为 Word 段落中的多个 run。"""
+    import re
+    from docx.shared import Pt
+    
+    # 拆分 **text** 为 (text, is_bold) 片段
+    pattern = r'\*\*(.+?)\*\*'
+    parts = re.split(pattern, text)
+    is_bold_flags = [False]
+    for m in re.finditer(pattern, text):
+        is_bold_flags.extend([True, False])
+    if len(is_bold_flags) < len(parts):
+        is_bold_flags = [False] * len(parts)
+    
+    for idx, part in enumerate(parts):
+        if not part:
+            continue
+        run = para.add_run(part)
+        run.font.size = Pt(default_size)
+        if idx < len(is_bold_flags) and is_bold_flags[idx]:
+            run.bold = True
+
+
+def _render_formatted_text(doc, text: str, default_size: int = 10):
+    """创建含行内格式的段落，返回 lxml 元素。"""
+    para = doc.add_paragraph()
+    _render_inline_runs(para, text, default_size)
+    return para._element
+
+
+def _create_word_table(doc, headers: list, rows: list):
+    """用 python-docx 创建格式化的 Word 表格，返回 lxml 元素。"""
+    from docx.shared import Pt, RGBColor
+    from docx.oxml.ns import qn
+    
+    table = doc.add_table(rows=len(rows) + 1, cols=len(headers))
+    table.style = 'Table Grid'
+    
+    # 表头行
+    for j, header in enumerate(headers):
+        cell = table.rows[0].cells[j]
+        # 清除默认段落，用格式化文本填充
+        for p in cell.paragraphs:
+            p.clear()
+        _render_inline_runs(cell.paragraphs[0], header, default_size=10)
+        for run in cell.paragraphs[0].runs:
+            run.bold = True
+    
+    # 数据行
+    for i, row in enumerate(rows):
+        for j, cell_text in enumerate(row):
+            if j < len(headers):
+                cell = table.rows[i + 1].cells[j]
+                for p in cell.paragraphs:
+                    p.clear()
+                _render_inline_runs(cell.paragraphs[0], cell_text, default_size=9)
+    
+    return table._element
 
 
 def get_chart_files(project_config: ProjectConfig) -> List[Tuple[str, Path]]:

@@ -1,0 +1,37 @@
+{
+  "project_name": "三棵树 品牌竞品研究",
+  "industry": "涂料/建筑涂料+艺术漆",
+  "industry_type": "coating_building",
+  "report_type": "品牌竞品研究咨询报告",
+  "framework_version": "V5",
+  "brands": {
+    "focus": "三棵树",
+    "deep": ["立邦", "多乐士", "卡百利", "嘉宝莉", "菲玛", "亚士漆"],
+    "reference": ["芬琳漆", "都芳漆", "本杰明摩尔", "百色熊", "德国玛堡", "柔然", "领绣", "兰舍", "微沃"],
+    "summary": ["紫荆花", "德爱威", "美涂士艺术漆", "塔萨尼", "瓦帕", "易涂得", "华润漆", "巴德士", "美涂士", "晨阳水漆", "荷兰蔻帝", "巴德士艺术漆", "威罗", "意库马&乔瓦尼", "立邦米兰诺"]
+  },
+  "founder_name": "洪杰",
+  "data_sources": {
+    "ecommerce_platforms": ["tmall", "jd", "douyin"],
+    "ecommerce_required": false,
+    "_note_ecommerce": "涂料行业电商仅做参考。生意大头在线下（经销商网络+工程渠道），电商数据只看产品结构和价格带，不做为主要规模判断依据。"
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "scale_estimation": false,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true
+  },
+  "industry_trends": {
+    "_note": "涂料行业特定趋势维度",
+    "dimensions": ["存量房翻新/重涂经济", "绿色环保/水性涂料", "高端化/艺术漆", "工程渠道收缩转零售", "智能涂料/功能涂料", "品牌集中度提升"]
+  },
+  "special_methodology": {},
+  "ch5_brand_comparison_dimensions": "五维对比（市场渠道/品牌力/产品/趋势/人群）",
+  "output_dir": "./output/sankeshu_20260721",
+  "output_settings": {
+    "docx_filename": "三棵树-涂料-V3.2-20260721.docx"
+  }
+}

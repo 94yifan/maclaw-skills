@@ -298,6 +298,34 @@ def check_content(schema: ReportSchema, project_config: ProjectConfig) -> List[d
         "message": f"有 {channels_in_same_para} 段可能未拆分渠道" if channels_in_same_para > 1 else "渠道拆分规范"
     })
     
+    # B-6: 品牌力子维度完整性 — 必须含组织力+社媒分析
+    brand_power_keywords = ["组织", "社媒", "小红书", "抖音", "粉丝"]
+    brand_power_hits = sum(1 for kw in brand_power_keywords if kw in all_content)
+    brand_power_ok = brand_power_hits >= 3
+    results.append({
+        "category": "B. 内容检查",
+        "check": "B-6 品牌力子维度完整性",
+        "rule": "品牌力须含：组织力(公司治理/团队)+社媒渠道表现(小红书/抖音/微博/微信)",
+        "detail": f"关键词覆盖: {brand_power_hits}/{len(brand_power_keywords)}",
+        "status": "PASS" if brand_power_ok else "FAIL",
+        "message": f"覆盖关键词: {[kw for kw in brand_power_keywords if kw in all_content]}，缺失: {[kw for kw in brand_power_keywords if kw not in all_content]}"
+    })
+    
+    # B-7: 趋势子维度完整性 — 必须含已做趋势+可做趋势
+    trend_keywords = ["已做", "可做", "预判", "前景", "机会"]
+    trend_hits = sum(1 for kw in trend_keywords if kw in all_content)
+    trend_has_done = ("已做" in all_content) or ("已经" in all_content and "趋势" in all_content)
+    trend_has_todo = ("可做" in all_content) or ("预判" in all_content) or ("机会" in all_content)
+    trend_ok = trend_has_done and trend_has_todo
+    results.append({
+        "category": "B. 内容检查",
+        "check": "B-7 趋势子维度完整性",
+        "rule": "趋势须含：已做趋势(具体产品/动作)+可做趋势预判(赛道/营销/情绪)",
+        "detail": f"已做趋势={'有' if trend_has_done else '缺'}，可做预判={'有' if trend_has_todo else '缺'}",
+        "status": "PASS" if trend_ok else "FAIL",
+        "message": "趋势维度子项完整" if trend_ok else f"缺失: {'已做趋势' if not trend_has_done else ''}{'、' if not trend_has_done and not trend_has_todo else ''}{'可做趋势预判' if not trend_has_todo else ''}"
+    })
+    
     return results
 
 
@@ -459,6 +487,10 @@ def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> Li
     """检查报告颗粒度完整性——每章段的内容密度是否达标"""
     results = []
     content_files = list(content_dir().glob("*.md"))
+    # 同时读取子目录中的内容（如 ch3_competitive/deep_*.md）
+    for subdir in content_dir().iterdir():
+        if subdir.is_dir():
+            content_files.extend(subdir.glob("*.md"))
     
     if not content_files:
         results.append({
@@ -521,10 +553,17 @@ def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> Li
     
     for brand in deep_brands:
         brand_pattern = re.escape(brand)
+        # 优先匹配深度品牌文件格式: # 深度品牌：XXX
         brand_section_match = re.search(
-            rf'(?:###|####)\s+[^\n]*{brand_pattern}[^\n]*\n(.*?)(?=(?:###|####)\s+|\Z)',
+            rf'#[^\n]*深度品牌[^\n]*{brand_pattern}[^\n]*\n(.*?)(?=(?:#{1,4})\s+深度品牌|\Z)',
             all_content, re.DOTALL
         )
+        if not brand_section_match:
+            # 回退：在合并章节中匹配 ### 品牌名
+            brand_section_match = re.search(
+                rf'(?:###|####)\s+[^\n]*{brand_pattern}[^\n]*\n(.*?)(?=(?:###|####)\s+|\Z)',
+                all_content, re.DOTALL
+            )
         if brand_section_match:
             brand_lines = len([l for l in brand_section_match.group(1).split("\n") if l.strip()])
             brand_ok = brand_lines >= min_deep_lines
@@ -613,15 +652,9 @@ def check_delivery(schema: ReportSchema, project_config: ProjectConfig) -> List[
         "message": "【逸凡确认】财报数据完整性需人工核实"
     })
     
-    # D-4: 导航正确性
-    results.append({
-        "category": "D. 交付检查",
-        "check": "D-4 导航正确性",
-        "rule": "导航窗格标题层级正序：3.1→3.2→3.3→3.4→3.5→3.6，H1→H2→H3层级正确",
-        "detail": "文档导航结构",
-        "status": "PASS",
-        "message": "需在 docx 中打开导航窗格验证"
-    })
+    # D-4: 导航正确性 — 自动验证 docx heading 结构
+    heading_check = verify_docx_heading_structure(project_config)
+    results.append(heading_check)
     
     # D-5: ch5 品牌对比维度标注
     ch5_note = project_config.get_ch5_dimensions_note()
@@ -634,7 +667,115 @@ def check_delivery(schema: ReportSchema, project_config: ProjectConfig) -> List[
         "message": f"ch5 品牌对比维度配置: {ch5_note}"
     })
     
+    # D-6: 版本号规范检查
+    results.append({
+        "category": "D. 交付检查",
+        "check": "D-6 版本号规范",
+        "rule": "文件命名「品牌中文名-行业-V数字.数字-日期.docx」，整数升版=结构改动，小数升版=文字改动",
+        "detail": f"当前: {project_config.get_docx_filename()}",
+        "status": "PASS" if _verify_version_format(project_config) else "WARN",
+        "message": _version_check_message(project_config)
+    })
+    
     return results
+
+
+# ── E. docx 标题结构验证 ───────────────────────────────────
+
+def verify_docx_heading_structure(project_config: ProjectConfig) -> dict:
+    """
+    E. docx 标题结构自动验证。
+    打开生成的 docx，解析 word/document.xml，
+    检查 Heading1/Heading2/Heading3 数量是否达标。
+
+    依据：Word 左侧导航大纲 = pStyle w:val="Heading1|Heading2|Heading3" 的段落
+    
+    Bug 案例（2026-07-20）：北纬47度独立脚本把 markdown # 映射成 level=0,
+    导致 Heading1=0，导航大纲完全空白。
+    """
+    import zipfile
+    from lxml import etree
+
+    r_dir = reports_dir()
+    docx_files = list(r_dir.glob("*.docx"))
+    
+    if not docx_files:
+        return {
+            "category": "E. docx标题结构",
+            "check": "E-1 标题层级验证",
+            "rule": "Heading1≥2, Heading2≥3, Heading3≥5",
+            "detail": "未找到 docx 文件",
+            "status": "FAIL",
+            "message": "报告目录中无 docx 文件，跳过标题结构检查"
+        }
+    
+    # 取最新的 docx 文件
+    docx_path = max(docx_files, key=lambda p: p.stat().st_mtime)
+    
+    try:
+        with zipfile.ZipFile(docx_path, 'r') as z:
+            doc_xml = z.read('word/document.xml').decode('utf-8')
+        
+        # 统计各层级 heading
+        import re
+        h1_count = len(re.findall(r'w:val="Heading1"', doc_xml))
+        h2_count = len(re.findall(r'w:val="Heading2"', doc_xml))
+        h3_count = len(re.findall(r'w:val="Heading3"', doc_xml))
+        
+        # 阈值：至少要有章节标题(H1)、小节标题(H2)、细节标题(H3)
+        h1_ok = h1_count >= 2
+        h2_ok = h2_count >= 3
+        h3_ok = h3_count >= 5
+        
+        all_ok = h1_ok and h2_ok and h3_ok
+        
+        issues = []
+        if not h1_ok:
+            issues.append(f"Heading1仅{h1_count}个，需≥2（markdown # 可能未映射到 Heading 1）")
+        if not h2_ok:
+            issues.append(f"Heading2仅{h2_count}个，需≥3")
+        if not h3_ok:
+            issues.append(f"Heading3仅{h3_count}个，需≥5")
+        
+        return {
+            "category": "E. docx标题结构",
+            "check": "E-1 标题层级验证",
+            "rule": f"Heading1≥2, Heading2≥3, Heading3≥5。当前: H1={h1_count}, H2={h2_count}, H3={h3_count}",
+            "detail": f"文件: {docx_path.name}",
+            "status": "PASS" if all_ok else "FAIL",
+            "message": "标题层级完整，导航大纲可用" if all_ok else "; ".join(issues)
+        }
+    except Exception as e:
+        return {
+            "category": "E. docx标题结构",
+            "check": "E-1 标题层级验证",
+            "rule": "Heading1≥2, Heading2≥3, Heading3≥5",
+            "detail": f"解析失败: {e}",
+            "status": "FAIL",
+            "message": f"无法解析 docx 标题结构: {e}"
+        }
+
+
+# ── 版本号格式验证 ─────────────────────────────────────────
+
+def _verify_version_format(project_config: ProjectConfig) -> bool:
+    """验证 docx 文件名是否符合版本号命名规范。"""
+    filename = project_config.get_docx_filename()
+    if not filename:
+        return False
+    # 匹配模式: 品牌中文名-行业-V数字.数字-日期.docx
+    pattern = r'^.+?-.+-V\d+(\.\d+)?-\d{8}\.docx$'
+    return bool(re.match(pattern, filename))
+
+
+def _version_check_message(project_config: ProjectConfig) -> str:
+    """生成版本号检查消息。"""
+    filename = project_config.get_docx_filename()
+    if not filename:
+        return "config 中未设置 output_settings.docx_filename"
+    if _verify_version_format(project_config):
+        return f"版本号格式正确: {filename}"
+    return f"版本号格式不符合规范，应为「品牌中文名-行业-V数字.数字-日期.docx」格式（整数升版=结构改动，小数升版=文字改动），当前: {filename}"
 
 
 # ── 报告生成 ───────────────────────────────────────────────

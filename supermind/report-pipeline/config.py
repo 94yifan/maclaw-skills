@@ -294,5 +294,10 @@ class ProjectConfig:
     def get_ch5_dimensions_note(self) -> str:
         return self._raw.get("ch5_brand_comparison_dimensions", "待逸凡定义")
 
+    def get_docx_filename(self) -> str:
+        """获取 output_settings 中的 docx 文件名，无配置时返回空。"""
+        output_settings = self._raw.get("output_settings", {})
+        return output_settings.get("docx_filename", "")
+
     def raw(self) -> dict:
         return dict(self._raw)

@@ -1,0 +1,81 @@
+{
+  "project_name": "蓝氏 品牌竞品研究",
+  "industry": "宠物食品/幼猫粮",
+  "industry_type": "pet_food_kitten",
+  "report_type": "品牌竞品研究咨询报告",
+  "framework_version": "V5",
+  "brands": {
+    "focus": "蓝氏",
+    "deep": [
+      "皇家",
+      "冠能",
+      "伯纳天纯",
+      "麦富迪",
+      "网易严选",
+      "诚实一口"
+    ],
+    "reference": [
+      "卫仕",
+      "比瑞吉",
+      "疯狂小狗"
+    ],
+    "summary": [
+      "卫仕",
+      "比瑞吉",
+      "疯狂小狗",
+      "海洋之星",
+      "素力高",
+      "豆柴",
+      "阿飞和巴弟",
+      "喵达"
+    ]
+  },
+  "founder_name": "待确认",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true,
+    "_note_ecommerce": "宠物食品电商重度品类。天猫+京东是核心渠道，抖音直播是增长最快的渠道。奶盾线（幼猫粮）需要单独关注天猫旗舰店SKU表现。"
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "scale_estimation": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true
+  },
+  "industry_trends": {
+    "_note": "宠物食品赛道特定趋势维度",
+    "dimensions": [
+      "幼猫经济（猫经济>狗经济）",
+      "天然粮/无谷升级",
+      "功能粮/处方粮",
+      "鲜粮/湿粮化",
+      "DTC+社交电商",
+      "国产替代进口",
+      "拟人化养宠"
+    ]
+  },
+  "special_focus": {
+    "_note": "蓝氏奶盾线（幼猫粮）专项分析",
+    "milk_shield_line": {
+      "description": "蓝氏奶盾系列是幼猫粮产品线，主打离乳期幼猫营养。曼拾服务奶盾线的小红书营销。",
+      "extra_requirements": [
+        "蓝氏奶盾线在小红书的过往营销动作拉取（投放/KOL合作/内容策略/话题运营）",
+        "小红书宠物食品赛道竞争格局与流量趋势",
+        "奶盾线小红书营销升级建议（内容策略+达人矩阵+投放策略+差异化定位）",
+        "对标竞品幼猫线在小红书的打法分析"
+      ]
+    }
+  },
+  "special_methodology": {},
+  "ch5_brand_comparison_dimensions": "五维对比（市场渠道/品牌力/产品/趋势/人群），重点对比品牌渠道效率+产品差异化+幼猫线占位+小红书营销能力",
+  "output_dir": "./output/lanshi_20260722",
+  "output_settings": {
+    "docx_filename": "蓝氏-宠物食品-V1.1-20260722.docx"
+  }
+}

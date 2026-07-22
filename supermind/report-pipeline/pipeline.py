@@ -205,7 +205,8 @@ def main():
     # ── 逐步骤执行 ──
     print(f"\n  📋 将执行 {len(steps_to_run)} 个步骤:\n")
     # ── P0-1: 自动清理 output/content/ 下 .md 文件和 output/charts/ 下 .html/.png 文件 ──
-    if not args.dry_run:
+    # 仅在从 Step 2 开始（完整运行）时清理，避免误删已填充的内容
+    if not args.dry_run and args.from_step <= 2:
         import shutil
         content_dir_path = BASE_DIR / "output" / "content"
         charts_dir_path = BASE_DIR / "output" / "charts"

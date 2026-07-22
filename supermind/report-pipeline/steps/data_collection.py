@@ -23,7 +23,7 @@ from typing import Dict, List, Optional, Any
 
 from steps.utils import (
     step_start, step_success, step_fail,
-    save_json, load_json, verify_input_file, verify_output_dir,
+    save_json, save_text, load_json, verify_input_file, verify_output_dir,
     data_raw_dir, BASE_DIR
 )
 from config import ReportSchema, ProjectConfig

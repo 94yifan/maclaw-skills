@@ -572,7 +572,7 @@ GRANULARITY_RULES = {
     "founder_research": {"min_lines": 40, "check": "创始人研究≥40行（含原生稿件≥3篇）"},
     "innovation_strategy": {"min_directions": 10, "check": "创品策略≥10个方向"},
     "total_lines": {"min_lines": 800, "check": "报告总行数≥800行"},
-    "total_chars": {"min_chars": 50000, "check": "报告总字符数≥50KB（约50000字符）"},
+    "total_chars": {"min_chars": 60000, "check": "报告总字符数≥60KB（约60000字符）"},
 }
 
 def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
@@ -1011,14 +1011,14 @@ def check_docx_final(project_config: ProjectConfig) -> List[dict]:
             
             # F-5: 字数检查
             total_chars = len(full_text)
-            chars_ok = total_chars >= 50000
+            chars_ok = total_chars >= 60000
             results.append({
                 "category": "F. docx终端验证",
                 "check": "F-5 docx总字数",
-                "rule": "docx正文≥50000字",
+                "rule": "docx正文≥60000字",
                 "detail": f"实际: {total_chars:,}字",
                 "status": "PASS" if chars_ok else "FAIL",
-                "message": f"{total_chars:,}字" if chars_ok else f"❌ 仅{total_chars:,}字，不足50000"
+                "message": f"{total_chars:,}字" if chars_ok else f"❌ 仅{total_chars:,}字，不足60000"
             })
             
     except Exception as e:

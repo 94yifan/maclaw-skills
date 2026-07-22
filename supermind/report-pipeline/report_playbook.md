@@ -316,4 +316,4 @@ Step 16 最终交付         手动      docx + QA报告 + 核验表
 
 ---
 
-*Playbook 基于 report_schema.json v1.4。*
+*Playbook 基于 report_schema.json v1.5。Pipeline 版本 v1.6（2026-07-22 康尔馨复盘后12项固化修复）。*

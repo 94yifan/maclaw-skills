@@ -1,25 +1,30 @@
 """
-Step 11: DOCX 生成模块。
+Step 13: DOCX 生成模块 — 完整重建版。
 
-实现 playbook 第七节定义的 docx 六步法：
-1. python-docx 定位章节边界（跳过TOC）
-2. lxml body.remove() 删除旧章节全部子元素
-3. lxml 创建新段落，addprevious() 插入
-4. python-docx 保存 → zipfile 重新打开
-5. 克隆 drawing + 修改 blip + 创建图片段落
-6. 更新 rels + media → zipfile 写回
+使用纯 python-docx 组装品牌研究报告文档。
+流程：
+  创建 Document → 封面 → TOC → brand_overview → 各章节（硬编码标题） → 图表板块 → 附录 → save
 
-依赖：python-docx + lxml + zipfile（三件套，无第三方自动化库）
+章节映射（不 glob，直接文件名）：
+  brand_overview     → content/brand_overview.md
+  ch1                → content/ch1_findings.md
+  ch2                → content/ch2_industry.md
+  ch3                → ch3_competitive/deep_*.md + summary_brands.md + competition_patterns.md
+  ch4                → content/ch4_deep/{focus_brand}_deep.md
+  ch5                → content/ch5_gap.md
+  ch6                → content/ch6_recommendations.md
+  ch7                → content/ch7_sleep_insights.md
+  appendix_innovation → content/innovation_strategy.md
+  appendix_founder   → content/founder_research.md
+  不输出 pre_research.md
+
+依赖：python-docx + lxml（仅 parse 用，无 zipfile 操作）
 """
-import io
-import json
-import os
+
 import re
-import shutil
-import zipfile
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple
 
 from steps.utils import (
     step_start, step_success, step_fail,
@@ -30,65 +35,474 @@ from steps.utils import (
 from config import ReportSchema, ProjectConfig
 
 
-# ── docx 六步法 ────────────────────────────────────────────
+# ── 核心函数 ────────────────────────────────────────────────
 
 def assemble_docx(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     """
-    Step 11 主入口：组装完整 docx 文档。
-    使用 6 步法将分析内容 + 图表嵌入到 Word 文档中。
+    主入口：组装完整 docx 文档。
+    纯 python-docx 构建，无 zipfile/lxml 操作。
     """
-    step_start("docx_assembly", "DOCX 生成 — 6步法组装文字 + 图表")
-    
+    step_start("docx_assembly", "DOCX 生成 — 纯 python-docx 重建版")
+
     out_dir = ensure_output_dir()
     docx_filename = project_config.get("output_settings.docx_filename",
                                         f"{project_config.project_name}_品牌研究报告.docx")
     docx_path = out_dir / docx_filename
-    
-    # 版本号命名格式检查
+
     _validate_docx_naming(docx_filename)
-    
-    # Step 1: 创建基础文档
-    print("  Step 1/6: 创建基础文档骨架...")
-    doc = create_base_document(schema, project_config)
-    
-    # Step 2: 读取各章内容
-    print("  Step 2/6: 读取各章分析内容...")
-    chapters_content = load_chapter_content(schema, project_config)
-    
-    # Step 3: 写入各章内容（使用 lxml + addprevious）
-    print("  Step 3/6: 写入章节内容...")
-    for ch_key, content in chapters_content.items():
-        insert_chapter_content(doc, ch_key, content, schema)
-    
-    # Step 4: 保存并重新打开（zipfile）
-    print("  Step 4/6: 保存临时文件 + zipfile 重新打开...")
-    temp_path = out_dir / "_temp_before_images.docx"
-    doc.save(str(temp_path))
-    
-    # Step 5: 嵌入图表
-    print("  Step 5/6: 嵌入图表图片...")
-    chart_files = get_chart_files(project_config)
-    if chart_files:
-        final_path = embed_charts_in_docx(str(temp_path), chart_files, out_dir)
+
+    from docx import Document
+    from docx.shared import Pt, Inches, RGBColor
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+    doc = Document()
+
+    # ═══════════════════════════════════════════════
+    # 封面
+    # ═══════════════════════════════════════════════
+    for _ in range(5):
+        doc.add_paragraph()
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run(project_config.project_name)
+    run.font.size = Pt(32)
+    run.bold = True
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run(f"{project_config.report_type}")
+    run.font.size = Pt(22)
+
+    subtitle_extra = project_config.industry if project_config.industry else ""
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run(subtitle_extra)
+    run.font.size = Pt(14)
+    run.font.color.rgb = RGBColor(100, 100, 100)
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run(datetime.now().strftime("%Y年%m月%d日"))
+    run.font.size = Pt(11)
+
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # TOC（手工目录）
+    # ═══════════════════════════════════════════════
+    _add_heading(doc, '目录', level=1)
+    toc_items = _build_toc(schema, project_config)
+    for item in toc_items:
+        _add_body(doc, item)
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # 加载各章节内容
+    # ═══════════════════════════════════════════════
+    chapter_map = build_chapter_map(project_config)
+
+    # ═══════════════════════════════════════════════
+    # BRAND OVERVIEW
+    # ═══════════════════════════════════════════════
+    if chapter_map.get('brand_overview'):
+        add_md_content_to_docx(doc, chapter_map['brand_overview'])
+        doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CH1: 核心发现与咨询窗口
+    # ═══════════════════════════════════════════════
+    _add_heading(doc, '第1章  核心发现与咨询窗口', level=1)
+    ch1_text = chapter_map.get('ch1', '')
+    if ch1_text:
+        ch1_text = re.sub(r'^#\s+.*\n', '', ch1_text, count=1)
+        add_md_content_to_docx(doc, ch1_text)
     else:
-        final_path = temp_path
-    
-    # Step 6: 最终清理
-    print("  Step 6/6: 最终处理...")
-    shutil.copy(final_path, docx_path)
-    
+        _add_body(doc, '[内容待补充]')
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CH2: 行业格局与竞品总矩阵
+    # ═══════════════════════════════════════════════
+    _add_heading(doc, '第2章  行业格局与竞品总矩阵', level=1)
+    ch2_text = chapter_map.get('ch2', '')
+    if ch2_text:
+        add_md_content_to_docx(doc, ch2_text)
+    else:
+        _add_body(doc, '[内容待补充]')
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CH3: 竞品多维度扫描
+    # ═══════════════════════════════════════════════
+    _add_heading(doc, '第3章  竞品多维度扫描', level=1)
+
+    # 3.1 深度品牌分析
+    _add_heading(doc, '3.1  深度品牌分析', level=2)
+    deep_brand_text = chapter_map.get('ch3_deep_brands', '')
+    if deep_brand_text:
+        add_md_content_to_docx(doc, deep_brand_text)
+
+    # 3.2 汇总品牌速览
+    _add_heading(doc, '3.2  汇总品牌速览', level=2)
+    summary_text = chapter_map.get('ch3_summary', '')
+    if summary_text:
+        add_md_content_to_docx(doc, summary_text)
+
+    # 3.3 竞争模式归纳
+    _add_heading(doc, '3.3  竞争模式归纳', level=2)
+    patterns_text = chapter_map.get('ch3_patterns', '')
+    if patterns_text:
+        add_md_content_to_docx(doc, patterns_text)
+
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CHARTS SECTION（图表放在 ch3 与 ch4 之间）
+    # ═══════════════════════════════════════════════
+    c_dir = _get_charts_dir(project_config)
+    chart_files = _collect_chart_files(c_dir)
+    if chart_files:
+        add_charts_to_docx(doc, chart_files)
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CH4: 本品深度分析
+    # ═══════════════════════════════════════════════
+    focus = project_config.focus_brand or "本品"
+    _add_heading(doc, f'第4章  本品深度分析 —— {focus}', level=1)
+    ch4_text = chapter_map.get('ch4', '')
+    if ch4_text:
+        add_md_content_to_docx(doc, ch4_text)
+    else:
+        _add_body(doc, '[内容待补充]')
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CH5: 差距对比
+    # ═══════════════════════════════════════════════
+    _add_heading(doc, '第5章  本竞品差距对比', level=1)
+    ch5_text = chapter_map.get('ch5', '')
+    if ch5_text:
+        add_md_content_to_docx(doc, ch5_text)
+    else:
+        _add_body(doc, '[内容待补充]')
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CH6: 策略建议
+    # ═══════════════════════════════════════════════
+    _add_heading(doc, '第6章  咨询切入点与策略建议', level=1)
+    ch6_text = chapter_map.get('ch6', '')
+    if ch6_text:
+        add_md_content_to_docx(doc, ch6_text)
+    else:
+        _add_body(doc, '[内容待补充]')
+    doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # CH7: 睡眠消费洞察（如适用）
+    # ═══════════════════════════════════════════════
+    ch7_text = chapter_map.get('ch7', '')
+    if ch7_text:
+        _add_heading(doc, '第7章  2026最新睡眠消费洞察', level=1)
+        add_md_content_to_docx(doc, ch7_text)
+        doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # 附录 A：创品策略
+    # ═══════════════════════════════════════════════
+    innovation_text = chapter_map.get('appendix_innovation', '')
+    if innovation_text:
+        focus_brand = project_config.focus_brand or "品牌"
+        _add_heading(doc, f'附录A：创品策略 —— {focus_brand}品牌创新方向', level=1)
+        add_md_content_to_docx(doc, innovation_text)
+        doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # 附录 B：创始人研究
+    # ═══════════════════════════════════════════════
+    founder_text = chapter_map.get('appendix_founder', '')
+    if founder_text:
+        _add_heading(doc, '附录B：创始人研究', level=1)
+        add_md_content_to_docx(doc, founder_text)
+
+    # ═══════════════════════════════════════════════
+    # 保存
+    # ═══════════════════════════════════════════════
+    doc.save(str(docx_path))
+
     verify_output_file(docx_path, "docx_assembly")
     step_success("docx_assembly", [str(docx_path)])
+    print(f"  ✅ DOCX 生成完成: {docx_path.name} ({docx_path.stat().st_size / 1024:.0f} KB)")
     return docx_path
 
 
-def ensure_output_dir() -> Path:
-    """确保 output/reports/ 目录存在。"""
-    return output_dir("reports")
+# ── 章节内容加载（build_chapter_map） ──────────────────────
+
+def build_chapter_map(project_config: ProjectConfig) -> Dict[str, str]:
+    """
+    直接从已知文件名加载各章节内容。
+    不 glob，不遍历子目录。返回 {key: markdown_text} 字典。
+    排除 pre_research.md。
+    """
+    c_dir = _get_content_dir(project_config)
+    ch3_dir = c_dir / "ch3_competitive"
+    ch4_dir = c_dir / "ch4_deep"
+
+    result = {}
+
+    def _read(p: Path) -> str:
+        if p.exists():
+            return p.read_text(encoding="utf-8")
+        return ""
+
+    # brand_overview
+    result['brand_overview'] = _read(c_dir / "brand_overview.md")
+
+    # ch1 — if not exists, generate default content
+    ch1_path = c_dir / "ch1_findings.md"
+    if ch1_path.exists():
+        result['ch1'] = _read(ch1_path)
+    else:
+        # 生成默认内容
+        result['ch1'] = (
+            "# 核心发现与咨询窗口\n\n"
+            "## 核心发现\n\n"
+            "1. [待补充]\n\n"
+            "## 咨询窗口\n\n"
+            "[待补充]\n\n"
+        )
+
+    # ch2
+    result['ch2'] = _read(c_dir / "ch2_industry.md")
+    if not result['ch2']:
+        result['ch2'] = _read(c_dir / "ch2_industry_analysis.md")
+
+    # ch3 深度品牌 — 合并所有 deep_*.md
+    deep_parts = []
+    if ch3_dir.exists():
+        for f in sorted(ch3_dir.glob("deep_*.md")):
+            if f.name.endswith("_prompt.md"):
+                continue
+            deep_parts.append(f.read_text(encoding="utf-8"))
+    result['ch3_deep_brands'] = "\n\n".join(deep_parts)
+
+    # ch3 汇总品牌
+    summary_path = ch3_dir / "summary_brands.md"
+    result['ch3_summary'] = _read(summary_path)
+
+    # ch3 竞争模式
+    patterns_path = ch3_dir / "competition_patterns.md"
+    result['ch3_patterns'] = _read(patterns_path)
+
+    # ch4 — 深度品牌分析
+    focus = project_config.focus_brand
+    if focus:
+        ch4_path = ch4_dir / f"{focus}_deep.md"
+        if not ch4_path.exists():
+            ch4_path = c_dir / "ch4_deep_analysis.md"
+        result['ch4'] = _read(ch4_path)
+
+    # ch5
+    result['ch5'] = _read(c_dir / "ch5_gap.md")
+    if not result['ch5']:
+        result['ch5'] = _read(c_dir / "ch5_strategy.md")
+
+    # ch6
+    result['ch6'] = _read(c_dir / "ch6_recommendations.md")
+    if not result['ch6']:
+        result['ch6'] = _read(c_dir / "ch6_innovation.md")
+
+    # ch7
+    result['ch7'] = _read(c_dir / "ch7_sleep_insights.md")
+
+    # 附录 — 创品策略
+    result['appendix_innovation'] = _read(c_dir / "innovation_strategy.md")
+
+    # 附录 — 创始人研究
+    result['appendix_founder'] = _read(c_dir / "founder_research.md")
+
+    return result
+
+
+# ── Markdown → DOCX 渲染 ──────────────────────────────────
+
+def add_md_content_to_docx(doc, md_text: str):
+    """
+    将 Markdown 文本渲染到 python-docx Document 中。
+    规则：
+    - 跳过（忽略）H1 标题（章节标题由外部硬编码提供）
+    - H2/H3/H4 → add_heading (level 2/3/4)
+    - **粗体** → Run.bold=True
+    - | 分隔表格 → add_table + Table Grid 样式
+    - - 开头段落 → List Bullet 样式段落
+    - --- 分隔线 → 装饰段落
+    """
+    from docx.shared import Pt
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.enum.table import WD_TABLE_ALIGNMENT
+
+    lines = md_text.strip().split('\n')
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+
+        # 空行
+        if not line:
+            doc.add_paragraph()
+            i += 1
+            continue
+
+        # 跳过顶部 H1（章节标题由外部提供）
+        if line.startswith('# ') and not line.startswith('## '):
+            i += 1
+            continue
+
+        # H2/H3/H4
+        if line.startswith('#### '):
+            _add_heading(doc, line[5:].replace('**', ''), level=4)
+            i += 1
+            continue
+        if line.startswith('### '):
+            _add_heading(doc, line[4:].replace('**', ''), level=3)
+            i += 1
+            continue
+        if line.startswith('## '):
+            _add_heading(doc, line[3:].replace('**', ''), level=2)
+            i += 1
+            continue
+
+        # 分隔线
+        if re.match(r'^-{3,}$', line):
+            _add_body(doc, '─' * 50)
+            i += 1
+            continue
+
+        # Markdown 表格：| col1 | col2 |
+        if line.startswith('|') and line.endswith('|') and i + 1 < len(lines):
+            next_line = lines[i + 1].strip()
+            if next_line.startswith('|') and '---' in next_line.replace(' ', ''):
+                # 收集表格所有行
+                table_rows = []
+                while i < len(lines):
+                    l = lines[i].strip()
+                    if l.startswith('|') and l.endswith('|'):
+                        cells = [c.strip() for c in l.split('|')[1:-1]]
+                        table_rows.append(cells)
+                        i += 1
+                    else:
+                        break
+
+                if len(table_rows) >= 2:
+                    # 跳过分隔行（|---|---|）
+                    data_rows = table_rows[:1] + table_rows[2:] if len(table_rows) > 1 else table_rows
+                    data_rows = [row for row in data_rows if any(c for c in row)]
+
+                    if data_rows:
+                        ncols = max(len(r) for r in data_rows)
+                        table = doc.add_table(rows=len(data_rows), cols=ncols, style='Table Grid')
+                        table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                        for ri, row in enumerate(data_rows):
+                            for ci, cell_text in enumerate(row):
+                                if ci < ncols:
+                                    cell = table.cell(ri, ci)
+                                    cell.text = cell_text
+                                    # 表头加粗
+                                    if ri == 0:
+                                        for p in cell.paragraphs:
+                                            for r in p.runs:
+                                                r.bold = True
+                                                r.font.size = Pt(9)
+                                    else:
+                                        for p in cell.paragraphs:
+                                            for r in p.runs:
+                                                r.font.size = Pt(9)
+                        doc.add_paragraph()
+                continue
+
+        # 列表项
+        if re.match(r'^[\-\*]\s+', line):
+            text = re.sub(r'^[\-\*]\s+', '', line)
+            _add_body(doc, text)
+            i += 1
+            continue
+
+        # 数字列表
+        if re.match(r'^\d+[\.\)]\s+', line):
+            text = re.sub(r'^\d+[\.\)]\s+', '', line)
+            _add_body(doc, text)
+            i += 1
+            continue
+
+        # 普通段落（保留行内 **bold**）
+        _add_body(doc, line)
+        i += 1
+
+
+# ── 图表版块 ──────────────────────────────────────────────
+
+def add_charts_to_docx(doc, chart_files: List[Tuple[str, Path]]):
+    """
+    添加图表版块到文档。
+    每张图表 = 图标题(H3) + 图片 + 数据来源。
+    使用 add_picture 嵌入 PNG。
+    """
+    from docx.shared import Inches, Pt, RGBColor
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+    _add_heading(doc, '数据可视化：核心竞品对比', level=2)
+    _add_body(doc, '以下图表基于天猫/京东旗舰店搜索实测数据生成。')
+    doc.add_paragraph()
+
+    for i, (title, img_path) in enumerate(chart_files):
+        if not img_path.exists():
+            print(f"  ⚠ 图表文件不存在，跳过: {img_path.name}")
+            continue
+
+        _add_heading(doc, f'图{i+1}：{title}', level=3)
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run = p.add_run()
+        run.add_picture(str(img_path), width=Inches(5.5))
+
+        # 数据来源标注
+        source_note = f"数据来源：{_chart_source_hint(img_path.name)}"
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run = p.add_run(source_note)
+        run.font.size = Pt(8)
+        run.font.color.rgb = RGBColor(128, 128, 128)
+
+        doc.add_paragraph()
+
+
+# ── 辅助函数 ──────────────────────────────────────────────
+
+def _add_heading(doc, text: str, level: int = 1):
+    """添加标题，去除可能的 ** 标记。"""
+    h = doc.add_heading(text.replace('**', ''), level=level)
+    return h
+
+
+def _add_body(doc, text: str):
+    """
+    添加正文段落。
+    处理行内 **bold** 标记 → Run.bold=True。
+    """
+    p = doc.add_paragraph()
+    parts = re.split(r'(\*\*[^*]+\*\*)', text)
+    for part in parts:
+        if part.startswith('**') and part.endswith('**'):
+            run = p.add_run(part[2:-2])
+            run.bold = True
+        else:
+            p.add_run(part)
+    return p
 
 
 def _validate_docx_naming(filename: str) -> None:
-    """验证 docx 文件名是否符合版本号命名规范「品牌中文名-行业-V数字.数字-日期.docx」。"""
+    """验证 docx 文件名是否符合版本号规范。"""
     pattern = r'^.+?-.+-V\d+(\.\d+)?-\d{8}\.docx$'
     if not re.match(pattern, filename):
         print(f"  ⚠ 版本号命名警告：当前文件名「{filename}」不符合规范格式「品牌中文名-行业-V数字.数字-日期.docx」")
@@ -97,511 +511,103 @@ def _validate_docx_naming(filename: str) -> None:
         print(f"  ✓ 文件名版本号格式合规: {filename}")
 
 
-def create_base_document(schema: ReportSchema, project_config: ProjectConfig):
-    """
-    Step 1 of 6: 用 python-docx 创建基础文档骨架。
-    包含封面页 + 每章标题占位 + TOC 区域。
-    """
-    from docx import Document
-    from docx.shared import Pt, Inches, Cm, RGBColor
-    from docx.enum.text import WD_ALIGN_PARAGRAPH
-    from docx.enum.section import WD_ORIENT
-    
-    doc = Document()
-    
-    # ── 封面 ──
-    for _ in range(6):
-        doc.add_paragraph()
-    
-    title_para = doc.add_paragraph()
-    title_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = title_para.add_run(project_config.project_name)
-    run.font.size = Pt(28)
-    run.bold = True
-    
-    subtitle_para = doc.add_paragraph()
-    subtitle_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = subtitle_para.add_run("品牌研究报告")
-    run.font.size = Pt(18)
-    
-    info_para = doc.add_paragraph()
-    info_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = info_para.add_run(f"行业: {project_config.industry}   框架: V{schema.version}\n"
-                            f"生成日期: {datetime.now().strftime('%Y-%m-%d')}")
-    run.font.size = Pt(11)
-    run.font.color.rgb = RGBColor(100, 100, 100)
-    
-    doc.add_page_break()
-    
-    # ── TOC 页 ──
-    toc_title = doc.add_heading('目录', level=1)
-    p = doc.add_paragraph("品牌概览")
-    p.paragraph_format.space_after = Pt(4)
-    for ch_key in ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6', 'appendix']:
-        ch_title = schema.get_chapter_title(ch_key)
-        p = doc.add_paragraph(f"{ch_key.upper()}  {ch_title}")
-        p.paragraph_format.space_after = Pt(4)
-    
-    doc.add_page_break()
-    
-    # ── brand_overview 占位 ──
-    overview_heading = doc.add_heading('品牌概览', level=1)
-    marker = doc.add_paragraph()
-    marker_run = marker.add_run("__SECTION_PLACEHOLDER_brand_overview__")
-    marker_run.font.size = Pt(1)
-    marker_run.font.color.rgb = RGBColor(255, 255, 255)
-    doc.add_page_break()
-    
-    # ── 各章 H1 占位 ──
-    for ch_key in ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6', 'appendix']:
-        ch_title = schema.get_chapter_title(ch_key)
-        heading = doc.add_heading(f"第{ch_key[2:]}章 {ch_title}", level=1)
-        marker = doc.add_paragraph()
-        marker_run = marker.add_run(f"__SECTION_PLACEHOLDER_{ch_key}__")
-        marker_run.font.size = Pt(1)
-        marker_run.font.color.rgb = RGBColor(255, 255, 255)  # invisible
-        doc.add_page_break()
-    
-    return doc
+def _build_toc(schema: ReportSchema, project_config: ProjectConfig) -> List[str]:
+    """构建目录列表。"""
+    items = [
+        '品牌概览',
+        '第1章  核心发现与咨询窗口',
+        '第2章  行业格局与竞品总矩阵',
+        '第3章  竞品多维度扫描',
+        '    3.1  深度品牌分析',
+        '    3.2  汇总品牌速览',
+        '    3.3  竞争模式归纳',
+        '    数据可视化：核心竞品对比',
+    ]
+    focus = project_config.focus_brand or "本品"
+    items.append(f'第4章  本品深度分析 —— {focus}')
+    items.extend([
+        '第5章  本竞品差距对比',
+        '第6章  咨询切入点与策略建议',
+    ])
+    # ch7 如果有内容再加入
+    if (content_dir(project_config) / "ch7_sleep_insights.md").exists():
+        items.append('第7章  2026最新睡眠消费洞察')
+    items.extend([
+        '附录A  创品策略',
+        '附录B  创始人研究',
+    ])
+    return items
 
+
+def _collect_chart_files(c_dir: Path) -> List[Tuple[str, Path]]:
+    """
+    收集图表文件。按预期顺序返回 [(title, path), ...]。
+    优先使用 PNG，回退到 HTML。
+    """
+    expected = [
+        ("天猫旗舰店爆款销售对比", "chart_brand_comparison_1"),
+        ("京东自营爆款评价数对比", "chart_brand_comparison_2"),
+        ("各品牌核心产品单件价对比", "chart_brand_comparison_3"),
+        ("各品牌回头客率对比", "chart_brand_comparison_4"),
+    ]
+
+    results = []
+    for title, chart_id in expected:
+        png = c_dir / f"{chart_id}.png"
+        html = c_dir / f"{chart_id}.html"
+        if png.exists():
+            results.append((title, png))
+        elif html.exists():
+            results.append((title, html))
+    return results
+
+
+def _chart_source_hint(filename: str) -> str:
+    """根据文件名返回数据来源提示。"""
+    hints = {
+        "comparison_1": "天猫搜索实测",
+        "comparison_2": "京东搜索实测",
+        "comparison_3": "天猫/京东旗舰店定价",
+        "comparison_4": "天猫旗舰店回头客标签",
+    }
+    for key, hint in hints.items():
+        if key in filename:
+            return hint
+    return "电商平台"
+
+
+def _get_content_dir(project_config) -> Path:
+    """获取 content 目录（支持 project_config 隔离）。"""
+    return content_dir(project_config)
+
+
+def _get_charts_dir(project_config) -> Path:
+    """获取 charts 目录（支持 project_config 隔离）。"""
+    return charts_dir(project_config)
+
+
+def ensure_output_dir() -> Path:
+    """确保 output/reports/ 目录存在（支持 project_config 隔离）。"""
+    return output_dir("reports")
+
+
+# ── 兼容层 ────────────────────────────────────────────────
 
 def load_chapter_content(schema: ReportSchema, project_config: ProjectConfig) -> Dict[str, str]:
-    """读取 content/ 下各章的 markdown 文件。"""
-    c_dir = content_dir()
-    ch3_dir = c_dir / "ch3_competitive"
-    ch4_dir = c_dir / "ch4_deep"
-    
-    content = {}
-    
-    # brand_overview: 品牌概览模板（module_h），放在正文最前面
-    brand_overview_path = c_dir / "brand_overview.md"
-    if brand_overview_path.exists():
-        content['brand_overview'] = load_markdown(brand_overview_path)
-    
-    chapter_map = {
-        'ch1': c_dir / "ch1_findings.md",
-        'ch2': c_dir / "ch2_industry.md",
-        'ch3': c_dir / "ch3_competitor_scan.md",
-        'ch4': c_dir / "ch4_deep_analysis.md",
-        'ch5': c_dir / "ch5_strategy.md",
-        'ch6': c_dir / "ch6_innovation.md",
-    }
-    
-    for ch_key, path in chapter_map.items():
-        if path.exists():
-            content[ch_key] = load_markdown(path)
-        else:
-            print(f"  ⚠ {ch_key} 内容文件未找到: {path}，使用占位")
-            content[ch_key] = f"\n\n{ch_key.upper()}：{schema.get_chapter_title(ch_key)}\n\n[内容待 DeepSeek V4 Pro 生成]\n\n"
-    
-    # ch3 自动合并：将 deep_*.md 完整五维内容嵌入到竞品扫描章节
-    if 'ch3' in content and ch3_dir.exists():
-        for brand_file in sorted(ch3_dir.glob("deep_*.md")):
-            if brand_file.name.endswith("_prompt.md"):
-                continue
-            brand_name = brand_file.stem.replace("deep_", "")
-            deep_content = load_markdown(brand_file)
-            lines = deep_content.strip().split('\n')
-            if lines and lines[0].startswith('# '):
-                lines = lines[1:]
-            while lines and not lines[0].strip():
-                lines = lines[1:]
-            body = '\n'.join(lines).strip()
-            link = f'→ [完整五维分析](ch3_competitive/deep_{brand_name}.md)'
-            if link in content['ch3']:
-                content['ch3'] = content['ch3'].replace(link, body)
-    
-    # founder_research: 创始人研究，附加到附录
-    founder_path = c_dir / "founder_research.md"
-    if founder_path.exists():
-        founder_content = load_markdown(founder_path)
-        if 'appendix' in content:
-            content['appendix'] = content['appendix'] + "\n\n" + founder_content
-        else:
-            content['appendix'] = "\n\n# 附录\n\n" + founder_content
-    
-    return content
-
-
-def insert_chapter_content(doc, ch_key: str, markdown_content: str, schema: ReportSchema):
     """
-    Step 3 of 6: 将 markdown 内容（含标题、段落、表格）插入 docx 章节占位处。
-    
-    使用 python-docx 创建格式正确的元素（Heading/Paragraph/Table），
-    然后用 lxml 将这些元素的 XML 插入到占位段落之前。
+    兼容旧接口：内部委托给 build_chapter_map。
     """
-    from lxml import etree
-    from docx.shared import Pt, Inches, RGBColor
-    from docx.enum.text import WD_ALIGN_PARAGRAPH
-    
-    # 访问 document.xml
-    document_part = doc.part
-    document_element = document_part.element
-    body = document_element.find('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}body')
-    if body is None:
-        body = document_element
-    
-    nsmap = {
-        'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main',
-        'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-    }
-    
-    # 查找占位段落
-    placeholder = f"__SECTION_PLACEHOLDER_{ch_key}__"
-    placeholder_para = None
-    for para in body.iter(f'{{{nsmap["w"]}}}p'):
-        texts = para.findall(f'.//{{{nsmap["w"]}}}t')
-        for t in texts:
-            if t.text and placeholder in t.text:
-                placeholder_para = para
-                break
-        if placeholder_para:
-            break
-    
-    if placeholder_para is None:
-        print(f"  ⚠ 未找到 {ch_key} 的占位段落")
-        return
-    
-    # 解析 markdown 为块
-    blocks = _parse_markdown_blocks(markdown_content)
-    
-    # 用 python-docx 创建格式化元素
-    elements_xml = []
-    for block in blocks:
-        if block["type"] == "heading":
-            # 标题去掉 ** 标记（标题本身已加粗）
-            clean_text = block["text"].replace('**', '')
-            heading = doc.add_heading(clean_text, level=block["level"])
-            elements_xml.append(etree.fromstring(heading._element.xml))
-        elif block["type"] == "table":
-            table_xml = _create_word_table(doc, block["headers"], block["rows"])
-            elements_xml.append(table_xml)
-        elif block["type"] == "paragraph":
-            # 段落使用行内格式渲染（**bold** → 真粗体）
-            para_xml = _render_formatted_text(doc, block["text"], default_size=10)
-            elements_xml.append(para_xml)
-    
-    # addprevious 正序插入：先插入的元素离placeholder最远，正确呈现原始顺序
-    for elem in elements_xml:
-        try:
-            placeholder_para.addprevious(elem)
-        except Exception as e:
-            print(f"    ⚠ lxml 插入元素失败: {e}")
-    
-    # 删除占位段落
-    try:
-        placeholder_para.getparent().remove(placeholder_para)
-    except Exception:
-        pass
+    return build_chapter_map(project_config)
 
 
-def _parse_markdown_blocks(content: str) -> list:
-    """解析 markdown 为结构化块（标题/段落/表格），保留行内格式标记供后续渲染。"""
-    lines = content.strip().split('\n')
-    blocks = []
-    i = 0
-    
-    while i < len(lines):
-        line = lines[i].strip()
-        
-        # 空行或分隔线跳过
-        if not line or line.replace('-', '').strip() == '':
-            i += 1
-            continue
-        
-        # 标题
-        if line.startswith('# '):
-            blocks.append({"type": "heading", "level": 1, "text": line[2:].strip()})
-            i += 1
-        elif line.startswith('## '):
-            blocks.append({"type": "heading", "level": 2, "text": line[3:].strip()})
-            i += 1
-        elif line.startswith('### '):
-            blocks.append({"type": "heading", "level": 3, "text": line[4:].strip()})
-            i += 1
-        elif line.startswith('#### '):
-            blocks.append({"type": "heading", "level": 4, "text": line[5:].strip()})
-            i += 1
-        
-        # 表格：检测 pipe 分隔的行
-        elif line.startswith('|') and line.endswith('|'):
-            table_lines = []
-            while i < len(lines) and lines[i].strip().startswith('|') and lines[i].strip().endswith('|'):
-                table_lines.append(lines[i].strip())
-                i += 1
-            
-            if len(table_lines) >= 2:
-                headers = [c.strip() for c in table_lines[0].split('|')[1:-1]]
-                rows = []
-                start_row = 1
-                if table_lines[1].replace('|', '').replace('-', '').replace(' ', '').replace(':', '') == '':
-                    start_row = 2
-                for r in range(start_row, len(table_lines)):
-                    cells = [c.strip() for c in table_lines[r].split('|')[1:-1]]
-                    if cells:
-                        rows.append(cells)
-                
-                if headers and rows:
-                    blocks.append({"type": "table", "headers": headers, "rows": rows})
-        
-        # 普通段落
-        else:
-            blocks.append({"type": "paragraph", "text": line})
-            i += 1
-    
-    return blocks
-
-
-def _render_inline_runs(para, text: str, default_size: int = 10) -> None:
-    """将含 **bold** 行内标记的文本渲染为 Word 段落中的多个 run。"""
-    import re
-    from docx.shared import Pt
-    
-    # 拆分 **text** 为 (text, is_bold) 片段
-    pattern = r'\*\*(.+?)\*\*'
-    parts = re.split(pattern, text)
-    is_bold_flags = [False]
-    for m in re.finditer(pattern, text):
-        is_bold_flags.extend([True, False])
-    if len(is_bold_flags) < len(parts):
-        is_bold_flags = [False] * len(parts)
-    
-    for idx, part in enumerate(parts):
-        if not part:
-            continue
-        run = para.add_run(part)
-        run.font.size = Pt(default_size)
-        if idx < len(is_bold_flags) and is_bold_flags[idx]:
-            run.bold = True
-
-
-def _render_formatted_text(doc, text: str, default_size: int = 10):
-    """创建含行内格式的段落，返回 lxml 元素。"""
-    para = doc.add_paragraph()
-    _render_inline_runs(para, text, default_size)
-    return para._element
-
-
-def _create_word_table(doc, headers: list, rows: list):
-    """用 python-docx 创建格式化的 Word 表格，返回 lxml 元素。"""
-    from docx.shared import Pt, RGBColor
-    from docx.oxml.ns import qn
-    
-    table = doc.add_table(rows=len(rows) + 1, cols=len(headers))
-    table.style = 'Table Grid'
-    
-    # 表头行
-    for j, header in enumerate(headers):
-        cell = table.rows[0].cells[j]
-        # 清除默认段落，用格式化文本填充
-        for p in cell.paragraphs:
-            p.clear()
-        _render_inline_runs(cell.paragraphs[0], header, default_size=10)
-        for run in cell.paragraphs[0].runs:
-            run.bold = True
-    
-    # 数据行
-    for i, row in enumerate(rows):
-        for j, cell_text in enumerate(row):
-            if j < len(headers):
-                cell = table.rows[i + 1].cells[j]
-                for p in cell.paragraphs:
-                    p.clear()
-                _render_inline_runs(cell.paragraphs[0], cell_text, default_size=9)
-    
-    return table._element
+def embed_charts_in_docx(*args, **kwargs):
+    """
+    废弃。其功能已合并到 add_charts_to_docx。
+    调用时将打印警告但不抛出异常。
+    """
+    print("  ⚠ embed_charts_in_docx 已废弃（功能合并到 add_charts_to_docx），调用无效果")
 
 
 def get_chart_files(project_config: ProjectConfig) -> List[Tuple[str, Path]]:
-    """
-    获取图表 PNG 文件列表。
-    返回 [(title, path), ...]
-    """
-    c_dir = charts_dir()
-    if not c_dir.exists():
-        return []
-    
-    charts_info = []
-    
-    # 按 schema 定义顺序查找
-    expected = [
-        ("天猫旗舰店爆款销售对比", "chart_brand_comparison_1"),
-        ("京东自营爆款销售对比", "chart_brand_comparison_2"),
-        ("各品牌核心产品斤价对比", "chart_brand_comparison_3"),
-        ("各品牌回头客/复购率对比", "chart_brand_comparison_4"),
-    ]
-    
-    for title, chart_id in expected:
-        for ext in ['.png']:
-            path = c_dir / f"{chart_id}{ext}"
-            if path.exists():
-                charts_info.append((title, path))
-                break
-        else:
-            html_path = c_dir / f"{chart_id}.html"
-            if html_path.exists():
-                charts_info.append((title, html_path))
-    
-    return charts_info
-
-
-def embed_charts_in_docx(temp_docx_path: str, chart_files: List[Tuple[str, Path]],
-                         out_dir: Path) -> Path:
-    """
-    Steps 4-6 of 6: 将图表嵌入 docx。
-    
-    完整版 6 步法中的 Step 4-6:
-    - zipfile 重新打开
-    - 克隆 drawing + 修改 blip
-    - 更新 rels + media
-    """
-    from docx import Document
-    from lxml import etree
-    
-    doc = Document(temp_docx_path)
-    document_element = doc.part.element
-    body = document_element.find('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}body')
-    if body is None:
-        body = document_element
-    
-    # 查找 ch3 3.6 节之前的插入点
-    # 找到最后一个 ch3 内容的末尾
-    insert_target = find_chart_insertion_point(doc)
-    if insert_target is None:
-        print("  ⚠ 未找到图表插入位置，追加到文档末尾")
-        insert_target = body[-1] if len(body) > 0 else body
-    
-    # Step 4: 保存 → zipfile 重新打开
-    temp_zip_path = str(out_dir / "_temp_for_images.docx")
-    doc.save(temp_zip_path)
-    
-    # Step 5+6: 用 zipfile 操作直接嵌入图片
-    final_path = str(out_dir / "_final_with_images.docx")
-    
-    # 读取原始 docx 为 zip
-    with zipfile.ZipFile(temp_zip_path, 'r') as zin:
-        zip_contents = {}
-        for item in zin.infolist():
-            zip_contents[item.filename] = zin.read(item.filename)
-    
-    # 解析 document.xml
-    doc_xml = zip_contents.get('word/document.xml', b'')
-    if isinstance(doc_xml, bytes):
-        doc_tree = etree.fromstring(doc_xml)
-    else:
-        doc_tree = etree.fromstring(doc_xml)
-    
-    nsmap = {
-        'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main',
-        'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-        'wp': 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing',
-        'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
-        'pic': 'http://schemas.openxmlformats.org/drawingml/2006/picture',
-    }
-    
-    # 读取现有的 rels 文件
-    rels_path = 'word/_rels/document.xml.rels'
-    rels_xml = zip_contents.get(rels_path, b'')
-    if isinstance(rels_xml, bytes):
-        rels_tree = etree.fromstring(rels_xml)
-    else:
-        rels_tree = etree.fromstring(rels_xml)
-    
-    rels_nsmap = {'r': 'http://schemas.openxmlformats.org/package/2006/relationships'}
-    
-    # 获取当前最大关系 ID
-    existing_rels = rels_tree.findall('.//{http://schemas.openxmlformats.org/package/2006/relationships}Relationship')
-    max_rel_id = 0
-    for rel in existing_rels:
-        rid = rel.get('Id', 'rId0')
-        try:
-            num = int(rid.replace('rId', ''))
-            max_rel_id = max(max_rel_id, num)
-        except ValueError:
-            continue
-    
-    # 嵌入每张图片
-    image_count = 0
-    for i, (title, chart_path) in enumerate(chart_files):
-        image_count += 1
-        next_id = max_rel_id + image_count
-        rel_id = f'rId{next_id}'
-        media_filename = f'image{image_count:03d}.png'
-        
-        # 读取图片
-        with open(chart_path, 'rb') as f:
-            image_bytes = f.read()
-        
-        # 添加 media 文件
-        zip_contents[f'word/media/{media_filename}'] = image_bytes
-        
-        # 添加 rels 关系
-        rel_elem = etree.SubElement(
-            rels_tree,
-            '{http://schemas.openxmlformats.org/package/2006/relationships}Relationship'
-        )
-        rel_elem.set('Id', rel_id)
-        rel_elem.set('Type', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image')
-        rel_elem.set('Target', f'media/{media_filename}')
-        
-        # 在文档 body 中创建图片段落 + 标题段落
-        # 模拟 python-docx 的 add_picture 方式
-        body_element = doc_tree.find('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}body')
-        if body_element is None:
-            body_element = doc_tree
-        
-        # 创建图标题段落
-        fig_para = etree.SubElement(body_element, '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}p')
-        fig_run = etree.SubElement(fig_para, '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}r')
-        fig_text = etree.SubElement(fig_run, '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t')
-        fig_text.text = f"图{i+1}：{title}"
-        fig_text.set('{http://www.w3.org/XML/1998/namespace}space', 'preserve')
-    
-    # 写回文件
-    with zipfile.ZipFile(final_path, 'w', zipfile.ZIP_DEFLATED) as zout:
-        for name, data in zip_contents.items():
-            zout.writestr(name, data)
-        # 写回更新后的 rels
-        zout.writestr(rels_path, etree.tostring(rels_tree, xml_declaration=True, encoding='UTF-8', standalone=True))
-        # 写回更新后的 document.xml
-        zout.writestr('word/document.xml', etree.tostring(doc_tree, xml_declaration=True, encoding='UTF-8', standalone=True))
-    
-    return Path(final_path)
-
-
-def find_chart_insertion_point(doc):
-    """
-    查找文档中 ch3 末尾附近的位置，在 3.6 之前插入图表。
-    返回 lxml element 作为插入点。
-    """
-    from lxml import etree
-    
-    document_element = doc.part.element
-    body = document_element.find('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}body')
-    if body is None:
-        body = document_element
-    
-    nsmap = {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
-    
-    # 查找 "竞争模式归纳" 或 "3.6" 相关标题
-    for para in body:
-        texts = para.findall(f'.//{{{nsmap["w"]}}}t')
-        full_text = ''.join(t.text or '' for t in texts)
-        if '3.6' in full_text or '竞争模式' in full_text:
-            return para
-    
-    # fallback: 找 ch3 的末尾（最后一个 ch3 段落之后）
-    last_ch3_para = None
-    in_ch3 = False
-    for para in body:
-        texts = para.findall(f'.//{{{nsmap["w"]}}}t')
-        full_text = ''.join(t.text or '' for t in texts)
-        if '第3章' in full_text or 'ch3' in full_text.lower():
-            in_ch3 = True
-        elif '第4章' in full_text or 'ch4' in full_text.lower():
-            if in_ch3:
-                return last_ch3_para
-        if in_ch3:
-            last_ch3_para = para
-    
-    return last_ch3_para
+    """兼容旧接口。"""
+    return _collect_chart_files(_get_charts_dir(project_config))

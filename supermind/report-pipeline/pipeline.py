@@ -204,6 +204,25 @@ def main():
     
     # ── 逐步骤执行 ──
     print(f"\n  📋 将执行 {len(steps_to_run)} 个步骤:\n")
+    # ── P0-1: 自动清理 output/content/ 下 .md 文件和 output/charts/ 下 .html/.png 文件 ──
+    if not args.dry_run:
+        import shutil
+        content_dir_path = BASE_DIR / "output" / "content"
+        charts_dir_path = BASE_DIR / "output" / "charts"
+        if content_dir_path.exists():
+            for f in content_dir_path.glob("*.md"):
+                if f.name not in ("_FILL_COMPLETE.md", "_ECOMMERCE_DONE.md", "_CONTENT_REWRITE_DONE.md"):
+                    f.unlink()
+            for subdir in content_dir_path.glob("*/"):
+                if subdir.is_dir():
+                    shutil.rmtree(subdir)
+        if charts_dir_path.exists():
+            for f in charts_dir_path.glob("*.html"):
+                f.unlink()
+            for f in charts_dir_path.glob("*.png"):
+                f.unlink()
+        print("  ✓ 已清理 output/content/ (.md) 和 output/charts/ (.html/.png)")
+
     for num, name, desc, automated, agent in steps_to_run:
         print(f"    Step {num}: {name} — {desc}")
     

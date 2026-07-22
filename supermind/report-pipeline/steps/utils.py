@@ -20,28 +20,51 @@ def ensure_dir(path: Union[str, Path]) -> Path:
     return p
 
 
-def output_dir(sub: str = "") -> Path:
-    d = ensure_dir(BASE_DIR / "output" / sub)
+def output_dir(sub: str = "", project_config=None) -> Path:
+    """
+    output/ 基础目录。带 project_config 时使用 output_subdir 隔离，
+    否则兼容旧路径（无隔离）。
+    """
+    if project_config:
+        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        d = ensure_dir(BASE_DIR / "output" / subdir / sub)
+    else:
+        d = ensure_dir(BASE_DIR / "output" / sub)
     return d
 
 
-def data_raw_dir() -> Path:
+def data_raw_dir(project_config=None) -> Path:
+    if project_config:
+        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        return ensure_dir(BASE_DIR / "output" / subdir / "data" / "raw")
     return ensure_dir(BASE_DIR / "output" / "data" / "raw")
 
 
-def data_dispatched_dir() -> Path:
+def data_dispatched_dir(project_config=None) -> Path:
+    if project_config:
+        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        return ensure_dir(BASE_DIR / "output" / subdir / "data" / "dispatched")
     return ensure_dir(BASE_DIR / "output" / "data" / "dispatched")
 
 
-def content_dir() -> Path:
+def content_dir(project_config=None) -> Path:
+    if project_config:
+        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        return ensure_dir(BASE_DIR / "output" / subdir / "content")
     return ensure_dir(BASE_DIR / "output" / "content")
 
 
-def charts_dir() -> Path:
+def charts_dir(project_config=None) -> Path:
+    if project_config:
+        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        return ensure_dir(BASE_DIR / "output" / subdir / "charts")
     return ensure_dir(BASE_DIR / "output" / "charts")
 
 
-def reports_dir() -> Path:
+def reports_dir(project_config=None) -> Path:
+    if project_config:
+        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        return ensure_dir(BASE_DIR / "output" / subdir / "reports")
     return ensure_dir(BASE_DIR / "output" / "reports")
 
 
@@ -83,6 +106,56 @@ def save_text(text: str, path: Union[str, Path]) -> Path:
     with open(p, "w", encoding="utf-8") as f:
         f.write(text)
     return p
+
+
+def validate_brand_content(filepath: Union[str, Path], project_config) -> bool:
+    """
+    品牌白名单校验：检查某个内容文件中是否出现白名单外的已知无关品牌名。
+    返回 True=通过（无无关品牌），False=有问题。
+    """
+    from pathlib import Path as _Path
+    p = _Path(filepath)
+    if not p.exists():
+        print(f"  ⚠ [validate_content] 文件不存在: {p}")
+        return True  # can't check, skip
+
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            content = f.read()
+    except Exception:
+        return True
+
+    # 从 project_config 提取品牌白名单
+    focus = project_config.focus_brand if project_config.focus_brand else ""
+    deep = set(project_config.deep_brands) if hasattr(project_config, "deep_brands") else set()
+    summary = set(project_config.summary_brands) if hasattr(project_config, "summary_brands") else set()
+    industry_terms = set(project_config.industry.split("/")) if project_config.industry else set()
+
+    # 行业通用词（视行业而定，这里是家纺/床上用品白名单）
+    generic_allowed = {
+        "康尔馨", "亚朵", "罗莱", "梦百合", "水星", "网易严选", "富安娜",
+        "睡眠博士", "野兽派", "躺岛", "京东京造", "梦洁", "宜家",
+        "床品", "家纺", "四件套", "枕头", "睡眠", "酒店", "羽绒",
+        "记忆棉", "被芯", "毛巾", "浴巾", "面料", "棉", "丝", "床"
+    }
+    allowed = deep | summary | {focus} | industry_terms | generic_allowed
+
+    # 已知无关品牌黑名单
+    suspicious = {
+        "三棵树", "立邦", "多乐士", "卡百利", "嘉宝莉", "菲玛",
+        "亚士漆", "榴莲", "玉米", "汽车", "新能源汽车", "涂料", "墙面漆",
+        "艺术漆", "乳胶漆", "防水涂料", "油漆"
+    }
+
+    found = []
+    for kw in suspicious:
+        if kw in content and kw not in allowed:
+            found.append(kw)
+
+    if found:
+        print(f"  ⚠ WARN: {p.name} 中发现白名单外无关品牌名: {', '.join(found)}")
+        return False
+    return True
 
 
 # ── Schema Loader ─────────────────────────────────────────

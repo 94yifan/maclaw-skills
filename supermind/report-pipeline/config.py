@@ -10,6 +10,7 @@
 
 import json
 import os
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
@@ -293,6 +294,13 @@ class ProjectConfig:
 
     def get_ch5_dimensions_note(self) -> str:
         return self._raw.get("ch5_brand_comparison_dimensions", "待逸凡定义")
+
+    @property
+    def output_subdir(self) -> str:
+        """项目隔离输出子目录名，如：康尔馨家纺_20260722_1330"""
+        return self._raw.get("output_subdir", "") or (
+            self.project_name.replace(" ", "_") + "_" + datetime.now().strftime("%Y%m%d_%H%M")
+        )
 
     def get_docx_filename(self) -> str:
         """获取 output_settings 中的 docx 文件名，无配置时返回空。"""

@@ -142,6 +142,15 @@ def generate_single_chart(chart_def: dict, index: int, schema: ReportSchema,
     # 如果 puppeteer/playwright 可用，自动截图
     png_path = try_screenshot(html_path, out_dir / f"{chart_id}.png", chart_width, chart_height)
     
+    # P0-4: 同时使用 Pillow 生成 PNG
+    png_out = out_dir / f"{chart_id}.png"
+    pillow_png = generate_png_from_chart_def(chart_def, brands, real_data, png_out)
+    if pillow_png and png_path is None:
+        png_path = pillow_png
+        print(f"  ✓ PNG 已生成 (Pillow): {png_path.name}")
+    elif pillow_png:
+        print(f"  ✓ PNG 已生成 (Pillow): {png_path.name}（覆盖 browser 截图）")
+    
     return png_path if png_path else html_path
 
 
@@ -303,6 +312,94 @@ def extract_chart_data(chart_def: dict, project_config: ProjectConfig) -> Option
         result.append({"name": brand, "value": 0})
     
     return result if any(d["value"] > 0 for d in result) else None
+
+
+def generate_png_from_chart_def(chart_def: dict, brands: List[str], data: List[dict],
+                                  out_path: Path) -> Optional[Path]:
+    """
+    使用 Pillow 从 chart_def 和数据动态绘制水平条形图并保存 PNG。
+    如果 Pillow 不可用或发生错误，返回 None（不影响 HTML 生成）。
+    """
+    if not brands or not data:
+        return None
+
+    colors = [
+        (74, 144, 217), (123, 104, 238), (32, 178, 170), (255, 107, 107),
+        (255, 217, 61), (107, 203, 119), (255, 140, 66), (166, 108, 255),
+        (233, 69, 96), (15, 52, 96), (0, 168, 204), (83, 62, 133),
+        (253, 94, 83), (26, 147, 111)
+    ]
+
+    try:
+        from PIL import Image, ImageDraw, ImageFont as _IF
+
+        W, H = 1000, max(600, 80 + len(brands) * 36)
+        left, right, top, bottom = 160, 120, 100, 60
+        bar_h, gap = 28, 8
+        chart_w = W - left - right
+        y_start = top + 20
+        step = bar_h + gap
+
+        img = Image.new('RGB', (W, H), 'white')
+        draw = ImageDraw.Draw(img)
+
+        # 字体
+        try:
+            font_title = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 20)
+            font_sub = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 12)
+            font_label = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 13)
+            font_bar = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 12)
+        except Exception:
+            font_title = font_sub = font_label = font_bar = _IF.load_default()
+
+        title = chart_def.get("title", "")
+        data_source = chart_def.get("data_source", "电商平台")
+        subtitle = f"数据来源: {data_source}"
+        ylabel = chart_def.get("y_axis", "数值")
+
+        # 标题
+        draw.text((W // 2 - len(title) * 10, 20), title, fill=(0, 0, 0), font=font_title)
+        draw.text((W // 2 - 100, 50), subtitle, fill=(128, 128, 128), font=font_sub)
+
+        # 提取值
+        val_list = []
+        for brand in brands:
+            found = [d["value"] for d in data if d.get("name") == brand]
+            val_list.append(found[0] if found else 0)
+
+        max_val = max(val_list) if val_list else 1
+
+        for i in range(min(len(brands), len(val_list))):
+            y = y_start + i * step
+            brand = brands[i]
+            val = val_list[i]
+
+            # Y 轴标签
+            draw.text((left - 5, y - 2), brand, fill=(60, 60, 60), font=font_label, anchor='ra')
+
+            # 条形
+            bar_len = int(val / max_val * chart_w * 0.85) if max_val > 0 else 0
+            c = colors[i % len(colors)]
+            draw.rectangle([left + 5, y, left + 5 + bar_len, y + bar_h], fill=c)
+
+            # 数值标签
+            if val >= 10000:
+                label = f"{val/10000:.0f}万"
+            else:
+                label = str(int(val))
+            draw.text((left + 10 + bar_len, y + bar_h // 2 - 6), label, fill=(40, 40, 40), font=font_bar)
+
+        # X 轴标注
+        draw.text((W // 2, H - 20), ylabel, fill=(80, 80, 80), font=font_sub)
+
+        img.save(str(out_path), 'PNG')
+        return out_path
+    except ImportError:
+        print("  ⚠ Pillow 未安装，跳过 PNG 生成")
+        return None
+    except Exception as e:
+        print(f"  ⚠ PNG 生成失败: {e}")
+        return None
 
 
 def generate_optional_chart(chart_def: dict, schema: ReportSchema,

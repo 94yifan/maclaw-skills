@@ -41,6 +41,20 @@ def collect_all(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     raw_dir = data_raw_dir()
     sources = schema.get_all_data_sources_with_mappings()
     
+    # P1-7: 检查 ecommerce_required flag
+    ecommerce_required = project_config.get("data_sources.ecommerce_required", False) or \
+                         project_config.get("ecommerce_required", False) or \
+                         schema._raw.get("data_sources", {}).get("ecommerce", {}).get("ecommerce_required", False)
+    
+    if ecommerce_required:
+        print(f"\n  {'='*50}")
+        print(f"  🔴 电商数据为强制采集（ecommerce_required = true）")
+        print(f"  {'='*50}")
+        ecommerce_prompt = generate_ecommerce_prompt(project_config)
+        ecom_path = raw_dir / "ecommerce_collection_prompt.md"
+        save_text(ecommerce_prompt, ecom_path)
+        print(f"  ✓ 电商采集指令已生成: {ecom_path}")
+    
     # 生成采集指令清单
     instructions = []
     for src in sources:
@@ -88,11 +102,81 @@ def collect_all(schema: ReportSchema, project_config: ProjectConfig) -> Path:
         for p in pending:
             print(f"    - {p['name']} ({p['source_key']})")
         print("  请使用 web_search / web_fetch / browser 工具逐一采集。")
+        
+        if ecommerce_required:
+            print(f"\n  {'='*50}")
+            print(f"  📋 电商数据强制采集要求")
+            print(f"  {'='*50}")
+            ecom_prompt = generate_ecommerce_prompt(project_config)
+            print(ecom_prompt)
     else:
         print(f"  ✓ 所有数据源均已采集")
     
     step_success("data_collection", [str(instruction_file)])
     return instruction_file
+
+
+def generate_ecommerce_prompt(project_config: ProjectConfig) -> str:
+    """
+    为每个品牌生成天猫/京东搜索URL和采集指令。
+    返回可打印的 prompt 文本。
+    """
+    brands = project_config.deep_brands + project_config.summary_brands
+    if project_config.focus_brand:
+        brands = [project_config.focus_brand] + brands
+    
+    lines = [
+        "# 电商数据强制采集指令",
+        "",
+        f"项目: {project_config.project_name}",
+        f"采集时间: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+        f"覆盖品牌: {', '.join(brands)}",
+        "",
+        "## 采集平台与数据类型",
+        "",
+        "### 1. 天猫旗舰店",
+        "URL格式: https://list.tmall.com/search_product.htm?q={品牌名}+旗舰店",
+        "采集字段: 品牌名、爆款产品名、已付款数/评价数、价格、回头客率(标签)",
+        "示例: 搜索「品牌名 旗舰店」→ 按销量排序 → 取Top5产品",
+        "",
+        "### 2. 京东自营/旗舰店",
+        "URL格式: https://search.jd.com/Search?keyword={品牌名}+旗舰店",
+        "采集字段: 品牌名、产品名、累计评价数(万+)、价格",
+        "示例: 搜索 → 按销量排序 → 取Top5产品",
+        "",
+        "### 3. 抖音电商",
+        "URL格式: https://www.douyin.com/search/{品牌名}+旗舰店",
+        "采集字段: 品牌名、爆款、销量数据",
+        "示例: 搜索 → 品牌橱窗 → 商品销量",
+        "",
+        "## 品牌级采集清单",
+        "",
+        "| 品牌 | 天猫 | 京东 | 抖音 |",
+        "|------|------|------|------|",
+        "|------|------|------|------|",
+    ]
+    
+    table_line = "| |  |  |  |"
+    for brand in brands:
+        lines.append(f"| {brand} | Tmall搜「{brand} 旗舰店」| JD搜「{brand}」| 抖音搜「{brand}」|")
+    
+    lines.extend([
+        "",
+        "## 数据质量标准",
+        "- 每个品牌至少采集天猫 + 京东两个平台",
+        "- 每个平台至少Top5产品",
+        "- 必须包含：已付款数(天猫)、累计评价数(京东)、价格、产品名",
+        "- 回头客率(天猫)有标签则采集，无标签标记N/A",
+        "- 数据日期标注：采集当天",
+        "",
+        "## 保存格式",
+        "每品牌每平台保存为一个JSON文件到 data/raw/ 目录",
+        "命名格式: ecommerce_tmall_{品牌}.json / ecommerce_jd_{品牌}.json",
+        f"",
+        f"采集完成后再运行 collect_all() 验证完整性。",
+    ])
+    
+    return "\n".join(lines)
 
 
 def to_mapping_human_readable(mapping: dict) -> List[str]:

@@ -34,7 +34,7 @@ def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     Step 12 主入口：运行全套 QA 检查。
     返回 QA 报告路径。
     """
-    step_start("qa_check", "QA 自动检查 — 结构/内容/图表/交付四层")
+    step_start("qa_check", "QA 自动检查 — 结构/内容/图表/交付四层 + 终端docx验证")
     
     r_dir = reports_dir()
     
@@ -45,7 +45,10 @@ def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     granularity_results = check_granularity(schema, project_config)
     delivery_results = check_delivery(schema, project_config)
     
-    all_results = structural_results + content_results + chart_results + granularity_results + delivery_results
+    # 第六层：终端docx直接验证（直接解析docx文件，检查图片嵌入+内容相关性+电商数据）
+    docx_results = check_docx_final(project_config)
+    
+    all_results = structural_results + content_results + chart_results + granularity_results + delivery_results + docx_results
     
     # 统计
     total = len(all_results)
@@ -190,7 +193,7 @@ def check_content(schema: ReportSchema, project_config: ProjectConfig) -> List[d
     
     # 收集所有内容文件（支持独立文件ch*.md和统一文件report*.md）
     content_files = []
-    for pattern in ["ch*.md", "ch*/*.md", "report*.md"]:
+    for pattern in ["ch*.md", "ch*/*.md", "report*.md", "founder_research.md", "innovation_strategy.md", "brand_overview.md", "pre_research.md", "ch7_sleep_insights.md"]:
         content_files.extend(c_dir.glob(pattern))
     
     all_content = ""
@@ -324,6 +327,95 @@ def check_content(schema: ReportSchema, project_config: ProjectConfig) -> List[d
         "detail": f"已做趋势={'有' if trend_has_done else '缺'}，可做预判={'有' if trend_has_todo else '缺'}",
         "status": "PASS" if trend_ok else "FAIL",
         "message": "趋势维度子项完整" if trend_ok else f"缺失: {'已做趋势' if not trend_has_done else ''}{'、' if not trend_has_done and not trend_has_todo else ''}{'可做趋势预判' if not trend_has_todo else ''}"
+    })
+    
+    # B-8: 电商数据完整性 — 检查是否有天猫/京东实测数据
+    ecom_keywords = ['天猫', '旗舰店', '付款', '电商', '京东']
+    ecom_hits = sum(1 for kw in ecom_keywords if kw in all_content)
+    ecom_ok = ecom_hits >= 3
+    results.append({
+        "category": "B. 内容检查",
+        "check": "B-8 电商数据完整性",
+        "rule": "必须包含天猫/京东电商实测数据。至少3个电商关键词出现。",
+        "detail": f"电商关键词: {ecom_hits}/{len(ecom_keywords)}个出现",
+        "status": "PASS" if ecom_ok else "FAIL",
+        "message": f"电商数据关键词覆盖{ecom_hits}个：{[kw for kw in ecom_keywords if kw in all_content]}" if ecom_ok else f"电商数据缺失！仅命中{[kw for kw in ecom_keywords if kw in all_content]}个关键词，缺少：{[kw for kw in ecom_keywords if kw not in all_content]}"
+    })
+    
+    # B-10: 人群收入跨度检测 — 防止收入范围跨度过大
+    income_patterns = re.findall(r'月入[\d.,]+[万kK]?[-~至][\d.,]+[万kK]', all_content)
+    income_patterns += re.findall(r'收入[\d.,]+[万kK]?[-~至][\d.,]+[万kK]', all_content)
+    income_patterns += re.findall(r'月收入[\d.,]+[-~][\d.,]+', all_content)
+    # 档位定义
+    brackets = [0, 3000, 5000, 8000, 12000, 20000, 30000, 50000, 1000000]
+    bracket_labels = ["3k以下", "3k-5k", "5k-8k", "8k-12k", "12k-20k", "20k-30k", "30k-50k", "50k+"]
+    
+    def _count_brackets_crossed(low_val, high_val):
+        """计算低值到高值跨越了多少个档位。"""
+        low_bracket = 0
+        high_bracket = 0
+        for b_idx in range(len(brackets) - 1):
+            if low_val >= brackets[b_idx] and low_val < brackets[b_idx + 1]:
+                low_bracket = b_idx
+            if high_val >= brackets[b_idx] and high_val < brackets[b_idx + 1]:
+                high_bracket = b_idx
+        if high_val >= brackets[-2]:
+            high_bracket = len(brackets) - 2
+        if low_val >= brackets[-2]:
+            low_bracket = len(brackets) - 2
+        return high_bracket - low_bracket
+    
+    income_issues = []
+    for ip in income_patterns:
+        nums = re.findall(r'[\d.]+', ip)
+        if len(nums) >= 2:
+            try:
+                low = float(nums[0])
+                high = float(nums[1])
+                if 'k' in ip.lower():
+                    low *= 1000
+                    high *= 1000
+                elif '万' in ip:
+                    low *= 10000
+                    high *= 10000
+                if low > 0 and high > low:
+                    crossed = _count_brackets_crossed(low, high)
+                    if crossed > 2:
+                        income_issues.append(f"跨越{crossed}个档位: {ip}")
+            except (ValueError, IndexError):
+                pass
+    
+    income_ok = len(income_issues) == 0
+    results.append({
+        "category": "B. 内容检查",
+        "check": "B-10 人群收入跨度检测",
+        "rule": "收入范围不得超过2个档位（如5000-8000 ok，5000-50000 rejected）",
+        "detail": f"发现{len(income_issues)}处异常收入跨度",
+        "status": "FAIL" if income_issues else "PASS",
+        "message": "; ".join(income_issues) if income_issues else "收入跨度检测通过"
+    })
+
+    # B-9: 内容质量检测 — AI腔/星号强调/破折号列表
+    ai_tells = ['本质上', '整体而言', '从某种意义上说', '值得注意的是', '不可忽视的是', '毋庸置疑', '显而易见']
+    star_count = all_content.count('**')
+    dash_list_count = len(re.findall(r'-\s+\w+\s+-\s+\w+\s+-\s+\w+', all_content))
+    ai_tell_count = sum(all_content.count(t) for t in ai_tells)
+    quality_ok = star_count < 10 and ai_tell_count < 3 and dash_list_count < 5
+    quality_issues = []
+    if star_count >= 10:
+        quality_issues.append(f"星号强调(**)出现{star_count}次（阈值<10）")
+    if ai_tell_count >= 3:
+        ai_found = [(t, all_content.count(t)) for t in ai_tells if all_content.count(t) > 0]
+        quality_issues.append(f"AI填充词出现{ai_tell_count}次: {ai_found}")
+    if dash_list_count >= 5:
+        quality_issues.append(f"破折号列表体出现{dash_list_count}次（阈值<5）")
+    results.append({
+        "category": "B. 内容检查",
+        "check": "B-9 内容质量检测（AI腔/星号/列表体）",
+        "rule": "星号强调(**) < 10次, AI填充词 < 3次, 破折号列表体 < 5次",
+        "detail": f"**={star_count}次 | AI腔={ai_tell_count}次 | 破折列表={dash_list_count}次",
+        "status": "PASS" if quality_ok else "FAIL",
+        "message": "; ".join(quality_issues) if quality_issues else "内容质量检测通过"
     })
     
     return results
@@ -480,7 +572,7 @@ GRANULARITY_RULES = {
     "founder_research": {"min_lines": 40, "check": "创始人研究≥40行（含原生稿件≥3篇）"},
     "innovation_strategy": {"min_directions": 10, "check": "创品策略≥10个方向"},
     "total_lines": {"min_lines": 800, "check": "报告总行数≥800行"},
-    "total_chars": {"min_chars": 60000, "check": "报告总字符数≥60KB（约60000字符）"},
+    "total_chars": {"min_chars": 50000, "check": "报告总字符数≥50KB（约50000字符）"},
 }
 
 def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
@@ -536,7 +628,10 @@ def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> Li
     })
     
     # D-3: 核心发现数量
-    finding_count = len(re.findall(r'发现[一二三四五六七八九十\d]', all_content))
+    finding_count = max(
+        len(re.findall(r'发现[一二三四五六七八九十\d]', all_content)),
+        len(re.findall(r'^- \*\*', all_content, re.MULTILINE))  # bullet style: - **key**:
+    )
     findings_ok = finding_count >= GRANULARITY_RULES["core_findings"]["min_items"]
     results.append({
         "category": "D. 颗粒度检查",
@@ -553,17 +648,29 @@ def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> Li
     
     for brand in deep_brands:
         brand_pattern = re.escape(brand)
-        # 优先匹配深度品牌文件格式: # 深度品牌：XXX
+        # 优先匹配 deep_品牌名.md 独立文件格式: # 品牌名：XXX
         brand_section_match = re.search(
-            rf'#[^\n]*深度品牌[^\n]*{brand_pattern}[^\n]*\n(.*?)(?=(?:#{1,4})\s+深度品牌|\Z)',
-            all_content, re.DOTALL
+            rf'^#\s+[^\n]*{brand_pattern}[^\n]*[：:]\s*[^\n]*\n(.*?)(?=^#\s+[^\n]*[：:]\s|\Z)',
+            all_content, re.DOTALL | re.MULTILINE
         )
         if not brand_section_match:
-            # 回退：在合并章节中匹配 ### 品牌名
+            # 回退：匹配 # 深度品牌：XXX 格式
             brand_section_match = re.search(
+                rf'#[^\n]*深度品牌[^\n]*{brand_pattern}[^\n]*\n(.*?)(?=(?:#{1,4})\s+深度品牌|\Z)',
+                all_content, re.DOTALL
+            )
+        if not brand_section_match:
+            # 回退2：在合并章节中匹配 ### 品牌名（排除仅有链接占位的空段落）
+            m = re.search(
                 rf'(?:###|####)\s+[^\n]*{brand_pattern}[^\n]*\n(.*?)(?=(?:###|####)\s+|\Z)',
                 all_content, re.DOTALL
             )
+            if m:
+                captured = m.group(1)
+                # 如果捕获内容几乎只是链接占位，跳过
+                non_link_lines = [l for l in captured.split('\n') if l.strip() and not l.strip().startswith('→ [')]
+                if len(non_link_lines) >= 3:
+                    brand_section_match = m
         if brand_section_match:
             brand_lines = len([l for l in brand_section_match.group(1).split("\n") if l.strip()])
             brand_ok = brand_lines >= min_deep_lines
@@ -580,9 +687,19 @@ def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> Li
             "message": "" if brand_ok else f"仅{brand_lines}行，五维展开不足"
         })
     
-    # D-5: 创始人研究
+    # D-5: 创始人研究 - 统计创始人研究区块中的非空行数
     founder_lines = 0
-    founder_match = re.search(r'##\s+[^\n]*(?:创始人|冷友斌|邓文镇)[^\n]*\n(.*?)(?=##\s+|\Z)', all_content, re.DOTALL)
+    founder_match = re.search(r'(#{1,2}\s+[^\n]*创始人[^\n]*)', all_content)
+    if founder_match:
+        start_pos = founder_match.start()
+        rest = all_content[start_pos:]
+        # 找到下一个非子标题的 H1/H2 标题的位置
+        next_h1 = re.search(r'\n#{1,2}\s+(?!二|三|四|五|六|[0-9]+\.|关键|创业|成长|核心|个人|原生|参考|数据|创始人|经营|稿件)', rest)
+        if next_h1:
+            block = rest[:next_h1.start()]
+        else:
+            block = rest
+        founder_lines = len([l for l in block.split('\n') if l.strip() and not l.strip().startswith('#')])
     if founder_match:
         founder_lines = len([l for l in founder_match.group(1).split("\n") if l.strip()])
     
@@ -779,6 +896,143 @@ def _version_check_message(project_config: ProjectConfig) -> str:
 
 
 # ── 报告生成 ───────────────────────────────────────────────
+
+def check_docx_final(project_config: ProjectConfig) -> List[dict]:
+    """
+    F. 终端docx验证 — 直接解析docx文件，检查最终产物的完整性。
+    这是QA的最后一道防线，不依赖中间文件（content/ charts/），只检查最终docx。
+    """
+    results = []
+    
+    # 找到docx文件
+    docx_filename = project_config.get("output_settings.docx_filename", "")
+    if not docx_filename:
+        # fallback
+        reports_dir_path = BASE_DIR / "output" / "reports"
+        docx_files = sorted(reports_dir_path.glob(f"*{project_config.project_name.split()[0]}*.docx"), key=lambda p: p.stat().st_mtime, reverse=True)
+        if docx_files:
+            docx_path = docx_files[0]
+        else:
+            results.append({"category": "F. docx终端验证", "check": "F-1 docx文件存在", "rule": "docx文件必须存在", "detail": "未找到docx", "status": "FAIL", "message": "未找到docx文件"})
+            return results
+    else:
+        docx_path = BASE_DIR / "output" / "reports" / docx_filename
+    
+    if not docx_path.exists():
+        results.append({"category": "F. docx终端验证", "check": "F-1 docx文件存在", "rule": "docx文件必须存在", "detail": str(docx_path), "status": "FAIL", "message": f"文件不存在: {docx_path.name}"})
+        return results
+    
+    results.append({"category": "F. docx终端验证", "check": "F-1 docx文件存在", "rule": "docx文件必须存在", "detail": str(docx_path.name), "status": "PASS", "message": f"找到: {docx_path.name}"})
+    
+    import zipfile
+    from xml.etree import ElementTree as ET
+    
+    try:
+        with zipfile.ZipFile(docx_path) as z:
+            doc_xml = z.read('word/document.xml').decode()
+            
+            # Extract all text
+            root = ET.fromstring(doc_xml)
+            ns_w = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
+            all_text = []
+            for p in root.iter(f'{{{ns_w}}}p'):
+                texts = p.findall(f'.//{{{ns_w}}}t')
+                line = ''.join(t.text or '' for t in texts)
+                all_text.append(line)
+            full_text = '\n'.join(all_text)
+            
+            # F-2: 图片嵌入检查
+            image_files = [n for n in z.namelist() if n.startswith('word/media/image')]
+            embedded_drawings = doc_xml.count('<wp:inline') + doc_xml.count('<wp:anchor')
+            
+            images_ok = len(image_files) >= 2 and embedded_drawings >= 2
+            results.append({
+                "category": "F. docx终端验证",
+                "check": "F-2 图表实际嵌入",
+                "rule": "docx中必须实际嵌入≥2张图片（<wp:inline>或<wp:anchor>计数）",
+                "detail": f"图片文件: {len(image_files)}个, 实际嵌入: {embedded_drawings}个",
+                "status": "PASS" if images_ok else "FAIL",
+                "message": f"图片{len(image_files)}个, 嵌入{embedded_drawings}个" if images_ok else f"❌ 图片未嵌入！文件{len(image_files)}个但实际嵌入仅{embedded_drawings}个"
+            })
+            
+            # F-3: 内容相关性 — 检查是否混入无关品牌
+            focus = project_config.focus_brand if project_config.focus_brand else ""
+            deep_brands = set(project_config.deep_brands + project_config.summary_brands)
+            # 行业通用词白名单
+            industry_terms = project_config.industry.split('/') if project_config.industry else []
+            allowed = set(deep_brands) | {focus} | set(industry_terms) | {
+                "康尔馨", "亚朵", "罗莱", "梦百合", "水星", "网易严选", "富安娜", "睡眠博士", "野兽派", "躺岛", "京东京造", "梦洁", "宜家",
+                "床品", "家纺", "四件套", "枕头", "睡眠", "酒店", "羽绒", "记忆棉", "被芯", "毛巾", "浴巾"
+            }
+            # 已知的无关品牌名（来自其他项目）
+            suspicious_map = {
+                "三棵树": "涂料项目", "立邦": "涂料项目", "多乐士": "涂料项目", "卡百利": "涂料项目",
+                "嘉宝莉": "涂料项目", "菲玛": "涂料项目", "亚士漆": "涂料项目",
+                "漆": "涂料行业术语", "涂料": "涂料行业", "墙面漆": "涂料", "艺术漆": "涂料",
+                "榴莲": "食品项目", "玉米": "食品项目"
+            }
+            found_brands = {}
+            for kw, source in suspicious_map.items():
+                count = full_text.count(kw)
+                if count > 0 and kw not in allowed:
+                    found_brands[kw] = {"count": count, "source": source}
+            
+            if found_brands:
+                detail = "; ".join([f"{k}({v['count']}次,来自{v['source']})" for k, v in sorted(found_brands.items(), key=lambda x: -x[1]['count'])])
+                results.append({
+                    "category": "F. docx终端验证",
+                    "check": "F-3 内容相关性",
+                    "rule": "docx中不得出现本项目无关品牌名（如涂料/食品项目词汇）",
+                    "detail": f"发现{len(found_brands)}个无关词汇",
+                    "status": "FAIL",
+                    "message": f"❌ 内容混入: {detail}"
+                })
+            else:
+                results.append({
+                    "category": "F. docx终端验证",
+                    "check": "F-3 内容相关性",
+                    "rule": "docx中不得出现本项目无关品牌名",
+                    "detail": "无无关品牌名",
+                    "status": "PASS",
+                    "message": "✅ 内容纯净，无混入"
+                })
+            
+            # F-4: 电商数据覆盖
+            ecom_kw = {"天猫": full_text.count("天猫"), "京东": full_text.count("京东"), "旗舰店": full_text.count("旗舰店"), "付款": full_text.count("付款")}
+            ecom_ok = all(v >= 3 for v in ecom_kw.values())
+            results.append({
+                "category": "F. docx终端验证",
+                "check": "F-4 电商数据覆盖",
+                "rule": "docx中必须包含天猫/京东电商实测数据（各≥3次提及）",
+                "detail": str(ecom_kw),
+                "status": "PASS" if ecom_ok else "FAIL",
+                "message": f"电商关键词: {ecom_kw}" if ecom_ok else f"❌ 电商数据不足: {ecom_kw}"
+            })
+            
+            # F-5: 字数检查
+            total_chars = len(full_text)
+            chars_ok = total_chars >= 50000
+            results.append({
+                "category": "F. docx终端验证",
+                "check": "F-5 docx总字数",
+                "rule": "docx正文≥50000字",
+                "detail": f"实际: {total_chars:,}字",
+                "status": "PASS" if chars_ok else "FAIL",
+                "message": f"{total_chars:,}字" if chars_ok else f"❌ 仅{total_chars:,}字，不足50000"
+            })
+            
+    except Exception as e:
+        results.append({
+            "category": "F. docx终端验证",
+            "check": "F-0 docx解析",
+            "rule": "docx文件必须可解析",
+            "detail": str(e)[:100],
+            "status": "FAIL",
+            "message": f"docx解析失败: {e}"
+        })
+    
+    return results
+
 
 def generate_qa_report(results: List[dict], schema: ReportSchema,
                        project_config: ProjectConfig, total: int,

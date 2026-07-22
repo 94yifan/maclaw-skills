@@ -100,7 +100,7 @@ def dispatch_all(schema: ReportSchema, project_config: ProjectConfig) -> Path:
         "project": project_config.project_name,
         "generated_at": __import__('datetime').datetime.now().isoformat(),
         "stats": dispatch_stats,
-        "targets": list(dispatched_dir.glob("*.json"))
+        "targets": [str(p) for p in dispatched_dir.glob("*.json")]
     }, report_path)
     
     print(f"  ✓ 处理了 {dispatch_stats['data_sources_processed']} 个数据源")

@@ -967,6 +967,14 @@
           "required_format": "[序号] 来源名称, 数据类型, 获取日期, URL(如适用)"
         }
       }
+    },
+    "ch7": {
+      "title": "2026最新睡眠消费洞察",
+      "sections": {
+        "sleep_insights": {
+          "title": "睡眠消费洞察"
+        }
+      }
     }
   },
   "data_sources": {

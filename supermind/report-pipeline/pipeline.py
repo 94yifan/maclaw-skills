@@ -230,6 +230,14 @@ def main():
         content_dir_path = BASE_DIR / "output" / "content"
         charts_dir_path = BASE_DIR / "output" / "charts"
         if content_dir_path.exists():
+            # 先删除旧命名文件（pipeline handler可能生成过旧名）
+            old_names = ["founder_research.md", "innovation_strategy.md", "ch6_recommendations.md"]
+            for old_name in old_names:
+                old_path = content_dir_path / old_name
+                if old_path.exists():
+                    old_path.unlink()
+                    print(f"   清理旧命名文件: {old_name}")
+            # 再清理标准文件
             for f in content_dir_path.glob("*.md"):
                 if f.name not in ("_FILL_COMPLETE.md", "_ECOMMERCE_DONE.md", "_CONTENT_REWRITE_DONE.md"):
                     f.unlink()
@@ -484,7 +492,7 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
     # ── Step 10: 创品策略 ──
     if num == 10:
         step_start(step_name, desc)
-        innovation_path = BASE_DIR / "output" / "content" / "innovation_strategy.md"
+        innovation_path = BASE_DIR / "output" / "content" / "ch10_innovation.md"
         innovation_content = f"""# 创品策略框架
 
 项目: {project_config.project_name}
@@ -509,7 +517,7 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
     # ── Step 11: 创始人研究 ──
     if num == 11:
         step_start(step_name, desc)
-        founder_path = BASE_DIR / "output" / "content" / "founder_research.md"
+        founder_path = BASE_DIR / "output" / "content" / "ch11_founder.md"
         founder_content = f"""# 创始人研究框架
 
 项目: {project_config.project_name}

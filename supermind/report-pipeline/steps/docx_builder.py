@@ -155,6 +155,12 @@ def assemble_docx(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     if patterns_text:
         add_md_content_to_docx(doc, patterns_text)
 
+    # 3.4 内容类型五分类分析（v2.0新增）
+    content_types_text = chapter_map.get('ch3_content_types', '')
+    if content_types_text:
+        _add_heading(doc, '3.6  内容类型五分类分析', level=2)
+        add_md_content_to_docx(doc, content_types_text)
+
     doc.add_page_break()
 
     # ═══════════════════════════════════════════════
@@ -204,7 +210,7 @@ def assemble_docx(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     # CH7: 睡眠消费洞察（如适用）
     # ═══════════════════════════════════════════════
     ch7_text = chapter_map.get('ch7', '')
-    if ch7_text:
+    if ch7_text and len(ch7_text.strip()) > 500:
         _add_heading(doc, '第7章  2026最新睡眠消费洞察', level=1)
         add_md_content_to_docx(doc, ch7_text)
         doc.add_page_break()
@@ -274,9 +280,16 @@ def build_chapter_map(project_config: ProjectConfig) -> Dict[str, str]:
             "[待补充]\n\n"
         )
 
-    # ch2
-    result['ch2'] = _read(c_dir / "ch2_industry.md")
-    if not result['ch2']:
+    # ch2 — 行业格局 + 产业链地图
+    ch2_base = _read(c_dir / "ch2_industry.md")
+    ch2_chain = _read(c_dir / "ch2_chain_map.md")
+    if ch2_base and ch2_chain:
+        result['ch2'] = ch2_base + "\n\n" + ch2_chain
+    elif ch2_base:
+        result['ch2'] = ch2_base
+    elif ch2_chain:
+        result['ch2'] = ch2_chain
+    else:
         result['ch2'] = _read(c_dir / "ch2_industry_analysis.md")
 
     # ch3 深度品牌 — 合并所有 deep_*.md
@@ -296,6 +309,13 @@ def build_chapter_map(project_config: ProjectConfig) -> Dict[str, str]:
     patterns_path = ch3_dir / "competition_patterns.md"
     result['ch3_patterns'] = _read(patterns_path)
 
+    # ch3 内容类型五分类（v2.0新增）
+    content_types_path = c_dir / "ch3_content_types.md"
+    result['ch3_content_types'] = _read(content_types_path)
+    if not result['ch3_content_types']:
+        # 也检查子目录命名
+        result['ch3_content_types'] = _read(ch3_dir / "content_types.md")
+
     # ch4 — 深度品牌分析
     focus = project_config.focus_brand
     if focus:
@@ -309,19 +329,30 @@ def build_chapter_map(project_config: ProjectConfig) -> Dict[str, str]:
     if not result['ch5']:
         result['ch5'] = _read(c_dir / "ch5_strategy.md")
 
-    # ch6
-    result['ch6'] = _read(c_dir / "ch6_recommendations.md")
-    if not result['ch6']:
-        result['ch6'] = _read(c_dir / "ch6_innovation.md")
+    # ch6 — 策略建议 + 机会地图
+    ch6_base = _read(c_dir / "ch6_strategy.md")
+    ch6_opp = _read(c_dir / "ch6_opportunity_map.md")
+    if ch6_base and ch6_opp:
+        result['ch6'] = ch6_base + "\n\n" + ch6_opp
+    elif ch6_base:
+        result['ch6'] = ch6_base
+    elif ch6_opp:
+        result['ch6'] = ch6_opp
+    else:
+        result['ch6'] = _read(c_dir / "ch6_recommendations.md")
 
-    # ch7
+    # ch7 — 睡眠消费洞察（按需）
     result['ch7'] = _read(c_dir / "ch7_sleep_insights.md")
 
     # 附录 — 创品策略
-    result['appendix_innovation'] = _read(c_dir / "innovation_strategy.md")
+    result['appendix_innovation'] = _read(c_dir / "ch10_innovation.md")
+    if not result['appendix_innovation']:
+        result['appendix_innovation'] = _read(c_dir / "innovation_strategy.md")
 
     # 附录 — 创始人研究
-    result['appendix_founder'] = _read(c_dir / "founder_research.md")
+    result['appendix_founder'] = _read(c_dir / "ch11_founder.md")
+    if not result['appendix_founder']:
+        result['appendix_founder'] = _read(c_dir / "founder_research.md")
 
     return result
 
@@ -521,6 +552,7 @@ def _build_toc(schema: ReportSchema, project_config: ProjectConfig) -> List[str]
         '    3.1  深度品牌分析',
         '    3.2  汇总品牌速览',
         '    3.3  竞争模式归纳',
+        '    3.6  内容类型五分类分析',
         '    数据可视化：核心竞品对比',
     ]
     focus = project_config.focus_brand or "本品"
@@ -529,8 +561,9 @@ def _build_toc(schema: ReportSchema, project_config: ProjectConfig) -> List[str]
         '第5章  本竞品差距对比',
         '第6章  咨询切入点与策略建议',
     ])
-    # ch7 如果有内容再加入
-    if (content_dir(project_config) / "ch7_sleep_insights.md").exists():
+    # ch7 如果有实质内容再加入
+    ch7_path = content_dir(project_config) / "ch7_sleep_insights.md"
+    if ch7_path.exists() and ch7_path.stat().st_size > 1000:
         items.append('第7章  2026最新睡眠消费洞察')
     items.extend([
         '附录A  创品策略',
@@ -577,13 +610,21 @@ def _chart_source_hint(filename: str) -> str:
 
 
 def _get_content_dir(project_config) -> Path:
-    """获取 content 目录（支持 project_config 隔离）。"""
-    return content_dir(project_config)
+    """
+    获取 content 目录。
+    注意：pipeline 各步骤写入 output/content/（通用目录），
+    因此 docx_builder 也从通用目录读取，而非 project_config 隔离目录。
+    """
+    return content_dir()
 
 
 def _get_charts_dir(project_config) -> Path:
-    """获取 charts 目录（支持 project_config 隔离）。"""
-    return charts_dir(project_config)
+    """
+    获取 charts 目录。
+    注意：pipeline 各步骤写入 output/charts/（通用目录），
+    因此也从通用目录读取。
+    """
+    return charts_dir()
 
 
 def ensure_output_dir() -> Path:

@@ -7,27 +7,34 @@
     python pipeline.py --config project_config.json --step 3     # 从 Step 3 开始
     python pipeline.py --config project_config.json --dry-run    # 预览流程
 
-Pipeline 流程（16步，Schema v1.4）：
+Pipeline 流程（18步，Schema v1.6）：
   Step  1 [手动] Init — 确认行业/品牌范围/深度/框架版本/数据平台
-  Step  2 [手动] 前置调研 — 赛道框定+竞品筛选+创始人背景挖掘（2026-07新增）
-  Step  3 [半自动] 数据采集 — 财报/电商/行业研报/社交（含电商必采）
+  Step  2 [手动] 前置调研 — 赛道框定+竞品筛选+创始人背景挖掘
+  Step  3 [半自动] 数据采集 — 财报/电商/行业研报/社交（含电商必采+证据层级标注）
   Step  4 [自动]  数据分发 — 按 mapping 自动路由
   Step  5 [AI-Pro] 行业分析 — 行业总览+品类趋势
-  Step  6 [AI-Pro] 本品五维扫描 — 本品（市场渠道含非上市规模推算）
+  Step  5b [AI-Pro] 产业链地图 — 产业链价值流向+卡口识别（v2.0新增）
+  Step  6 [AI-Pro] 本品五维扫描 — 本品五维深度诊断（市场渠道含非上市规模推算）
   Step  7 [AI-Pro] 竞品五维扫描 — 深度品牌+汇总品牌（五维强制）
+  Step  7b [AI-Pro] 内容类型分析 — 深度品牌五分类（曝光/涨粉/收藏/转化/人设）（v2.0新增）
   Step  8 [AI-Pro] 差距对比 — 本品vs竞品差距定位
+  Step  8b [AI-Pro] 量化粗算 — BOM/收入/类比/错配（上市公司适用）（v2.0新增）
   Step  9 [AI-Pro] 策略建议 — 战略评估+路径判断
-  Step 10 [AI-Pro] 创品策略 — 跨界借鉴+原创创品+养生归经研究（2026-07-18新增）
-  Step 11 [AI-Pro] 创始人研究 — 成长历程+理念+原生稿件索引（2026-07-18新增）
-  Step 12 [自动]  图表生成 —— 迁移到 Step 12
-  Step 13 [自动]  docx生成 —— 迁移到 Step 13
-  Step 14 [自动]  QA检查 — 含完本检查（去过程化）+五维完整性
+  Step  9b [AI-Pro] 机会地图 — 四维扫描→2×2矩阵→排序（v2.0新增）
+  Step 10 [AI-Pro] 创品策略 — 跨界借鉴+原创创品+养生归经研究
+  Step 11 [AI-Pro] 创始人研究 — 成长历程+理念+原生稿件索引
+  Step 11b [AI-3票] 对抗式审查 — 3票制关键声称验证（查对错）（v2.0新增）
+  Step 12 [自动]  图表生成 — 4张mandatory+按需optional
+  Step 12b [自动]  附录生成 — 附录B（用户痛点库）+附录C（内容类型分析）（v2.0新增）
+  Step 13 [自动]  docx生成 — 封面+正文+图表嵌入到Word
+  Step 14 [自动]  QA检查 — 机械QA（全不全）+证据层级一致性
   Step 15 [AI-5V] 截图审查
   Step 16 [手动]  最终交付
 
-带 * 标注：Step 6 中包含非上市公司规模推算（如适用）。新模块 Step 2、10、11 为 2026-07-18 榴芒一刻项目复盘后新增。
+v2.0 (2026-07-26): 融入Codex对抗式审查+evidence tier系统+产业链地图+卡口识别+
+  内容五分类+用户痛点库+量化粗算+机会地图。pipeline从16步扩展至18步。
 
-注意：Steps 5-9 实际调用 DeepSeek V4 Pro 去写分析内容。
+注意：Steps 5-11 实际调用 DeepSeek V4 Pro 去写分析内容。
       本脚本生成 Prompt 文件（content/*_prompt.md），与 DeepSeek Pro 协作。
 """
 
@@ -61,19 +68,25 @@ def main():
         epilog="""
 流程步骤：
   1    Init（手动）
-  2    前置调研（手动）：赛道框定+竞品筛选+创始人挖掘+规模推算
-  3    数据采集（半自动）：财报/电商/行业研报/社交
+  2    前置调研（手动+AI）：赛道框定+竞品筛选+创始人挖掘
+  3    数据采集（半自动）：财报/电商/行业研报/社交 + evidence tier标注
   4    数据分发（自动）
   5    行业分析（AI-Pro）
+  5.1  产业链地图（AI-Pro）：产业链价值流向+卡口识别（三问）
   6    本品五维扫描（AI-Pro）
   7    竞品五维扫描（AI-Pro）
+  7.1  内容类型分析（AI-Pro）：五分类（曝光/涨粉/收藏/转化/人设）
   8    差距对比（AI-Pro）
+  8.1  量化粗算（AI-Pro）：BOM/收入/类比/错配（上市公司适用）
   9    策略建议（AI-Pro）
-  10   创品策略（AI-Pro）：跨界借鉴+原创+养生归经
-  11   创始人研究（AI-Pro）：成长历程+理念+稿件
+  9.1  机会地图（AI-Pro）：四维扫描→2×2矩阵
+  10   创品策略（AI-Pro）
+  11   创始人研究（AI-Pro）
+  11.1 对抗式审查（AI-3票）：3票制关键声称验证
   12   图表生成（自动）
+  12.1 附录生成（自动）：附录B（用户痛点库）+附录C（内容类型分析）
   13   docx生成（自动）
-  14   QA检查（自动）：含完本检查+五维完整性
+  14   QA检查（自动）：机械QA + 证据层级一致性
   15   截图审查（AI-5V）
   16   最终交付（手动）
 
@@ -81,7 +94,7 @@ def main():
   python pipeline.py --config project_config.json
   python pipeline.py --config project_config.json --step 3
   python pipeline.py --config project_config.json --dry-run
-  python pipeline.py --config project_config.json --step 10 --step 12
+  python pipeline.py --config project_config.json --step 10 --step 14
         """
     )
     parser.add_argument(
@@ -137,19 +150,25 @@ def main():
     # ── 生成步骤列表 ──
     all_steps = [
         (1, "Init", "确认行业/品牌范围/深度/框架版本", False, "手动"),
-        (2, "前置调研", "赛道框定+竞品筛选+创始人背景挖掘（2026-07新增）", False, "手动+AI"),
-        (3, "数据采集", "财报/电商/行业研报/社交（电商必采：天猫+京东+抖音）", False, "半自动"),
+        (2, "前置调研", "赛道框定+竞品筛选+创始人背景挖掘", False, "手动+AI"),
+        (3, "数据采集", "财报/电商/行业研报/社交（电商必采：天猫+京东+抖音）+evidence tier标注", False, "半自动"),
         (4, "数据分发", "按 schema.mapping 自动分发", True, "自动"),
         (5, "行业分析", "行业总览+品类趋势+竞品总矩阵", False, "AI-Pro"),
+        (5.1, "产业链地图", "产业链价值流向+卡口识别（三问）", False, "AI-Pro"),
         (6, "本品五维扫描", "本品五维深度诊断（市场渠道含非上市规模推算）+趋势人群", False, "AI-Pro"),
         (7, "竞品五维扫描", "深度品牌五维+汇总品牌各一段+竞争模式（五维强制）", False, "AI-Pro"),
+        (7.1, "内容类型分析", "深度品牌内容五分类（曝光/涨粉/收藏/转化/人设）", False, "AI-Pro"),
         (8, "差距对比", "本品vs竞品差距定位", False, "AI-Pro"),
+        (8.1, "量化粗算", "BOM拆解/收入拆分/历史类比/市值错配（上市公司适用）", False, "AI-Pro"),
         (9, "策略建议", "战略评估+路径判断+关键战略问题", False, "AI-Pro"),
-        (10, "创品策略", "跨界借鉴+原创创品+养生归经研究（2026-07新增）", False, "AI-Pro"),
-        (11, "创始人研究", "成长历程+关键节点+经营理念+原生稿件索引（2026-07新增）", False, "AI-Pro"),
+        (9.1, "机会地图", "四维扫描→2×2矩阵→机会排序", False, "AI-Pro"),
+        (10, "创品策略", "跨界借鉴+原创创品+养生归经研究", False, "AI-Pro"),
+        (11, "创始人研究", "成长历程+关键节点+经营理念+原生稿件索引", False, "AI-Pro"),
+        (11.1, "对抗式审查", "3票制关键声称验证（查对错）+证据层级一致性", False, "AI-3票"),
         (12, "图表生成", "4张mandatory+按需optional", True, "自动"),
+        (12.1, "附录生成", "附录B（用户痛点库）+附录C（内容类型分析）", True, "自动"),
         (13, "docx生成", "封面+正文+图表嵌入到Word", True, "自动"),
-        (14, "QA检查", "结构/内容/图表/交付四层 + 完本检查（去过程化）+五维完整性", True, "自动"),
+        (14, "QA检查", "结构/内容/图表/交付四层 + 完本检查 + 五维完整性 + 证据层级一致性", True, "自动"),
         (15, "截图审查", "GLM 5V Turbo截图验证图表标签+文档效果", False, "AI-5V"),
         (16, "最终交付", "docx+QA报告+核验表", False, "手动"),
     ]
@@ -323,6 +342,39 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         generate_ch2(schema, project_config)
         return
     
+    # ── Step 5.1: 产业链地图 ──
+    if num == 5.1:
+        step_start(step_name, desc)
+        chain_path = BASE_DIR / "output" / "content" / "industry_chain_map.md"
+        chain_content = f"""# 产业链地图与卡口识别
+
+项目: {project_config.project_name}
+行业: {project_config.industry}
+
+## 一、产业链价值流向图
+在第二章 Porter五力分析基础上，画出行业产业链的价值流向：
+- 各环节做什么事、谁赚走了最多的钱
+- 每个segment标注：角色/瓶颈风险(high/medium/low)/主要玩家/议价力关系
+- 至少3个segments，最多7个
+
+## 二、关键卡口识别
+对产业链各环节进行chokepoint三问：
+1. 供给紧不紧？（tight/loose/unknown）
+2. 替代难不难？（hard/moderate/easy）
+3. 市场理解了没有？（yes/partially/no）
+
+三者同时成立→P0高信念卡口。二者→P1。一者或无→P2。
+
+## 输出格式
+- 产业链地图（segments数组）
+- 卡口候选列表（按priority排序，P0→P1→P2）
+- 每candidate标注evidence_tier
+"""
+        with open(chain_path, "w", encoding="utf-8") as f:
+            f.write(chain_content)
+        step_success(step_name, [str(chain_path)])
+        return
+    
     # ── Step 6: 竞品扫描 ──
     if num == 6:
         from steps.content_gen import generate_ch3
@@ -335,16 +387,98 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         generate_ch4(schema, project_config)
         return
     
+    # ── Step 7.1: 内容类型分析 ──
+    if num == 7.1:
+        step_start(step_name, desc)
+        content_path = BASE_DIR / "output" / "content" / "content_type_analysis.md"
+        content_text = f"""# 内容类型五分类分析
+
+项目: {project_config.project_name}
+
+## 分析框架
+对每个深度品牌，扫描各社媒平台（抖音/小红书/B站/微博）内容，按五类型归类：
+
+1. 曝光型：观点强、争议大、易传播
+2. 涨粉型：资源型/推荐型
+3. 收藏型：步骤/SOP/模板，生命周期长
+4. 转化型：展示结果/案例/收益，直接驱动购买
+5. 人设型：故事/经历/踩坑复盘，建立人格认知
+
+## 核心洞察
+一次爆可能是运气，十次爆一定是规律。
+判断品牌内容增长系统的主导类型。
+
+## 输出格式
+每深度品牌输出：主导类型+占比估计+增长系统判断+重复爆款倾向
+每条判断标注evidence_tier
+"""
+        with open(content_path, "w", encoding="utf-8") as f:
+            f.write(content_text)
+        step_success(step_name, [str(content_path)])
+        return
+    
     # ── Step 8: 差距对比 ──
     if num == 8:
         from steps.content_gen import generate_ch5
         generate_ch5(schema, project_config)
         return
     
+    # ── Step 8.1: 量化粗算 ──
+    if num == 8.1:
+        step_start(step_name, desc)
+        quant_path = BASE_DIR / "output" / "content" / "quantitative_modeling.md"
+        quant_content = f"""# 量化粗算对比
+
+项目: {project_config.project_name}
+适用: 上市公司竞品
+
+## 四件套方法（挑适用的）
+1. BOM拆解估值：单产品价值量×出货量×haircut→收入→forward P/E情景
+2. 收入分拆搭建：按产品线逐项加总（参照公司guidance/产能口径）
+3. 历史类比锚定：找已验证赢家的重估路径做锚
+4. 市值错配识别：上游卡口市值vs整条下游依赖度
+
+## 核心纪律
+- 每条假设标注evidence_tier
+- 建立在mapped/speculation级假设上的model必须自首
+- 目标：数量级判断（万/十万/百万/千万/亿），不是精确估值
+- 输出范围，不给点估计
+"""
+        with open(quant_path, "w", encoding="utf-8") as f:
+            f.write(quant_content)
+        step_success(step_name, [str(quant_path)])
+        return
+    
     # ── Step 9: 策略建议 ──
     if num == 9:
         from steps.content_gen import generate_ch6
         generate_ch6(schema, project_config)
+        return
+    
+    # ── Step 9.1: 机会地图 ──
+    if num == 9.1:
+        step_start(step_name, desc)
+        opp_path = BASE_DIR / "output" / "content" / "opportunity_map.md"
+        opp_content = f"""# 机会地图
+
+项目: {project_config.project_name}
+
+## 四维扫描
+1. 竞争激烈度（high/medium/low）：玩家密度+投放密度+价格战程度+差异化空间
+2. 赛道增速（high/medium/low/declining）：品类CAGR+新品牌涌入+品类渗透率提升空间
+3. 创业/介入机会（high/medium/low）：未被满足需求+定价带空白+渠道覆盖gap+品类创新空间
+4. 内容供给缺口：内容生产密度vs用户内容需求量的gap
+
+## 输出
+- 2×2矩阵：X轴=竞争激烈度（低→高），Y轴=赛道增速（低→高）
+  - 高增速+低竞争=金矿 / 高增速+高竞争=红海
+  - 低增速+低竞争=鸡肋 / 低增速+高竞争=陷阱
+- 机会排序表（含评分+优先建议+进入条件）
+- 每个机会标注evidence_tier
+"""
+        with open(opp_path, "w", encoding="utf-8") as f:
+            f.write(opp_content)
+        step_success(step_name, [str(opp_path)])
         return
     
     # ── Step 10: 创品策略 ──
@@ -397,10 +531,88 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         step_success(step_name, [str(founder_path)])
         return
 
+    # ── Step 11.1: 对抗式审查 ──
+    if num == 11.1:
+        step_start(step_name, desc)
+        adv_path = BASE_DIR / "output" / "reports" / "adversarial_review.md"
+        adv_content = f"""# 对抗式审查报告
+
+项目: {project_config.project_name}
+生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M')}
+
+## 审查说明
+3票制对抗验证：每条关键声称→3个独立agent尝试反驳→至少2票有效+否定<2才存活。
+默认怀疑：不确定时refuted=true。
+
+## 审查清单（每票审查5项）
+1. 来源是否支撑声称
+2. 有无反证
+3. 来源质量是否匹配声称重要性
+4. 信息是否过期
+5. 是否为营销稿/软文
+
+## 证据层级检查
+- tier_inflation: mapped/speculation级数据被当成confirmed陈述
+- tier_downgrade_only: 层级是否被不当抬升
+- key_discipline: pipeline≠orders / qualification≠volume ramp / 生态相邻≠量产订单
+- unmarked_claims: 关键声称缺少evidence_tier标注
+
+## 审查结果
+- 存活声称：N条
+- 被否决声称：M条（详情见QA日志）
+- 未裁决声称：K条
+- inconclusive警告：全部声称被否决则发出
+
+## 状态
+待 DeepSeek V4 Pro 3并行agent执行验证。
+"""
+        with open(adv_path, "w", encoding="utf-8") as f:
+            f.write(adv_content)
+        step_success(step_name, [str(adv_path)])
+        return
+
     # ── Step 12: 图表生成 ──
     if num == 12:
         from steps.charts import generate_all_charts
         generate_all_charts(schema, project_config)
+        return
+    
+    # ── Step 12.1: 附录生成 ──
+    if num == 12.1:
+        step_start(step_name, desc)
+        
+        # 附录B: 用户痛点数据库
+        app_b_path = BASE_DIR / "output" / "content" / "appendix_b_pain_points.md"
+        app_b_content = f"""# 附录B：用户痛点数据库
+
+项目: {project_config.project_name}
+
+## 数据来源
+天猫评价/小红书吐槽帖/微博评论/抖音评论区/天猫问大家
+
+## 痛点列表
+| 痛点主题 | 关键词 | 频度 | 代表性quote | 产品/策略机会 | evidence_tier |
+|---------|-------|------|-----------|------------|-------------|
+| (由ch4用户痛点挖掘填充) | | | | | |
+"""
+        with open(app_b_path, "w", encoding="utf-8") as f:
+            f.write(app_b_content)
+        
+        # 附录C: 竞品内容类型分析
+        app_c_path = BASE_DIR / "output" / "content" / "appendix_c_content_types.md"
+        app_c_content = f"""# 附录C：竞品内容类型分析
+
+项目: {project_config.project_name}
+
+## 内容类型分布
+| 品牌名 | 主导内容类型 | 各类型占比估计 | 内容增长系统判断 | 重复爆款倾向 | evidence_tier |
+|-------|------------|-------------|--------------|------------|-------------|
+| (由ch3内容类型五分类填充) | | | | | |
+"""
+        with open(app_c_path, "w", encoding="utf-8") as f:
+            f.write(app_c_content)
+        
+        step_success(step_name, [str(app_b_path), str(app_c_path)])
         return
     
     # ── Step 13: docx 生成 ──

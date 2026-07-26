@@ -1,6 +1,6 @@
 {
-  "_schema_version": "1.5",
-  "_description": "通用品牌研究报告 Schema v1.5 — 模具焊死，材料因客户而异。跨行业可复用。V1.5: 颗粒度检查+图表嵌入验证+命名规则+创始人研究弹性触发。",
+  "_schema_version": "2.0",
+  "_description": "通用品牌研究报告 Schema v2.0 — 融入Codex对抗式审查+证据层级系统+产业链地图+卡口识别+内容五分类+用户痛点库+量化粗算+机会地图。跨行业可复用。",
   "_methodology_attribution": "五维分析模型（市场/渠道/品牌力/产品/趋势/人群）由逸凡定义，为燃创咨询 BreaC Lab体系核心知识资产。本 schema 中所有分析方法论框架归属燃创咨询 BreaC Lab，跨行业可复用。",
   "_methodology_attribution_note": "与 playbook（report_playbook.md）顶部声明 1:1 对应。所有方法论框架归属燃创咨询 BreaC Lab。",
   "_conventions": {
@@ -21,6 +21,45 @@
       "summary_per_brand_expression_rule": "一段内用完整句子覆盖全部五要素，字数不设上限，每要素必须表达清楚而非列关键词。",
       "deep_max_brands": 6,
       "summary_max_brands": 15
+    }
+  },
+  "evidence_tier_system": {
+    "_note": "证据层级系统 — 贯穿全Pipeline的基础设施。每条关键数据从采集即带tier标签，层级只能降不能升。融入自 serenity-analysis 核心纪律。",
+    "tiers": {
+      "confirmed": {
+        "label": "已确认",
+        "label_zh": "已确认",
+        "definition": "公开可查证来源：天猫已售数据、公司年报/招股书、官方公告、政府文件、品牌官方商详页",
+        "writing_voice": "直接陈述，无需引用标注"
+      },
+      "reported": {
+        "label": "报道层",
+        "label_zh": "报道层",
+        "definition": "券商/产业媒体报道、行业研报引用、第三方数据平台（飞瓜/蝉妈妈等）",
+        "writing_voice": "据XX报道/引用XX数据，标注来源"
+      },
+      "mapped": {
+        "label": "生态映射",
+        "label_zh": "生态映射",
+        "definition": "供应链推断、行业相邻推断、渠道结构反推",
+        "writing_voice": "我把它映射到/从XX推断，明确说是推断"
+      },
+      "speculation": {
+        "label": "推测",
+        "label_zh": "推测",
+        "definition": "个人推断、未经验证的猜测、单一来源低质量信息",
+        "writing_voice": "我认为/我推断/likely，必须标注推测性质"
+      }
+    },
+    "rules": {
+      "tier_can_only_downgrade": true,
+      "tier_downgrade_note": "tierAfterAudit ≤ 原tier。对抗审查后层级只能持平或降级，绝不升级。",
+      "key_discipline": [
+        "pipeline ≠ orders（渠道流程 ≠ 实际订单）",
+        "qualification ≠ volume ramp（资格认证 ≠ 量产爬坡）",
+        "生态相邻 ≠ 量产订单（供应链相邻 ≠ 实际供货关系）"
+      ],
+      "writing_marking_rule": "每条关键声称在正文中以evidence tier标签标注。默认：正文隐藏tier，附录数据核验表显示完整tier链。可通过project_config.tier_visible切换。"
     }
   },
   "chapters": {
@@ -119,6 +158,42 @@
             "行业研报",
             "财报"
           ]
+        },
+        "industry_chain_map": {
+          "label": "产业链价值流向图",
+          "_note": "新增v1.6。融入serenity-analysis的Map Phase——不只Porter五力，要画产业地图识卡口。",
+          "segments": {
+            "_description": "产业链各环节，按价值流向排列",
+            "segment_schema": {
+              "name": "环节名称（如原材料供应/生产制造/品牌运营/渠道销售/终端消费）",
+              "role": "该环节在价值链中的角色和利润分布",
+              "bottleneckRisk": "瓶颈风险评估（high/medium/low）",
+              "major_players": "主要玩家（品牌/企业名列表）",
+              "power_dynamics": "上下游议价力关系（供应商强势/买方强势/相对均衡）"
+            },
+            "min_segments": 3,
+            "max_segments": 7
+          },
+          "writing_rule": "先画出价值流向（上游→下游各环节做哪些事、谁赚走了最多的钱），再在每个环节标注瓶颈风险和主要玩家。"
+        },
+        "chokepoint_identification": {
+          "label": "关键卡口识别",
+          "_note": "新增v1.6。serenity-analysis的chokepoint三问：供给紧不紧？替代难不难？市场理解了没有？三者同时成立才是高信念卡口。",
+          "candidates": {
+            "_description": "产业链各环节中可能的卡口候选，按priority排序",
+            "candidate_schema": {
+              "name": "卡口名称",
+              "segment": "所属产业链环节",
+              "whyChokepoint": "为什么这是一个卡口（1-2句核心逻辑）",
+              "supplyTight": "供给紧不紧（tight/loose/unknown）",
+              "substitutionHard": "替代难不难（hard/moderate/easy）",
+              "marketUnderstands": "市场理解了没有（yes/partially/no）",
+              "priority": "优先级（P0/P1/P2），三者全yes=P0，二者= P1，一者或无=P2"
+            },
+            "min_candidates": 1,
+            "max_candidates": 5
+          },
+          "writing_rule": "卡口三问必须基于事实回答，不许臆测。三者同时成立(supplyTight+substitutionHard+marketUnderstands各满足条件)才是高信念卡口。priority由三问结果自动决定。"
         },
         "industry_trends": {
           "label": "行业趋势",
@@ -323,6 +398,50 @@
                   "description": "在竞品矩阵中该品牌的独特位置和不可替代性",
                   "source": "综合分析",
                   "mapping_to_chapter": "ch3.${brand}.brand_power"
+                },
+                {
+                  "name": "内容类型五分类",
+                  "_note": "新增v1.6。来自aron厚玉文章内容分类框架。不只看了发了什么内容和多少互动，要判断竞品的内容增长系统长什么样。对深度品牌执行。",
+                  "description": "分析品牌在各社媒平台的内容策略，按五类型归类",
+                  "content_types": {
+                    "exposure": {
+                      "label": "曝光型",
+                      "description": "观点强、争议大、易传播的内容。目标是最大化传播面",
+                      "judgment_criteria": "是否引发讨论/是否跨圈传播/是否被媒体引用"
+                    },
+                    "growth": {
+                      "label": "涨粉型",
+                      "description": "资源型/推荐型内容。用户因为内容价值而关注账号",
+                      "judgment_criteria": "是否带来新增关注/是否资源盘点类内容/是否被收藏转发"
+                    },
+                    "save": {
+                      "label": "收藏型",
+                      "description": "步骤/SOP/模板/工作流类内容。生命周期长，持续获得流量",
+                      "judgment_criteria": "收藏数是否远高于点赞/是否结构化知识/是否可复用"
+                    },
+                    "conversion": {
+                      "label": "转化型",
+                      "description": "展示结果/案例/收益的内容。直接驱动购买",
+                      "judgment_criteria": "是否挂购物车/是否含购买链接/是否展示before-after"
+                    },
+                    "persona": {
+                      "label": "人设型",
+                      "description": "故事/经历/踩坑复盘类内容。建立创始人/品牌人格认知",
+                      "judgment_criteria": "是否讲述个人故事/是否建立情感连接/是否传递价值观"
+                    }
+                  },
+                  "per_brand_output": {
+                    "_description": "每个深度品牌输出内容类型分布",
+                    "fields": [
+                      "各平台主要内容类型（1-2个主导类型+占比估计）",
+                      "内容增长系统判断（该品牌靠什么类型的内容在增长）",
+                      "重复爆款倾向",
+                      "evidence_tier标签"
+                    ]
+                  },
+                  "source": "抖音/小红书/B站/微博品牌号",
+                  "mapping_to_chapter": "ch3.${brand}.brand_power",
+                  "writing_rule": "五类型逐一扫描。判断品牌内容增长系统的主导类型。一次爆可能是运气，十次爆一定是规律——同类型反复爆标注为可复用模式。"
                 }
               ],
               "writing_rule": "六项子项逐一覆盖。社交媒体联动验证品牌力，组织力作为独立判断维度。差异化判断是收尾句，必须说清楚「这个品牌在和谁抢什么用户」。六项按1-6顺序全部涵盖。"
@@ -848,6 +967,33 @@
                 "流失原因",
                 "挽回可行性"
               ]
+            },
+            {
+              "name": "用户痛点挖掘",
+              "_note": "新增v1.6。来自aron厚玉文章。用户的钱都藏在痛点里。",
+              "data_sources": [
+                "天猫评价（关键词+情感分析）",
+                "小红书吐槽帖（搜索品牌名+难用/后悔词）",
+                "微博评论（品牌微博下用户反馈）",
+                "抖音评论区（视频下高赞评论）",
+                "天猫问大家（用户最关心的问题）"
+              ],
+              "output": {
+                "pain_points": {
+                  "_description": "用户痛点数组",
+                  "pain_point_schema": {
+                    "theme": "痛点主题（如包装破损/原料疑惧/使用不便/价格不透明）",
+                    "keywords": "相关关键词列表",
+                    "frequency": "出现频度（高频/中频/偶发）",
+                    "quote": "代表性用户原话（匿名处理）",
+                    "opportunity": "改善/产品创新机会（具体可落地）",
+                    "evidence_tier": "confirmed（平台真实评价）/reported（媒体报道）/mapped（推断）"
+                  },
+                  "min_count": 5,
+                  "max_count": 15
+                }
+              },
+              "writing_rule": "痛点必须有代表性quote。opportunity必须具体可落地（不是「改善体验」这种空话，要说从X问题→做Y动作→预期Z结果）。"
             }
           ]
         }
@@ -860,6 +1006,51 @@
         3
       ],
       "sections": {
+        "quantitative_modeling": {
+          "label": "量化粗算对比",
+          "_note": "新增v1.6。融入serenity-analysis的Quant Phase四件套。上市公司竞品适用。每条假设标注evidence_tier。输出数量级判断而非精确估值。",
+          "applies_when": "竞品中含有上市公司且数据可获取",
+          "methods": {
+            "bom_build": {
+              "name": "BOM拆解估值",
+              "description": "单产品价值量 × 出货量 × 市占haircut → 收入 → forward P/E情景",
+              "outputs": [
+                "ballpark收入",
+                "bull/base/bear三情景P/E范围"
+              ],
+              "tier_requirement": "每个乘数标注数据来源层级"
+            },
+            "revenue_build": {
+              "name": "收入分拆搭建",
+              "description": "按产品线/业务线逐项加总（参照公司guidance/产能口径）",
+              "outputs": [
+                "分线收入预估",
+                "与报表收入一致性检查"
+              ],
+              "tier_requirement": "每条产品线收入假设标注层级"
+            },
+            "historical_analog": {
+              "name": "历史类比锚定",
+              "description": "找已验证赢家的重估路径做锚（\"the next XX\"式类比重估路径）",
+              "outputs": [
+                "类比公司名",
+                "重估路径描述",
+                "本品vs类比的可比性判断"
+              ],
+              "tier_requirement": "类比选择依据标注层级"
+            },
+            "mcap_mismatch": {
+              "name": "市值错配识别",
+              "description": "上游卡口市值 vs 整条下游对它的依赖度——市场是否低估了它在价值链中的位置",
+              "outputs": [
+                "市值vs依赖度对比",
+                "错配方向和幅度判断"
+              ],
+              "tier_requirement": "依赖度判断依据标注层级"
+            }
+          },
+          "writing_rule": "四件套挑适用的（不强制全做）。每条假设标注evidence_tier。建立在mapped/speculation级假设上的model必须在note中自首。目标是数量级判断（万/十万/百万/千万/亿），不是精确估值。"
+        },
         "group_level": {
           "label": "集团层面对比",
           "dimensions": [
@@ -892,6 +1083,79 @@
         3
       ],
       "sections": {
+        "opportunity_map": {
+          "label": "机会地图",
+          "_note": "新增v1.6。来自aron厚玉文章机会地图四维扫描+serenity-analysis分类纠错思路。",
+          "_description": "四维扫描：竞争激烈度×增速×创业机会×内容供给缺口，输出2×2矩阵+机会排序",
+          "dimensions": {
+            "competitive_intensity": {
+              "name": "竞争激烈度",
+              "description": "当前该赛道的玩家密度和竞争烈度（high/medium/low）",
+              "indicators": [
+                "品牌数量",
+                "投放密度",
+                "价格战程度",
+                "差异化空间"
+              ]
+            },
+            "growth_rate": {
+              "name": "赛道增速",
+              "description": "该子赛道的市场增长率（high/medium/low/declining）",
+              "indicators": [
+                "品类CAGR",
+                "新品牌涌入速度",
+                "品类渗透率提升空间"
+              ]
+            },
+            "entrepreneurial_gap": {
+              "name": "创业/介入机会",
+              "description": "可切入的产品/渠道/人群空白（high/medium/low）",
+              "indicators": [
+                "未被满足的需求",
+                "定价带空白",
+                "渠道覆盖gap",
+                "品类创新空间"
+              ]
+            },
+            "content_supply_gap": {
+              "name": "内容供给缺口",
+              "description": "该赛道内容生产密度 vs 用户内容需求量之间的gap",
+              "indicators": [
+                "头部内容账号数",
+                "内容类型丰富度",
+                "搜索量vs内容量的比值"
+              ]
+            }
+          },
+          "output_format": {
+            "matrix_2x2": {
+              "axes": [
+                "竞争激烈度（x轴，低→高）",
+                "赛道增速（y轴，低→高）"
+              ],
+              "quadrants": [
+                "高增速+低竞争=金矿",
+                "高增速+高竞争=红海",
+                "低增速+低竞争=鸡肋",
+                "低增速+高竞争=陷阱"
+              ]
+            },
+            "opportunity_ranking": {
+              "_description": "机会排序表，按综合评分排序",
+              "columns": [
+                "机会名称",
+                "所属象限",
+                "competitive_intensity",
+                "growth_rate",
+                "entrepreneurial_gap",
+                "content_supply_gap",
+                "综合评分",
+                "优先建议"
+              ]
+            }
+          },
+          "writing_rule": "四维扫描必须基于ch2-ch5的数据，不凭空判断。每个机会方向标注evidence_tier。机会排序不是「所有机会都值得做」，要标优先级和进入条件。"
+        },
         "brand_strategy": {
           "label": "品牌层策略",
           "recommendation_count": [
@@ -965,6 +1229,32 @@
         "sources": {
           "label": "来源文献列表",
           "required_format": "[序号] 来源名称, 数据类型, 获取日期, URL(如适用)"
+        },
+        "appendix_b": {
+          "label": "附录B：用户痛点数据库",
+          "_note": "新增v1.6。来自ch4用户痛点挖掘的汇总表。",
+          "columns": [
+            "痛点主题",
+            "关键词",
+            "频度",
+            "代表性quote",
+            "产品/策略机会",
+            "evidence_tier"
+          ],
+          "min_rows": 5
+        },
+        "appendix_c": {
+          "label": "附录C：竞品内容类型分析",
+          "_note": "新增v1.6。来自ch3内容类型五分类的汇总表。",
+          "columns": [
+            "品牌名",
+            "主导内容类型",
+            "各类型占比估计",
+            "内容增长系统判断",
+            "重复爆款倾向",
+            "evidence_tier"
+          ],
+          "min_rows": "deep_brands数量"
         }
       }
     },
@@ -1255,11 +1545,63 @@
       "no_intermediate_reporting": "禁止中间态汇报用语('我找到了/查到了/正在看')，直接给出判断结论",
       "natural_tone": "自然段落，像咨询顾问在说明判断，不像写论文",
       "split_rule": "不同品类/渠道必须分开陈述，不可合并为同一段",
-      "no_cross_comparison": "单品牌分析段不做跨品牌对比(跨品牌对比统一在Ch5)"
+      "no_cross_comparison": "单品牌分析段不做跨品牌对比(跨品牌对比统一在Ch5)",
+      "evidence_tier_marking_rule": "每条关键声称在正文中以evidence tier标签标注。默认模式（tier_visible=false）：正文隐藏tier标签，附录数据核验表显示完整tier链。显式模式（tier_visible=true）：正文中以[已确认]/[报道层]/[映射]/[推测]标签标注每条关键声称。模式通过project_config.tier_visible切换。"
     },
     "brand_write_prompt_template": "你是品牌战略咨询顾问，正在撰写一份关于{industry}行业{report_type}报告的第{chapter}章{brand_name}品牌分析。\n\n分析维度：{dimension_name}\n必含要素：{required_elements}\n段落数范围：{paragraph_range}\n表达要求：用完整句子清晰表达，不可因控制字数而省略关键信息或写成关键词碎片。\n\n参考数据：{data_context}\n\n写作规范：\n- 结论先行(首句=判断)\n- 每个判断至少一个数据锚点\n- 禁止引号做概念强调\n- 禁止星号破折号列表体和AI填充词\n- 自然段落，像咨询顾问在说判断\n- {split_instruction}\n\n请基于以上约束，直接输出分析文字。"
   },
   "qa_rules": {
+    "adversarial": {
+      "_note": "新增v1.6。融入deep-research-extracted和serenity-analysis的对抗审查Phase。放在机械QA之前。",
+      "label": "对抗式审查（定性：查对错）",
+      "method": "3票制对抗审查",
+      "description": "内容生成完成后、机械QA前，对关键声称进行独立对抗验证。和机械QA分工：对抗审查查「对不对」，机械QA查「全不全」。",
+      "procedure": {
+        "step_1_select_claims": "从生成内容中抽取关键声称（per品牌10-15条，覆盖五维+趋势+策略建议）",
+        "step_2_parallel_verify": "每条声称派3个独立agent尝试反驳（并行执行）",
+        "step_3_count_votes": "至少2个有效投票+refuted<2才存活。默认怀疑：不确定时refuted=true。弃权过多=未裁决，不进入报告。",
+        "step_4_output": "被否决的声称不进入报告但保留在QA日志。所有声称被否决→生成inconclusive警告。"
+      },
+      "review_checklist": [
+        "来源是否支撑声称",
+        "有无反证",
+        "来源质量是否匹配声称重要性",
+        "信息是否过期",
+        "是否为营销稿/软文"
+      ],
+      "rules": {
+        "quorum": 2,
+        "refute_threshold": 2,
+        "default_doubt": true,
+        "note": "至少2票有效投票+否定票<2才存活。不确定时默认否决。"
+      }
+    },
+    "evidence_tier_consistency": {
+      "_note": "新增v1.6。证据层级一致性检查。层级只能降不能升。",
+      "label": "证据层级一致性检查",
+      "checks": [
+        {
+          "check": "tier_inflation",
+          "rule": "检查是否有mapped/speculation级数据被当成confirmed陈述",
+          "action": "标记需降级或加强修饰语"
+        },
+        {
+          "check": "tier_downgrade_only",
+          "rule": "tierAfterAudit ≤ 原tier，检查是否有层级被不当抬升",
+          "action": "标记需修正"
+        },
+        {
+          "check": "key_discipline_violation",
+          "rule": "pipeline≠orders, qualification≠volume ramp, 生态相邻≠量产订单",
+          "action": "违规标记为严重错误"
+        },
+        {
+          "check": "unmarked_claims",
+          "rule": "关键声称是否缺少evidence_tier标注",
+          "action": "标记需补充"
+        }
+      ]
+    },
     "structural": [
       {
         "check": "章节完整性",

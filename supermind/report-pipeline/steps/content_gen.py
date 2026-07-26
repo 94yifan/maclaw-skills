@@ -27,6 +27,17 @@ from steps.utils import (
 from config import ReportSchema, ProjectConfig
 
 
+# ── 模块级常量 ─────────────────────────────────────────────
+
+WRITING_HARD_RULES = """
+- 首句=独立判断结论（不能说「XX有几个特征」）
+- 中间=具体数字+可验证事实
+- 末句=这个判断对竞品意味着什么
+- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
+- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
+"""
+
+
 # ── Prompt 构建器 ──────────────────────────────────────────
 
 def build_ch2_prompt(schema: ReportSchema, project_config: ProjectConfig,
@@ -41,15 +52,6 @@ def build_ch2_prompt(schema: ReportSchema, project_config: ProjectConfig,
     trends_req = ch2.get("sections", {}).get("industry_trends", {})
     matrix_cols = ch2.get("sections", {}).get("competitor_matrix", {}).get("columns", [])
     
-    # P1-8: 追加写作铁律
-    writing_hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
     prompt = f"""# 品牌研究报告 — 第二章：行业格局与竞品总矩阵
 
 ## 项目信息
@@ -60,7 +62,7 @@ def build_ch2_prompt(schema: ReportSchema, project_config: ProjectConfig,
 
 ## 写作规范
 {chr(10).join(f'- {r}' for r in writing_specs)}
-{writing_hard_rules}
+{WRITING_HARD_RULES}
 ## 章节构建方法
 
 ### 1. Porter五力扫描（约1页）
@@ -97,15 +99,6 @@ def build_ch3_prompt(schema: ReportSchema, project_config: ProjectConfig,
     writing_specs = schema.get_global_writing_rules()
     depth_rules = schema.get_depth_rules()
     
-    # P1-8: 追加写作铁律
-    writing_hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
     base_prompt = f"""# 品牌研究报告 — 第三章：竞品多维度扫描
 
 ## 项目信息
@@ -115,7 +108,7 @@ def build_ch3_prompt(schema: ReportSchema, project_config: ProjectConfig,
 
 ## 写作规范
 {''.join(f'- {r}\n' for r in writing_specs)} 
-{writing_hard_rules}"""
+{WRITING_HARD_RULES}"""
     
     if depth == "deep" and dimension:
         # 单个维度 prompt
@@ -129,17 +122,9 @@ def build_ch3_prompt(schema: ReportSchema, project_config: ProjectConfig,
         req_elements = dim_def.get("required_elements", [])
         sub_dims = dim_def.get("sub_dimensions", [])
         
-        hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
         prompt = base_prompt + f"""
 ## 写作铁律
-{hard_rules}
+{WRITING_HARD_RULES}
 ## 维度：{dim_label}
 写作规则：{writing_rule}
 必含要素：{json.dumps(req_elements, ensure_ascii=False, indent=2)}
@@ -162,16 +147,9 @@ def build_ch3_prompt(schema: ReportSchema, project_config: ProjectConfig,
     
     elif depth == "summary":
         # 汇总品牌：一段覆盖五要素
-        hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
         prompt = base_prompt + f"""
 ## 写作铁律
-{hard_rules}
+{WRITING_HARD_RULES}
 ## 汇总品牌格式
 每品牌一段，一段内用完整句子覆盖全部五要素：
 1. 品牌定位（1句）
@@ -197,17 +175,9 @@ def build_ch3_prompt(schema: ReportSchema, project_config: ProjectConfig,
             rule = d["def"].get("writing_rule", "")
             dim_summary.append(f"- {d['label']}: {rule[:100]}...")
         
-        hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
         prompt = base_prompt + f"""
 ## 写作铁律
-{hard_rules}
+{WRITING_HARD_RULES}
 ## 深度品牌五维扫描（全维度）
 请按以下五个维度逐维分析{project_config.industry}行业的【{brand}】品牌：
 
@@ -245,15 +215,6 @@ def build_ch4_prompt(schema: ReportSchema, project_config: ProjectConfig,
     
     focus = project_config.focus_brand
     
-    # P1-8: 追加写作铁律
-    writing_hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
     prompt = f"""# 品牌研究报告 — 第四章：本品深度分析
 
 ## 项目信息
@@ -262,7 +223,7 @@ def build_ch4_prompt(schema: ReportSchema, project_config: ProjectConfig,
 
 ## 写作规范
 {chr(10).join(f'- {r}' for r in writing_specs)}
-{writing_hard_rules}
+{WRITING_HARD_RULES}
 ## 分析维度与必含要素
 
 ### 1. 市场与渠道深度诊断
@@ -313,15 +274,6 @@ def build_ch5_prompt(schema: ReportSchema, project_config: ProjectConfig,
     focus = project_config.focus_brand
     ch5_note = project_config.get_ch5_dimensions_note()
     
-    # P1-8: 追加写作铁律
-    writing_hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
     prompt = f"""# 品牌研究报告 — 第五章：本竞品差距对比
 
 ## 项目信息
@@ -332,7 +284,7 @@ def build_ch5_prompt(schema: ReportSchema, project_config: ProjectConfig,
 
 ## 写作规范
 {chr(10).join(f'- {r}' for r in writing_specs)}
-{writing_hard_rules}
+{WRITING_HARD_RULES}
 ## 分析结构
 
 ### 1. 集团层面对比（适用于上市公司对比）
@@ -368,15 +320,6 @@ def build_ch6_prompt(schema: ReportSchema, project_config: ProjectConfig,
     
     focus = project_config.focus_brand
     
-    # P1-8: 追加写作铁律
-    writing_hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
     prompt = f"""# 品牌研究报告 — 第六章：咨询切入点与策略建议
 
 ## 项目信息
@@ -386,7 +329,7 @@ def build_ch6_prompt(schema: ReportSchema, project_config: ProjectConfig,
 
 ## 写作规范
 {chr(10).join(f'- {r}' for r in writing_specs)}
-{writing_hard_rules}
+{WRITING_HARD_RULES}
 ## 分析结构
 
 ### 1. 品牌层策略（{brand_strat.get('recommendation_count', [3, 5])}条）
@@ -423,7 +366,7 @@ def generate_ch2(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     """Step 5: 生成第二章。"""
     step_start("ch2_generation", "行业分析写作 (Step 5)")
     
-    out_dir = content_dir()
+    out_dir = content_dir(project_config)
     out_path = out_dir / "ch2_industry.md"
     
     # 读取已分发的数据
@@ -446,7 +389,7 @@ def generate_ch3(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     """Step 6: 生成第三章（竞品扫描页面）。"""
     step_start("ch3_generation", "竞品扫描写作 (Step 6)")
     
-    ch3_dir = content_dir() / "ch3_competitive"
+    ch3_dir = content_dir(project_config) / "ch3_competitive"
     ch3_dir.mkdir(parents=True, exist_ok=True)
     
     # 生成深度品牌的 prompt 文件
@@ -483,18 +426,10 @@ def build_competition_pattern_prompt(schema: ReportSchema, project_config: Proje
     patterns_def = ch3.get("sections", {}).get("competition_patterns", {})
     framework = patterns_def.get("methodology_framework", [])
     
-    writing_hard_rules = """
-- 首句=独立判断结论（不能说「XX有几个特征」）
-- 中间=具体数字+可验证事实
-- 末句=这个判断对竞品意味着什么
-- 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
-- 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
-"""
-
     return f"""# 竞争模式归纳
 
 ## 写作铁律
-{writing_hard_rules}
+{WRITING_HARD_RULES}
 ## 方法框架
 {json.dumps(framework, ensure_ascii=False, indent=2)}
 
@@ -515,7 +450,7 @@ def generate_ch4(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     """Step 7: 生成第四章。"""
     step_start("ch4_generation", "本品分析写作 (Step 7)")
     
-    ch4_dir = content_dir() / "ch4_deep"
+    ch4_dir = content_dir(project_config) / "ch4_deep"
     ch4_dir.mkdir(parents=True, exist_ok=True)
     
     dispatched = load_dispatched_for_chapter("ch4", schema)
@@ -536,7 +471,7 @@ def generate_ch5(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     """Step 8: 生成第五章。"""
     step_start("ch5_generation", "差距对比写作 (Step 8)")
     
-    out_dir = content_dir()
+    out_dir = content_dir(project_config)
     dispatched = load_dispatched_for_chapter("ch5", schema)
     prompt = build_ch5_prompt(schema, project_config, dispatched)
     
@@ -555,7 +490,7 @@ def generate_ch6(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     """Step 9: 生成第六章。"""
     step_start("ch6_generation", "策略建议写作 (Step 9)")
     
-    out_dir = content_dir()
+    out_dir = content_dir(project_config)
     dispatched = load_dispatched_for_chapter("ch6", schema)
     prompt = build_ch6_prompt(schema, project_config, dispatched)
     

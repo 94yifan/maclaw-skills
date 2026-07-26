@@ -45,10 +45,13 @@ def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     granularity_results = check_granularity(schema, project_config)
     delivery_results = check_delivery(schema, project_config)
     
+    # 证据层级一致性检查（v2.0新增）
+    tier_results = check_evidence_tier_consistency(schema, project_config)
+    
     # 第六层：终端docx直接验证（直接解析docx文件，检查图片嵌入+内容相关性+电商数据）
     docx_results = check_docx_final(project_config)
     
-    all_results = structural_results + content_results + chart_results + granularity_results + delivery_results + docx_results
+    all_results = structural_results + content_results + chart_results + granularity_results + delivery_results + tier_results + docx_results
     
     # 统计
     total = len(all_results)
@@ -726,6 +729,143 @@ def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> Li
         "message": "" if innovation_ok else "创品策略可能不足10个方向"
     })
     
+    return results
+
+
+# ── 证据层级一致性检查（v2.0新增）───────────────────────────
+
+def check_evidence_tier_consistency(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
+    """
+    证据层级一致性检查。
+    规则依据 report_schema.json 中 evidence_tier_consistency 定义。
+    检查项：
+    - tier_inflation: mapped/speculation级数据被表述成confirmed的情况
+    - tier_downgrade_only: 检查有没有tier被升级
+    - key_discipline: pipeline≠orders, qualification≠volume ramp
+    - unmarked_claims: 关键声称是否缺少evidence_tier标注
+    """
+    results = []
+    c_dir = content_dir()
+
+    # 收集所有content markdown文件
+    content_files = list(c_dir.glob("*.md"))
+    for subdir in c_dir.iterdir():
+        if subdir.is_dir():
+            content_files.extend(subdir.glob("*.md"))
+
+    all_content = ""
+    for cf in content_files:
+        if cf.name.endswith("_prompt.md"):
+            continue
+        try:
+            all_content += cf.read_text(encoding="utf-8") + "\n"
+        except Exception:
+            continue
+
+    import re
+    paragraphs = [p.strip() for p in all_content.split('\n\n') if p.strip() and len(p.strip()) > 30]
+
+    # E-1: tier_inflation — mapped/speculation被表述成confirmed
+    inflation_issues = []
+    confirmed_patterns = [
+        ("经核实", r'经核实'),
+        ("官方确认", r'官方确认'),
+        ("确认", r'确认'),
+        ("数据显示", r'数据显示'),
+        ("公开披露", r'公开披露'),
+        ("财报显示", r'财报显示'),
+        ("年报显示", r'年报显示'),
+        ("招股书显示", r'招股书显示'),
+        ("公告显示", r'公告显示'),
+    ]
+    for i, para in enumerate(paragraphs):
+        if not re.search(r'\d+[万亿千百%倍]*', para):
+            continue
+        has_mapped_spec = bool(re.search(r'[\[（(]推测|映射|推断|猜测|估计|未经证实|待验证[\]）)]', para))
+        has_confirmed_wording = any(re.search(pat, para) for _, pat in confirmed_patterns)
+        if has_mapped_spec and has_confirmed_wording:
+            inflation_issues.append(f"段{i+1}: 标注推测/映射但使用了confirmed措辞")
+            if len(inflation_issues) >= 5:
+                break
+
+    results.append({
+        "category": "E. 证据层级一致性",
+        "check": "E-1 tier_inflation",
+        "rule": "mapped/speculation级数据不得使用confirmed措辞（经核实/官方确认/数据显示等）",
+        "detail": f"发现 {len(inflation_issues)} 处可能的层级通胀",
+        "status": "FAIL" if inflation_issues else "PASS",
+        "message": "; ".join(inflation_issues[:3]) if inflation_issues else "未检测到层级通胀"
+    })
+
+    # E-2: tier_downgrade_only — 检查层级升级
+    upgrade_issues = []
+    tier_markers = re.findall(r'\[(已确认|报道层|映射|推测)\]|[\[（(](confirmed|reported|mapped|speculation)[\]）)]', all_content)
+    tier_timeline = []
+    for m in tier_markers:
+        tier = m[0] or m[1]
+        tier_timeline.append(tier)
+    tier_order = {'speculation': 0, '推测': 0, 'mapped': 1, '映射': 1, 'reported': 2, '报道层': 2, 'confirmed': 3, '已确认': 3}
+    for i in range(len(tier_timeline) - 1):
+        prev = tier_order.get(tier_timeline[i], -1)
+        curr = tier_order.get(tier_timeline[i+1], -1)
+        if prev >= 0 and curr >= 0 and curr > prev:
+            upgrade_issues.append(f"{tier_timeline[i]} → {tier_timeline[i+1]}")
+
+    results.append({
+        "category": "E. 证据层级一致性",
+        "check": "E-2 tier_downgrade_only",
+        "rule": "tierAfterAudit ≤ 原tier，层级只能降不能升",
+        "detail": f"检查 {len(tier_markers)} 个tier标记，发现 {len(upgrade_issues)} 处可能的升级",
+        "status": "FAIL" if upgrade_issues else "PASS",
+        "message": "; ".join(upgrade_issues[:3]) if upgrade_issues else "未检测到层级不当升级"
+    })
+
+    # E-3: key_discipline — pipeline≠orders等关键纪律
+    discipline_issues = []
+    if re.search(r'pipeline[^s][^。！？\n]*(?:订单|已售|销量|出货)', all_content):
+        discipline_issues.append("pipeline被当作'已有订单/已售'使用（违规模≠orders纪律）")
+    if re.search(r'qualification[^。！？\n]*(?:量产|出货|交付|放量)', all_content):
+        discipline_issues.append("qualification被当作'量产/出货'使用（违反qualification≠volume ramp纪律）")
+    if re.search(r'生态相邻[^。！？\n]*(?:订单|量产)|合作[^。！？\n]*生态相邻[^。！？\n]*(?:供货|量产)', all_content):
+        discipline_issues.append("生态相邻/合作被当作'量产订单'（违反生态相邻≠量产订单纪律）")
+
+    results.append({
+        "category": "E. 证据层级一致性",
+        "check": "E-3 key_discipline_violation",
+        "rule": "pipeline≠orders, qualification≠volume ramp, 生态相邻≠量产订单",
+        "detail": f"发现 {len(discipline_issues)} 处关键纪律违规",
+        "status": "FAIL" if discipline_issues else "PASS",
+        "message": "; ".join(discipline_issues) if discipline_issues else "关键纪律检查通过"
+    })
+
+    # E-4: unmarked_claims — 关键数据声称缺少evidence_tier
+    unmarked = 0
+    sample_unmarked = []
+    for para in paragraphs:
+        if not re.search(r'\d+[万亿千百%倍]*', para):
+            continue
+        if para.startswith('#') or para.startswith('|'):
+            continue
+        has_tier = bool(re.search(r'\[(已确认|报道层|映射|推测)\]', para) or
+                        re.search(r'evidence_tier[：:]', para, re.IGNORECASE))
+        if not has_tier:
+            unmarked += 1
+            if len(sample_unmarked) < 3 and len(para) > 40:
+                sample_unmarked.append(para[:60] + '...')
+
+    total_with_numbers = sum(1 for p in paragraphs if re.search(r'\d+[万亿千百%倍]*', p))
+    unmarked_ratio = unmarked / total_with_numbers if total_with_numbers > 0 else 0
+    unmarked_ok = unmarked_ratio < 0.2
+
+    results.append({
+        "category": "E. 证据层级一致性",
+        "check": "E-4 unmarked_claims",
+        "rule": "含具体数字的关键数据声称需标注evidence_tier",
+        "detail": f"含数段落: {total_with_numbers}, 未标注: {unmarked} ({unmarked_ratio*100:.0f}%)",
+        "status": "FAIL" if not unmarked_ok else "PASS",
+        "message": "; ".join(sample_unmarked) if sample_unmarked else "关键数据claim均有evidence_tier标注或可接受"
+    })
+
     return results
 
 

@@ -30,6 +30,39 @@ from steps.utils import (
 from config import ReportSchema, ProjectConfig
 
 
+# ── 跨平台 CJK 字体检测 ──────────────────────────────────
+
+def _get_cjk_font() -> str:
+    """
+    检测系统可用中文字体路径，跨平台兼容。
+    优先顺序：macOS PingFang → Linux Noto Sans CJK / WenQuanYi → Windows YaHei → fallback sans-serif
+    """
+    import platform
+    from pathlib import Path
+    candidates = []
+    if platform.system() == 'Darwin':
+        candidates = [
+            '/System/Library/Fonts/PingFang.ttc',
+            '/System/Library/Fonts/STHeiti Light.ttc',
+            '/System/Library/Fonts/Supplemental/Songti.ttc',
+        ]
+    elif platform.system() == 'Linux':
+        candidates = [
+            '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+            '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
+            '/usr/share/fonts/opentype/noto/NotoSansSC-Regular.otf',
+        ]
+    elif platform.system() == 'Windows':
+        candidates = [
+            'C:\\Windows\\Fonts\\msyh.ttc',
+            'C:\\Windows\\Fonts\\simsun.ttc',
+        ]
+    for f in candidates:
+        if Path(f).exists():
+            return f
+    return 'sans-serif'
+
+
 def generate_all_charts(schema: ReportSchema, project_config: ProjectConfig) -> List[Path]:
     """
     Step 10 主入口：生成所有图表。
@@ -343,12 +376,13 @@ def generate_png_from_chart_def(chart_def: dict, brands: List[str], data: List[d
         img = Image.new('RGB', (W, H), 'white')
         draw = ImageDraw.Draw(img)
 
-        # 字体
+        # 字体（跨平台检测中文字体）
+        cjk_font = _get_cjk_font()
         try:
-            font_title = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 20)
-            font_sub = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 12)
-            font_label = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 13)
-            font_bar = _IF.truetype("/System/Library/Fonts/PingFang.ttc", 12)
+            font_title = _IF.truetype(cjk_font, 20)
+            font_sub = _IF.truetype(cjk_font, 12)
+            font_label = _IF.truetype(cjk_font, 13)
+            font_bar = _IF.truetype(cjk_font, 12)
         except Exception:
             font_title = font_sub = font_label = font_bar = _IF.load_default()
 

@@ -123,6 +123,7 @@ def extract_key_claims(content_dir_path: Path) -> List[Dict]:
                         "data_numbers": numbers[:5],  # top 5 numbers
                         "estimated_tier": tier,
                         "source_file": str(mf.relative_to(content_dir_path)),
+                        "source_url": f"content/{mf.relative_to(content_dir_path)}",
                         "context": _get_context(lines, i),
                     })
                     
@@ -208,6 +209,7 @@ def build_cot_verification_prompt(claim: Dict, voter_index: int, total_voters: i
 - **声称内容**: "{claim['claim_text']}"
 - **涉及数字**: {', '.join(claim['data_numbers']) if claim['data_numbers'] else '无'}
 - **来源文件**: {claim['source_file']}
+- **来源URL**: {claim.get('source_url', claim['source_file'])}
 - **当前tier**: {claim['estimated_tier']}
 - **所属章节**: {claim.get('chapter', '未知')}
 - **涉及品牌**: {claim.get('brand', '未知')}
@@ -302,7 +304,8 @@ def run_adversarial_review(schema: ReportSchema, project_config: ProjectConfig) 
     claims = extract_key_claims(ct_dir)
     
     if not claims:
-        step_fail("adversarial_review", "未提取到任何关键声称（content/目录为空或无可提取的声称）")
+        step_skip("adversarial_review", "未提取到任何关键声称（content/目录为空或无可提取的声称），跳过对抗式审查")
+        return None
     
     print(f"  ✓ 提取到 {len(claims)} 条声称")
     

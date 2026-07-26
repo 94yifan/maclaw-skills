@@ -63,6 +63,18 @@
 - pipeline.py维持现有_step_execute结构不变
 - project_config新增modules_enabled开关，不启用不影响旧项目
 
+### Bug修复（2026-07-26）
+
+| # | 文件 | 类型 | 说明 |
+|---|------|------|------|
+| 1 | pipeline.py | P0 | 修正 Step 6/7 标签互换（Step 6=竞品五维扫描，Step 7=本品五维扫描）|
+| 2 | adversarial_verify.py | P0 | extract_key_claims() 添加 source_url 字段，CoT prompt 展示来源URL |
+| 3 | adversarial_verify.py | P0 | content/为空时 step_fail→step_skip，pipeline 不崩溃 |
+| 4 | content_gen.py | P0 | content_dir() 统一使用 project_config 参数，确保读写路径一致 |
+| 5 | qa_check.py | P1 | 新增 check_evidence_tier_consistency()：tier_inflation/tier_downgrade_only/key_discipline/unmarked_claims |
+| 6 | content_gen.py | P1 | writing_hard_rules 抽取为模块级常量 WRITING_HARD_RULES，消除6处重复 |
+| 7 | charts.py | P1 | 新增 _get_cjk_font() 跨平台字体检测（macOS/Linux/Windows 自动适配）|
+
 ---
 
 ## v1.6 (2026-07-22) — 康尔馨复盘

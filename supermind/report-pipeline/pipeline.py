@@ -531,44 +531,10 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         step_success(step_name, [str(founder_path)])
         return
 
-    # ── Step 11.1: 对抗式审查 ──
+    # ── Step 11.1: 对抗式审查（CoT增强版） ──
     if num == 11.1:
-        step_start(step_name, desc)
-        adv_path = BASE_DIR / "output" / "reports" / "adversarial_review.md"
-        adv_content = f"""# 对抗式审查报告
-
-项目: {project_config.project_name}
-生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M')}
-
-## 审查说明
-3票制对抗验证：每条关键声称→3个独立agent尝试反驳→至少2票有效+否定<2才存活。
-默认怀疑：不确定时refuted=true。
-
-## 审查清单（每票审查5项）
-1. 来源是否支撑声称
-2. 有无反证
-3. 来源质量是否匹配声称重要性
-4. 信息是否过期
-5. 是否为营销稿/软文
-
-## 证据层级检查
-- tier_inflation: mapped/speculation级数据被当成confirmed陈述
-- tier_downgrade_only: 层级是否被不当抬升
-- key_discipline: pipeline≠orders / qualification≠volume ramp / 生态相邻≠量产订单
-- unmarked_claims: 关键声称缺少evidence_tier标注
-
-## 审查结果
-- 存活声称：N条
-- 被否决声称：M条（详情见QA日志）
-- 未裁决声称：K条
-- inconclusive警告：全部声称被否决则发出
-
-## 状态
-待 DeepSeek V4 Pro 3并行agent执行验证。
-"""
-        with open(adv_path, "w", encoding="utf-8") as f:
-            f.write(adv_content)
-        step_success(step_name, [str(adv_path)])
+        from steps.adversarial_verify import run_adversarial_review
+        run_adversarial_review(schema, project_config)
         return
 
     # ── Step 12: 图表生成 ──

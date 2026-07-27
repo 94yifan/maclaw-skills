@@ -14,7 +14,9 @@
 cd ~/.openclaw/workspace/supermind/report-pipeline
 python3 pipeline.py --config project_config_客户名.json
 
-# 步骤 2：spawn DeepSeek Pro 填充 AI-Pro 步骤内容（Steps 5-11）
+# 步骤 2：用 Pro 模型填充 AI-Pro 步骤内容（Steps 5-11）
+# 注意：spawn 时用 model="deepseek/deepseek-v4-pro" 指定 Pro 引擎，不是 agentId
+# 如果当前 session 本身就是 Pro，直接在当前 session 执行，不需要 spawn
 # 步骤 3：生成 docx + QA + 发群
 python3 pipeline.py --config project_config_客户名.json --step 13
 python3 pipeline.py --config project_config_客户名.json --step 14
@@ -22,7 +24,8 @@ python3 pipeline.py --config project_config_客户名.json --step 14
 ```
 
 **禁止：**
-- 群聊里手工搜数据、讨论框架、确认竞品 — pipeline 自动生成 prompt 让 Pro 搜索填充
+- 群聊里手工搜数据、讨论框架、确认竞品 — pipeline 自动生成 prompt，填入后由 Pro 模型生成内容
+- 用 Flash 模型执行内容生成 — 所有 AI 内容填充步骤必须用 Pro（model="deepseek/deepseek-v4-pro"）
 - QA 只标记不改 — 检测到立即修，修完重新生成
 - 生成 docx 不发群 — 逸凡不 Access 电脑
 - 改完内容不升版本号 — 整数升版=结构改动，小数升版=文字改动

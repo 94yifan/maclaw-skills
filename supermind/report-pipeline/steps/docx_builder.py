@@ -612,9 +612,34 @@ def _chart_source_hint(filename: str) -> str:
 def _get_content_dir(project_config) -> Path:
     """
     获取 content 目录。
-    注意：pipeline 各步骤写入 output/content/（通用目录），
-    因此 docx_builder 也从通用目录读取，而非 project_config 隔离目录。
+    优先级：
+    1. project_config.output_dir 指定的项目隔离目录
+    2. output/ 下最近的项目名匹配目录
+    3. 通用 content_dir()
     """
+    project_name = project_config.project_name.replace(" ", "_").replace("品牌竞品研究", "")
+    # 1. 项目隔离目录（配置指定）
+    output_dir_raw = project_config._raw.get("output_dir", "")
+    if output_dir_raw:
+        project_content = BASE_DIR / output_dir_raw / "content"
+        if project_content.exists():
+            md_files = list(project_content.glob("*.md")) + list(project_content.glob("**/*.md"))
+            if md_files:
+                return project_content
+    # 2. 搜索 output/ 下的最近匹配目录
+    output_root = content_dir().parent
+    matches = []
+    for d in output_root.iterdir():
+        if d.is_dir() and project_name.strip() in d.name:
+            cdir = d / "content"
+            if cdir.exists():
+                md_files = list(cdir.glob("*.md")) + list(cdir.glob("**/*.md"))
+                if md_files:
+                    matches.append((d.stat().st_mtime, cdir))
+    if matches:
+        matches.sort(reverse=True)
+        return matches[0][1]
+    # 3. 回退：通用目录
     return content_dir()
 
 

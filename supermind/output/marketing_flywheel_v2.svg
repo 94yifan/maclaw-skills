@@ -1,0 +1,345 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2520" viewBox="0 0 1600 2520" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans SC','WenQuanYi Micro Hei',sans-serif">
+<defs><marker id="mBlue" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="14" markerHeight="14" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M2.5 1.2 L12.8 7 L2.5 12.8 Z" fill="#2C5F8A"/></marker><marker id="mNavy" viewBox="0 0 14 14" refX="12" refY="7" markerWidth="14" markerHeight="14" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M2.5 1.2 L12.8 7 L2.5 12.8 Z" fill="#1F2A44"/></marker><marker id="mGrayE" viewBox="0 0 12 12" refX="10.6" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1.8 1.8 L10.6 6 L1.8 10.2 Z" fill="#9AA0A8"/></marker><marker id="mGrayS" viewBox="0 0 12 12" refX="1.4" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M10.2 1.8 L1.4 6 L10.2 10.2 Z" fill="#9AA0A8"/></marker></defs>
+<rect x="0" y="0" width="1600" height="2520" fill="#F7F2E6"/>
+<text x="800" y="100" text-anchor="middle" font-size="42" font-weight="700" fill="#1F2A44">营销哲学飞轮：六大哲学 × 行动循环 × 现实检验</text>
+<text x="800" y="146" text-anchor="middle" font-size="21" fill="#A96E2F">以人的尊严为基石，在价值张力中不断创造更好的生活可能性</text>
+<circle cx="800" cy="960" r="650" fill="none" stroke="#D9A83C" stroke-width="3" stroke-dasharray="10 8"/>
+<circle cx="800" cy="960" r="450" fill="none" stroke="#9DB8CF" stroke-width="1.5" stroke-dasharray="5 6"/>
+<circle cx="800" cy="960" r="280" fill="none" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="1066.3" y1="1046.5" x2="800.0" y2="1240.0" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="800.0" y1="1240.0" x2="533.7" y2="1046.5" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="533.7" y1="1046.5" x2="635.4" y2="733.5" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="635.4" y1="733.5" x2="964.6" y2="733.5" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="964.6" y1="733.5" x2="1066.3" y2="1046.5" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="1066.3" y1="1046.5" x2="800" y2="960" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="800.0" y1="1240.0" x2="800" y2="960" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="533.7" y1="1046.5" x2="800" y2="960" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="635.4" y1="733.5" x2="800" y2="960" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<line x1="964.6" y1="733.5" x2="800" y2="960" stroke="#9AA0A8" stroke-width="1.6" stroke-dasharray="5 5" marker-start="url(#mGrayS)" marker-end="url(#mGrayE)"/>
+<circle cx="800" cy="960" r="90" fill="#1F2A44"/>
+<circle cx="800" cy="960" r="90" fill="none" stroke="#3A4A6B" stroke-width="2"/>
+<circle cx="800" cy="888" r="13" fill="none" stroke="#F5EEDC" stroke-width="3"/>
+<path d="M772 918 c3.5-14 14-21.5 28-21.5 s24.5 7.5 28 21.5 Z" fill="none" stroke="#F5EEDC" stroke-width="3"/>
+<text x="800" y="940" text-anchor="middle" font-size="21" font-weight="700" fill="#FFF8E7">人的尊严</text>
+<text x="800" y="960" text-anchor="middle" font-size="12" font-style="italic" fill="#D9C9A3">Human Dignity</text>
+<text x="800" y="989" text-anchor="middle" font-size="12.5" fill="#F0E6CC">一切判断的基石，</text>
+<text x="800" y="1009" text-anchor="middle" font-size="12.5" fill="#F0E6CC">不可逾越的伦理底线</text>
+<rect x="740" y="614" width="120" height="32" rx="16" fill="#1F2A44"/>
+<text x="800" y="635" text-anchor="middle" font-size="16" font-weight="700" fill="#FFF8E7">价值张力内核</text>
+<line x1="800" y1="646" x2="800" y2="674" stroke="#8A8F98" stroke-width="2" stroke-dasharray="3 3"/>
+<rect x="652" y="1098" width="296" height="36" rx="18" fill="#EFE6D2" stroke="#A96E2F" stroke-width="1.5"/>
+<text x="800" y="1122" text-anchor="middle" font-size="15.5" font-weight="700" fill="#A96E2F">在张力中思考：我们究竟在乎什么？</text>
+<rect x="948.8" y="961.5" width="235" height="170" rx="14" fill="#FFFDF6" stroke="#9AA0A8" stroke-width="1.5"/>
+<g transform="translate(956.80 968.52) scale(1.583)" fill="none" stroke="#7A8089" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 4v16"/>
+<path d="M7 20h10"/>
+<path d="M5 7.5h14"/>
+<path d="M12 4v3.5"/>
+<path d="M5 7.5V11"/>
+<path d="M2.5 11a2.5 2.5 0 0 0 5 0"/>
+<path d="M5 11v3"/>
+<path d="M19 7.5V11"/>
+<path d="M16.5 11a2.5 2.5 0 0 0 5 0"/>
+<path d="M19 11v3"/>
+</g>
+<text x="1004.8" y="992.5" font-size="15" font-weight="700" fill="#1F2A44">康德：义务论</text>
+<text x="966.8" y="1017.5" font-size="10.5" fill="#6B6F76">核心问句</text>
+<text x="1012.8" y="1017.5" font-size="13.5" font-weight="700" fill="#A96E2F">我们「能不能做」？</text>
+<circle cx="961.8" cy="1036.5" r="2.2" fill="#A96E2F"/>
+<text x="970.8" y="1040.5" font-size="12.5" fill="#333333">尊重人的尊严与自主性</text>
+<circle cx="961.8" cy="1054.5" r="2.2" fill="#A96E2F"/>
+<text x="970.8" y="1058.5" font-size="12.5" fill="#333333">不把人当工具</text>
+<circle cx="961.8" cy="1072.5" r="2.2" fill="#A96E2F"/>
+<text x="970.8" y="1076.5" font-size="12.5" fill="#333333">诚实、透明、公平</text>
+<circle cx="961.8" cy="1090.5" r="2.2" fill="#A96E2F"/>
+<text x="970.8" y="1094.5" font-size="12.5" fill="#333333">不可操纵或欺骗</text>
+<rect x="682.5" y="1155.0" width="235" height="170" rx="14" fill="#FFFDF6" stroke="#9AA0A8" stroke-width="1.5"/>
+<g transform="translate(690.50 1162.00) scale(1.583)" fill="none" stroke="#7A8089" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3.5a3 3 0 1 1 0 6a3 3 0 1 1 0-6Z"/>
+<path d="M5 20.5c.8-4.2 3.6-6.5 7-6.5s6.2 2.3 7 6.5Z"/>
+</g>
+<text x="738.5" y="1186.0" font-size="15" font-weight="700" fill="#1F2A44">亚里士多德：美德论</text>
+<text x="700.5" y="1211.0" font-size="10.5" fill="#6B6F76">核心问句</text>
+<text x="746.5" y="1211.0" font-size="13.5" font-weight="700" fill="#A96E2F">什么值得追求？</text>
+<circle cx="695.5" cy="1230.0" r="2.2" fill="#A96E2F"/>
+<text x="704.5" y="1234.0" font-size="12.5" fill="#333333">追求人的繁荣(eudaimonia)</text>
+<circle cx="695.5" cy="1248.0" r="2.2" fill="#A96E2F"/>
+<text x="704.5" y="1252.0" font-size="12.5" fill="#333333">培养良好习惯与品格</text>
+<circle cx="695.5" cy="1266.0" r="2.2" fill="#A96E2F"/>
+<text x="704.5" y="1270.0" font-size="12.5" fill="#333333">实践智慧(phronesis)</text>
+<circle cx="695.5" cy="1284.0" r="2.2" fill="#A96E2F"/>
+<text x="704.5" y="1288.0" font-size="12.5" fill="#333333">在具体情境中做出好判断</text>
+<rect x="416.2" y="961.5" width="235" height="170" rx="14" fill="#FFFDF6" stroke="#9AA0A8" stroke-width="1.5"/>
+<text x="443.2" y="995.5" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="21.8" font-weight="700" fill="#7A8089">?</text>
+<text x="472.2" y="992.5" font-size="15" font-weight="700" fill="#1F2A44">尼采：价值重估</text>
+<text x="434.2" y="1017.5" font-size="10.5" fill="#6B6F76">核心问句</text>
+<text x="480.2" y="1017.5" font-size="13.5" font-weight="700" fill="#A96E2F">为什么它值得？</text>
+<circle cx="429.2" cy="1036.5" r="2.2" fill="#A96E2F"/>
+<text x="438.2" y="1040.5" font-size="12.5" fill="#333333">审视既有价值体系</text>
+<circle cx="429.2" cy="1054.5" r="2.2" fill="#A96E2F"/>
+<text x="438.2" y="1058.5" font-size="12.5" fill="#333333">挑战权力、文化、历史塑造的“真相”</text>
+<circle cx="429.2" cy="1072.5" r="2.2" fill="#A96E2F"/>
+<text x="438.2" y="1076.5" font-size="12.5" fill="#333333">一切既有价值都可被重新审视</text>
+<circle cx="429.2" cy="1090.5" r="2.2" fill="#A96E2F"/>
+<text x="438.2" y="1094.5" font-size="12.5" fill="#333333">创造新的可能性</text>
+<rect x="517.9" y="648.5" width="235" height="170" rx="14" fill="#FFFDF6" stroke="#9AA0A8" stroke-width="1.5"/>
+<g transform="translate(525.92 655.48) scale(1.583)" fill="none" stroke="#7A8089" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 1 1 0-17Z"/>
+<path d="M12 3.5a4.25 4.25 0 0 1 0 8.5 4.25 4.25 0 0 0 0 8.5"/>
+<path d="M12 7.6a1 1 0 1 1 0 .01"/>
+<path d="M12 16.4a1 1 0 1 1 0 .01"/>
+</g>
+<text x="573.9" y="679.5" font-size="15" font-weight="700" fill="#1F2A44">老子：价值消解</text>
+<text x="535.9" y="704.5" font-size="10.5" fill="#6B6F76">核心问句</text>
+<text x="581.9" y="704.5" font-size="13.5" font-weight="700" fill="#A96E2F">真的需要如此二分吗？</text>
+<circle cx="530.9" cy="723.5" r="2.2" fill="#A96E2F"/>
+<text x="539.9" y="727.5" font-size="12.5" fill="#333333">「天下皆知美之为美，斯恶已」</text>
+<circle cx="530.9" cy="741.5" r="2.2" fill="#A96E2F"/>
+<text x="539.9" y="745.5" font-size="12.5" fill="#333333">无为、自然、不争</text>
+<circle cx="530.9" cy="759.5" r="2.2" fill="#A96E2F"/>
+<text x="539.9" y="763.5" font-size="12.5" fill="#333333">消解强加的价值对立</text>
+<circle cx="530.9" cy="777.5" r="2.2" fill="#A96E2F"/>
+<text x="539.9" y="781.5" font-size="12.5" fill="#333333">打开更多可能</text>
+<rect x="847.1" y="648.5" width="235" height="170" rx="14" fill="#FFFDF6" stroke="#9AA0A8" stroke-width="1.5"/>
+<g transform="translate(855.08 655.48) scale(1.583)" fill="none" stroke="#7A8089" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.5 19.5v-6.5M9.5 19.5V6.5M14.5 19.5V10M19.5 19.5V14.5"/>
+<path d="M3 19.5h18"/>
+</g>
+<text x="903.1" y="679.5" font-size="15" font-weight="700" fill="#1F2A44">功利主义：结果检验</text>
+<text x="865.1" y="704.5" font-size="10.5" fill="#6B6F76">核心问句</text>
+<text x="911.1" y="704.5" font-size="13.5" font-weight="700" fill="#A96E2F">结果如何？</text>
+<circle cx="860.1" cy="723.5" r="2.2" fill="#A96E2F"/>
+<text x="869.1" y="727.5" font-size="12.5" fill="#333333">真实世界发生了什么？</text>
+<circle cx="860.1" cy="741.5" r="2.2" fill="#A96E2F"/>
+<text x="869.1" y="745.5" font-size="12.5" fill="#333333">幸福增加还是减少？</text>
+<circle cx="860.1" cy="759.5" r="2.2" fill="#A96E2F"/>
+<text x="869.1" y="763.5" font-size="12.5" fill="#333333">提升了谁的福祉？</text>
+<circle cx="860.1" cy="777.5" r="2.2" fill="#A96E2F"/>
+<text x="869.1" y="781.5" font-size="12.5" fill="#333333">社会成本与收益如何？</text>
+<path d="M 960.7 465.5 A 520 520 0 0 1 1220.7 654.4" fill="none" stroke="#2C5F8A" stroke-width="9" stroke-linecap="round" marker-end="url(#mBlue)"/>
+<path d="M 1320.0 960.0 A 520 520 0 0 1 1220.7 1265.6" fill="none" stroke="#2C5F8A" stroke-width="9" stroke-linecap="round" marker-end="url(#mBlue)"/>
+<path d="M 960.7 1454.5 A 520 520 0 0 1 639.3 1454.5" fill="none" stroke="#2C5F8A" stroke-width="9" stroke-linecap="round" marker-end="url(#mBlue)"/>
+<path d="M 379.3 1265.6 A 520 520 0 0 1 280.0 960.0" fill="none" stroke="#2C5F8A" stroke-width="9" stroke-linecap="round" marker-end="url(#mBlue)"/>
+<path d="M 379.3 654.4 A 520 520 0 0 1 639.3 465.5" fill="none" stroke="#2C5F8A" stroke-width="9" stroke-linecap="round" marker-end="url(#mBlue)"/>
+<rect x="675.0" y="417.5" width="250" height="185" rx="16" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="2"/>
+<circle cx="697.0" cy="439.5" r="13" fill="#2C5F8A"/>
+<text x="697.0" y="444.5" text-anchor="middle" font-size="13" font-weight="700" fill="#FFF8E7">1</text>
+<g transform="translate(779.00 440.50) scale(1.750)" fill="none" stroke="#2C5F8A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M10.5 5.8a4.7 4.7 0 1 1 0 9.4 4.7 4.7 0 1 1 0-9.4Z"/>
+<path d="M14 14l5.5 5.5"/>
+</g>
+<text x="800.0" y="493.5" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2A44">探索与假设</text>
+<circle cx="691.0" cy="523.5" r="2.6" fill="#2C5F8A"/>
+<text x="701.0" y="527.5" font-size="13" fill="#333333">观察现实，发现问题与机会</text>
+<circle cx="691.0" cy="544.5" r="2.6" fill="#2C5F8A"/>
+<text x="701.0" y="548.5" font-size="13" fill="#333333">形成初步假设与价值主张</text>
+<rect x="1103.0" y="728.4" width="250" height="185" rx="16" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="2"/>
+<circle cx="1125.0" cy="750.4" r="13" fill="#2C5F8A"/>
+<text x="1125.0" y="755.4" text-anchor="middle" font-size="13" font-weight="700" fill="#FFF8E7">2</text>
+<g transform="translate(1206.98 751.44) scale(1.750)" fill="none" stroke="#2C5F8A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M10 3.5h4M10.8 3.5V9.5L6.2 16.2c-.8 1.1-.2 2.8 1.2 2.8h9.2c1.4 0 2-1.7 1.2-2.8L13.2 9.5V3.5"/>
+<path d="M8.9 16.2a1.5 1.5 0 1 1 0 .01"/>
+</g>
+<text x="1228.0" y="804.4" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2A44">行动与实验</text>
+<circle cx="1119.0" cy="834.4" r="2.6" fill="#2C5F8A"/>
+<text x="1129.0" y="838.4" font-size="13" fill="#333333">设计方案与原型</text>
+<circle cx="1119.0" cy="855.4" r="2.6" fill="#2C5F8A"/>
+<text x="1129.0" y="859.4" font-size="13" fill="#333333">小规模实验，进入真实场景</text>
+<rect x="939.5" y="1231.6" width="250" height="185" rx="16" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="2"/>
+<circle cx="961.5" cy="1253.6" r="13" fill="#2C5F8A"/>
+<text x="961.5" y="1258.6" text-anchor="middle" font-size="13" font-weight="700" fill="#FFF8E7">3</text>
+<g transform="translate(1043.50 1254.56) scale(1.750)" fill="none" stroke="#2C5F8A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 4.5C8.5 3 5 5.5 5 9.5c0 2.8 1.6 4.6 1.6 7 0 2.8 2.4 4 5.4 4s5.4-1.2 5.4-4c0-2.4 1.6-4.2 1.6-7 0-4-3.5-6.5-7-5Z"/>
+<path d="M12 4.5v16"/>
+<path d="M9.6 9.6c-1.4-.9-2.7.1-2.7 1.6M14.4 9.6c1.4-.9 2.7.1 2.7 1.6"/>
+</g>
+<text x="1064.5" y="1307.6" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2A44">经验与学习</text>
+<circle cx="955.5" cy="1327.6" r="2.6" fill="#2C5F8A"/>
+<text x="965.5" y="1331.6" font-size="13" fill="#333333">收集数据与反馈</text>
+<circle cx="955.5" cy="1348.6" r="2.6" fill="#2C5F8A"/>
+<text x="965.5" y="1352.6" font-size="13" fill="#333333">理解用户与情境</text>
+<circle cx="955.5" cy="1369.6" r="2.6" fill="#2C5F8A"/>
+<text x="965.5" y="1373.6" font-size="13" fill="#333333">形成洞察与新认知</text>
+<rect x="410.5" y="1231.6" width="250" height="185" rx="16" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="2"/>
+<circle cx="432.5" cy="1253.6" r="13" fill="#2C5F8A"/>
+<text x="432.5" y="1258.6" text-anchor="middle" font-size="13" font-weight="700" fill="#FFF8E7">4</text>
+<g transform="translate(514.50 1254.56) scale(1.750)" fill="none" stroke="#2C5F8A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M23 4v6h-6"/>
+<path d="M1 20v-6h6"/>
+<path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/>
+<path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+</g>
+<text x="535.5" y="1307.6" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2A44">反思与修正</text>
+<circle cx="426.5" cy="1327.6" r="2.6" fill="#2C5F8A"/>
+<text x="436.5" y="1331.6" font-size="13" fill="#333333">反思假设与方案</text>
+<circle cx="426.5" cy="1348.6" r="2.6" fill="#2C5F8A"/>
+<text x="436.5" y="1352.6" font-size="13" fill="#333333">修正价值判断与方向</text>
+<circle cx="426.5" cy="1369.6" r="2.6" fill="#2C5F8A"/>
+<text x="436.5" y="1373.6" font-size="13" fill="#333333">更新认知与行动</text>
+<rect x="247.0" y="728.4" width="250" height="185" rx="16" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="2"/>
+<circle cx="269.0" cy="750.4" r="13" fill="#2C5F8A"/>
+<text x="269.0" y="755.4" text-anchor="middle" font-size="13" font-weight="700" fill="#FFF8E7">5</text>
+<g transform="translate(351.02 751.44) scale(1.750)" fill="none" stroke="#2C5F8A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+<path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+<path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+<path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+</g>
+<text x="372.0" y="804.4" text-anchor="middle" font-size="16.5" font-weight="700" fill="#1F2A44">升级与再创造</text>
+<circle cx="263.0" cy="824.4" r="2.6" fill="#2C5F8A"/>
+<text x="273.0" y="828.4" font-size="13" fill="#333333">基于洞察与学习</text>
+<circle cx="263.0" cy="845.4" r="2.6" fill="#2C5F8A"/>
+<text x="273.0" y="849.4" font-size="13" fill="#333333">优化方案</text>
+<circle cx="263.0" cy="866.4" r="2.6" fill="#2C5F8A"/>
+<text x="273.0" y="870.4" font-size="13" fill="#333333">创造新的价值与体验</text>
+<rect x="675.0" y="222.5" width="250" height="175" rx="14" fill="#FFFDF6" stroke="#D9A83C" stroke-width="2"/>
+<g transform="translate(780.00 232.50) scale(1.667)" fill="none" stroke="#A96E2F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3.5a3 3 0 1 1 0 6a3 3 0 1 1 0-6Z"/>
+<path d="M5 20.5c.8-4.2 3.6-6.5 7-6.5s6.2 2.3 7 6.5Z"/>
+</g>
+<text x="800.0" y="288.5" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1F2A44">消费者与人的真实生活</text>
+<circle cx="691.0" cy="304.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="308.5" font-size="12.5" fill="#333333">行为与选择</text>
+<circle cx="691.0" cy="322.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="326.5" font-size="12.5" fill="#333333">认知与信念</text>
+<circle cx="691.0" cy="340.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="344.5" font-size="12.5" fill="#333333">情感与需求</text>
+<circle cx="691.0" cy="358.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="362.5" font-size="12.5" fill="#333333">生活质量与幸福感</text>
+<rect x="1237.9" y="547.5" width="250" height="175" rx="14" fill="#FFFDF6" stroke="#D9A83C" stroke-width="2"/>
+<g transform="translate(1342.92 557.50) scale(1.667)" fill="none" stroke="#A96E2F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.5 19.5v-6.5M9.5 19.5V6.5M14.5 19.5V10M19.5 19.5V14.5"/>
+<path d="M3 19.5h18"/>
+</g>
+<text x="1362.9" y="613.5" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1F2A44">市场与商业环境</text>
+<circle cx="1253.9" cy="629.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="633.5" font-size="12.5" fill="#333333">竞争格局</text>
+<circle cx="1253.9" cy="647.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="651.5" font-size="12.5" fill="#333333">行业趋势</text>
+<circle cx="1253.9" cy="665.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="669.5" font-size="12.5" fill="#333333">商业模式</text>
+<circle cx="1253.9" cy="683.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="687.5" font-size="12.5" fill="#333333">ROI／成本／增长</text>
+<rect x="1237.9" y="1197.5" width="250" height="175" rx="14" fill="#FFFDF6" stroke="#D9A83C" stroke-width="2"/>
+<g transform="translate(1342.92 1207.50) scale(1.667)" fill="none" stroke="#A96E2F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3a9 9 0 1 1 0 18a9 9 0 1 1 0-18Z"/>
+<path d="M3.5 12h17"/>
+<path d="M12 3c-2.5 2.7-2.5 15.3 0 18c2.5-2.7 2.5-15.3 0-18Z"/>
+</g>
+<text x="1362.9" y="1263.5" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1F2A44">社会与文化环境</text>
+<circle cx="1253.9" cy="1279.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="1283.5" font-size="12.5" fill="#333333">文化价值观</text>
+<circle cx="1253.9" cy="1297.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="1301.5" font-size="12.5" fill="#333333">社会规范</text>
+<circle cx="1253.9" cy="1315.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="1319.5" font-size="12.5" fill="#333333">舆论与公共议题</text>
+<circle cx="1253.9" cy="1333.5" r="2.3" fill="#D9A83C"/>
+<text x="1263.9" y="1337.5" font-size="12.5" fill="#333333">群体与身份</text>
+<rect x="675.0" y="1522.5" width="250" height="175" rx="14" fill="#FFFDF6" stroke="#D9A83C" stroke-width="2"/>
+<g transform="translate(780.00 1532.50) scale(1.667)" fill="none" stroke="#A96E2F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 6h12v12H6Z"/>
+<path d="M9.5 9.5h5v5h-5Z"/>
+<path d="M9.5 6V3.5M14.5 6V3.5M9.5 20.5V18M14.5 20.5V18M6 9.5H3.5M6 14.5H3.5M20.5 9.5H18M20.5 14.5H18"/>
+</g>
+<text x="800.0" y="1588.5" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1F2A44">技术与媒介环境</text>
+<circle cx="691.0" cy="1604.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="1608.5" font-size="12.5" fill="#333333">技术变革</text>
+<circle cx="691.0" cy="1622.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="1626.5" font-size="12.5" fill="#333333">媒介生态</text>
+<circle cx="691.0" cy="1640.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="1644.5" font-size="12.5" fill="#333333">数据与算法</text>
+<circle cx="691.0" cy="1658.5" r="2.3" fill="#D9A83C"/>
+<text x="701.0" y="1662.5" font-size="12.5" fill="#333333">信息流动方式</text>
+<rect x="112.1" y="1197.5" width="250" height="175" rx="14" fill="#FFFDF6" stroke="#D9A83C" stroke-width="2"/>
+<g transform="translate(217.08 1207.50) scale(1.667)" fill="none" stroke="#A96E2F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3.5C8 3.5 5 6.6 5 11c0 5 3.6 8.4 7 9.5 3.4-1.1 7-4.5 7-9.5 0-4.4-3-7.5-7-7.5Z"/>
+<path d="M12 5.5V18"/>
+<path d="M12 11.5 8.2 8.8M12 14.5 15.6 12.2"/>
+</g>
+<text x="237.1" y="1263.5" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1F2A44">自然与资源环境</text>
+<circle cx="128.1" cy="1279.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="1283.5" font-size="12.5" fill="#333333">生态与可持续性</text>
+<circle cx="128.1" cy="1297.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="1301.5" font-size="12.5" fill="#333333">资源与能源</text>
+<circle cx="128.1" cy="1315.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="1319.5" font-size="12.5" fill="#333333">环境影响</text>
+<circle cx="128.1" cy="1333.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="1337.5" font-size="12.5" fill="#333333">未来代际</text>
+<rect x="112.1" y="547.5" width="250" height="175" rx="14" fill="#FFFDF6" stroke="#D9A83C" stroke-width="2"/>
+<g transform="translate(217.08 557.50) scale(1.667)" fill="none" stroke="#A96E2F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5.5 12c0-2.8 2.3-4.6 4.4-3 1.3 1.1 2.9 1.1 4.2 0 2.1-1.6 4.4.2 4.4 3s-2.3 4.6-4.4 3c-1.3-1.1-2.9-1.1-4.2 0-2.1 1.6-4.4-.2-4.4-3Z"/>
+</g>
+<text x="237.1" y="613.5" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1F2A44">长期与系统影响</text>
+<circle cx="128.1" cy="629.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="633.5" font-size="12.5" fill="#333333">品牌长期信任</text>
+<circle cx="128.1" cy="647.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="651.5" font-size="12.5" fill="#333333">社会长期影响</text>
+<circle cx="128.1" cy="665.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="669.5" font-size="12.5" fill="#333333">代际与文明</text>
+<circle cx="128.1" cy="683.5" r="2.3" fill="#D9A83C"/>
+<text x="138.1" y="687.5" font-size="12.5" fill="#333333">系统性后果</text>
+<rect x="690" y="179" width="220" height="34" rx="17" fill="#FFFDF6" stroke="#D9A83C" stroke-width="2"/>
+<text x="800" y="201" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2A44">现实世界（Reality）</text>
+<line x1="800" y1="213" x2="800" y2="300" stroke="#D9A83C" stroke-width="2" stroke-dasharray="4 4"/>
+<rect x="1000" y="434" width="240" height="36" rx="18" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="2"/>
+<text x="1120" y="457" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2A44">杜威行动循环（Dewey Cycle）</text>
+<text x="800" y="1740" text-anchor="middle" font-size="14.5" fill="#6B6F76">市场／消费者／社会／文化／技术／自然／商业生态</text>
+<line x1="330" y1="1732" x2="560" y2="1732" stroke="#D9A83C" stroke-width="3" stroke-dasharray="8 6"/>
+<line x1="1040" y1="1732" x2="1270" y2="1732" stroke="#D9A83C" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="800" y="1792" text-anchor="middle" font-size="23" font-weight="700" fill="#1F2A44">六者关系说明</text>
+<rect x="736" y="1766" width="128" height="5" rx="2.5" fill="#A96E2F"/>
+<rect x="370.0" y="1825.0" width="260" height="56" rx="13" fill="#FFFDF6" stroke="#1F2A44" stroke-width="1.6"/>
+<circle cx="394.0" cy="1853.0" r="5" fill="#A96E2F"/>
+<text x="410.0" y="1859.0" font-size="15" font-weight="700" fill="#1F2A44">康德：</text><text x="458.0" y="1859.0" font-size="14" fill="#333333">守住不可逾越的伦理底线</text>
+<rect x="670.0" y="1825.0" width="260" height="56" rx="13" fill="#FFFDF6" stroke="#1F2A44" stroke-width="1.6"/>
+<circle cx="694.0" cy="1853.0" r="5" fill="#A96E2F"/>
+<text x="710.0" y="1859.0" font-size="15" font-weight="700" fill="#1F2A44">亚里士多德：</text><text x="803.0" y="1859.0" font-size="14" fill="#333333">指引值得追求的好生活</text>
+<rect x="970.0" y="1825.0" width="260" height="56" rx="13" fill="#FFFDF6" stroke="#1F2A44" stroke-width="1.6"/>
+<circle cx="994.0" cy="1853.0" r="5" fill="#A96E2F"/>
+<text x="1010.0" y="1859.0" font-size="15" font-weight="700" fill="#1F2A44">尼采：</text><text x="1058.0" y="1859.0" font-size="14" fill="#333333">质疑价值的来源与合理性</text>
+<rect x="370.0" y="1915.0" width="260" height="56" rx="13" fill="#FFFDF6" stroke="#1F2A44" stroke-width="1.6"/>
+<circle cx="394.0" cy="1943.0" r="5" fill="#A96E2F"/>
+<text x="410.0" y="1949.0" font-size="15" font-weight="700" fill="#1F2A44">老子：</text><text x="458.0" y="1949.0" font-size="14" fill="#333333">松动二元对立，打开更多可能</text>
+<rect x="670.0" y="1915.0" width="260" height="56" rx="13" fill="#FFFDF6" stroke="#1F2A44" stroke-width="1.6"/>
+<circle cx="694.0" cy="1943.0" r="5" fill="#A96E2F"/>
+<text x="710.0" y="1949.0" font-size="15" font-weight="700" fill="#1F2A44">功利主义：</text><text x="788.0" y="1949.0" font-size="14" fill="#333333">检验真实结果与影响</text>
+<rect x="970.0" y="1915.0" width="260" height="56" rx="13" fill="#FFFDF6" stroke="#1F2A44" stroke-width="1.6"/>
+<circle cx="994.0" cy="1943.0" r="5" fill="#A96E2F"/>
+<text x="1010.0" y="1949.0" font-size="15" font-weight="700" fill="#1F2A44">杜威：</text><text x="1058.0" y="1949.0" font-size="14" fill="#333333">让思想进入行动，在循环中学习进化</text>
+<rect x="577" y="2014" width="446" height="44" rx="22" fill="#1F2A44"/>
+<text x="800" y="2042" text-anchor="middle" font-size="16.5" font-weight="700" fill="#FFF8E7">总结：六者共同构成一个持续自我修正与创造的哲学飞轮</text>
+<text x="800" y="2112" text-anchor="middle" font-size="23" font-weight="700" fill="#1F2A44">飞轮运转路径</text>
+<rect x="736" y="2086" width="128" height="5" rx="2.5" fill="#A96E2F"/>
+<rect x="437.0" y="2145.0" width="118" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="496.0" y="2175.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">价值张力内核</text>
+<line x1="557.0" y1="2170.0" x2="587.0" y2="2170.0" stroke="#1F2A44" stroke-width="2.4" marker-end="url(#mNavy)"/>
+<rect x="589.0" y="2145.0" width="118" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="648.0" y="2175.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">形成初步判断</text>
+<line x1="709.0" y1="2170.0" x2="739.0" y2="2170.0" stroke="#1F2A44" stroke-width="2.4" marker-end="url(#mNavy)"/>
+<rect x="741.0" y="2145.0" width="118" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="800.0" y="2175.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">杜威行动循环</text>
+<line x1="861.0" y1="2170.0" x2="891.0" y2="2170.0" stroke="#1F2A44" stroke-width="2.4" marker-end="url(#mNavy)"/>
+<rect x="893.0" y="2145.0" width="118" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="952.0" y="2175.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">进入真实实践</text>
+<line x1="1013.0" y1="2170.0" x2="1043.0" y2="2170.0" stroke="#1F2A44" stroke-width="2.4" marker-end="url(#mNavy)"/>
+<rect x="1045.0" y="2145.0" width="118" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="1104.0" y="2175.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">功利主义检验</text>
+<rect x="450.0" y="2235.0" width="118" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="509.0" y="2265.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">观察真实结果</text>
+<line x1="570.0" y1="2260.0" x2="600.0" y2="2260.0" stroke="#1F2A44" stroke-width="2.4" marker-end="url(#mNavy)"/>
+<rect x="602.0" y="2235.0" width="202" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="703.0" y="2265.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">反馈回内核修正认知与价值</text>
+<line x1="806.0" y1="2260.0" x2="836.0" y2="2260.0" stroke="#1F2A44" stroke-width="2.4" marker-end="url(#mNavy)"/>
+<rect x="838.0" y="2235.0" width="118" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="897.0" y="2265.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">升级与再创造</text>
+<line x1="958.0" y1="2260.0" x2="988.0" y2="2260.0" stroke="#1F2A44" stroke-width="2.4" marker-end="url(#mNavy)"/>
+<rect x="990.0" y="2235.0" width="160" height="50" rx="25" fill="#FFFDF6" stroke="#2C5F8A" stroke-width="1.8"/>
+<text x="1070.0" y="2265.0" text-anchor="middle" font-size="14.5" font-weight="600" fill="#1F2A44">产生新的判断与行动</text>
+<path d="M 1104.0 2195.0 C 1214.0 2195.0 1214.0 2310 436.0 2310 L 436.0 2283.0" fill="none" stroke="#2C5F8A" stroke-width="2.6" stroke-dasharray="7 5" marker-end="url(#mBlue)"/>
+<rect x="100" y="2365" width="1400" height="100" rx="18" fill="#1A1A1A"/>
+<circle cx="210" cy="2415" r="22" fill="none" stroke="#FFF8E7" stroke-width="2.6"/>
+<circle cx="210" cy="2415" r="13" fill="none" stroke="#FFF8E7" stroke-width="2"/>
+<circle cx="210" cy="2415" r="5" fill="#FFF8E7"/>
+<text x="800" y="2405" text-anchor="middle" font-size="18" font-weight="700" fill="#FFF8E7">核心目的：用商业的力量，创造更多人愿意选择并因此过上更好生活的现实可能性。</text>
+<text x="800" y="2441" text-anchor="middle" font-size="15.5" fill="#E6E0D0">不是影响选择，而是创造选择；不是追求短期转化，而是长期价值与人类繁荣。</text>
+</svg>

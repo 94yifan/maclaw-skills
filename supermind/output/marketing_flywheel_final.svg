@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2600" height="3260" viewBox="0 0 2600 3260" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','Apple Color Emoji','Segoe UI Emoji',sans-serif">
+
+<defs>
+<filter id="sh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#00000026"/></filter>
+<marker id="mGStart" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" viewBox="0 0 12 12" refX="2" refY="6" orient="auto"><path d="M 11 1 L 1 6 L 11 11 Z" fill="#8A8F98"/></marker>
+<marker id="mGEnd" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" viewBox="0 0 12 12" refX="10" refY="6" orient="auto"><path d="M 1 1 L 11 6 L 1 11 Z" fill="#8A8F98"/></marker>
+<marker id="mYEnd" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" viewBox="0 0 12 12" refX="10" refY="6" orient="auto"><path d="M 1 1 L 11 6 L 1 11 Z" fill="#E3B23C"/></marker>
+<marker id="mBEnd" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" viewBox="0 0 12 12" refX="10" refY="6" orient="auto"><path d="M 1 1 L 11 6 L 1 11 Z" fill="#5B8DEF"/></marker>
+<path id="outerArc" d="M 975.1 487.3 A 950 950 0 0 1 1624.9 487.3" fill="none"/>
+</defs>
+
+<rect width="2600" height="3260" fill="#FFFFFF"/>
+<text x="1300.0" y="78" font-size="45" font-weight="bold" fill="#1F2937" text-anchor="middle" letter-spacing="1">营销哲学飞轮：六大哲学 × 行动循环 × 现实检验</text>
+<text x="1300.0" y="134" font-size="25" fill="#4B5563" text-anchor="middle" letter-spacing="1">以人的尊严为基石，在价值张力中不断创造更好的生活可能性</text>
+<rect x="1080" y="172" width="440" height="4" rx="2" fill="#E3B23C"/>
+<g transform="translate(1300.0 1380.0) scale(1.08) translate(-1300.0 -1380.0)">
+<circle cx="1300.0" cy="1380.0" r="1030" fill="#F4EDDB"/>
+<circle cx="1300.0" cy="1380.0" r="780" fill="#E3EDFB"/>
+<circle cx="1300.0" cy="1380.0" r="560" fill="#2B3040"/>
+<circle cx="1300.0" cy="1380.0" r="1030" fill="none" stroke="#D8C49A" stroke-width="3.5"/>
+<circle cx="1300.0" cy="1380.0" r="780" fill="none" stroke="#C0D3F0" stroke-width="3"/>
+<circle cx="1300.0" cy="1380.0" r="560" fill="none" stroke="#3D4356" stroke-width="3"/>
+<circle cx="1300.0" cy="1380.0" r="250" fill="#111318"/>
+<path d="M 1857.2 666.9 A 905 905 0 0 1 2196.2 1254.0" fill="none" stroke="#E3B23C" stroke-width="3" stroke-dasharray="10 6" stroke-linecap="round" marker-end="url(#mYEnd)"/>
+<path d="M 2196.2 1506.0 A 905 905 0 0 1 1857.2 2093.1" fill="none" stroke="#E3B23C" stroke-width="3" stroke-dasharray="10 6" stroke-linecap="round" marker-end="url(#mYEnd)"/>
+<path d="M 1639.0 2219.1 A 905 905 0 0 1 961.0 2219.1" fill="none" stroke="#E3B23C" stroke-width="3" stroke-dasharray="10 6" stroke-linecap="round" marker-end="url(#mYEnd)"/>
+<path d="M 742.8 2093.1 A 905 905 0 0 1 403.8 1506.0" fill="none" stroke="#E3B23C" stroke-width="3" stroke-dasharray="10 6" stroke-linecap="round" marker-end="url(#mYEnd)"/>
+<path d="M 403.8 1254.0 A 905 905 0 0 1 742.8 666.9" fill="none" stroke="#E3B23C" stroke-width="3" stroke-dasharray="10 6" stroke-linecap="round" marker-end="url(#mYEnd)"/>
+<path d="M 961.0 540.9 A 905 905 0 0 1 1639.0 540.9" fill="none" stroke="#E3B23C" stroke-width="3" stroke-dasharray="10 6" stroke-linecap="round" marker-end="url(#mYEnd)"/>
+<path d="M 1893.6 1009.1 A 700 700 0 0 1 1998.3 1331.2" fill="none" stroke="#5B8DEF" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mBEnd)"/>
+<path d="M 1836.2 1830.0 A 700 700 0 0 1 1562.2 2029.0" fill="none" stroke="#5B8DEF" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mBEnd)"/>
+<path d="M 1037.8 2029.0 A 700 700 0 0 1 763.8 1830.0" fill="none" stroke="#5B8DEF" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mBEnd)"/>
+<path d="M 601.7 1331.2 A 700 700 0 0 1 706.4 1009.1" fill="none" stroke="#5B8DEF" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mBEnd)"/>
+<text font-size="26" font-weight="bold" fill="#6B5632" letter-spacing="2"><textPath href="#outerArc" xlink:href="#outerArc" startOffset="50%" text-anchor="middle">市场／消费者／社会／文化／技术／自然／商业生态</textPath></text>
+<rect x="1180" y="610" width="240" height="44" rx="22" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1300.0" y="639" font-size="21" font-weight="bold" fill="#1D4ED8" text-anchor="middle">行动循环 (Dewey)</text>
+<rect x="1090" y="662" width="420" height="40" rx="20" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1300.0" y="689" font-size="19" font-weight="bold" fill="#3B6CC9" text-anchor="middle">Inquiry → Action → Learning</text>
+<rect x="1175" y="775" width="250" height="52" rx="12" fill="#232836" stroke="#E8C45C" stroke-width="2"/>
+<text x="1300.0" y="799" font-size="22" font-weight="bold" fill="#FFFFFF" text-anchor="middle">价值张力内核</text>
+<text x="1300.0" y="819" font-size="12.5" fill="#C9CFDD" text-anchor="middle">在张力中思考：我们究竟在乎什么？</text>
+<g filter="url(#sh)">
+<rect x="1637.5" y="521.2" width="230" height="150" rx="10" fill="#FFFDF7" stroke="#D9C9A3" stroke-width="2"/>
+<path d="M 1647.5 521.2 H 1857.5 Q 1867.5 521.2 1867.5 531.2 V 555.2 H 1637.5 V 531.2 Q 1637.5 521.2 1647.5 521.2 Z" fill="#F1E7CF"/>
+<text x="1752.5" y="544.2" font-size="15.5" font-weight="bold" fill="#6B5632" text-anchor="middle">消费者与人的真实生活 👥</text>
+<text x="1651.5" y="567.2" font-size="13" fill="#4A4237">· 行为与选择</text>
+<text x="1651.5" y="589.2" font-size="13" fill="#4A4237">· 认知与信念</text>
+<text x="1651.5" y="611.2" font-size="13" fill="#4A4237">· 情感与需求</text>
+<text x="1651.5" y="633.2" font-size="13" fill="#4A4237">· 生活质量与幸福感</text>
+</g>
+<g filter="url(#sh)">
+<rect x="2090.0" y="1305.0" width="230" height="150" rx="10" fill="#FFFDF7" stroke="#D9C9A3" stroke-width="2"/>
+<path d="M 2100.0 1305.0 H 2310.0 Q 2320.0 1305.0 2320.0 1315.0 V 1339.0 H 2090.0 V 1315.0 Q 2090.0 1305.0 2100.0 1305.0 Z" fill="#F1E7CF"/>
+<text x="2205.0" y="1328.0" font-size="15.5" font-weight="bold" fill="#6B5632" text-anchor="middle">市场与商业环境 📈</text>
+<text x="2104.0" y="1351.0" font-size="13" fill="#4A4237">· 竞争格局</text>
+<text x="2104.0" y="1373.0" font-size="13" fill="#4A4237">· 行业趋势</text>
+<text x="2104.0" y="1395.0" font-size="13" fill="#4A4237">· 商业模式</text>
+<text x="2104.0" y="1417.0" font-size="13" fill="#4A4237">· ROI/成本/增长</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1637.5" y="2088.8" width="230" height="150" rx="10" fill="#FFFDF7" stroke="#D9C9A3" stroke-width="2"/>
+<path d="M 1647.5 2088.8 H 1857.5 Q 1867.5 2088.8 1867.5 2098.8 V 2122.8 H 1637.5 V 2098.8 Q 1637.5 2088.8 1647.5 2088.8 Z" fill="#F1E7CF"/>
+<text x="1752.5" y="2111.8" font-size="15.5" font-weight="bold" fill="#6B5632" text-anchor="middle">社会与文化文化环境 🌐</text>
+<text x="1651.5" y="2134.8" font-size="13" fill="#4A4237">· 文化价值观</text>
+<text x="1651.5" y="2156.8" font-size="13" fill="#4A4237">· 社会规范</text>
+<text x="1651.5" y="2178.8" font-size="13" fill="#4A4237">· 舆论与公共议题</text>
+<text x="1651.5" y="2200.8" font-size="13" fill="#4A4237">· 群体与身份</text>
+</g>
+<g filter="url(#sh)">
+<rect x="732.5" y="2088.8" width="230" height="150" rx="10" fill="#FFFDF7" stroke="#D9C9A3" stroke-width="2"/>
+<path d="M 742.5 2088.8 H 952.5 Q 962.5 2088.8 962.5 2098.8 V 2122.8 H 732.5 V 2098.8 Q 732.5 2088.8 742.5 2088.8 Z" fill="#F1E7CF"/>
+<text x="847.5" y="2111.8" font-size="15.5" font-weight="bold" fill="#6B5632" text-anchor="middle">技术与媒介环境 🤖</text>
+<text x="746.5" y="2134.8" font-size="13" fill="#4A4237">· 技术变革</text>
+<text x="746.5" y="2156.8" font-size="13" fill="#4A4237">· 媒介生态</text>
+<text x="746.5" y="2178.8" font-size="13" fill="#4A4237">· 数据与算法</text>
+<text x="746.5" y="2200.8" font-size="13" fill="#4A4237">· 信息流动方式</text>
+</g>
+<g filter="url(#sh)">
+<rect x="280.0" y="1305.0" width="230" height="150" rx="10" fill="#FFFDF7" stroke="#D9C9A3" stroke-width="2"/>
+<path d="M 290.0 1305.0 H 500.0 Q 510.0 1305.0 510.0 1315.0 V 1339.0 H 280.0 V 1315.0 Q 280.0 1305.0 290.0 1305.0 Z" fill="#F1E7CF"/>
+<text x="395.0" y="1328.0" font-size="15.5" font-weight="bold" fill="#6B5632" text-anchor="middle">自然与资源环境 🍃</text>
+<text x="294.0" y="1351.0" font-size="13" fill="#4A4237">· 生态与可持续性</text>
+<text x="294.0" y="1373.0" font-size="13" fill="#4A4237">· 资源与能源</text>
+<text x="294.0" y="1395.0" font-size="13" fill="#4A4237">· 环境影响</text>
+<text x="294.0" y="1417.0" font-size="13" fill="#4A4237">· 未来代价</text>
+</g>
+<g filter="url(#sh)">
+<rect x="732.5" y="521.2" width="230" height="150" rx="10" fill="#FFFDF7" stroke="#D9C9A3" stroke-width="2"/>
+<path d="M 742.5 521.2 H 952.5 Q 962.5 521.2 962.5 531.2 V 555.2 H 732.5 V 531.2 Q 732.5 521.2 742.5 521.2 Z" fill="#F1E7CF"/>
+<text x="847.5" y="544.2" font-size="15.5" font-weight="bold" fill="#6B5632" text-anchor="middle">长期与系统影响 ∞</text>
+<text x="746.5" y="567.2" font-size="13" fill="#4A4237">· 品牌长期信任</text>
+<text x="746.5" y="589.2" font-size="13" fill="#4A4237">· 社会长期影响</text>
+<text x="746.5" y="611.2" font-size="13" fill="#4A4237">· 代际与文明</text>
+<text x="746.5" y="633.2" font-size="13" fill="#4A4237">· 系统性后果</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1595.6" y="765.8" width="220" height="112" rx="10" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2.5"/>
+<path d="M 1605.6 765.8 H 1805.6 Q 1815.6 765.8 1815.6 775.8 V 799.8 H 1595.6 V 775.8 Q 1595.6 765.8 1605.6 765.8 Z" fill="#D8E6FB"/>
+<text x="1705.6" y="788.8" font-size="16" font-weight="bold" fill="#24519B" text-anchor="middle">🔍 探索与假设</text>
+<text x="1705.6" y="815.8" font-size="12.5" fill="#3A4659" text-anchor="middle">观察现实，发现问题与机会</text>
+<text x="1705.6" y="833.8" font-size="12.5" fill="#3A4659" text-anchor="middle">形成初步假设与价值主张</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1846.2" y="1537.2" width="220" height="112" rx="10" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2.5"/>
+<path d="M 1856.2 1537.2 H 2056.2 Q 2066.2 1537.2 2066.2 1547.2 V 1571.2 H 1846.2 V 1547.2 Q 1846.2 1537.2 1856.2 1537.2 Z" fill="#D8E6FB"/>
+<text x="1956.2" y="1560.2" font-size="16" font-weight="bold" fill="#24519B" text-anchor="middle">🧪 行动与实验</text>
+<text x="1956.2" y="1587.2" font-size="12.5" fill="#3A4659" text-anchor="middle">设计方案与原型</text>
+<text x="1956.2" y="1605.2" font-size="12.5" fill="#3A4659" text-anchor="middle">小规模实验，进入真实场景</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1190.0" y="2014.0" width="220" height="112" rx="10" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2.5"/>
+<path d="M 1200.0 2014.0 H 1400.0 Q 1410.0 2014.0 1410.0 2024.0 V 2048.0 H 1190.0 V 2024.0 Q 1190.0 2014.0 1200.0 2014.0 Z" fill="#D8E6FB"/>
+<text x="1300.0" y="2037.0" font-size="16" font-weight="bold" fill="#24519B" text-anchor="middle">🧠 经验与学习</text>
+<text x="1300.0" y="2064.0" font-size="12.5" fill="#3A4659" text-anchor="middle">收集数据与反馈</text>
+<text x="1300.0" y="2082.0" font-size="12.5" fill="#3A4659" text-anchor="middle">理解用户与情境，形成洞察与新认知</text>
+</g>
+<g filter="url(#sh)">
+<rect x="533.8" y="1537.2" width="220" height="112" rx="10" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2.5"/>
+<path d="M 543.8 1537.2 H 743.8 Q 753.8 1537.2 753.8 1547.2 V 1571.2 H 533.8 V 1547.2 Q 533.8 1537.2 543.8 1537.2 Z" fill="#D8E6FB"/>
+<text x="643.8" y="1560.2" font-size="16" font-weight="bold" fill="#24519B" text-anchor="middle">🔄 反思与修正</text>
+<text x="643.8" y="1587.2" font-size="12.5" fill="#3A4659" text-anchor="middle">反思假设与方案</text>
+<text x="643.8" y="1605.2" font-size="12.5" fill="#3A4659" text-anchor="middle">修正价值判断与方向，更新认知与行动</text>
+</g>
+<g filter="url(#sh)">
+<rect x="784.4" y="765.8" width="220" height="112" rx="10" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2.5"/>
+<path d="M 794.4 765.8 H 994.4 Q 1004.4 765.8 1004.4 775.8 V 799.8 H 784.4 V 775.8 Q 784.4 765.8 794.4 765.8 Z" fill="#D8E6FB"/>
+<text x="894.4" y="788.8" font-size="16" font-weight="bold" fill="#24519B" text-anchor="middle">🚀 升级与再创造</text>
+<text x="894.4" y="815.8" font-size="12.5" fill="#3A4659" text-anchor="middle">基于洞察与学习，优化方案</text>
+<text x="894.4" y="833.8" font-size="12.5" fill="#3A4659" text-anchor="middle">创造新的价值与体验</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1160.0" y="881.0" width="280" height="158" rx="10" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2.5"/>
+<path d="M 1170.0 881.0 H 1430.0 Q 1440.0 881.0 1440.0 891.0 V 913.0 H 1160.0 V 891.0 Q 1160.0 881.0 1170.0 881.0 Z" fill="#DBEAFE"/>
+<text x="1300.0" y="903.0" font-size="15.5" font-weight="bold" fill="#1D4ED8" text-anchor="middle">康德：义务论 ⚖️</text>
+<text x="1300.0" y="927.0" font-size="13" fill="#3F3F46" text-anchor="middle"><tspan font-weight="bold" fill="#52525B">核心问题</tspan>：「我们『能做不能做』？」</text>
+<text x="1174.0" y="949.0" font-size="12.5" fill="#3F3F46">· 尊重人的尊严与自主性</text>
+<text x="1174.0" y="967.0" font-size="12.5" fill="#3F3F46">· 不把人当工具手段</text>
+<text x="1174.0" y="985.0" font-size="12.5" fill="#3F3F46">· 诚实、透明、公平</text>
+<text x="1174.0" y="1003.0" font-size="12.5" fill="#3F3F46">· 不可操纵或欺骗</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1523.7" y="1091.0" width="280" height="158" rx="10" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2.5"/>
+<path d="M 1533.7 1091.0 H 1793.7 Q 1803.7 1091.0 1803.7 1101.0 V 1123.0 H 1523.7 V 1101.0 Q 1523.7 1091.0 1533.7 1091.0 Z" fill="#FEF3C7"/>
+<text x="1663.7" y="1113.0" font-size="15.5" font-weight="bold" fill="#B45309" text-anchor="middle">亚里士多德：美德论 👤</text>
+<text x="1663.7" y="1137.0" font-size="13" fill="#3F3F46" text-anchor="middle"><tspan font-weight="bold" fill="#52525B">核心问题</tspan>：「什么是值得追求？」</text>
+<text x="1537.7" y="1159.0" font-size="12.5" fill="#3F3F46">· 追求人的"繁荣"(eudaimonia)</text>
+<text x="1537.7" y="1177.0" font-size="12.5" fill="#3F3F46">· 培养实践智慧(phronesis)</text>
+<text x="1537.7" y="1195.0" font-size="12.5" fill="#3F3F46">· 在情境中判断(biogenesis)</text>
+<text x="1537.7" y="1213.0" font-size="12.5" fill="#3F3F46">· 将角色与生活方式共同构建</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1523.7" y="1511.0" width="280" height="158" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="2.5"/>
+<path d="M 1533.7 1511.0 H 1793.7 Q 1803.7 1511.0 1803.7 1521.0 V 1543.0 H 1523.7 V 1521.0 Q 1523.7 1511.0 1533.7 1511.0 Z" fill="#EDE9FE"/>
+<text x="1663.7" y="1533.0" font-size="15.5" font-weight="bold" fill="#6D28D9" text-anchor="middle">尼采：价值重估 ❓</text>
+<text x="1663.7" y="1557.0" font-size="13" fill="#3F3F46" text-anchor="middle"><tspan font-weight="bold" fill="#52525B">核心问题</tspan>：「为什么它值得？」</text>
+<text x="1537.7" y="1579.0" font-size="12.5" fill="#3F3F46">· 通过价值体系来批判旧道德</text>
+<text x="1537.7" y="1597.0" font-size="12.5" fill="#3F3F46">· 拥抱权力、生命、身体塑造</text>
+<text x="1537.7" y="1615.0" font-size="12.5" fill="#3F3F46">· 直面一切既有价值</text>
+<text x="1537.7" y="1633.0" font-size="12.5" fill="#3F3F46">· 创造新的可能性</text>
+</g>
+<g filter="url(#sh)">
+<rect x="1160.0" y="1721.0" width="280" height="158" rx="10" fill="#FFFFFF" stroke="#10B981" stroke-width="2.5"/>
+<path d="M 1170.0 1721.0 H 1430.0 Q 1440.0 1721.0 1440.0 1731.0 V 1753.0 H 1160.0 V 1731.0 Q 1160.0 1721.0 1170.0 1721.0 Z" fill="#D1FAE5"/>
+<text x="1300.0" y="1743.0" font-size="15.5" font-weight="bold" fill="#047857" text-anchor="middle">老子：价值消解 ☯️</text>
+<text x="1300.0" y="1767.0" font-size="13" fill="#3F3F46" text-anchor="middle"><tspan font-weight="bold" fill="#52525B">核心问题</tspan>：「真的需要如此三分吗？」</text>
+<text x="1174.0" y="1789.0" font-size="12.5" fill="#3F3F46">· 天下皆知美之为斯恶已</text>
+<text x="1174.0" y="1807.0" font-size="12.5" fill="#3F3F46">· 超越二元对立：善/恶、有/无、得/失</text>
+<text x="1174.0" y="1825.0" font-size="12.5" fill="#3F3F46">· 道法自然</text>
+<text x="1174.0" y="1843.0" font-size="12.5" fill="#3F3F46">· 顺势而为</text>
+<text x="1174.0" y="1861.0" font-size="12.5" fill="#3F3F46">· 无为而无不为</text>
+</g>
+<g filter="url(#sh)">
+<rect x="796.3" y="1511.0" width="280" height="158" rx="10" fill="#FFFFFF" stroke="#C08A1E" stroke-width="2.5"/>
+<path d="M 806.3 1511.0 H 1066.3 Q 1076.3 1511.0 1076.3 1521.0 V 1543.0 H 796.3 V 1521.0 Q 796.3 1511.0 806.3 1511.0 Z" fill="#FBF0D8"/>
+<text x="936.3" y="1533.0" font-size="15.5" font-weight="bold" fill="#92600A" text-anchor="middle">功利主义：结果检验 📊</text>
+<text x="936.3" y="1557.0" font-size="13" fill="#3F3F46" text-anchor="middle"><tspan font-weight="bold" fill="#52525B">核心问题</tspan>：「结果如何？」</text>
+<text x="810.3" y="1579.0" font-size="12.5" fill="#3F3F46">· 最大化总体幸福/效用如何？</text>
+<text x="810.3" y="1597.0" font-size="12.5" fill="#3F3F46">· 量导幸福与痛苦如何比较？</text>
+<text x="810.3" y="1615.0" font-size="12.5" fill="#3F3F46">· 短期vs长期结果？</text>
+<text x="810.3" y="1633.0" font-size="12.5" fill="#3F3F46">· 社会与未来影响如何？</text>
+</g>
+<circle cx="1300.0" cy="1272" r="26" fill="#FFFFFF"/>
+<path d="M 1250 1362 A 50 50 0 0 0 1350 1362 Z" fill="#FFFFFF"/>
+<text x="1300.0" y="1408" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle">人的尊严</text>
+<text x="1300.0" y="1444" font-size="17" fill="#D1D5DB" text-anchor="middle" letter-spacing="2">Human Dignity</text>
+<text x="1300.0" y="1482" font-size="17.5" fill="#FFFFFF" text-anchor="middle">一切判断的基石，不可逾越的伦理底线</text>
+<line x1="1300.0" y1="1122.0" x2="1300.0" y2="1048.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1523.4" y1="1251.0" x2="1587.5" y2="1214.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1523.4" y1="1509.0" x2="1587.5" y2="1546.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1300.0" y1="1638.0" x2="1300.0" y2="1712.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1076.6" y1="1509.0" x2="1012.5" y2="1546.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1436.8" y1="1039.0" x2="1526.9" y2="1091.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1663.7" y1="1249.0" x2="1663.7" y2="1511.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1526.9" y1="1669.0" x2="1436.8" y2="1721.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="1163.2" y1="1721.0" x2="1073.1" y2="1669.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+<line x1="981.9" y1="1511.0" x2="1254.4" y2="1039.0" stroke="#8A8F98" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" marker-start="url(#mGStart)" marker-end="url(#mGEnd)"/>
+</g>
+<rect x="90" y="2560" width="1170" height="420" rx="12" fill="#FDFBF5" stroke="#D9C9A3" stroke-width="2" filter="url(#sh)"/>
+<path d="M 100.0 2560.0 H 1250.0 Q 1260.0 2560.0 1260.0 2570.0 V 2616.0 H 90.0 V 2570.0 Q 90.0 2560.0 100.0 2560.0 Z" fill="#F1E7CF"/>
+<text x="120" y="2598" font-size="22" font-weight="bold" fill="#6B5632">六者关系说明</text>
+<text x="120" y="2648" font-size="20" fill="#4A4237">1. <tspan font-weight="bold" fill="#1D4ED8">康德</tspan>：守住不可逾越的伦理底线</text>
+<text x="120" y="2696" font-size="20" fill="#4A4237">2. <tspan font-weight="bold" fill="#B45309">亚里士多德</tspan>：指引值得追求的好生活</text>
+<text x="120" y="2744" font-size="20" fill="#4A4237">3. <tspan font-weight="bold" fill="#6D28D9">尼采</tspan>：质疑价值的来源与合理性</text>
+<text x="120" y="2792" font-size="20" fill="#4A4237">4. <tspan font-weight="bold" fill="#047857">老子</tspan>：松动二元对立，打开更多可能</text>
+<text x="120" y="2840" font-size="20" fill="#4A4237">5. <tspan font-weight="bold" fill="#92600A">功利主义</tspan>：让思想进入行动，在循环中学习进化</text>
+<line x1="120" y1="2880" x2="1230" y2="2880" stroke="#E0D2AE" stroke-width="1.5"/>
+<text x="120" y="2904" font-size="20" fill="#1F2937"><tspan font-weight="bold">总结</tspan>：六者共同构成一个持续自我修正与创造的哲学飞轮</text>
+<rect x="1320" y="2560" width="1190" height="420" rx="12" fill="#FBFDFF" stroke="#C4D6F2" stroke-width="2" filter="url(#sh)"/>
+<path d="M 1330.0 2560.0 H 2500.0 Q 2510.0 2560.0 2510.0 2570.0 V 2616.0 H 1320.0 V 2570.0 Q 1320.0 2560.0 1330.0 2560.0 Z" fill="#D8E6FB"/>
+<text x="1350" y="2598" font-size="22" font-weight="bold" fill="#24519B">飞轮如何运转</text>
+<rect x="1340" y="2630" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1440" y="2668" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">价值张力内核</text>
+<path d="M 1546 2652 L 1546 2672 L 1560 2662 Z" fill="#4A7ED8"/>
+<rect x="1564" y="2630" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1664" y="2668" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">形成初步判断</text>
+<path d="M 1770 2652 L 1770 2672 L 1784 2662 Z" fill="#4A7ED8"/>
+<rect x="1788" y="2630" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1888" y="2668" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">杜威行动循环</text>
+<path d="M 1994 2652 L 1994 2672 L 2008 2662 Z" fill="#4A7ED8"/>
+<rect x="2012" y="2630" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="2112" y="2668" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">进入真实实验</text>
+<path d="M 2218 2652 L 2218 2672 L 2232 2662 Z" fill="#4A7ED8"/>
+<rect x="2236" y="2630" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="2336" y="2668" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">功利主义检验</text>
+<line x1="2336" y1="2694" x2="2336" y2="2712" stroke="#4A7ED8" stroke-width="3"/>
+<path d="M 2326 2712 L 2346 2712 L 2336 2726 Z" fill="#4A7ED8"/>
+<rect x="2236" y="2724" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="2336" y="2762" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">观察真实结果</text>
+<path d="M 2230 2746 L 2230 2766 L 2216 2756 Z" fill="#4A7ED8"/>
+<rect x="2012" y="2724" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="2112" y="2762" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">反馈回内核</text>
+<path d="M 2006 2746 L 2006 2766 L 1992 2756 Z" fill="#4A7ED8"/>
+<rect x="1788" y="2724" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1888" y="2762" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">修正认知与价值</text>
+<path d="M 1782 2746 L 1782 2766 L 1768 2756 Z" fill="#4A7ED8"/>
+<rect x="1564" y="2724" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1664" y="2762" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">升级与再创造</text>
+<path d="M 1558 2746 L 1558 2766 L 1544 2756 Z" fill="#4A7ED8"/>
+<rect x="1340" y="2724" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#6C9AE8" stroke-width="2"/>
+<text x="1440" y="2762" font-size="20" font-weight="bold" fill="#1F2937" text-anchor="middle">产生新的判断与行动</text>
+<path d="M 1330 2766 C 1290 2766 1290 2648 1328 2648" fill="none" stroke="#4A7ED8" stroke-width="3" stroke-linecap="round"/>
+<path d="M 1328 2636 L 1317 2652 L 1339 2652 Z" fill="#4A7ED8"/>
+<text x="1915" y="2860" font-size="19" fill="#374151" text-anchor="middle">这是一个永不停止的循环，推动我们持续创造更好的生活与社会价值。</text>
+<rect x="90" y="3030" width="2420" height="140" rx="14" fill="#111318"/>
+<circle cx="240" cy="3100" r="30" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+<circle cx="240" cy="3100" r="19" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+<circle cx="240" cy="3100" r="9" fill="#FFFFFF"/>
+<text x="1350" y="3088" font-size="25" font-weight="bold" fill="#FFFFFF" text-anchor="middle">核心目的：用商业的力量，创造更多人愿意选择并因此过上更好生活的现实可能性。</text>
+<text x="1350" y="3134" font-size="20" fill="#E5E7EB" text-anchor="middle">不是影响选择，而是创造选择；不是追求短期转化，而是长期价值与人类繁荣。</text>
+</svg>

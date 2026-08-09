@@ -51,3 +51,8 @@ clawhub install feishu-doc-manager --dir . --force
 | CEO管理职能 | 待定 | 待建 |
 | 品牌营销及服务设计咨询顾问 | 待定 | 待建 |
 | 案例包奖 | 待定 | 待建 |
+## 待添加
+
+| # | Skill | 版本 | 安装路径 | 用途 | 来源 |
+|---|---|---|---|---|---|
+| 9 | tea-brand-daily-report | 1.0.0 | ./skills/tea-brand-daily-report | 19个茶饮品牌微博日报自动生成 | 自建 |

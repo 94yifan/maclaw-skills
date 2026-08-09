@@ -238,21 +238,21 @@ while i < len(lines):
         i += 1
         continue
     
-    # Handle headings
+    # Handle headings: markdown # → Heading 1, ## → Heading 2, ### → Heading 3, #### → Heading 4
     if line.startswith('# '):
-        add_formatted_paragraph(doc, line[2:], level=0)
+        add_formatted_paragraph(doc, line[2:], level=1)
         i += 1
         continue
     elif line.startswith('## '):
-        add_formatted_paragraph(doc, line[3:], level=1)
+        add_formatted_paragraph(doc, line[3:], level=2)
         i += 1
         continue
     elif line.startswith('### '):
-        add_formatted_paragraph(doc, line[4:], level=2)
+        add_formatted_paragraph(doc, line[4:], level=3)
         i += 1
         continue
     elif line.startswith('#### '):
-        add_formatted_paragraph(doc, line[5:], level=3)
+        add_formatted_paragraph(doc, line[5:], level=4)
         i += 1
         continue
     
@@ -289,7 +289,7 @@ while i < len(lines):
     i += 1
 
 # Set heading styles
-for level in range(1, 4):
+for level in range(1, 5):
     hs = doc.styles[f'Heading {level}']
     hs.font.name = '微软雅黑'
     hs.element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
@@ -302,6 +302,9 @@ for level in range(1, 4):
     elif level == 3:
         hs.font.size = Pt(12)
         hs.font.color.rgb = RGBColor(0x3a, 0x7c, 0xa5)
+    elif level == 4:
+        hs.font.size = Pt(11)
+        hs.font.color.rgb = RGBColor(0x4a, 0x4a, 0x4a)
 
 # Save
 os.makedirs(os.path.dirname(OUTPUT_DOCX), exist_ok=True)

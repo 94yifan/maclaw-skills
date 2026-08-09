@@ -39,6 +39,13 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 Add whatever helps you do your job. This is your cheat sheet.
 
+## 联网搜索（2026-07-18 确认）
+
+- web_search 工具不可用：provider 是 DuckDuckGo，在本机网络被墙；Brave/Perplexity API 同样被墙，重试无意义
+- **默认用网页搜**：web_fetch 抓搜狗 `https://www.sogou.com/web?query=URL编码关键词`，约1.3秒返回，稳定
+- 搜狗结果里的 /link?url= 中转链接拼成 `https://www.sogou.com/link?url=...` 再 fetch；mp.weixin.qq.com 链接一般可直接 fetch
+- 逸凡已确认：后面搜索先都走网页搜，不急着修 web_search
+
 ## Related
 
 - [Agent workspace](/concepts/agent-workspace)

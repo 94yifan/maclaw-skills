@@ -437,6 +437,10 @@ Validation Standard - 如何判断 this Skill 值得长期保留
 - `case-packaging`：奖项案例包装评估（判断值不值得包、价值在哪）
 - `case-storyteller`：奖项案例故事线从零构建
 
+**复盘审查与重写**
+- `review-revision`：投放复盘报告修改建议生成。前置三问（投放状态/客户不可妥协项/操作空间）强制先确认再出建议。调用路径 `skills/review-revision/SKILL.md`
+- `review-content-rewrite`：复盘段落重写。三步前置（输出格式确认/数据完整度标记/页间衔接标注），与review-revision串行协作。调用路径 `skills/review-content-rewrite/SKILL.md`
+
 **调用原则**：收到任务 → 先到这里找有没有对应 skill → 有就直接调用 → 没有再用 find-skills 或 clawhub 搜索
 
 ## Supermind 专项行为规范

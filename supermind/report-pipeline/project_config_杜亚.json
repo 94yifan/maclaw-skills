@@ -1,0 +1,36 @@
+{
+  "project_name": "杜亚 智能窗帘行业品牌扫描",
+  "industry": "智能窗帘/电动窗帘",
+  "schema_version": "2.0",
+  "brands": {
+    "focus": "杜亚 DOOYA（宁波杜亚机电技术有限公司）",
+    "deep": ["米家", "Aqara 绿米", "欧瑞博 ORVIBO", "创明", "科思顿 Kaosturn", "摩力克", "如鱼得水", "三千金"],
+    "reference": ["邦先生 Mr.Bond", "亨特道格拉斯 Hunter Douglas", "LifeSmart 云起", "威仕达 Wistar"],
+    "summary": ["凯迪仕（智能门锁/转型对标）", "九牧（卫浴/安装服务标杆）", "好太太（晾衣架/品类延伸）", "奥普（浴霸/建材转线上）"]
+  },
+  "founder_name": "鲍永林",
+  "data_sources": {
+    "ecommerce_platforms": ["tmall", "jd", "douyin"],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": false,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": false,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {"dimensions": []},
+  "special_methodology": {},
+  "output_dir": "./output/杜亚_智能窗帘行业品牌扫描_20260810_1856",
+  "output_settings": {
+    "docx_filename": "杜亚-智能窗帘-V1-20260810.docx"
+  }
+}

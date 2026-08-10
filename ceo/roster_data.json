@@ -1,0 +1,366 @@
+[
+  {
+    "name": "李越",
+    "level": "",
+    "title": "媒介执行",
+    "entry_date": "2026-06-01",
+    "birthday": "1997-03-15"
+  },
+  {
+    "name": "胥旖璐",
+    "level": "",
+    "title": "实习生",
+    "entry_date": "2026-06-01",
+    "birthday": "2005-04-14"
+  },
+  {
+    "name": "刘佳仪",
+    "level": "",
+    "title": "竞价运营专家",
+    "entry_date": "2026-05-28",
+    "birthday": "1998-03-19"
+  },
+  {
+    "name": "赵辛娜",
+    "level": "",
+    "title": "实习生",
+    "entry_date": "2026-05-18",
+    "birthday": "2001-06-08"
+  },
+  {
+    "name": "温翔",
+    "level": "",
+    "title": "预备PM",
+    "entry_date": "2026-05-12",
+    "birthday": "1997-02-17"
+  },
+  {
+    "name": "陈柯辰",
+    "level": "",
+    "title": "媒介执行",
+    "entry_date": "2026-05-11",
+    "birthday": "2002-01-24"
+  },
+  {
+    "name": "柯林国",
+    "level": "",
+    "title": "实习生",
+    "entry_date": "2026-05-06",
+    "birthday": "2005-09-12"
+  },
+  {
+    "name": "秦姗",
+    "level": "",
+    "title": "媒介执行",
+    "entry_date": "2026-05-06",
+    "birthday": "2000-10-29"
+  },
+  {
+    "name": "肖天",
+    "level": "",
+    "title": "AD",
+    "entry_date": "2026-04-21",
+    "birthday": "2025-02-22"
+  },
+  {
+    "name": "熊智童",
+    "level": "",
+    "title": "竞价运营策略",
+    "entry_date": "2026-04-07",
+    "birthday": "2003-11-16"
+  },
+  {
+    "name": "王满",
+    "level": "",
+    "title": "选人媒介",
+    "entry_date": "2026-04-07",
+    "birthday": "2002-06-07"
+  },
+  {
+    "name": "陈心怡",
+    "level": "",
+    "title": "竞价运营策略",
+    "entry_date": "2026-04-02",
+    "birthday": "2002-04-15"
+  },
+  {
+    "name": "鬼鬼",
+    "level": "",
+    "title": "新媒体策划",
+    "entry_date": "2026-03-23",
+    "birthday": "1998-07-29"
+  },
+  {
+    "name": "刘元秀",
+    "level": "",
+    "title": "出纳",
+    "entry_date": "2026-03-19",
+    "birthday": "2002-03-07"
+  },
+  {
+    "name": "李思月",
+    "level": "",
+    "title": "选人媒介",
+    "entry_date": "2026-03-09",
+    "birthday": "2003-07-27"
+  },
+  {
+    "name": "吴丹红",
+    "level": "",
+    "title": "策划管培生",
+    "entry_date": "2026-03-04",
+    "birthday": "2004-03-29"
+  },
+  {
+    "name": "许艺馨",
+    "level": "",
+    "title": "媒介执行",
+    "entry_date": "2026-01-19",
+    "birthday": "2004-03-31"
+  },
+  {
+    "name": "朱静雯",
+    "level": "",
+    "title": "实习生",
+    "entry_date": "2026-01-14",
+    "birthday": "2006-11-08"
+  },
+  {
+    "name": "刘星茹",
+    "level": "",
+    "title": "内容媒介",
+    "entry_date": "2026-01-12",
+    "birthday": "2001-09-21"
+  },
+  {
+    "name": "贾梦瑶",
+    "level": "",
+    "title": "竞价运营策略管培生",
+    "entry_date": "2026-01-06",
+    "birthday": "2003-12-30"
+  },
+  {
+    "name": "王雅君",
+    "level": "P3",
+    "title": "HRBP",
+    "entry_date": "2025-12-08",
+    "birthday": "1998-07-11"
+  },
+  {
+    "name": "邢慧峰",
+    "level": "P1",
+    "title": "选人媒介",
+    "entry_date": "2025-12-01",
+    "birthday": "2000-12-05"
+  },
+  {
+    "name": "陈文龙",
+    "level": "P2-",
+    "title": "竞价运营策略",
+    "entry_date": "2025-11-24",
+    "birthday": "1999-02-02"
+  },
+  {
+    "name": "赵瑾",
+    "level": "P2",
+    "title": "竞价运营策略",
+    "entry_date": "2025-11-19",
+    "birthday": "1996-05-03"
+  },
+  {
+    "name": "杨鸿雁",
+    "level": "P1",
+    "title": "选人媒介",
+    "entry_date": "2025-11-10",
+    "birthday": "2003-10-08"
+  },
+  {
+    "name": "李想",
+    "level": "P1+",
+    "title": "内容媒介",
+    "entry_date": "2025-11-06",
+    "birthday": "1997-12-29"
+  },
+  {
+    "name": "张娜",
+    "level": "P2",
+    "title": "HR",
+    "entry_date": "2025-10-30",
+    "birthday": "1997-03-21"
+  },
+  {
+    "name": "慈瑞敏",
+    "level": "P3",
+    "title": "财务BP",
+    "entry_date": "2025-10-20",
+    "birthday": "1997-07-08"
+  },
+  {
+    "name": "王欣然",
+    "level": "P2",
+    "title": "选人媒介",
+    "entry_date": "2025-10-20",
+    "birthday": "2002-11-01"
+  },
+  {
+    "name": "吕鑫怡",
+    "level": "P1+",
+    "title": "内容媒介",
+    "entry_date": "2025-10-20",
+    "birthday": "2003-02-13"
+  },
+  {
+    "name": "陈薪朴",
+    "level": "P3",
+    "title": "HR",
+    "entry_date": "2025-10-09",
+    "birthday": "2002-11-17"
+  },
+  {
+    "name": "史瑞钰",
+    "level": "P1",
+    "title": "内容媒介",
+    "entry_date": "2025-08-19",
+    "birthday": "1999-04-23"
+  },
+  {
+    "name": "力量",
+    "level": "",
+    "title": "财务BP",
+    "entry_date": "2025-07-31",
+    "birthday": ""
+  },
+  {
+    "name": "米慧蓉",
+    "level": "P2-",
+    "title": "预备PM",
+    "entry_date": "2025-07-01",
+    "birthday": "2003-02-25"
+  },
+  {
+    "name": "蔡维佳",
+    "level": "P2",
+    "title": "预备PM",
+    "entry_date": "2025-06-24",
+    "birthday": "1995-03-21"
+  },
+  {
+    "name": "金靖婷",
+    "level": "P2-",
+    "title": "新媒体策划",
+    "entry_date": "2025-06-03",
+    "birthday": "1994-09-26"
+  },
+  {
+    "name": "陈雪",
+    "level": "P2",
+    "title": "HR",
+    "entry_date": "2025-04-24",
+    "birthday": "2002-10-17"
+  },
+  {
+    "name": "雷雨甜",
+    "level": "P2",
+    "title": "预备PM",
+    "entry_date": "2025-04-08",
+    "birthday": "2026-05-21"
+  },
+  {
+    "name": "任云霞",
+    "level": "P1+",
+    "title": "内容媒介",
+    "entry_date": "2025-03-03",
+    "birthday": "2000-09-21"
+  },
+  {
+    "name": "陈思安",
+    "level": "P2+",
+    "title": "竞价运营策略",
+    "entry_date": "2025-01-07",
+    "birthday": "1995-12-08"
+  },
+  {
+    "name": "李沁育",
+    "level": "P2+",
+    "title": "内容媒介",
+    "entry_date": "2024-10-25",
+    "birthday": "2000-10-25"
+  },
+  {
+    "name": "董强（沐风）",
+    "level": "P4",
+    "title": "竞价运营策略",
+    "entry_date": "2024-10-22",
+    "birthday": "1994-09-04"
+  },
+  {
+    "name": "李学婷",
+    "level": "P2",
+    "title": "预备PM",
+    "entry_date": "2024-10-08",
+    "birthday": "2001-07-23"
+  },
+  {
+    "name": "贺婷",
+    "level": "P2-",
+    "title": "选人媒介",
+    "entry_date": "2024-09-02",
+    "birthday": "2000-11-15"
+  },
+  {
+    "name": "Yoyo",
+    "level": "M4",
+    "title": "COO",
+    "entry_date": "2024-06-12",
+    "birthday": "1987-02-06"
+  },
+  {
+    "name": "赵雪宁",
+    "level": "P2",
+    "title": "内容媒介",
+    "entry_date": "2024-04-24",
+    "birthday": "2001-08-11"
+  },
+  {
+    "name": "王菲",
+    "level": "P1",
+    "title": "内容媒介",
+    "entry_date": "2024-02-23",
+    "birthday": "1999-06-29"
+  },
+  {
+    "name": "杨滢荻",
+    "level": "M3",
+    "title": "策略总监",
+    "entry_date": "2023-07-10",
+    "birthday": "2001-04-06"
+  },
+  {
+    "name": "居晓珺",
+    "level": "P1",
+    "title": "新媒体策划PM",
+    "entry_date": "2023-05-22",
+    "birthday": "2000-12-07"
+  },
+  {
+    "name": "延紫婧",
+    "level": "M2",
+    "title": "交付中心负责人",
+    "entry_date": "2023-02-22",
+    "birthday": "2000-01-06"
+  },
+  {
+    "name": "李逸凡",
+    "level": "M5",
+    "title": "曼拾创始人",
+    "entry_date": "2017-09-04",
+    "birthday": ""
+  },
+  {
+    "name": "葛诗佳",
+    "level": "M5",
+    "title": "广告业务CEO",
+    "entry_date": "2016-01-12",
+    "birthday": ""
+  }
+]

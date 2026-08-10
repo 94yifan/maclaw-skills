@@ -1,0 +1,453 @@
+{
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "36e8c9c559c2afbdd2d83bd62febc4c38571da91beee7971"
+    }
+  },
+  "wizard": {
+    "lastRunAt": "2026-06-12T12:56:40.443Z",
+    "lastRunVersion": "2026.6.5",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "plugins": {
+    "entries": {
+      "feishu": {
+        "enabled": true
+      },
+      "deepseek": {
+        "enabled": true
+      },
+      "minimax": {
+        "enabled": true
+      }
+    }
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "appId": "cli_a959037f30f85bc6",
+      "appSecret": "Ct8sirpZjEAjmaMOVxs1Ef6Y3eTsF02M",
+      "connectionMode": "websocket",
+      "domain": "feishu",
+      "dmPolicy": "allowlist",
+      "allowFrom": [
+        "ou_c4249d713be906d36ef8607efab6506f"
+      ],
+      "groupPolicy": "open",
+      "requireMention": false
+    }
+  },
+  "agents": {
+    "defaults": {
+      "models": {
+        "deepseek/deepseek-v4-flash": {
+          "alias": "DeepSeek"
+        },
+        "minimax/MiniMax-M2.7": {
+          "alias": "Minimax"
+        },
+        "deepseek/deepseek-v4-pro": {}
+      },
+      "model": {
+        "primary": "deepseek/deepseek-v4-flash",
+        "fallbacks": [
+          "deepseek/deepseek-v4-pro"
+        ]
+      },
+      "subagents": {
+        "allowAgents": [
+          "main",
+          "social-crawler",
+          "ceo",
+          "cfo",
+          "brain-mining",
+          "strategic-planner",
+          "supermind"
+        ]
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "name": "Main Agent",
+        "default": true,
+        "workspace": "/Users/yifansmacmini/.openclaw/workspace",
+        "agentDir": "/Users/yifansmacmini/.openclaw/workspace"
+      },
+      {
+        "id": "social-crawler",
+        "workspace": "/Users/yifansmacmini/.openclaw/workspace/social-crawler",
+        "agentDir": "/Users/yifansmacmini/.openclaw/workspace/social-crawler",
+        "name": "Social Crawler"
+      },
+      {
+        "id": "ceo",
+        "workspace": "/Users/yifansmacmini/.openclaw/workspace/ceo",
+        "agentDir": "/Users/yifansmacmini/.openclaw/workspace/ceo",
+        "name": "CEO"
+      },
+      {
+        "id": "cfo",
+        "workspace": "/Users/yifansmacmini/.openclaw/workspace/cfo",
+        "agentDir": "/Users/yifansmacmini/.openclaw/workspace/cfo",
+        "name": "CFO"
+      },
+      {
+        "id": "brain-mining",
+        "workspace": "/Users/yifansmacmini/.openclaw/workspace/brain-mining",
+        "agentDir": "/Users/yifansmacmini/.openclaw/workspace/brain-mining",
+        "name": "Brain Mining"
+      },
+      {
+        "id": "strategic-planner",
+        "workspace": "/Users/yifansmacmini/.openclaw/workspace/strategic-planner",
+        "agentDir": "/Users/yifansmacmini/.openclaw/workspace/strategic-planner",
+        "name": "Strategic Planner"
+      },
+      {
+        "id": "supermind",
+        "workspace": "/Users/yifansmacmini/.openclaw/workspace/supermind",
+        "agentDir": "/Users/yifansmacmini/.openclaw/workspace/supermind",
+        "name": "Supermind"
+      }
+    ]
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "deepseek": {
+        "baseUrl": "https://api.deepseek.com",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "deepseek-v4-flash",
+            "name": "DeepSeek V4 Flash",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.14,
+              "output": 0.28,
+              "cacheRead": 0.028,
+              "cacheWrite": 0
+            },
+            "contextWindow": 1000000,
+            "maxTokens": 384000,
+            "compat": {
+              "supportsReasoningEffort": true,
+              "supportsUsageInStreaming": true,
+              "maxTokensField": "max_tokens"
+            },
+            "api": "openai-completions"
+          },
+          {
+            "id": "deepseek-v4-pro",
+            "name": "DeepSeek V4 Pro",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 1.74,
+              "output": 3.48,
+              "cacheRead": 0.145,
+              "cacheWrite": 0
+            },
+            "contextWindow": 1000000,
+            "maxTokens": 384000,
+            "compat": {
+              "supportsReasoningEffort": true,
+              "supportsUsageInStreaming": true,
+              "maxTokensField": "max_tokens"
+            },
+            "api": "openai-completions"
+          },
+          {
+            "id": "deepseek-chat",
+            "name": "DeepSeek Chat",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.28,
+              "output": 0.42,
+              "cacheRead": 0.028,
+              "cacheWrite": 0
+            },
+            "contextWindow": 131072,
+            "maxTokens": 8192,
+            "compat": {
+              "supportsUsageInStreaming": true,
+              "maxTokensField": "max_tokens"
+            },
+            "api": "openai-completions"
+          },
+          {
+            "id": "deepseek-reasoner",
+            "name": "DeepSeek Reasoner",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.28,
+              "output": 0.42,
+              "cacheRead": 0.028,
+              "cacheWrite": 0
+            },
+            "contextWindow": 131072,
+            "maxTokens": 65536,
+            "compat": {
+              "supportsReasoningEffort": false,
+              "supportsUsageInStreaming": true,
+              "maxTokensField": "max_tokens"
+            },
+            "api": "openai-completions"
+          }
+        ]
+      },
+      "minimax": {
+        "baseUrl": "https://api.minimaxi.com/anthropic",
+        "models": [
+          {
+            "id": "MiniMax-M2.7",
+            "name": "MiniMax M2.7",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.3,
+              "output": 1.2,
+              "cacheRead": 0.06,
+              "cacheWrite": 0.375
+            },
+            "contextWindow": 204800,
+            "maxTokens": 131072
+          }
+        ],
+        "api": "anthropic-messages",
+        "authHeader": true
+      }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "minimax:cn": {
+        "provider": "minimax",
+        "mode": "api_key"
+      },
+      "deepseek:manual": {
+        "provider": "deepseek",
+        "mode": "api_key"
+      },
+      "deepseek:default": {
+        "provider": "deepseek",
+        "mode": "api_key"
+      }
+    }
+  },
+  "meta": {
+    "lastTouchedVersion": "2026.6.5",
+    "lastTouchedAt": "2026-06-12T12:56:40.489Z"
+  },
+  "bindings": [
+    {
+      "agentId": "social-crawler",
+      "match": {
+        "channel": "feishu",
+        "peer": {
+          "kind": "group",
+          "id": "oc_96796887fcf96dba638afa646fbb6bb2"
+        }
+      }
+    },
+    {
+      "agentId": "ceo",
+      "match": {
+        "channel": "feishu",
+        "peer": {
+          "kind": "group",
+          "id": "oc_8a5a65e8715144f41abebdc7c4ae8f7c"
+        }
+      }
+    },
+    {
+      "agentId": "cfo",
+      "match": {
+        "channel": "feishu",
+        "peer": {
+          "kind": "group",
+          "id": "oc_8c0b4a4af048a3272974fbd974c1fbef"
+        }
+      }
+    },
+    {
+      "agentId": "brain-mining",
+      "match": {
+        "channel": "feishu",
+        "peer": {
+          "kind": "group",
+          "id": "oc_a48fca7ca68d3ffdf9c8ac67a6d06a32"
+        }
+      }
+    },
+    {
+      "agentId": "strategic-planner",
+      "match": {
+        "channel": "feishu",
+        "peer": {
+          "kind": "group",
+          "id": "oc_84ed1aa390a133f6b9bad59289dd617c"
+        }
+      }
+    },
+    {
+      "agentId": "supermind",
+      "match": {
+        "channel": "feishu",
+        "peer": {
+          "kind": "group",
+          "id": "oc_143274b0f277a3037f85efaf4e626e0b"
+        }
+      }
+    }
+  ],
+  "env": {
+    "vars": {
+      "WEREAD_API_KEY": "wrk-HponHBl_ROiWphqQwFkwCgAA"
+    }
+  },
+  "skills": {
+    "entries": {
+      "1password": {
+        "enabled": false
+      },
+      "api-gateway": {
+        "enabled": false
+      },
+      "apple-notes": {
+        "enabled": false
+      },
+      "apple-reminders": {
+        "enabled": false
+      },
+      "bear-notes": {
+        "enabled": false
+      },
+      "blogwatcher": {
+        "enabled": false
+      },
+      "blucli": {
+        "enabled": false
+      },
+      "camsnap": {
+        "enabled": false
+      },
+      "coding-agent": {
+        "enabled": false
+      },
+      "desearch-web-search": {
+        "enabled": false
+      },
+      "discord": {
+        "enabled": false
+      },
+      "eightctl": {
+        "enabled": false
+      },
+      "gemini": {
+        "enabled": false
+      },
+      "gemini-deep-research": {
+        "enabled": false
+      },
+      "gifgrep": {
+        "enabled": false
+      },
+      "gog": {
+        "enabled": false
+      },
+      "goplaces": {
+        "enabled": false
+      },
+      "himalaya": {
+        "enabled": false
+      },
+      "imsg": {
+        "enabled": false
+      },
+      "mcporter": {
+        "enabled": false
+      },
+      "model-usage": {
+        "enabled": false
+      },
+      "nano-pdf": {
+        "enabled": false
+      },
+      "obsidian": {
+        "enabled": false
+      },
+      "openai-whisper-api": {
+        "enabled": false
+      },
+      "openhue": {
+        "enabled": false
+      },
+      "oracle": {
+        "enabled": false
+      },
+      "ordercli": {
+        "enabled": false
+      },
+      "sag": {
+        "enabled": false
+      },
+      "session-logs": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "slack": {
+        "enabled": false
+      },
+      "songsee": {
+        "enabled": false
+      },
+      "sonoscli": {
+        "enabled": false
+      },
+      "spotify-player": {
+        "enabled": false
+      },
+      "summarize": {
+        "enabled": false
+      },
+      "things-mac": {
+        "enabled": false
+      },
+      "tmux": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      },
+      "voice-call": {
+        "enabled": false
+      },
+      "wacli": {
+        "enabled": false
+      },
+      "xurl": {
+        "enabled": false
+      }
+    }
+  }
+}

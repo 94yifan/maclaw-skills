@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-08-10T16:53:54.754884",
+  "project": "度亚 智能窗帘行业品牌扫描",
+  "total": 4,
+  "charts": [
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_1.png",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_2.png",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_3.png",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_4.png"
+  ],
+  "rules_applied": {
+    "axis_labels": "X/Y轴必须使用中文品牌名，禁止纯数字",
+    "title_format": "图表标题必须包含数据源和指标名称",
+    "embedding": "图表嵌入在ch3 3.6节之前（非文末附加），作为跨品牌数据总览引出竞争模式分析",
+    "chart_order": "生成顺序：天猫爆款→京东爆款→斤价→回头客。顺序不可调换",
+    "qa_check": "生成后必须过GLM 5V Turbo截图审查——验证标签完整性+数据与图表对应关系"
+  }
+}

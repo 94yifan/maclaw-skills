@@ -1,6 +1,6 @@
 # Pipeline 失败报告
 
-**时间**: 2026-07-18T15:57:39.744711
+**时间**: 2026-08-10T16:51:45.797891
 **失败步骤**: step_2
 **类型**: 未预期异常
 **错误信息**: 未预期异常: [Errno 2] No such file or directory: '/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/content/pre_research.md'

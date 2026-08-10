@@ -1,0 +1,244 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-14T04:00:16.299Z",
+  "entries": {
+    "memory:memory/2026-04-29.md:1:31": {
+      "key": "memory:memory/2026-04-29.md:1:31",
+      "path": "memory/2026-04-29.md",
+      "startLine": 1,
+      "endLine": 31,
+      "source": "memory",
+      "snippet": "# CEO Dreaming Morning — 2026-04-29 12:00 ## 昨日晚间回顾（延续） **已确认状态** - 技术基础设施就绪，skill 系统完整备份 GitHub - Social Crawler 唯一 blocker：飞书独立 app 未创建 - 微博日报跑通，19个茶饮品牌监控常态化 **悬而未决（24小时后无变化）** - 曼拾业务状态仍是黑盒 - 飞书 app 创建无进展 --- ## 过去24小时管理盲点 **盲点1：业务上下文缺失问题24小时未解决** 昨晚 dreaming 已识别，但今天依然是同样状态——对曼拾的客户、项目、pipeline 完全无感知。这不是技术问题，是信息流设计问题。 **盲点2：竞品监控是单腿走路** 微博日报提供了品牌端信号，但曼拾作为小红书整合营销代理，核心竞品监控应该是小红书平台内（品牌内容、投放策略、KFS打法）。这部分数据完全空白。 **盲点3：缺乏业务状态输入机制** yifan 没有主动向分身同步业务进展的渠道，导致分身永远处于信息滞后状态。这是一个需要主动设计的机制，而非自然发生。 --- ## 高效加速机会 **机会1（最高优先）：建立业务状态输入机制**",
+      "recallCount": 5,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 4.633279670193687,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-29T16:22:12.494Z",
+      "lastRecalledAt": "2026-05-14T04:00:16.299Z",
+      "queryHashes": [
+        "de3c8c0f50a7",
+        "8f4cb95d96f4",
+        "63d7d4c9a398",
+        "78806a3765ec",
+        "29bfdab146f3"
+      ],
+      "recallDays": [
+        "2026-04-30",
+        "2026-05-02",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14"
+      ],
+      "conceptTags": [
+        "备份",
+        "ceo",
+        "dreaming",
+        "morning",
+        "昨日",
+        "晚间",
+        "回顾",
+        "延续"
+      ]
+    },
+    "memory:memory/2026-04-29.md:25:49": {
+      "key": "memory:memory/2026-04-29.md:25:49",
+      "path": "memory/2026-04-29.md",
+      "startLine": 25,
+      "endLine": 49,
+      "source": "memory",
+      "snippet": "yifan 没有主动向分身同步业务进展的渠道，导致分身永远处于信息滞后状态。这是一个需要主动设计的机制，而非自然发生。 --- ## 高效加速机会 **机会1（最高优先）：建立业务状态输入机制** 需要和逸凡确认：最简单的方式是什么？是每周固定一次同步，还是有进展时随时丢给我？明确机制比内容本身更关键。 **机会2：等待小红书数据源** 飞书 app 创建是 Social Crawler 激活小红书爬取的前置条件。没有小红书数据，竞品监控永远只有半张脸。 **机会3：微博日报信号提炼自动化** 日报数据已常态化，可以考虑每周一生成上周营销信号摘要，直接给逸凡参考，而非让数据躺在文档里。 --- ## 小红书整合营销代理业务观察 **行业层面（基于近期数据）** - 听劝营销持续发酵：消费者反馈驱动产品策略，从瑞幸全冰去水开始，越来越多品牌在社交媒体上公开\"听劝\" - IP联名密度升高：品牌用联名制造内容密度，小红书是核心传播阵地 - KFS打法（KOL投放+Feeds+Search）仍是主流，但内容质量门槛在提高 **对曼拾业务的隐含需求**",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-02T04:07:15.921Z",
+      "lastRecalledAt": "2026-05-02T04:07:15.921Z",
+      "queryHashes": [
+        "8f4cb95d96f4"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "yifan",
+        "没有",
+        "主动",
+        "分身",
+        "同步",
+        "业务",
+        "进展",
+        "渠道"
+      ]
+    },
+    "memory:memory/2026-04-29.md:45:67": {
+      "key": "memory:memory/2026-04-29.md:45:67",
+      "path": "memory/2026-04-29.md",
+      "startLine": 45,
+      "endLine": 67,
+      "source": "memory",
+      "snippet": "- 听劝营销持续发酵：消费者反馈驱动产品策略，从瑞幸全冰去水开始，越来越多品牌在社交媒体上公开\"听劝\" - IP联名密度升高：品牌用联名制造内容密度，小红书是核心传播阵地 - KFS打法（KOL投放+Feeds+Search）仍是主流，但内容质量门槛在提高 **对曼拾业务的隐含需求** - 品牌在小红书的竞争本质是内容密度+精准人群触达 - 代理商的核心价值：从竞品信号中提炼内容策略，指导KFS投放 - 没有持续的小红书竞品数据，策略建议就是无源之水 --- ## 今日行动 1. 静默执行今日微博日报（10:05 cron 应该在本次 dreaming 前已触发） 2. 在合适时机提醒逸凡建立业务状态输入机制（轻量化方式） 3. 跟进飞书 app 创建进度（唯一卡点） --- ## [12:00 Dreaming] - 观察：过去24小时无新的业务状态同步，曼拾客户/项目/ pipeline 对分身仍完全黑盒；飞书 app 创建无进展；微博日报常态化运行中 - 洞察：分身最大的价值瓶颈不是技术，是业务上下文；没有真实客户数据，所有竞品分析都是空转；曼拾核心业务（小红书整合营销）的竞品监控数据源仍未激活",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 4,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-02T04:07:15.921Z",
+      "lastRecalledAt": "2026-05-14T04:00:16.299Z",
+      "queryHashes": [
+        "8f4cb95d96f4",
+        "63d7d4c9a398",
+        "78806a3765ec",
+        "29bfdab146f3"
+      ],
+      "recallDays": [
+        "2026-05-02",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14"
+      ],
+      "conceptTags": [
+        "曼拾客户/项目",
+        "持续",
+        "发酵",
+        "消费",
+        "反馈",
+        "驱动",
+        "产品",
+        "策略"
+      ]
+    },
+    "memory:memory/2026-04-29.md:66:83": {
+      "key": "memory:memory/2026-04-29.md:66:83",
+      "path": "memory/2026-04-29.md",
+      "startLine": 66,
+      "endLine": 83,
+      "source": "memory",
+      "snippet": "- 观察：过去24小时无新的业务状态同步，曼拾客户/项目/ pipeline 对分身仍完全黑盒；飞书 app 创建无进展；微博日报常态化运行中 - 洞察：分身最大的价值瓶颈不是技术，是业务上下文；没有真实客户数据，所有竞品分析都是空转；曼拾核心业务（小红书整合营销）的竞品监控数据源仍未激活 - 行动：① 确认微博日报今日产出状态 ② 在下次私聊中请求逸凡建立轻量化业务状态同步机制 ③ 继续等待飞书 app 创建完成 ## 深夜补充（00:46） **逸凡指出skill做完三步曲执行不到位：** - Naval做完没有同步subagent workspace - 4个GTM skill做完也没有同步 - 根本原因：流程没有内化为肌肉记忆，做完就忘了 **明早 dreaming 必须复盘：** 1. 这三步曲（备份→MEMORY→同步subagent）是铁律 2. Naval和GTM skill装完没同步subagent的问题需要补上 3. 复盘结论固化到 MEMORY.md **技术教训：GitHub push 超时用 `GIT_SSH_COMMAND=\"ssh -o ConnectTimeout=10\"` 可以解决**",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-12T04:00:14.559Z",
+      "lastRecalledAt": "2026-05-14T04:00:16.299Z",
+      "queryHashes": [
+        "63d7d4c9a398",
+        "78806a3765ec",
+        "29bfdab146f3"
+      ],
+      "recallDays": [
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14"
+      ],
+      "conceptTags": [
+        "备份",
+        "曼拾客户/项目",
+        "memory.md",
+        "git-ssh-command",
+        "观察",
+        "过去",
+        "小时",
+        "新的"
+      ]
+    },
+    "memory:memory/2026-05-11.md:1:31": {
+      "key": "memory:memory/2026-05-11.md:1:31",
+      "path": "memory/2026-05-11.md",
+      "startLine": 1,
+      "endLine": 31,
+      "source": "memory",
+      "snippet": "# CEO Dreaming Noon - 2026-05-11 12:09 ## 第一步：今日管理回顾 **今日系统状态（5月11日周一，520当天）** | 项目 | 状态 | 备注 | |------|------|------| | Pipeline产出生成 | ✅ 正常 | weibo_daily_2026-05-11.md 275行，已在 social-crawler workspace | | 主workspace数据同步 | ⚠️ 仍断裂 | social-crawler 有完整日报，main workspace memory/ 无今日文件 | | 520节点监控 | ⏰ 今日 | 瑞幸×原田治OSAMU GOODS、库迪×Hattie Stewart、星巴克×《只此青绿》三品牌同日共振 | | 管理决策 | 无 | 上午无主动联系，Pipeline自主运行中 | **今日重要观察：** 1. Pipeline连续第二个工作日自主运行（5/10周日→5/11周一均成功） 2. 今日为520节点，三大品牌（瑞幸、库迪、星巴克）同日押注，是验证「节日营销共振三段论」的最佳窗口 3. 上午无逸凡指令，无管理决策需要处理 --- ## 第二步：知识缝合 **今日核心命题：520节日共振验证** 520共振三品牌格局： - 瑞幸×原田治OSAMU GOODS（520限定包装 + 小青桔美式年度重磅） - 库迪×Hattie Stewart（SS26新品 + 时尚策划人首发） - 星巴克×《只此青绿》（舞蹈诗剧文化联名） **验证结果：** 节日共振三段论",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-12T04:00:14.559Z",
+      "lastRecalledAt": "2026-05-13T04:02:46.137Z",
+      "queryHashes": [
+        "63d7d4c9a398",
+        "78806a3765ec",
+        "0972d2fb5fdd"
+      ],
+      "recallDays": [
+        "2026-05-12",
+        "2026-05-13"
+      ],
+      "conceptTags": [
+        "weibo-daily-2026-05-11.md",
+        "social-crawler",
+        "5/10周日",
+        "5/11周一均成功",
+        "ceo",
+        "dreaming",
+        "noon",
+        "一步"
+      ]
+    },
+    "memory:memory/2026-05-11.md:40:56": {
+      "key": "memory:memory/2026-05-11.md:40:56",
+      "path": "memory/2026-05-11.md",
+      "startLine": 40,
+      "endLine": 56,
+      "source": "memory",
+      "snippet": "520当天，品牌选择展示什么内容，就是在向消费者宣告\"我是谁\"。瑞幸展示艺术家IP（年轻化/生活感），库迪展示时尚策划人（品质化/国际化），星巴克展示文化机构（高端化/东方美）。节日节点是品牌年度叙事最重要的时间点之一。 --- ## 第三步：记忆更新 **今日数据快照：** - 520共振品牌：瑞幸、库迪、星巴克（头部三品牌同天） - 瑞幸年度重磅：小青桔美式 + 原田治OSAMU GOODS联名 - 库迪SS26首发：小黄油家族 + Hattie Stewart时尚策划人 - 无管理决策，无逸凡指令，系统自主运行 **关键模式识别：** Pipeline从「偶发有效」进入「连续自主运行」状态（5/10周日 + 5/11周一），连续两个自然日成功。但数据只存在于 social-crawler workspace，主 workspace 仍断裂——数据同步问题未解决。 静默结束。",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-13T04:02:46.137Z",
+      "lastRecalledAt": "2026-05-13T04:02:46.137Z",
+      "queryHashes": [
+        "0972d2fb5fdd"
+      ],
+      "recallDays": [
+        "2026-05-13"
+      ],
+      "conceptTags": [
+        "年轻化/生活感",
+        "品质化/国际化",
+        "高端化/东方美",
+        "5/10周日",
+        "5/11周一",
+        "social-crawler",
+        "当天",
+        "品牌"
+      ]
+    },
+    "memory:memory/2026-05-13.md:1:28": {
+      "key": "memory:memory/2026-05-13.md:1:28",
+      "path": "memory/2026-05-13.md",
+      "startLine": 1,
+      "endLine": 28,
+      "source": "memory",
+      "snippet": "# CEO Dreaming Noon - 2026-05-13 12:00 ## 第一步：今日管理回顾 **系统状态（5月13日周三）** | 项目 | 状态 | 备注 | |------|------|---| | Pipeline产出 | ✅ 正常 | weibo_daily 连续第4+天自主运行 | | 主workspace同步 | ⚠️ 仍断裂 | social-crawler 有报告，main memory/ 无今日 | | P0飞书发群 | ⚠️ 未解决 | 第15天，pipeline生成端稳定，但输出通路断裂 | | 管理决策 | 无 | 上午无逸凡指令，系统自主运转 | **今日核心观察：** 1. Pipeline连续4天自主运行（5/10周日→5/13周三），数据层完全打通——系统层面已稳定 2. 报告生成后停在 social-crawler workspace 这个事实已成惯性，而非异常——P0输出通路问题被接受为了\"常态\" 3. 上午无逸凡指令，无管理决策需要处理 4. 业务状态黑盒问题延续——对曼拾客户/项目/pipeline仍无感知 **关键认知：** Pipeline生成端的\"自动化\"已被验证，但\"自动到达用户\"从未被解决。系统可以自主运转，但产出从未实际交付逸凡手中。这不是技术问题未解决，是优先级问题——P0被悬在空中15天，说明它从未被真正重视过。 --- ## 第二步：知识缝合 **今日命题：系统稳定性与交付有效性的分离** Pipeline连续4天自主运行，证明了两件事：",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-14T04:00:16.299Z",
+      "lastRecalledAt": "2026-05-14T04:00:16.299Z",
+      "queryHashes": [
+        "29bfdab146f3"
+      ],
+      "recallDays": [
+        "2026-05-14"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "social-crawler",
+        "5/10周日",
+        "5/13周三",
+        "对曼拾客户/项目/pipeline仍无感知",
+        "ceo",
+        "dreaming",
+        "noon"
+      ]
+    }
+  }
+}

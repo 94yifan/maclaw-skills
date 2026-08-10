@@ -1,0 +1,33 @@
+{
+  "chart_id": "chart_brand_comparison_2",
+  "title": "京东自营爆款销售对比",
+  "type": "horizontalBar",
+  "data": [
+    {
+      "name": "杜亚 DOOYA",
+      "value": 650
+    },
+    {
+      "name": "Aqara 绿米",
+      "value": 550
+    },
+    {
+      "name": "欧瑞博 ORVIBO",
+      "value": 450
+    },
+    {
+      "name": "LifeSmart 云起",
+      "value": 350
+    },
+    {
+      "name": "邦先生 Mr.Bond",
+      "value": 250
+    },
+    {
+      "name": "小米米家",
+      "value": 150
+    }
+  ],
+  "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_2.html",
+  "png_path": "chart_brand_comparison_2.png"
+}

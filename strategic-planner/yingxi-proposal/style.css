@@ -1,0 +1,62 @@
+/* yingxi-proposal — 英氏品牌小红书传播方案 美式商务风格 */
+.tpl-yingxi-proposal{
+  --bg:#ffffff;--bg-soft:#f6f7fb;--surface:#ffffff;--surface-2:#f2f4fa;
+  --border:rgba(20,25,60,.08);--border-strong:rgba(20,25,60,.18);
+  --text-1:#0d1130;--text-2:#4a5070;--text-3:#8a90ad;
+  --accent:#1a56db;--accent-2:#5b21b6;--accent-3:#0e9f6e;
+  --grad:linear-gradient(135deg,#1a56db 0%,#5b21b6 55%,#0e9f6e 100%);
+  --grad-soft:linear-gradient(135deg,#eef1ff,#f4edff 55%,#e8fdf4);
+  --radius:20px;--radius-lg:28px;
+  --shadow:0 14px 40px rgba(20,25,60,.08),0 2px 8px rgba(20,25,60,.04);
+  font-family:'Inter','Noto Sans SC',sans-serif;
+}
+.tpl-yingxi-proposal .slide{padding:88px 112px}
+.tpl-yingxi-proposal .kicker{color:var(--accent);font-weight:700}
+.tpl-yingxi-proposal .h1{font-size:72px;line-height:1.02;font-weight:900;letter-spacing:-.035em}
+.tpl-yingxi-proposal .h2{font-size:52px;font-weight:800;letter-spacing:-.03em}
+.tpl-yingxi-proposal .h3{font-size:36px;font-weight:700;letter-spacing:-.02em}
+.tpl-yingxi-proposal .mega{font-size:160px;font-weight:900;line-height:.95;letter-spacing:-.05em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tpl-yingxi-proposal .mega-sub{font-size:24px;color:var(--text-2);margin-top:18px}
+.tpl-yingxi-proposal .cover-bg{position:absolute;inset:0;background:var(--grad-soft);z-index:-1}
+.tpl-yingxi-proposal .cover-blob{position:absolute;right:-140px;top:-140px;width:560px;height:560px;border-radius:50%;background:var(--grad);filter:blur(8px);opacity:.35;z-index:-1}
+.tpl-yingxi-proposal .brand-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--grad);margin-right:10px;vertical-align:middle}
+.tpl-yingxi-proposal .brand{font-weight:800;font-size:22px;letter-spacing:-.02em}
+.tpl-yingxi-proposal .card{border-radius:var(--radius);padding:28px 32px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow)}
+.tpl-yingxi-proposal .card-accent{background:var(--grad);color:#fff}
+.tpl-yingxi-proposal .num-tag{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
+.tpl-yingxi-proposal .big-q{font-family:'Playfair Display',serif;font-size:48px;line-height:1.15;font-weight:700;letter-spacing:-.02em;max-width:22ch}
+.tpl-yingxi-proposal .metric{display:flex;flex-direction:column;gap:6px}
+.tpl-yingxi-proposal .metric .n{font-size:64px;font-weight:900;letter-spacing:-.035em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.tpl-yingxi-proposal .metric .l{color:var(--text-2);font-size:15px}
+.tpl-yingxi-proposal .section-num{font-size:180px;font-weight:900;line-height:.9;color:var(--surface-2);position:absolute;right:72px;bottom:40px;z-index:0;letter-spacing:-.05em}
+.tpl-yingxi-proposal .slide > *{position:relative;z-index:1}
+.tpl-yingxi-proposal .deck-footer{color:var(--text-3)}
+.tpl-yingxi-proposal .grid{display:grid;gap:20px}
+.tpl-yingxi-proposal .grid.g2{grid-template-columns:1fr 1fr}
+.tpl-yingxi-proposal .grid.g3{grid-template-columns:1fr 1fr 1fr}
+.tpl-yingxi-proposal .grid.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.tpl-yingxi-proposal .grid.g5{grid-template-columns:repeat(5,1fr)}
+.tpl-yingxi-proposal .row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.tpl-yingxi-proposal .pill{display:inline-block;padding:8px 20px;border-radius:100px;font-size:14px;font-weight:600;background:var(--surface-2);color:var(--text-2)}
+.tpl-yingxi-proposal .pill-accent{background:var(--grad);color:#fff}
+.tpl-yingxi-proposal .lede{font-size:22px;color:var(--text-2);line-height:1.6;max-width:64ch}
+.tpl-yingxi-proposal .mt-s{margin-top:16px}
+.tpl-yingxi-proposal .mt-m{margin-top:28px}
+.tpl-yingxi-proposal .mt-l{margin-top:40px}
+.tpl-yingxi-proposal .mt-xl{margin-top:56px}
+.tpl-yingxi-proposal .dim{color:var(--text-2);font-size:15px;line-height:1.55}
+.tpl-yingxi-proposal .divider{width:60px;height:4px;background:var(--grad);border-radius:2px;margin:24px 0}
+.tpl-yingxi-proposal .table-w{width:100%;border-collapse:collapse;font-size:14px}
+.tpl-yingxi-proposal .table-w th{text-align:left;padding:12px 16px;background:var(--surface-2);color:var(--text-2);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid var(--border)}
+.tpl-yingxi-proposal .table-w td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:top}
+.tpl-yingxi-proposal .table-w tr:last-child td{border-bottom:none}
+.tpl-yingxi-proposal .highlight-box{background:var(--grad-soft);border-left:4px solid var(--accent);padding:20px 24px;border-radius:0 var(--radius) var(--radius) 0}
+.tpl-yingxi-proposal .tag{display:inline-block;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700}
+.tpl-yingxi-proposal .tag-blue{background:#dbeafe;color:#1e40af}
+.tpl-yingxi-proposal .tag-green{background:#d1fae5;color:#065f46}
+.tpl-yingxi-proposal .tag-purple{background:#ede9fe;color:#5b21b6}
+.tpl-yingxi-proposal .tag-orange{background:#fef3c7;color:#92400e}
+.tpl-yingxi-proposal .gradient-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tpl-yingxi-proposal .flex-center{display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.tpl-yingxi-proposal .two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.tpl-yingxi-proposal .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:start}

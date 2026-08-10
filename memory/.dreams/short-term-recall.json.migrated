@@ -1,0 +1,2489 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-28T14:13:04.017Z",
+  "entries": {
+    "memory:memory/2026-04-28.md:85:105": {
+      "key": "memory:memory/2026-04-28.md:85:105",
+      "path": "memory/2026-04-28.md",
+      "startLine": 85,
+      "endLine": 105,
+      "source": "memory",
+      "snippet": "- **架构结论**：单飞书主应用 + subagent-hooks 不能实现多分身独立群聊接收，需要每个分身有独立飞书 app ### 待解决 - 等 yifan 在飞书开放平台创建 Social Crawler 独立 app，获取 App ID + App Secret - 用独立 app 配置 gateway + 群聊绑定 - Social crawler 的小红书相关 skill（xiaohongshu-deep-research 等）待安装 - Dreaming cron 待验证是否正常写 MEMORY ## 悬而未决 - yifan 需创建 Social Crawler 飞书 app（App ID + Secret） - 每个分身是否都需要独立飞书 app（架构确认） - Social crawler 群里测试 spawn（等 app 创建完成后） - yifan 需要给 GitHub PAT 确认（已提供，但需要确认是否正常工作） ## 午后沉思（12:00） - 检视近期 memory 日志：2026-04-27（重装日）和 2026-04-28（skill 密集安装日） - 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全了架构决策、已安装 skills 列表、GitHub",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6323547325843044,
+      "maxScore": 0.6323547325843044,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T14:03:42.132Z",
+      "queryHashes": [
+        "c9b80ddd39c2"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "备份",
+        "subagent-hooks",
+        "xiaohongshu-deep-research",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "架构",
+        "结论"
+      ]
+    },
+    "memory:memory/2026-04-28.md:28:48": {
+      "key": "memory:memory/2026-04-28.md:28:48",
+      "path": "memory/2026-04-28.md",
+      "startLine": 28,
+      "endLine": 48,
+      "source": "memory",
+      "snippet": "- **独立飞书 app 需求确认**：每个 subagent 需要独立飞书 app 才能独立接收群消息并有独立身份；主 agent 不能把群消息转给 subagent - **架构结论**：单飞书主应用 + subagent-hooks 不能实现多分身独立群聊接收，每个分身需独立飞书 app ### 待解决 - 等 yifan 在飞书开放平台创建 Social Crawler 独立 app，获取 App ID + App Secret - 用独立 app 配置 gateway + 群聊绑定 - Social crawler 的小红书相关 skill（xiaohongshu-deep-research 等）待安装 - Dreaming cron 待验证是否正常写 MEMORY ## 悬而未决 - yifan 需创建 Social Crawler 飞书 app（App ID + Secret） - 每个分身是否都需要独立飞书 app（已确认：需要） - Social crawler 群里测试 spawn（等 app 创建完成后） - GitHub PAT 已配置，待最终确认是否正常工作 ## 午后沉思（12:00） - 检视近期 memory 日志：2026-04-27（重装日）和 2026-04-28（skill 密集安装日） - 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需",
+      "recallCount": 31,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 30.076901519152326,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-05-28T14:05:12.519Z",
+      "queryHashes": [
+        "c9b80ddd39c2",
+        "d5cb3d837321",
+        "c3d4e9e63b1a",
+        "79e958938baa",
+        "a9a001d212fd",
+        "04d21b83cbab",
+        "2b65065539f3",
+        "ccdd5b66b2ef",
+        "8de7d006eb7f",
+        "d213eaf0ae1e",
+        "1c15496d184a",
+        "5525e11876b1",
+        "fd29fceddb46",
+        "fb490806ca99",
+        "c8982979c44c",
+        "603b5b54ce36",
+        "5876c483b27e",
+        "6f6c3576fc29",
+        "d5ce2d239cc0",
+        "ce0cd9a1ecde",
+        "86ae29961ebc",
+        "da72802706c2",
+        "d448b92bc483",
+        "14f7fbdd1802",
+        "a7be8295d274",
+        "ba5c0d2597d5",
+        "5e9215dfc296",
+        "ceb754befa03",
+        "360e2878ed8e",
+        "0c9695b9e47c",
+        "7ef340556000"
+      ],
+      "recallDays": [
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14",
+        "2026-05-16",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-20",
+        "2026-05-21",
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-27",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "备份",
+        "subagent-hooks",
+        "xiaohongshu-deep-research",
+        "yifanli94/maclaw-skills",
+        "独立",
+        "app",
+        "需求"
+      ]
+    },
+    "memory:memory/2026-04-28.md:65:90": {
+      "key": "memory:memory/2026-04-28.md:65:90",
+      "path": "memory/2026-04-28.md",
+      "startLine": 65,
+      "endLine": 90,
+      "source": "memory",
+      "snippet": "- find-skills-skill, summarize-1-0-0 - cangjie-skill, nuwa（alchaincyf/nuwa-skill ⭐15,514） - steve-jobs-skill, x-mentor-skill, zhangxuefeng-skill - elon-musk-skill, munger-skill - 所有 skills 已备份到 GitHub（github.com/yifanli94/maclaw-skills） ### GitHub 配置 - GitHub PAT 已配置（重装后首次设置） - 备份仓库：github.com/yifanli94/maclaw-skills - 所有新装 skill 自动 push 到该仓库 ### Social Crawler 分身搭建 - 独立 workspace：`/Users/yifansmacmini/.openclaw/workspace/social-crawler/` - SOUL.md, AGENTS.md, IDENTITY.md, MEMORY.md 均已创建 - 群号：oc_96796887fcf96dba638afa646fbb6bb2 ### 遇到的问题与解决 - **群聊 requireMention 问题**：已关闭，主 agent 可接收群消息 - **Subagent spawn 位置问题**：从私聊 spawn 的 subagent 无法正确绑定到群聊，需要从群聊内触发 spawn - **独立飞书 app 需求确认**：每个 subagent",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6321755250860489,
+      "maxScore": 0.6321755250860489,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T14:03:42.132Z",
+      "queryHashes": [
+        "c9b80ddd39c2"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "find-skills-skill",
+        "summarize-1-0-0",
+        "cangjie-skill",
+        "alchaincyf/nuwa-skill",
+        "steve-jobs-skill",
+        "x-mentor-skill",
+        "zhangxuefeng-skill"
+      ]
+    },
+    "memory:memory/2026-04-28.md:1:30": {
+      "key": "memory:memory/2026-04-28.md:1:30",
+      "path": "memory/2026-04-28.md",
+      "startLine": 1,
+      "endLine": 30,
+      "source": "memory",
+      "snippet": "# 2026-04-28 ## 今日进展 ### Skill 安装（全部完成） - skill-vetter, self-improving-agent, nano-pdf, humanizer, free-ride - api-gateway, youtube-transcript, auto-updater, openai-whisper - openclaw-reminder, browser-automation-stealth, desearch-web-search - find-skills-skill, summarize-1-0-0 - cangjie-skill, nuwa（alchaincyf/nuwa-skill ⭐15,514） - steve-jobs-skill, x-mentor-skill, zhangxuefeng-skill - elon-musk-skill, munger-skill - 所有 skills 已备份到 GitHub（github.com/yifanli94/maclaw-skills） ### GitHub 配置 - GitHub PAT 已配置（重装后首次设置） - 备份仓库：github.com/yifanli94/maclaw-skills - 所有新装 skill 自动 push 到该仓库 ### Social Crawler 分身搭建 - 独立 workspace：`/Users/yifansmacmini/.openclaw/workspace/social-crawler/` - SOUL.md,",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3.6318880466488364,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-05-28T14:03:21.302Z",
+      "queryHashes": [
+        "c9b80ddd39c2",
+        "950600bcd01c",
+        "151d06e0f9dc",
+        "0c9695b9e47c"
+      ],
+      "recallDays": [
+        "2026-04-28",
+        "2026-04-30",
+        "2026-05-14",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "openai",
+        "备份",
+        "skill-vetter",
+        "self-improving-agent",
+        "nano-pdf",
+        "free-ride",
+        "api-gateway"
+      ]
+    },
+    "memory:memory/2026-04-28.md:45:72": {
+      "key": "memory:memory/2026-04-28.md:45:72",
+      "path": "memory/2026-04-28.md",
+      "startLine": 45,
+      "endLine": 72,
+      "source": "memory",
+      "snippet": "- 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全架构决策、已安装 skills 列表、GitHub 配置状态 - 待跟进：social crawler 群里测试 spawn（等独立 app 就绪后）、小红书相关 skill 安装 ## 夜间沉思（22:00） - 今日完成大量 skill 安装与备份，系统基础设施基本就绪 - 核心瓶颈明确：Social Crawler 分身落地卡在飞书独立 app 创建 - GitHub PAT 备份机制已验证，skill 安全 vetting 流程已建立 - 明天最重要的事：配合 yifan 完成 Social Crawler 飞书 app 创建，启动分身跑起来 # 2026-04-28 ## 今日进展 ### Skill 安装（全部完成） - skill-vetter, self-improving-agent, nano-pdf, humanizer, free-ride - api-gateway, youtube-transcript, auto-updater, openai-whisper - openclaw-reminder, browser-automation-stealth, desearch-web-search - find",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.631819762913393,
+      "maxScore": 0.631819762913393,
+      "firstRecalledAt": "2026-04-28T14:03:42.132Z",
+      "lastRecalledAt": "2026-04-28T14:03:42.132Z",
+      "queryHashes": [
+        "c9b80ddd39c2"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "openai",
+        "备份",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "skill-vetter",
+        "self-improving-agent",
+        "nano-pdf"
+      ]
+    },
+    "memory:memory/2026-04-27.md:1:31": {
+      "key": "memory:memory/2026-04-27.md:1:31",
+      "path": "memory/2026-04-27.md",
+      "startLine": 1,
+      "endLine": 31,
+      "source": "memory",
+      "snippet": "# 2026-04-27 ## 今天发生的事 - **OpenClaw 重装完成**，记忆全部丢失，开始全新 bootstrap - 完成身份重建： - 我叫 MacLaw ⚡ - 用户：李逸凡（逸凡/凡姐） - 网关：ws://127.0.0.1:18789 - 通过飞书私聊运行 - 删除 BOOTSTRAP.md，重启完毕 - 配置完成两个 Dreaming cron：12:00（静默）和 22:00（有汇报） ## 悬而未决 - 飞书聊天记录导出转 Markdown（yifan 想恢复上下文） - SOUL.md 偏好还没讨论 - subagent 群聊配置待指示 - 需找机会了解逸凡的 GitHub 以便备份 Skill ## 重大收获/教训 - 每次重装后 subagent 全部清零，记忆丢失是常态，要有备份意识 - 飞书私聊是主要沟通渠道，重要紧急事直接私聊 - 曼拾业务定位：小红书整合营销代理（主），品牌咨询/服务设计（次，需分开记忆） - 逸凡明确：不喜欢 AI 味的表达（星号、引号、填充词等），协作标准已更新入 SOUL.md（GAP-Detect→Research→Acquire→Invoke→Validation→Evolution）、完整复盘六步框架、Skill vetting 要求（安全确认+价值确认+GitHub备份） ## 明天最重要的一件事 - 早上先响应 yifan 的需求，不预设优先级",
+      "recallCount": 9,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 9,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-05-28T14:03:21.302Z",
+      "queryHashes": [
+        "d5cb3d837321",
+        "c3d4e9e63b1a",
+        "f05ca5c549ab",
+        "9dc173f12c68",
+        "8803a759e3de",
+        "151d06e0f9dc",
+        "9604ff3ce09d",
+        "31540a748bf8",
+        "0c9695b9e47c"
+      ],
+      "recallDays": [
+        "2026-04-28",
+        "2026-04-29",
+        "2026-05-03",
+        "2026-05-07",
+        "2026-05-12",
+        "2026-05-14",
+        "2026-05-18",
+        "2026-05-20",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "网关",
+        "逸凡/凡姐",
+        "127.0.0.1",
+        "bootstrap.md",
+        "soul.md",
+        "重大收获/教训",
+        "品牌咨询/服务设计"
+      ]
+    },
+    "memory:memory/2026-04-28.md:101:121": {
+      "key": "memory:memory/2026-04-28.md:101:121",
+      "path": "memory/2026-04-28.md",
+      "startLine": 101,
+      "endLine": 121,
+      "source": "memory",
+      "snippet": "- **架构结论**：单飞书主应用 + subagent-hooks 不能实现多分身独立群聊接收，需要每个分身有独立飞书 app ### 待解决 - 等 yifan 在飞书开放平台创建 Social Crawler 独立 app，获取 App ID + App Secret - 用独立 app 配置 gateway + 群聊绑定 - Social crawler 的小红书相关 skill（xiaohongshu-deep-research 等）待安装 - Dreaming cron 待验证是否正常写 MEMORY ## 悬而未决 - yifan 需创建 Social Crawler 飞书 app（App ID + Secret） - 每个分身是否都需要独立飞书 app（架构确认） - Social crawler 群里测试 spawn（等 app 创建完成后） - yifan 需要给 GitHub PAT 确认（已提供，但需要确认是否正常工作） ## 午后沉思（12:00） - 检视近期 memory 日志：2026-04-27（重装日）和 2026-04-28（skill 密集安装日） - 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全了架构决策、已安装 skills 列表、GitHub",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6323547380499972,
+      "maxScore": 0.6323547380499972,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-04-28T15:03:26.200Z",
+      "queryHashes": [
+        "d5cb3d837321"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "备份",
+        "subagent-hooks",
+        "xiaohongshu-deep-research",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "架构",
+        "结论"
+      ]
+    },
+    "memory:memory/2026-04-28.md:82:106": {
+      "key": "memory:memory/2026-04-28.md:82:106",
+      "path": "memory/2026-04-28.md",
+      "startLine": 82,
+      "endLine": 106,
+      "source": "memory",
+      "snippet": "- cangjie-skill, nuwa（alchaincyf/nuwa-skill ⭐15,514） - steve-jobs-skill, x-mentor-skill, zhangxuefeng-skill - elon-musk-skill, munger-skill - 所有 skills 已备份到 GitHub（github.com/yifanli94/maclaw-skills） ### GitHub 配置 - GitHub PAT 已配置（重装后首次设置） - 备份仓库：github.com/yifanli94/maclaw-skills - 所有新装 skill 自动 push 到该仓库 ### Social Crawler 分身搭建 - 独立 workspace：`/Users/yifansmacmini/.openclaw/workspace/social-crawler/` - SOUL.md, AGENTS.md, IDENTITY.md, MEMORY.md 均已创建 - 群号：oc_96796887fcf96dba638afa646fbb6bb2 ### 遇到的问题与解决 - **群聊 requireMention 问题**：已关闭，主 agent 可接收群消息 - **Subagent spawn 位置问题**：从私聊 spawn 的 subagent 无法正确绑定到群聊，需要从群聊内触发 spawn - **独立飞书 app 需求确认**：每个 subagent 需要独立的飞书 app 才能独立接收群消息并有自己身份；主 agent 不",
+      "recallCount": 15,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 14.444547985845315,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-05-28T14:03:21.302Z",
+      "queryHashes": [
+        "d5cb3d837321",
+        "c3d4e9e63b1a",
+        "79e958938baa",
+        "950600bcd01c",
+        "a9a001d212fd",
+        "2b65065539f3",
+        "ccdd5b66b2ef",
+        "1c15496d184a",
+        "c8982979c44c",
+        "5876c483b27e",
+        "151d06e0f9dc",
+        "ce0cd9a1ecde",
+        "86ae29961ebc",
+        "da72802706c2",
+        "0c9695b9e47c"
+      ],
+      "recallDays": [
+        "2026-04-28",
+        "2026-04-29",
+        "2026-04-30",
+        "2026-05-01",
+        "2026-05-02",
+        "2026-05-06",
+        "2026-05-12",
+        "2026-05-14",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "cangjie-skill",
+        "alchaincyf/nuwa-skill",
+        "steve-jobs-skill",
+        "x-mentor-skill",
+        "zhangxuefeng-skill",
+        "elon-musk-skill",
+        "munger-skill"
+      ]
+    },
+    "memory:memory/2026-04-28.md:45:63": {
+      "key": "memory:memory/2026-04-28.md:45:63",
+      "path": "memory/2026-04-28.md",
+      "startLine": 45,
+      "endLine": 63,
+      "source": "memory",
+      "snippet": "- 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全架构决策、已安装 skills 列表、GitHub 配置状态 - 待跟进：social crawler 群里测试 spawn（等独立 app 就绪后）、小红书相关 skill 安装 ## 夜间沉思（22:00） - 今日完成大量 skill 安装与备份，系统基础设施基本就绪 - 核心瓶颈明确：Social Crawler 分身落地卡在飞书独立 app 创建 - GitHub PAT 备份机制已验证，skill 安全 vetting 流程已建立 - 明天最重要的事：配合 yifan 完成 Social Crawler 飞书 app 创建，启动分身跑起来 ## 微博日报生产验证（22:00 补充） - **首次成功产出**：`weibo_daily_2026-04-28.md` 已生成，数据完整 - 抓取覆盖：19 个茶饮品牌，当日有内容 6 个（瑞幸、库迪、古茗、茉莉奶白、霸王茶姬、喜茶） - 标准化流程已跑通：爬虫→整理→输出飞书文档/日报文件 - 值得关注的营销信号： - 瑞幸「全冰去水」正式转正 = 听劝营销的典型案例 - 茉莉奶白 IP 联名（INSTINCTOY 日本潮玩艺术家）= 高端化联名路线",
+      "recallCount": 24,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 23.63217558681921,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-28T15:03:26.200Z",
+      "lastRecalledAt": "2026-05-28T14:05:12.519Z",
+      "queryHashes": [
+        "d5cb3d837321",
+        "79e958938baa",
+        "a9a001d212fd",
+        "04d21b83cbab",
+        "2b65065539f3",
+        "ccdd5b66b2ef",
+        "8de7d006eb7f",
+        "d213eaf0ae1e",
+        "1c15496d184a",
+        "2b6dd75fa6ae",
+        "0723e5184c9f",
+        "1af088296a53",
+        "17fcee01205e",
+        "fd29fceddb46",
+        "aa8e5c6b6cc7",
+        "5e0df1f3b73e",
+        "c8982979c44c",
+        "5876c483b27e",
+        "ce0cd9a1ecde",
+        "86ae29961ebc",
+        "da72802706c2",
+        "a87536bf6c3c",
+        "ed45df7871a3",
+        "7ef340556000"
+      ],
+      "recallDays": [
+        "2026-04-30",
+        "2026-05-01",
+        "2026-05-02",
+        "2026-05-06",
+        "2026-05-07",
+        "2026-05-08",
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-14",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-22",
+        "2026-05-24",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "备份",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "weibo-daily-2026-04-28.md",
+        "输出飞书文档/日报文件",
+        "确认",
+        "github",
+        "仓库"
+      ]
+    },
+    "memory:memory/2026-04-29.md:1:29": {
+      "key": "memory:memory/2026-04-29.md:1:29",
+      "path": "memory/2026-04-29.md",
+      "startLine": 1,
+      "endLine": 29,
+      "source": "memory",
+      "snippet": "# 2026-04-29 Daily Memory ## Social Crawler 问题排查 **问题现象**：Social Crawler 收到群消息后一直在 output 和 call 之间来回运转，反复打开浏览器但不说话 **根本原因**： 1. SOUL 写错了——写成了\"什么都不做\"（只写被动执行），但正确要求是\"做什么都有边界\" 2. 没有身份定位描述，导致它收到任何消息都觉得应该主动行动 3. 没有 browser-automation 的失败重试限制，导致 loop **修复方案**： 1. 重写 SOUL——补全身份定位（咨询顾问、有网感、专业不端着） 2. 补全能力范围（数据分析/报告生成/用户洞察/行业热点追踪/研报财报分析） 3. 补全行为规范（5秒间隔、remote debugging Chrome、飞书免mention、失败2次停止） 4. browser-automation 限制：只响应明确请求，禁止自动触发 **端口处理**：用户要求 remote debugging 不限制具体端口，先尝试 9333 ## Social Crawler SOUL 重写 已按人设重写，新增内容： - 身份：咨询顾问 + 有网感 - 能力：数据分析/报告生成/用户洞察/行业热点追踪 - 行为：5秒间隔、remote debugging、飞书免mention、失败2次停止 - 约束：只响应明确请求，禁止自动触发爬虫 ## 待验证",
+      "recallCount": 5,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 4.812858175957658,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-29T14:02:51.715Z",
+      "lastRecalledAt": "2026-05-09T14:04:41.732Z",
+      "queryHashes": [
+        "c3d4e9e63b1a",
+        "79e958938baa",
+        "a9a001d212fd",
+        "1c15496d184a",
+        "80650739fdcf"
+      ],
+      "recallDays": [
+        "2026-04-29",
+        "2026-04-30",
+        "2026-05-06",
+        "2026-05-09"
+      ],
+      "conceptTags": [
+        "browser-automation",
+        "数据分析/报告生成/用户洞察/行业热点追踪/研报财报分析",
+        "数据分析/报告生成/用户洞察/行业热点追踪",
+        "social",
+        "crawler",
+        "问题",
+        "现象",
+        "收到"
+      ]
+    },
+    "memory:memory/2026-04-28.md:101:125": {
+      "key": "memory:memory/2026-04-28.md:101:125",
+      "path": "memory/2026-04-28.md",
+      "startLine": 101,
+      "endLine": 125,
+      "source": "memory",
+      "snippet": "- **架构结论**：单飞书主应用 + subagent-hooks 不能实现多分身独立群聊接收，需要每个分身有独立飞书 app ### 待解决 - 等 yifan 在飞书开放平台创建 Social Crawler 独立 app，获取 App ID + App Secret - 用独立 app 配置 gateway + 群聊绑定 - Social crawler 的小红书相关 skill（xiaohongshu-deep-research 等）待安装 - Dreaming cron 待验证是否正常写 MEMORY ## 悬而未决 - yifan 需创建 Social Crawler 飞书 app（App ID + Secret） - 每个分身是否都需要独立飞书 app（架构确认） - Social crawler 群里测试 spawn（等 app 创建完成后） - yifan 需要给 GitHub PAT 确认（已提供，但需要确认是否正常工作） ## 午后沉思（12:00） - 检视近期 memory 日志：2026-04-27（重装日）和 2026-04-28（skill 密集安装日） - 确认 GitHub 备份仓库（yifanli94/maclaw-skills）已正常工作，所有 skills 已 push - Social Crawler 分身：独立 app 待 yifan 创建，群聊已绑定 - 架构确认（重要）：每个分身需独立飞书 app，不能用 hooks 复用主 app - MEMORY.md 已更新：补全了架构决策、已安装 skills 列表、GitHub",
+      "recallCount": 27,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 27,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-30T04:02:48.900Z",
+      "lastRecalledAt": "2026-05-28T14:05:12.519Z",
+      "queryHashes": [
+        "79e958938baa",
+        "a9a001d212fd",
+        "04d21b83cbab",
+        "2b65065539f3",
+        "ccdd5b66b2ef",
+        "d213eaf0ae1e",
+        "1c15496d184a",
+        "5525e11876b1",
+        "fd29fceddb46",
+        "fb490806ca99",
+        "c8982979c44c",
+        "603b5b54ce36",
+        "5876c483b27e",
+        "6f6c3576fc29",
+        "d5ce2d239cc0",
+        "ce0cd9a1ecde",
+        "86ae29961ebc",
+        "da72802706c2",
+        "d448b92bc483",
+        "14f7fbdd1802",
+        "a7be8295d274",
+        "ba5c0d2597d5",
+        "5e9215dfc296",
+        "ceb754befa03",
+        "360e2878ed8e",
+        "0c9695b9e47c",
+        "7ef340556000"
+      ],
+      "recallDays": [
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14",
+        "2026-05-16",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-20",
+        "2026-05-21",
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-27",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "gateway",
+        "备份",
+        "subagent-hooks",
+        "xiaohongshu-deep-research",
+        "yifanli94/maclaw-skills",
+        "memory.md",
+        "架构",
+        "结论"
+      ]
+    },
+    "memory:memory/2026-04-28.md:60:89": {
+      "key": "memory:memory/2026-04-28.md:60:89",
+      "path": "memory/2026-04-28.md",
+      "startLine": 60,
+      "endLine": 89,
+      "source": "memory",
+      "snippet": "- 标准化流程已跑通：爬虫→整理→输出飞书文档/日报文件 - 值得关注的营销信号： - 瑞幸「全冰去水」正式转正 = 听劝营销的典型案例 - 茉莉奶白 IP 联名（INSTINCTOY 日本潮玩艺术家）= 高端化联名路线 - 库迪换新 logo = 品牌视觉升级信号 - 现有问题：部分品牌（星巴克、茶百道等）当日无内容，日报中标注清晰，不影响整体质量 ## 明日核心任务 1. **最高优先级**：配合 yifan 完成 Social Crawler 飞书独立 app 创建（App ID + Secret），解除分身落地的唯一卡点 2. **次优先级**：验证 Social Crawler 分身在群聊内 spawn + 独立接收消息 3. **日常任务**：微博日报 2026-04-29（10:05 cron）正常产出 # 2026-04-28 ## 今日进展 ### Skill 安装（全部完成） - skill-vetter, self-improving-agent, nano-pdf, humanizer, free-ride - api-gateway, youtube-transcript, auto-updater, openai-whisper - openclaw-reminder, browser-automation-stealth, desearch-web-search - find-skills-skill, summarize-1-0-0 - cangjie-skill, nuwa（alchaincyf/nuwa-skill ⭐1",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-30T05:24:18.271Z",
+      "lastRecalledAt": "2026-05-22T14:04:01.932Z",
+      "queryHashes": [
+        "950600bcd01c",
+        "2b6dd75fa6ae",
+        "a87536bf6c3c"
+      ],
+      "recallDays": [
+        "2026-04-30",
+        "2026-05-07",
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "gateway",
+        "openai",
+        "输出飞书文档/日报文件",
+        "skill-vetter",
+        "self-improving-agent",
+        "nano-pdf",
+        "free-ride",
+        "api-gateway"
+      ]
+    },
+    "memory:memory/2026-04-30.md:67:94": {
+      "key": "memory:memory/2026-04-30.md:67:94",
+      "path": "memory/2026-04-30.md",
+      "startLine": 67,
+      "endLine": 94,
+      "source": "memory",
+      "snippet": "4. **如果脚本仍未完整**：手动补发今日日报，不等自动 --- ## 中午复盘（12:00 已完成，内容保留） ### 错误1：browser.disconnect() 导致脚本崩溃（最严重） --- ## 第一步：今日错题本 ### 错误1：browser.disconnect() 导致脚本崩溃（最严重） **现象：** 爬虫脚本在 Chromium CDP 连接上调用了不存在的 `disconnect()` 方法，导致 `TypeError`，脚本以 exit code 1 退出，今日日报数据完全丢失。 **为什么错：** 这是代码逻辑错误。`chromium.connectOverCDP()` 返回的 CDPBrowser 对象没有 `disconnect()` 方法——我们连接的是已有的 Chrome 用户会话，不是自己启动的浏览器，不应该断开连接。进程结束时让浏览器保持原状即可。 **花了多久：** 在 Dreaming Noon（12:00）才被发现和修复，影响了当天整个上午的日报产出。 **怎么修复：** 删除 `/private/tmp/crawl-tea.mjs` 中的 `await browser.disconnect()` 调用，改为 `process.exit(0)` 正常退出。 --- ### 错误2：Gateway 重启循环造成 Cron 执行窗口不稳定 **现象：** 10:05 AM 附近，Gateway 连续多次重启尝试（每次间隔5秒），返回 `EADDRINUSE` 错误。Cron 触发时 gateway 可能处",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 4,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-02T16:08:49.339Z",
+      "lastRecalledAt": "2026-05-20T14:02:39.652Z",
+      "queryHashes": [
+        "f05ca5c549ab",
+        "8d7f8c47b232",
+        "ffa34fc213a0",
+        "279a23d07b32"
+      ],
+      "recallDays": [
+        "2026-05-03",
+        "2026-05-14",
+        "2026-05-15",
+        "2026-05-20"
+      ],
+      "conceptTags": [
+        "gateway",
+        "browser.disconnect",
+        "chromium.connectovercdp",
+        "private/tmp/crawl-tea.mjs",
+        "process.exit",
+        "如果",
+        "脚本",
+        "完整"
+      ]
+    },
+    "memory:memory/2026-04-30.md:87:110": {
+      "key": "memory:memory/2026-04-30.md:87:110",
+      "path": "memory/2026-04-30.md",
+      "startLine": 87,
+      "endLine": 110,
+      "source": "memory",
+      "snippet": "**怎么修复：** 删除 `/private/tmp/crawl-tea.mjs` 中的 `await browser.disconnect()` 调用，改为 `process.exit(0)` 正常退出。 --- ### 错误2：Gateway 重启循环造成 Cron 执行窗口不稳定 **现象：** 10:05 AM 附近，Gateway 连续多次重启尝试（每次间隔5秒），返回 `EADDRINUSE` 错误。Cron 触发时 gateway 可能处于不稳定状态。 **根因：** 4月27-29日期间有多次配置变更，触发 reload，但已有进程 pid 11043 在运行，导致端口冲突。Cron 触发时机恰好落在不稳定窗口内。 **花了多久：** 问题在 Dreaming Noon 复盘时识别，今日未修复，但确认爬虫脚本本身不依赖 Gateway 进程，只要 Chrome 9333 端口可用就能跑。 --- ### 错误3：依赖 session 自动保存而非主动写文件 **现象：** 今日日报数据在脚本崩溃时完全丢失，Cron session 没有生成 memory 文件，群里也没有发出报告。 **为什么错：** 错误1导致脚本崩溃（exit code 1），但更深层的问题是：脚本没有在爬取完成后立即将数据写入 workspace 文件，而是依赖 session 结束后自动保存机制兜底。崩溃时这个机制也失效了。 **怎么修复：** 爬虫完成后立即写文件，`process.exit(0)` 确保正常退出码，不依赖 session 自动保存。 ---",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-02T16:08:49.339Z",
+      "lastRecalledAt": "2026-05-20T14:02:39.652Z",
+      "queryHashes": [
+        "f05ca5c549ab",
+        "279a23d07b32"
+      ],
+      "recallDays": [
+        "2026-05-03",
+        "2026-05-20"
+      ],
+      "conceptTags": [
+        "gateway",
+        "private/tmp/crawl-tea.mjs",
+        "browser.disconnect",
+        "process.exit",
+        "4月27-29日期间有多次配置变更",
+        "怎么",
+        "修复",
+        "删除"
+      ]
+    },
+    "memory:memory/2026-04-30.md:105:128": {
+      "key": "memory:memory/2026-04-30.md:105:128",
+      "path": "memory/2026-04-30.md",
+      "startLine": 105,
+      "endLine": 128,
+      "source": "memory",
+      "snippet": "**为什么错：** 错误1导致脚本崩溃（exit code 1），但更深层的问题是：脚本没有在爬取完成后立即将数据写入 workspace 文件，而是依赖 session 结束后自动保存机制兜底。崩溃时这个机制也失效了。 **怎么修复：** 爬虫完成后立即写文件，`process.exit(0)` 确保正常退出码，不依赖 session 自动保存。 --- ### 决策失误：没有在第一时间（早上10:05之后）发现日报缺失 **现象：** 今天日报完全没有产出，但直到 12:00 Dreaming Noon 才被发现。 **为什么错：** 上午 10:05 cron 触发后，我没有在合理时间内检查产出结果。如果上午就发现脚本崩溃，可以立即重跑，补回大部分数据。 **怎么修复：** 关键 Cron 执行后（如 10:05 日报），在 10:30 前检查 memory 文件是否生成，发现问题立刻重跑。 --- ## 第二步：根因分析 三个错误追问一层： 1. **browser.disconnect()** — 不是操作失误，是认知偏差。误以为 CDP 连接需要主动断开，而实际上连接已有 Chrome 会话不应该管理其生命周期。 2. **Gateway 重启循环** — 是流程漏洞：配置 reload 的时机没有和 cron 执行窗口做隔离。频繁配置变更触发的 reload 和 cron 触发时机撞车。",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-03T07:05:56.903Z",
+      "lastRecalledAt": "2026-05-06T14:16:39.901Z",
+      "queryHashes": [
+        "cbdd1d22a0cc",
+        "38382cdc3505"
+      ],
+      "recallDays": [
+        "2026-05-03",
+        "2026-05-06"
+      ],
+      "conceptTags": [
+        "gateway",
+        "process.exit",
+        "browser.disconnect",
+        "为什么",
+        "错误",
+        "导致",
+        "脚本",
+        "崩溃"
+      ]
+    },
+    "memory:memory/2026-05-02.md:1:37": {
+      "key": "memory:memory/2026-05-02.md:1:37",
+      "path": "memory/2026-05-02.md",
+      "startLine": 1,
+      "endLine": 37,
+      "source": "memory",
+      "snippet": "# 2026-05-02 日记 ## Dreaming Noon (12:00) ### 系统状态 - **茶饮日报 cron 10:05**：失败，/tmp/ 下无 2026-05-02 报告 - **state 文件**：仍为 Apr 30，5月2日无任何爬取记录 - **CDP 9333**：未检测（12:00 时） ### 重复失败模式 | 日期 | 识别的问题 | 实际修复 | |------|-----------|---------| | 4/30 | CDP断连bug、state混乱 | 部分修复（删了disconnect） | | 5/1 noon | CDP无重试、无发群逻辑、版本混乱 | 无修复 | | 5/1 night | 同上 + 人手跑了v6 | 无系统性修复 | | 5/2 noon | 同上 + 今日cron失败 | 无修复 | **本质**：识别是自动发生的，但修复需要主动介入。每天的Dreaming只是重新识别同一批问题。 ### P0 清单（仍未修复） 1. 脚本 → 写 memory 文件 2. 脚本 → 发飞书群 3. 脚本 → CDP 重试机制 4. 版本统一（v6.mjs 应成为唯一执行脚本） 5. state 文件统一 ### 洞察 - 问题识别能力强，执行能力弱 - 需要一个专门负责\\\"做完\\\"的机制，而不是\\\"发现问题\\\" - 人手介入跑 v6 证明脚本本身可用，缺的是自动化钩子 静默结束。",
+      "recallCount": 7,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 7,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-03T07:05:56.903Z",
+      "lastRecalledAt": "2026-05-23T14:10:15.736Z",
+      "queryHashes": [
+        "cbdd1d22a0cc",
+        "0bfb9c7a3ff5",
+        "2b6dd75fa6ae",
+        "98f31bc2f588",
+        "ffa34fc213a0",
+        "1771da78f65c",
+        "3cd7bb7c35a3"
+      ],
+      "recallDays": [
+        "2026-05-03",
+        "2026-05-06",
+        "2026-05-07",
+        "2026-05-10",
+        "2026-05-15",
+        "2026-05-20",
+        "2026-05-23"
+      ],
+      "conceptTags": [
+        "4/30",
+        "5/1",
+        "5/2",
+        "v6.mjs",
+        "日记",
+        "dreaming",
+        "noon",
+        "系统"
+      ]
+    },
+    "memory:memory/2026-04-30.md:161:172": {
+      "key": "memory:memory/2026-04-30.md:161:172",
+      "path": "memory/2026-04-30.md",
+      "startLine": 161,
+      "endLine": 172,
+      "source": "memory",
+      "snippet": "3. **关键产出要设检查节点**：重要 Cron 触发后，必须在合理时间窗口（如30分钟内）检查产出是否成功，发现问题立刻重跑，不要等到下次人工检查才发现。 --- ## 第五步：明日重点 **最重要的一件事：验证茶饮日报能正常产出。** 今天日报完全失败，明天必须确认脚本修复有效。今天的教训（日报缺失未及时发现）直接关联到明天的行动——不是等 cron 自动跑完，而是主动检查结果。如果明天日报正常产出，说明修复有效；如果再次失败，需要立即诊断并重跑。 **关联：** 今天学到\"关键产出要设检查节点\"，明天就要执行这个检查动作。",
+      "recallCount": 10,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 10,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T04:02:50.528Z",
+      "lastRecalledAt": "2026-05-24T14:01:36.847Z",
+      "queryHashes": [
+        "8de7d006eb7f",
+        "d213eaf0ae1e",
+        "fd585921ceea",
+        "1af088296a53",
+        "17fcee01205e",
+        "aa8e5c6b6cc7",
+        "5e0df1f3b73e",
+        "bd5e55664075",
+        "a87536bf6c3c",
+        "ed45df7871a3"
+      ],
+      "recallDays": [
+        "2026-05-06",
+        "2026-05-07",
+        "2026-05-08",
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-20",
+        "2026-05-22",
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "关键",
+        "检查",
+        "节点",
+        "重要",
+        "cron",
+        "触发",
+        "必须",
+        "合理"
+      ]
+    },
+    "memory:memory/2026-04-30.md:144:168": {
+      "key": "memory:memory/2026-04-30.md:144:168",
+      "path": "memory/2026-04-30.md",
+      "startLine": 144,
+      "endLine": 168,
+      "source": "memory",
+      "snippet": "- 在爬虫脚本末尾加入强制写文件逻辑：即使中间步骤失败，也要写部分结果到 memory 文件 - 考虑加入 state 文件断点续跑机制：记录每个品牌的爬取状态，崩溃后可从断点继续 **针对决策失误（日报缺失未及时发现）：** - 在 cron 执行后增加检查节点：10:05 cron → 10:30 前检查 memory 文件是否存在并包含今日日期 - 发现缺失立刻重跑脚本 --- ## 第四步：记忆更新 **三条最关键教训（写入 MEMORY.md）：** 1. **CDP 连接不管理生命周期**：连接已有 Chrome 会话（`connectOverCDP`）后，进程结束时不需要调用任何 disconnect 方法，浏览器保持原状即可。这和启动浏览器（`launch`）后需要 `close` 不同。 2. **脚本必须有自我保护**：关键 Cron 脚本必须在执行过程中主动写文件，不能依赖 session 结束后自动保存。崩溃时自动保存机制也会失效。 3. **关键产出要设检查节点**：重要 Cron 触发后，必须在合理时间窗口（如30分钟内）检查产出是否成功，发现问题立刻重跑，不要等到下次人工检查才发现。 --- ## 第五步：明日重点 **最重要的一件事：验证茶饮日报能正常产出。**",
+      "recallCount": 12,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 12,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T04:02:50.528Z",
+      "lastRecalledAt": "2026-05-24T14:01:36.847Z",
+      "queryHashes": [
+        "8de7d006eb7f",
+        "d213eaf0ae1e",
+        "fd585921ceea",
+        "1af088296a53",
+        "17fcee01205e",
+        "aa8e5c6b6cc7",
+        "5e0df1f3b73e",
+        "8d7f8c47b232",
+        "ffa34fc213a0",
+        "bd5e55664075",
+        "a87536bf6c3c",
+        "ed45df7871a3"
+      ],
+      "recallDays": [
+        "2026-05-06",
+        "2026-05-07",
+        "2026-05-08",
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-14",
+        "2026-05-15",
+        "2026-05-20",
+        "2026-05-22",
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "memory.md",
+        "爬虫",
+        "脚本",
+        "末尾",
+        "加入",
+        "强制",
+        "文件",
+        "逻辑"
+      ]
+    },
+    "memory:memory/2026-05-03.md:91:122": {
+      "key": "memory:memory/2026-05-03.md:91:122",
+      "path": "memory/2026-05-03.md",
+      "startLine": 91,
+      "endLine": 122,
+      "source": "memory",
+      "snippet": "今天无新增交互记录。基于历史数据确认： **逸凡的核心关注点（稳定偏好）**： 1. **IP联名动向**是最高优先级（每次报告必有） 2. **听劝营销案例**值得单独标注（如古茗去年下架今年回归，霸王茶姬年度节奏） 3. **地域化产品创新**信号：闽南糖水元素（茶百道）、潮汕元素（喜茶）、云南产地（皮爷/M Stand） 4. **品牌国际化**：茉莉奶白温哥华，这是品牌升级的重要信号，需要持续追踪 **报告格式偏好（稳定）**： - 品牌分三块：新品 / IP联名 / 营销活动 - 汇总表（今日各品牌动作数量） - 简洁清晰，不要过度分析 **无新增变化。** --- ## 第三步：数据洞察积累 ### 今日新增信号 **库迪 × VOGUE Fashion Fund（重要）** - 时尚策划人大师工坊春夏主题包袋，5月6日上线 - 这是库迪从\"低价咖啡\"往\"时尚生活方式品牌\"升级的直接信号 - 值得更新到 MEMORY.md 信号表 **霸王茶姬\"水银门\"事件（需追踪）** - 4月29日砀山事件，官方通报系购买人投放（不是品牌责任） - 但舆情传播量大（13.7万观看），需关注后续品牌应对 **古茗 Pingu IP系列化（持续确认）** - 抹茶四季春回归，和 Pingu 联名时间线吻合",
+      "recallCount": 7,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 7,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T04:09:45.836Z",
+      "lastRecalledAt": "2026-05-24T14:01:36.847Z",
+      "queryHashes": [
+        "d213eaf0ae1e",
+        "1af088296a53",
+        "17fcee01205e",
+        "aa8e5c6b6cc7",
+        "5e0df1f3b73e",
+        "bd5e55664075",
+        "ed45df7871a3"
+      ],
+      "recallDays": [
+        "2026-05-06",
+        "2026-05-08",
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-20",
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "皮爷/m",
+        "memory.md",
+        "13.7万观看",
+        "今天",
+        "新增",
+        "交互",
+        "记录",
+        "基于"
+      ]
+    },
+    "memory:memory/2026-04-28.md:119:149": {
+      "key": "memory:memory/2026-04-28.md:119:149",
+      "path": "memory/2026-04-28.md",
+      "startLine": 119,
+      "endLine": 149,
+      "source": "memory",
+      "snippet": "- MEMORY.md 已更新：补全了架构决策、已安装 skills 列表、GitHub 配置状态 - 待跟进想法（静默）：social crawler 群里测试 spawn（等独立 app 就绪后）、小红书相关 skill 安装 ## 晚间更新 - 23:07 ### Context压缩问题 & 永动机原则 - context压缩无法关闭，已通过调高limits减少压缩程度 - memoryGetMaxChars: 50,000 / memoryGetDefaultLines: 500 - toolResultMaxChars: 20,000 / postCompactionMaxChars: 10,000 - **新增SOUL原则（第三条）**：我是24小时永不停歇的agent，不存在\"休息\"概念，不依赖用户在线才能工作 - 原则已写入：MacLaw SOUL、CEO SOUL、Social Crawler SOUL ### 记忆错误记录（已纠正） - 品牌数量：18个（不是19个） - 微博日报时间：早上10:05（不是之后） - Social Crawler后来正常完成任务（不是一直卡着） ### Dreaming系统Bug修复 - 问题：dreaming isolated session的agentId是main，写入路径解析错误，且写入了错误workspace - 修复： - 更新social-crawler的dreaming prompt为绝对路径 + 追加写入 - 创建各workspace/.dreams目录 - CEO的dream",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T14:05:02.384Z",
+      "lastRecalledAt": "2026-05-20T04:10:10.215Z",
+      "queryHashes": [
+        "1c15496d184a",
+        "567763cf8c14",
+        "31540a748bf8"
+      ],
+      "recallDays": [
+        "2026-05-06",
+        "2026-05-10",
+        "2026-05-20"
+      ],
+      "conceptTags": [
+        "memory.md",
+        "更新social-crawler的dreaming",
+        "更新",
+        "架构",
+        "决策",
+        "安装",
+        "skills",
+        "列表"
+      ]
+    },
+    "memory:memory/2026-05-03.md:117:148": {
+      "key": "memory:memory/2026-05-03.md:117:148",
+      "path": "memory/2026-05-03.md",
+      "startLine": 117,
+      "endLine": 148,
+      "source": "memory",
+      "snippet": "**霸王茶姬\"水银门\"事件（需追踪）** - 4月29日砀山事件，官方通报系购买人投放（不是品牌责任） - 但舆情传播量大（13.7万观看），需关注后续品牌应对 **古茗 Pingu IP系列化（持续确认）** - 抹茶四季春回归，和 Pingu 联名时间线吻合 - 古茗 IP 联名节奏加快，MEMORY 已记录，持续观察 **茉莉奶白国际化（重要信号）** - 温哥华列治文店开业，公益持续 - 品牌从区域走向海外，MEMORY 已记录 **M Stand × 埃塞俄比亚产地溯源（新产品维度）** - 9支新产季空运豆，小产区微批次 - 和皮爷的云南产地逻辑一致，说明产地/精品化是行业共同方向 --- ## 第四步：效率评估 **今日执行情况**： - 10:47 运行 final.mjs（错误版本），约 10-15 分钟（19品牌 × 8秒等待） - 实际执行了，但脚本版本错误，输出无效 - State 文件未更新 **各版本耗时（估算）**： - final.mjs：每品牌 8 秒等待，无并行，19 品牌约 2.5-3 分钟纯运行 - 加上 CDP 连接时间，今天约 10-15 分钟总耗时 - 比昨天快（昨天12点手动跑，约20分钟） **最耗时步骤**：等待间隔（8秒/品牌），无并行化。这是设计层面的限制，暂不优化。",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T14:11:15.043Z",
+      "lastRecalledAt": "2026-05-06T14:11:15.043Z",
+      "queryHashes": [
+        "c1a2b7a0550e"
+      ],
+      "recallDays": [
+        "2026-05-06"
+      ],
+      "conceptTags": [
+        "13.7万观看",
+        "说明产地/精品化是行业共同方向",
+        "final.mjs",
+        "10-15",
+        "2.5-3",
+        "8秒/品牌",
+        "霸王",
+        "水银"
+      ]
+    },
+    "memory:memory/2026-05-03.md:143:172": {
+      "key": "memory:memory/2026-05-03.md:143:172",
+      "path": "memory/2026-05-03.md",
+      "startLine": 143,
+      "endLine": 172,
+      "source": "memory",
+      "snippet": "- final.mjs：每品牌 8 秒等待，无并行，19 品牌约 2.5-3 分钟纯运行 - 加上 CDP 连接时间，今天约 10-15 分钟总耗时 - 比昨天快（昨天12点手动跑，约20分钟） **最耗时步骤**：等待间隔（8秒/品牌），无并行化。这是设计层面的限制，暂不优化。 **CDP 连接情况**：今天 10:47 CDP 可用（final.mjs 连接成功），但 10:05 的 morning cron 大概率仍然失败了。 --- ## 第五步：明日预判 **最重要的一件事（唯一）**： ``` 修复脚本 + 建立唯一版本 + 配置 cron + 验证飞书发群 ``` 具体： 1. 找到昨天中午修复过的 v6（应有完整的报告生成逻辑） 2. 以 v6 为基础，确认含 CDP 重试、state 更新、报告生成、飞书发群 3. 删除所有其他版本 4. 配置 11:00 cron 5. 明天 11:05 检查 cron 是否成功 **无需提前准备 CDP**——今天 10:47 成功，规律是 10:05 不可用，10:47 可用，明天 11:00 应该也可用。但脚本里仍需保留重试逻辑。 --- 静默结束。",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T14:11:15.043Z",
+      "lastRecalledAt": "2026-05-07T14:05:20.531Z",
+      "queryHashes": [
+        "c1a2b7a0550e",
+        "2b6dd75fa6ae"
+      ],
+      "recallDays": [
+        "2026-05-06",
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "final.mjs",
+        "2.5-3",
+        "10-15",
+        "8秒/品牌",
+        "品牌",
+        "等待",
+        "并行",
+        "2.5"
+      ]
+    },
+    "memory:memory/2026-05-06.md:21:55": {
+      "key": "memory:memory/2026-05-06.md:21:55",
+      "path": "memory/2026-05-06.md",
+      "startLine": 21,
+      "endLine": 55,
+      "source": "memory",
+      "snippet": "**飞书 webhook URL 获取**： - social crawler 群：oc_96796887fcf96dba638afa646fbb6bb2 - 操作：群里 → 群设置 → 群机器人 → 添加自定义机器人 → 复制 webhook URL - 需要逸凡执行（群管理员权限） - 拿到后2小时内可解决 ### 模式识别 连续第8天在 Dreaming 中记录\"飞书发群逻辑缺失\"。这是一个执行阻塞，不是认知问题。需要有人带着逸凡给的 webhook URL 实际写代码修复。 静默结束。 --- ## Dreaming Noon - 12:10（Strategic Planner） ### 知识缝合审查 - 今日4条新洞察（杨梅季/代言分化/霸王茶姬静默/异业合作）已入库 - 现有知识图谱无需更新（skill系统归属supermind workspace） - 新洞察与已有框架一致（文化叙事升级/代言阶段性分层/精准投放趋势），形成内部自洽逻辑 ### 模式识别 当前知识体系已形成完整的\"茶饮品牌竞争升级路径\"叙事： 食材共振→叙事差异化→文化联名层级→代言策略分层→精准投放 这条线索可以成为曼拾客户提案的底层逻辑框架。 ### MEMORY.md 更新 无需更新（现有内容已是最新状态）。 静默结束。",
+      "recallCount": 14,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 14,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T14:16:12.321Z",
+      "lastRecalledAt": "2026-05-25T04:06:25.987Z",
+      "queryHashes": [
+        "37558da49e1f",
+        "d81465c83310",
+        "90850737cdca",
+        "0723e5184c9f",
+        "4238d258c199",
+        "7764e9dda254",
+        "28d08a194432",
+        "88e6e25d24ac",
+        "4903d47def15",
+        "401aafb0b4c9",
+        "1974b0bca87a",
+        "269ef58f6384",
+        "099b5b8c4484",
+        "acfa02efb4cf"
+      ],
+      "recallDays": [
+        "2026-05-06",
+        "2026-05-07",
+        "2026-05-09",
+        "2026-05-10",
+        "2026-05-13",
+        "2026-05-15",
+        "2026-05-16",
+        "2026-05-18",
+        "2026-05-20",
+        "2026-05-25"
+      ],
+      "conceptTags": [
+        "杨梅季/代言分化/霸王茶姬静默/异业合作",
+        "文化叙事升级/代言阶段性分层/精准投放趋势",
+        "memory.md",
+        "webhook",
+        "url",
+        "获取",
+        "social",
+        "crawler"
+      ]
+    },
+    "memory:memory/2026-05-05.md:1:22": {
+      "key": "memory:memory/2026-05-05.md:1:22",
+      "path": "memory/2026-05-05.md",
+      "startLine": 1,
+      "endLine": 22,
+      "source": "memory",
+      "snippet": "# 2026-05-05 日志 ## 12:00 Strategic Planner Dreaming Noon ### 系统状态检查 - 今日日报（weibo_daily_2026-05-05.md）：**未生成**（截至12:18） - cron配置：**未配置**（crontab -l 无 tea 相关） - 飞书发群：连续第7天未打通 - /tmp/脚本：30+个堆积，版本混乱无单一入口 ### 知识缝合更新 基于昨日日报（5/4）新增两个洞察： 1. **内容营销已是入场券**：19品牌84%有新品/47%有IP联名/95%有营销活动，做内容不是竞争优势而是标配，真正的竞争维度是密度+精准度+叙事差异化 2. **品类边界模糊化**：瑞幸做酸奶昔/库迪做杨梅/古茗做抹茶/Manner做西西里美式，情绪价值和打卡体验才是真正护城河 ### 执行系统状态 - 茶饮日报系统：能生产但送不到用户手里 - 问题本质：「完成了」和「送达了」之间有系统缺口 ### 悬而未决（P0） 飞书发群逻辑修复（连续7天未解决）",
+      "recallCount": 9,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 9,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-06T14:16:12.321Z",
+      "lastRecalledAt": "2026-05-20T14:15:00.601Z",
+      "queryHashes": [
+        "37558da49e1f",
+        "d81465c83310",
+        "90850737cdca",
+        "0723e5184c9f",
+        "4238d258c199",
+        "4903d47def15",
+        "401aafb0b4c9",
+        "269ef58f6384",
+        "099b5b8c4484"
+      ],
+      "recallDays": [
+        "2026-05-06",
+        "2026-05-07",
+        "2026-05-09",
+        "2026-05-15",
+        "2026-05-16",
+        "2026-05-18",
+        "2026-05-20"
+      ],
+      "conceptTags": [
+        "weibo-daily-2026-05-05.md",
+        "tmp/脚本",
+        "5/4",
+        "有新品/47",
+        "有ip联名/95",
+        "瑞幸做酸奶昔/库迪做杨梅/古茗做抹茶/manner做西西里美式",
+        "日志",
+        "strategic"
+      ]
+    },
+    "memory:memory/2026-05-01.md:1:32": {
+      "key": "memory:memory/2026-05-01.md:1:32",
+      "path": "memory/2026-05-01.md",
+      "startLine": 1,
+      "endLine": 32,
+      "source": "memory",
+      "snippet": "# 2026-05-01 日记 ## Dreaming Night (22:07) --- ### Social Crawler 今日执行情况 **上午 cron 失败**：10:05 触发，CDP 9333 不可用，状态 error。 **下午 18:19 有人手动运行 v6.mjs 成功**：19/19 品牌全部爬取，报告 36KB 已写入 `social-crawler/memory/weibo_daily_2026-05-01.md`。但飞书群未收到通知（v6.mjs 仍无发群逻辑）。 **CDP 9333 关键发现**：18:19 时端口已恢复可用，说明不是永久故障，是 Chrome 重启期间的临时不可用。脚本需要重试机制（等30秒重试3次）而非快速放弃。 --- ### 错题本（今日核心问题） | 问题 | 性质 | 严重程度 | |------|------|----------| | 脚本无飞书发群逻辑 | 系统设计缺陷 | 高——用户看不到报告 | | CDP 无重试机制 | 系统设计缺陷 | 高——临时故障导致 cron 失败 | | 脚本版本管理混乱 | 技术债务 | 中——多个版本并存 | | state 文件版本混乱 | 技术债务 | 中——4个 state 文件同时存在 | | cron 失败无告警 | 系统缺陷 | 中——announce 机制不生效 | **明日必须修复**：脚本发群逻辑 + 统一脚本版本（/tmp/tea-crawler.mjs 为唯一执行脚本）。 --- ### 今日数据亮点（值得记住）",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-07T14:05:20.531Z",
+      "lastRecalledAt": "2026-05-07T14:05:20.531Z",
+      "queryHashes": [
+        "2b6dd75fa6ae"
+      ],
+      "recallDays": [
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "v6.mjs",
+        "19/19",
+        "tmp/tea-crawler.mjs",
+        "日记",
+        "dreaming",
+        "night",
+        "social",
+        "crawler"
+      ]
+    },
+    "memory:memory/2026-05-01.md:24:52": {
+      "key": "memory:memory/2026-05-01.md:24:52",
+      "path": "memory/2026-05-01.md",
+      "startLine": 24,
+      "endLine": 52,
+      "source": "memory",
+      "snippet": "| state 文件版本混乱 | 技术债务 | 中——4个 state 文件同时存在 | | cron 失败无告警 | 系统缺陷 | 中——announce 机制不生效 | **明日必须修复**：脚本发群逻辑 + 统一脚本版本（/tmp/tea-crawler.mjs 为唯一执行脚本）。 --- ### 今日数据亮点（值得记住） 1. **瑞幸酸奶昔密集上新**：瓦尔登蓝芒果 + 牛油果羽衣甘蓝，两款同期推出，酸奶昔从边缘产品变为主流产品线 2. **五一假期已成为年度营销节点**：瑞幸上海国际咖啡文化节（北外滩滨江）、库迪出游必喝清单 3. **天然色素营销**：瑞幸瓦尔登蓝\"冰川蓝\"+\"藻蓝蛋白\"天然诉求，视觉+健康双重打法 --- ### 明日预判（5月2日） CDP 9333 当前可用（22:07 检测正常）。建议 5月2日 10:05 cron 前做一次端口预检测，如失败自动等待重试。 --- ## 重大悬而未决 - **P0**：脚本加飞书发群逻辑 - **P0**：脚本加 CDP 重试机制 - **P0**：统一脚本版本 - **P1**：统一 state 文件 - **P2**：验证5月2日 cron 是否正常触发并送达",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-07T14:05:20.531Z",
+      "lastRecalledAt": "2026-05-07T14:05:20.531Z",
+      "queryHashes": [
+        "2b6dd75fa6ae"
+      ],
+      "recallDays": [
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "tmp/tea-crawler.mjs",
+        "state",
+        "文件",
+        "版本",
+        "混乱",
+        "技术",
+        "债务",
+        "同时"
+      ]
+    },
+    "memory:memory/2026-04-29.md:22:32": {
+      "key": "memory:memory/2026-04-29.md:22:32",
+      "path": "memory/2026-04-29.md",
+      "startLine": 22,
+      "endLine": 32,
+      "source": "memory",
+      "snippet": "已按人设重写，新增内容： - 身份：咨询顾问 + 有网感 - 能力：数据分析/报告生成/用户洞察/行业热点追踪 - 行为：5秒间隔、remote debugging、飞书免mention、失败2次停止 - 约束：只响应明确请求，禁止自动触发爬虫 ## 待验证 - Social Crawler 群聊恢复正常响应（测试消息已发，等待结果） - CEO 分身状态未确认（早上有 stuck session，用户用 /stop 多次关闭）",
+      "recallCount": 17,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 17,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T04:10:52.664Z",
+      "lastRecalledAt": "2026-05-28T04:05:38.246Z",
+      "queryHashes": [
+        "6cbd25aca7e7",
+        "567763cf8c14",
+        "3e70293f2596",
+        "55818d5f8f60",
+        "dd588cf9d56a",
+        "d5781d5d729f",
+        "698c9d7a60df",
+        "4f78bce42bf9",
+        "4ba216a1be15",
+        "f73c122f7cb1",
+        "b57f289363dc",
+        "737049bea086",
+        "2c8a294fa1eb",
+        "f122880c685b",
+        "6b4a42673ffb",
+        "435f46d3dfad",
+        "2195712d21df"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-10",
+        "2026-05-12",
+        "2026-05-14",
+        "2026-05-15",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-20",
+        "2026-05-21",
+        "2026-05-22",
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "数据分析/报告生成/用户洞察/行业热点追踪",
+        "新增",
+        "内容",
+        "身份",
+        "咨询",
+        "顾问",
+        "能力",
+        "数据"
+      ]
+    },
+    "memory:memory/2026-05-07.md:55:71": {
+      "key": "memory:memory/2026-05-07.md:55:71",
+      "path": "memory/2026-05-07.md",
+      "startLine": 55,
+      "endLine": 71,
+      "source": "memory",
+      "snippet": "**古茗**：「1蔬6果」现榨果蔬茶明日上 + 麒麟西瓜5/7解锁 + 径山抹茶持续——两条新品节奏与行业同步。 **星巴克**：《只此青绿》联名 + 杭州非遗概念店 + 星冰粽——文化本土化顶层实践。 ### 新认知 → 已有框架关联 **认知：体育营销正在成为茶饮新赛道** 沪上阿姨「羽坛天菜」5/13上新，这个措辞非常具体。之前框架里的「运动员代言」维度（瑞幸×商竣程）只覆盖了一个品牌，今天沪上阿姨的出现说明体育联名可能正在成为行业共识。 这和之前观察到的「代言策略四维度框架」完全吻合：流量明星→成熟明星→文化机构→运动员/健康专家。沪上阿姨的「羽坛天菜」很可能是第四维度的新案例。 **复用价值**：体育联名/代言正在从边缘变成主流，曼拾在给茶饮客户提案时，体育赛道值得作为独立选项纳入。 ### 追加到 MEMORY.md「知识缝合」区块 **体育营销正在成为茶饮第五赛道（新增，2026-05-07）**",
+      "recallCount": 8,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 8,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T04:10:52.672Z",
+      "lastRecalledAt": "2026-05-27T14:09:47.009Z",
+      "queryHashes": [
+        "17429bd31679",
+        "5f08e2f35265",
+        "85ce2e72a3bf",
+        "38c2f26c91b9",
+        "9482e9f3d3c2"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-13",
+        "2026-05-15",
+        "2026-05-16",
+        "2026-05-27"
+      ],
+      "conceptTags": [
+        "麒麟西瓜5/7解锁",
+        "5/13上新",
+        "运动员/健康专家",
+        "体育联名/代言正在从边缘变成主流",
+        "memory.md",
+        "明日",
+        "麒麟",
+        "西瓜"
+      ]
+    },
+    "memory:memory/2026-05-07.md:43:62": {
+      "key": "memory:memory/2026-05-07.md:43:62",
+      "path": "memory/2026-05-07.md",
+      "startLine": 43,
+      "endLine": 62,
+      "source": "memory",
+      "snippet": "## 第二步：知识缝合（核心） ### 今日品牌信号精华 **沪上阿姨**：「羽坛天菜」5/13上新——暗示与体育联名，延续「摩登东方茶」定位。「羽坛」二字非常具体，可能是羽毛球运动相关代言或合作。 **库迪**：杨幂代言人+「顶流鲜气杨梅」+ VOGUE时尚策展人+HPP工艺叙事——腰部品牌高端化路径最完整的一家公司，每一步都有明确的方向。 **喜茶**：「杨桃三重甘」（5/7）= 茉莉初雪×杨桃×油柑×L-阿拉伯糖——从「功能性茶饮」往「文化五感体验」扩展，配方越来越复杂，叙事越来越细腻。 **茉莉奶白**：蜜瓜系列5/9上市 + x ROSYDOEDIAN联名 + 公益采茶女工——国际化+公益双线并行，第四期公益粮计划持续推进。 **古茗**：「1蔬6果」现榨果蔬茶明日上 + 麒麟西瓜5/7解锁 + 径山抹茶持续——两条新品节奏与行业同步。 **星巴克**：《只此青绿》联名 + 杭州非遗概念店 + 星冰粽——文化本土化顶层实践。 ### 新认知 → 已有框架关联 **认知：体育营销正在成为茶饮新赛道**",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T04:10:52.672Z",
+      "lastRecalledAt": "2026-05-13T04:11:41.708Z",
+      "queryHashes": [
+        "17429bd31679",
+        "2db0abb9a25b",
+        "38c2f26c91b9"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-12",
+        "2026-05-13"
+      ],
+      "conceptTags": [
+        "5/13上新",
+        "5/7",
+        "l-阿拉伯糖",
+        "蜜瓜系列5/9上市",
+        "麒麟西瓜5/7解锁",
+        "第二",
+        "知识",
+        "核心"
+      ]
+    },
+    "memory:memory/2026-05-07.md:67:96": {
+      "key": "memory:memory/2026-05-07.md:67:96",
+      "path": "memory/2026-05-07.md",
+      "startLine": 67,
+      "endLine": 96,
+      "source": "memory",
+      "snippet": "**复用价值**：体育联名/代言正在从边缘变成主流，曼拾在给茶饮客户提案时，体育赛道值得作为独立选项纳入。 ### 追加到 MEMORY.md「知识缝合」区块 **体育营销正在成为茶饮第五赛道（新增，2026-05-07）** 沪上阿姨「羽坛天菜」5/13上新 + 瑞幸×运动员商竣程，两条线索指向同一个方向：体育联名/代言正在从边缘变成主流赛道。结合「代言策略四维度框架」，运动员代言=功能逻辑（健康叙事），是第四维度的最新扩展。 **复用价值**：曼拾茶饮客户提案时，体育赛道值得作为独立选项纳入，区别于传统的流量明星/成熟明星/文化机构三条路。 --- ## 第三步：更懂逸凡 ### 今日交互观察 今天和逸凡的交互主要是中午的Dreaming noon汇报。逸凡没有提出新的反馈或问题。 ### 已有规律持续有效 - 逸凡对报告质量要求高（需要在结论里有判断，不是罗列） - 逸凡不喜欢AI味的表达（不要星号/引号/填充词） - 逸凡重视可执行性（每个建议对应下一步动作） - 逸凡的风格：简单直接，结果导向，不内耗 ### 无需更新「关于逸凡」区块 今天没有发现新的规律或变化。 ---",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T04:14:51.809Z",
+      "lastRecalledAt": "2026-05-27T14:09:47.009Z",
+      "queryHashes": [
+        "5f08e2f35265",
+        "b5d83acae700",
+        "9482e9f3d3c2"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-21",
+        "2026-05-27"
+      ],
+      "conceptTags": [
+        "体育联名/代言正在从边缘变成主流",
+        "memory.md",
+        "5/13上新",
+        "体育联名/代言正在从边缘变成主流赛道",
+        "区别于传统的流量明星/成熟明星/文化机构三条路",
+        "不要星号/引号/填充词",
+        "价值",
+        "体育"
+      ]
+    },
+    "memory:memory/2026-05-09.md:1:30": {
+      "key": "memory:memory/2026-05-09.md:1:30",
+      "path": "memory/2026-05-09.md",
+      "startLine": 1,
+      "endLine": 30,
+      "source": "memory",
+      "snippet": "# 午后沉思 - 2026-05-09 ## 第一步：今日管理回顾 **系统状态（5月9日周六午后）** | 项目 | 状态 | 备注 | |------|------|------| | 茶饮日报 weibo_daily 5/9 | ❌ 未生成 | Pipeline零产出第3天（5/7首次失效→8日→9日） | | /tmp/脚本文件 | 持续混乱 | 新增文件：clean_v3_full.mjs, final_report_generator.mjs, rebuild_report.mjs, patch_report_format.mjs（5/9上午） | | P0飞书发群 | 第10天未解决 | 等待逸凡决策 | | P2 Pipeline断裂 | 第5天 | 手动gen-report.mjs无人触发 | **今日（周六）无新管理决策**： - 按照低频监控模式运行，不主动打扰逸凡 - 等待下周一（5/11）上午汇报P0+P2状态 --- ## 第二步：知识缝合 **新认知（已在CEO workspace MEMORY.md「知识缝合」区域记录）：** **周末漂移是手动触发衰减的加速期** - 5月7日首次失效 → 5月8日（周日）继续零产出 → 5月9日（周六）持续零产出 - 周末\"顺手做\"的概率比工作日更低，认知资源更稀缺 - 手动触发的系统在周末发生双重衰减：触发频率自然下降 + 问题积累不被发现 - 新认知：周末不是\"系统低负载休息\"，是\"手动触发器失效的叠加期\"，零产出窗口会持续扩大直到下一个工作日有人发现问题 **脚本版本混乱加速验证**",
+      "recallCount": 10,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 10,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T04:14:51.809Z",
+      "lastRecalledAt": "2026-05-28T14:11:48.967Z",
+      "queryHashes": [
+        "5f08e2f35265",
+        "817d3be50393",
+        "85ce2e72a3bf",
+        "67c91501ba55"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-15",
+        "2026-05-16",
+        "2026-05-22",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "5/9",
+        "5/7首次失效",
+        "tmp/脚本文件",
+        "clean-v3-full.mjs",
+        "final-report-generator.mjs",
+        "rebuild-report.mjs",
+        "patch-report-format.mjs"
+      ]
+    },
+    "memory:memory/2026-05-07.md:154:175": {
+      "key": "memory:memory/2026-05-07.md:154:175",
+      "path": "memory/2026-05-07.md",
+      "startLine": 154,
+      "endLine": 175,
+      "source": "memory",
+      "snippet": "| weibo_daily 5/7 | ⚠️ 在 social-crawler | social-crawler/memory/ 有 34680 字节版本（12:39生成），main workspace 无 | | main memory/ | ❌ 缺失 | 5/7 weibo_daily 在 main workspace memory/ 不存在 | | cron 330b7be9 | error | announce->feishu 但脚本无 announcement 格式输出 | ### 核心问题：多 workspace 数据不同步 今日复盘发现：weibo_daily_2026-05-07.md 存在于 social-crawler workspace（34680字节，12:39生成），但 main workspace memory/ 里完全没有这个文件。 这暴露了一个持续但未被记录的架构问题：**两个 workspace 的数据没有一致性保证机制**。social-crawler 生成的报告留在自己的 memory/ 里，main session 看不到。 **已知影响**： - 每日日报数据在 social-crawler workspace，但 main 分身的复盘基于 main workspace memory/ - 夜间复盘看不到当天的完整日报，只能看到品牌信号摘要 - 导致复盘质量下降——没有原文只有二手提炼 **已有对应教训**：MEMORY.md 教训16「多workspace数据不同步暴露pipeline盲区」已记录，今日再次验证。 ###",
+      "recallCount": 25,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 24.807007905499837,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T11:51:34.590Z",
+      "lastRecalledAt": "2026-05-28T14:05:12.519Z",
+      "queryHashes": [
+        "4bd479f70f21",
+        "80650739fdcf",
+        "5525e11876b1",
+        "fd29fceddb46",
+        "fb490806ca99",
+        "c1e9250420ae",
+        "c8982979c44c",
+        "603b5b54ce36",
+        "0b163caed1c8",
+        "ab62bed9ea3d",
+        "5876c483b27e",
+        "6f6c3576fc29",
+        "d5ce2d239cc0",
+        "ce0cd9a1ecde",
+        "86ae29961ebc",
+        "17dd42177c7c",
+        "da72802706c2",
+        "d448b92bc483",
+        "14f7fbdd1802",
+        "a7be8295d274",
+        "ba5c0d2597d5",
+        "5e9215dfc296",
+        "ceb754befa03",
+        "360e2878ed8e",
+        "7ef340556000"
+      ],
+      "recallDays": [
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14",
+        "2026-05-16",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-20",
+        "2026-05-21",
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-27",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "5/7",
+        "social-crawler",
+        "social-crawler/memory",
+        "weibo-daily-2026-05-07.md",
+        "memory.md",
+        "social",
+        "crawler"
+      ]
+    },
+    "memory:memory/2026-05-07.md:192:203": {
+      "key": "memory:memory/2026-05-07.md:192:203",
+      "path": "memory/2026-05-07.md",
+      "startLine": 192,
+      "endLine": 203,
+      "source": "memory",
+      "snippet": "- 夜间复盘看不到原始日报，只能靠二手提炼，导致复盘质量下降 - cron error 持续未修复（连续不知道多少天） ### 待修复（不推进，静默记录） 1. social-crawler 与 main workspace 数据同步机制 2. cron 330b7be9 deliver 改为 not requested 3. weibo_daily_2026-05-07.md 从 social-crawler 同步到 main workspace（数据保全） 静默结束。",
+      "recallCount": 20,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 19.89264361435397,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T11:51:34.590Z",
+      "lastRecalledAt": "2026-05-28T14:05:12.519Z",
+      "queryHashes": [
+        "4bd479f70f21",
+        "80650739fdcf",
+        "5525e11876b1",
+        "fd29fceddb46",
+        "fb490806ca99",
+        "c8982979c44c",
+        "603b5b54ce36",
+        "5876c483b27e",
+        "6f6c3576fc29",
+        "ce0cd9a1ecde",
+        "86ae29961ebc",
+        "da72802706c2",
+        "d448b92bc483",
+        "14f7fbdd1802",
+        "a7be8295d274",
+        "ba5c0d2597d5",
+        "5e9215dfc296",
+        "ceb754befa03",
+        "360e2878ed8e",
+        "7ef340556000"
+      ],
+      "recallDays": [
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14",
+        "2026-05-16",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-20",
+        "2026-05-21",
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-27",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "social-crawler",
+        "weibo-daily-2026-05-07.md",
+        "夜间",
+        "看不到",
+        "原始",
+        "日报",
+        "只能",
+        "二手"
+      ]
+    },
+    "memory:memory/2026-05-07.md:122:159": {
+      "key": "memory:memory/2026-05-07.md:122:159",
+      "path": "memory/2026-05-07.md",
+      "startLine": 122,
+      "endLine": 159,
+      "source": "memory",
+      "snippet": "1. 检查cron配置，确认announce模式是否适用 2. 如果不适用，改为not requested，让脚本自主处理 3. 测试cron是否能正常触发并产出报告 ### 次优先级 保持数据抓取正常运行（CDP已验证稳定）。 ### 无需推进 飞书发群问题之前已确认取消，不需推进。 --- ## 今日结论 今天日报pipeline断裂是第5次观察到「手动触发系统的自然衰减」规律的最新例证。 系统能生产（数据抓取正常），但不能自动送达（报告生成依赖手动第二步）。这是架构问题，不是某个脚本的bug。 修复方向明确：把分步骤手动触发变成完全自动化。但这需要比较大的架构调整（把final.mjs和weibo_daily整合成一个cron可驱动的脚本）。 静默结束。 --- ## 夜间复盘追加（22:09） ### 系统状态最终确认 | 环节 | 状态 | 说明 | |------|------|------| | weibo_daily 5/7 | ⚠️ 在 social-crawler | social-crawler/memory/ 有 34680 字节版本（12:39生成），main workspace 无 | | main memory/ | ❌ 缺失 | 5/7 weibo_daily 在 main workspace memory/ 不存在 | | cron 330b7be9 | error | announce->feishu 但脚本无 announcement 格式输出 | ### 核心问题：多 workspace 数据不同步",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.9076933435783785,
+      "maxScore": 0.9076933435783785,
+      "firstRecalledAt": "2026-05-09T14:04:41.732Z",
+      "lastRecalledAt": "2026-05-09T14:04:41.732Z",
+      "queryHashes": [
+        "80650739fdcf"
+      ],
+      "recallDays": [
+        "2026-05-09"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "5/7",
+        "social-crawler",
+        "social-crawler/memory",
+        "检查",
+        "cron",
+        "配置",
+        "确认"
+      ]
+    },
+    "memory:memory/2026-05-04.md:33:50": {
+      "key": "memory:memory/2026-05-04.md:33:50",
+      "path": "memory/2026-05-04.md",
+      "startLine": 33,
+      "endLine": 50,
+      "source": "memory",
+      "snippet": "- 和「咖啡品牌文化联名新范式」关联：Manner × 罗马展是文化机构联名，不是IP联名。说明联名护城河已经从\"IP流量\"升级到\"机构信用\"。 - 和「酸奶赛道」关联：瑞幸/奈雪等大品牌全面入局，中小酸奶品牌的出路只剩两条——极致细分（有机/地域）或极致情绪（治愈/解压），中间地带最危险。 **复用价值（用于曼拾咨询）：** 判断茶饮品牌是否真正有差异化，不看它押了什么食材（大家都押就无效），而看它的叙事框架是否有文化根基。 KFS营销里，FS阶段真正能放大的是「有文化叙事的品牌」，纯流量型品牌的声量会随投放减少而快速消退。 --- ## 第三步：记忆更新 **今日关键教训（新增）：** **识别≠修复——今天是第6次在 Dreaming 中记录\"飞书发群逻辑缺失\"，但从未实际写代码修复。** 这个问题已经被识别了6天。每一次复盘都在\"记住它\"，但每一次复盘之后都没有\"执行修复\"。 根本原因：识别问题是安静的（可以自动做），但修复需要主动写代码、测CDP、配cron——这是完全不同的行动模式。 **明日唯一执行项（不再识别，立即执行）：**",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T14:10:09.338Z",
+      "lastRecalledAt": "2026-05-13T14:11:00.910Z",
+      "queryHashes": [
+        "7764e9dda254",
+        "88e6e25d24ac"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-13"
+      ],
+      "conceptTags": [
+        "瑞幸/奈雪等大品牌全面入局",
+        "有机/地域",
+        "治愈/解压",
+        "咖啡",
+        "品牌",
+        "文化",
+        "联名",
+        "关联"
+      ]
+    },
+    "memory:memory/2026-05-04.md:1:28": {
+      "key": "memory:memory/2026-05-04.md:1:28",
+      "path": "memory/2026-05-04.md",
+      "startLine": 1,
+      "endLine": 28,
+      "source": "memory",
+      "snippet": "# Dreaming Night - 2026-05-04 --- ## 第一步：今日工作回顾 **完成的品牌咨询任务：** - 茶饮微博日报持续产出（11:30成功生成，第14天） - 知识缝合区块更新（腰部品牌高端化路径、文化联名新范式、酸奶赛道判断修正、地域食材差异化路径） - 今日品牌洞察汇总（幸运咖/库迪/Manner/茉莉奶白/古茗/霸王茶姬） **今日重要新信号：** - 幸运咖双代言人策略：梁朝偉×迪丽热巴，影帝+顶流组合不走鲜肉路线，代言逻辑从流量升级为品牌 - Manner × 世博会博物馆「罗马展」：咖啡品牌文化联名新范式，从IP联名升级到文化机构联名 - 知识缝合核心修正：当所有品牌同时押注相同食材（蜜瓜/西瓜/杨梅/芭乐），差异化从食材稀缺性转向叙事方式 **当前最大能力缺口：** 飞书发群逻辑从未实际修复（连续第6天），/tmp/ 脚本堆积30+个版本混乱——这是执行问题，不是识别问题。 --- ## 第二步：知识缝合（核心） **今日最重要的新洞察：** **差异化判断逻辑的根本修正** 之前判断（2026-05-03）：地域食材稀缺性=差异化",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-09T14:10:09.338Z",
+      "lastRecalledAt": "2026-05-09T14:10:09.338Z",
+      "queryHashes": [
+        "7764e9dda254"
+      ],
+      "recallDays": [
+        "2026-05-09"
+      ],
+      "conceptTags": [
+        "幸运咖/库迪/manner/茉莉奶白/古茗/霸王茶姬",
+        "蜜瓜/西瓜/杨梅/芭乐",
+        "dreaming",
+        "night",
+        "一步",
+        "今日",
+        "工作",
+        "回顾"
+      ]
+    },
+    "memory:memory/2026-05-08.md:22:40": {
+      "key": "memory:memory/2026-05-08.md:22:40",
+      "path": "memory/2026-05-08.md",
+      "startLine": 22,
+      "endLine": 40,
+      "source": "memory",
+      "snippet": "**儿童IP精准场景**：爷爷不泡茶×喜羊羊与灰太狼（5/8）——昨天MEMO里的边界条件理论今天有实证：儿童IP在低线城市/年轻妈妈场景仍是有效工具。 **古茗两条线**：西瓜汁（HPP+NFC+现榨）=技术叙事，果蔬茶（1蔬6果）=营养叙事——同一家品牌用两个不同叙事框架覆盖不同用户群，这个能力很少有品牌能做到。 **奈雪产品线最完整**：畅畅活菌杨梅酸奶昔（B420益生菌×HPP）×霸气杨梅（第11年）×霸气柠檬（会员日），三条产品线并行，每条都有清晰的差异化定位。 --- ## 第三步：知识缝合 **新认知追加到MEMO：** **「时令鲜果三段论」正式确立**： - 第一阶段（稀缺期）：1-2个品牌押注，差异化有效 - 第二阶段（扩散期）：多个品牌同时押注，食材本身成为入场券 - 第三阶段（共振期）：所有头部品牌同时发布，叙事框架成为唯一差异化手段 杨梅当前处于第三阶段初期（5月初），西瓜已过第三阶段。判断品牌叙事是否有力，看它是否超越食材本身。",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 4,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-10T04:09:53.622Z",
+      "lastRecalledAt": "2026-05-16T04:08:28.226Z",
+      "queryHashes": [
+        "85ce2e72a3bf"
+      ],
+      "recallDays": [
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-15",
+        "2026-05-16"
+      ],
+      "conceptTags": [
+        "5/8",
+        "儿童ip在低线城市/年轻妈妈场景仍是有效工具",
+        "1-2个品牌押注",
+        "儿童",
+        "精准",
+        "场景",
+        "爷爷",
+        "泡茶"
+      ]
+    },
+    "memory:memory/2026-05-07.md:24:48": {
+      "key": "memory:memory/2026-05-07.md:24:48",
+      "path": "memory/2026-05-07.md",
+      "startLine": 24,
+      "endLine": 48,
+      "source": "memory",
+      "snippet": "- 根因：cron配置的deliver是announce->feishu，但脚本本身没有输出announcement格式的文本，导致deliver失败。 - 怎么修复：在cron配置里把deliver改为\"not requested\"，让脚本自己处理飞书通知逻辑（如果有的话），而不是依赖cron的announce。或者修复脚本让它输出announcement格式的文本。 - 预防：cron的announce不是万能的，脚本输出格式必须匹配。 **问题3：版本管理混乱** - /tmp/下没有任何tea-crawler脚本，说明脚本已经转移到了其他位置（workspace memory/目录）。但版本管理仍无机制。 - 怎么修复：没有统一入口这个问题今天实际上没有变糟（因为旧脚本位置已经清空），但也没有解决。 - 预防：每次创建调试文件时，问自己\"明天这个文件还在是好还是坏\"。 ### 无新增异常 - 没有品牌爬取失败（数据成功抓取） - CDP连接正常（11:43成功） - 没有触发平台风控 - 页面结构无变化 --- ## 第二步：知识缝合（核心） ### 今日品牌信号精华 **沪上阿姨**：「羽坛天菜」5/13上新——暗示与体育联名，延续「摩登东方茶」定位。「羽坛」二字非常具体，可能是羽毛球运动相关代言或合作。",
+      "recallCount": 5,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 5,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-10T04:09:53.622Z",
+      "lastRecalledAt": "2026-05-16T04:08:28.226Z",
+      "queryHashes": [
+        "85ce2e72a3bf",
+        "2db0abb9a25b"
+      ],
+      "recallDays": [
+        "2026-05-10",
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-15",
+        "2026-05-16"
+      ],
+      "conceptTags": [
+        "tmp/下没有任何tea-crawler脚本",
+        "memory/目录",
+        "5/13上新",
+        "根因",
+        "cron",
+        "配置",
+        "deliver",
+        "announce"
+      ]
+    },
+    "memory:memory/2026-05-07.md:87:131": {
+      "key": "memory:memory/2026-05-07.md:87:131",
+      "path": "memory/2026-05-07.md",
+      "startLine": 87,
+      "endLine": 131,
+      "source": "memory",
+      "snippet": "- 逸凡不喜欢AI味的表达（不要星号/引号/填充词） - 逸凡重视可执行性（每个建议对应下一步动作） - 逸凡的风格：简单直接，结果导向，不内耗 ### 无需更新「关于逸凡」区块 今天没有发现新的规律或变化。 --- ## 第四步：效率评估 ### 今日日报执行时间 - 数据抓取：11:43执行，约2分钟完成（19个品牌） - 报告生成：未执行（断裂） - 总耗时：无法评估（pipeline断裂） ### 与昨日对比 昨天（5/6）手动补救成功，生成了weibo_daily_2026-05-06.md（3698字节，较小）。今天没有生成报告。 ### 最耗时步骤 由于pipeline断裂，无法准确评估。但根据历史数据，最耗时步骤仍是等待间隔（每个品牌约8秒），这是设计层面的限制，暂不优化。 --- ## 第五步：明日预判 ### 最重要的一件事 **找到cron error的根本原因并修复**。 cron job 330b7be9状态持续error，根因是cron的announce格式与脚本输出不匹配。需要： 1. 检查cron配置，确认announce模式是否适用 2. 如果不适用，改为not requested，让脚本自主处理 3. 测试cron是否能正常触发并产出报告 ### 次优先级 保持数据抓取正常运行（CDP已验证稳定）。 ### 无需推进",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-10T14:21:26.806Z",
+      "lastRecalledAt": "2026-05-10T14:21:26.806Z",
+      "queryHashes": [
+        "28d08a194432"
+      ],
+      "recallDays": [
+        "2026-05-10"
+      ],
+      "conceptTags": [
+        "不要星号/引号/填充词",
+        "5/6",
+        "生成了weibo-daily-2026-05-06.md",
+        "喜欢",
+        "表达",
+        "不要",
+        "填充",
+        "重视"
+      ]
+    },
+    "memory:memory/2026-05-07.md:169:199": {
+      "key": "memory:memory/2026-05-07.md:169:199",
+      "path": "memory/2026-05-07.md",
+      "startLine": 169,
+      "endLine": 199,
+      "source": "memory",
+      "snippet": "**已有对应教训**：MEMORY.md 教训16「多workspace数据不同步暴露pipeline盲区」已记录，今日再次验证。 ### cron 330b7be9 error 根因确认 cron deliver 配置是 `announce -> feishu:chat:oc_96796887fcf96dba638afa646fbb6bb2`，但脚本输出不是 announcement 格式，导致 deliver 失败。 **两个修复方向**： 1. **推荐**：cron deliver 改为 `not requested`，脚本自己处理输出（如果需要飞书通知） 2. **替代**：修改脚本让它输出 announcement 格式文本 当前 cron job 是 social-crawler agent 持有的，需要通过 social-crawler 分身来修改。 ### 今日管理总评 **做得好的**： - 中午 Dreaming Noon 及时识别了日报 pipeline 断裂（第二步报告生成未执行） - 品牌信号记录完整（沪上阿姨体育、库迪杨幂、喜茶杨桃等） - 没有产生新的执行债（没有创建新的调试文件或修改配置） **需要改进的**： - weibo_daily 数据在不同 workspace 不同步，这个问题是结构性的，不是今天才发生 - 夜间复盘看不到原始日报，只能靠二手提炼，导致复盘质量下降 - cron error 持续未修复（连续不知道多少天） ### 待修复（不推进，静默记录） 1. social-crawler 与 main wo",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-10T14:21:26.806Z",
+      "lastRecalledAt": "2026-05-10T14:21:26.806Z",
+      "queryHashes": [
+        "28d08a194432"
+      ],
+      "recallDays": [
+        "2026-05-10"
+      ],
+      "conceptTags": [
+        "memory.md",
+        "social-crawler",
+        "weibo-daily",
+        "已有",
+        "对应",
+        "教训",
+        "数据",
+        "同步"
+      ]
+    },
+    "memory:memory/2026-04-30.md:1:32": {
+      "key": "memory:memory/2026-04-30.md:1:32",
+      "path": "memory/2026-04-30.md",
+      "startLine": 1,
+      "endLine": 32,
+      "source": "memory",
+      "snippet": "# 2026-04-30 日记 ## Dreaming Night (22:00) — 补充修正 中午的复盘说\"日报数据完全丢失\"是**错的**。实际情况更复杂，需要修正。 ### 第一步：错题本（修正版） **日报真实状态：** - ✅ `/tmp/tea-report-2026-04-30.md` 10:11 生成，45KB，18/18 品牌数据完整 - ✅ `/tmp/tea-crawl-state.json` 同步更新，断点续跑有效 - ❌ `memory/weibo_daily_2026-04-30.md` **不存在**（没有复制过去） - ❌ 飞书群 **没有收到日报**（没有调用发群逻辑） **两个脚本并存造成混乱：** - `/private/tmp/crawl-tea.mjs` — 旧版脚本，cron 触发的是它，有 `browser.disconnect()` bug（中午已修复） - `/tmp/tea-brand-crawler-v3.mjs` — 新版脚本，爬虫逻辑正确，但**只管爬，不管后续** **根因重新定性：** | 问题 | 性质 | 严重程度 | |------|------|----------| | 日报没写 memory | 设计缺陷 | 高 | | 日报没发飞书群 | 设计缺陷 | 高 | | `browser.disconnect()` | 代码 bug | 已修复 | | 脚本只爬不管发 | 系统设计漏洞 | 高 | **具体修复：** 1. 删除旧版 `/private/tmp/crawl-tea.mjs`，避",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-11T04:07:51.808Z",
+      "lastRecalledAt": "2026-05-23T14:03:47.067Z",
+      "queryHashes": [
+        "24b209dd608f",
+        "8e677f9057ef"
+      ],
+      "recallDays": [
+        "2026-05-11",
+        "2026-05-23"
+      ],
+      "conceptTags": [
+        "tmp/tea-report-2026-04-30.md",
+        "18/18",
+        "tmp/tea-crawl-state.json",
+        "memory/weibo-daily-2026-04-30.md",
+        "private/tmp/crawl-tea.mjs",
+        "browser.disconnect",
+        "tmp/tea-brand-crawler-v3.mjs",
+        "日记"
+      ]
+    },
+    "memory:memory/2026-04-30.md:28:53": {
+      "key": "memory:memory/2026-04-30.md:28:53",
+      "path": "memory/2026-04-30.md",
+      "startLine": 28,
+      "endLine": 53,
+      "source": "memory",
+      "snippet": "1. 删除旧版 `/private/tmp/crawl-tea.mjs`，避免版本混乱 2. 在 `/tmp/tea-brand-crawler-v3.mjs` 末尾 `main()` 加上：复制报告到 memory + 发飞书群 3. 明天 10:05 触发后，10:30 前主动检查 memory 文件是否生成 **今日爬取数据亮点（值得记住）：** - 瑞幸：小黄油美式（全冰去水）正式转正，江苏省门店破3000家，蛋仔联动延续 - 古茗：超A芝士葡萄第8年回归（4月30日上线） - 奈雪：霸气杨梅第11年（4月28日上线） - 茶百道：黑糖粉粿（闽南糖水元素）4月29日上新 - 茉莉奶白：温哥华列治文店4月18日开业，国际化扩张信号 **效率数据：** - 18个品牌，滚动等待充分（3次滚动 + 延迟），总耗时约6分钟 - 断点续跑有效，崩溃后可从断点继续 ### 第二步：更懂逸凡 - 她对报告的期待是**群里有完整日报 + 云文档有存档** - 今天两个都没做到，说明脚本必须补全这两个环节 - 从今天的交互看，她对\"听劝营销\"案例特别关注（瑞幸全冰去水转正反复出现） ### 第三步：数据洞察积累 今日信号： - 茶饮进入\"五一假期\"营销节点（库迪\"喝完这杯就放假\"，古茗超A葡萄第8年） - 季节性回归产品密集（杨梅、葡萄），是茶饮年度最重要节点之一",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-11T04:07:51.808Z",
+      "lastRecalledAt": "2026-05-11T04:07:51.808Z",
+      "queryHashes": [
+        "24b209dd608f"
+      ],
+      "recallDays": [
+        "2026-05-11"
+      ],
+      "conceptTags": [
+        "private/tmp/crawl-tea.mjs",
+        "tmp/tea-brand-crawler-v3.mjs",
+        "删除",
+        "旧版",
+        "private",
+        "tmp",
+        "crawl",
+        "tea.mjs"
+      ]
+    },
+    "memory:memory/2026-05-11.md:1:32": {
+      "key": "memory:memory/2026-05-11.md:1:32",
+      "path": "memory/2026-05-11.md",
+      "startLine": 1,
+      "endLine": 32,
+      "source": "memory",
+      "snippet": "# 2026-05-11 Dreaming Night（22:04） > 520共振日复盘 --- ## 第一步：今日工作回顾 ### 问题1：日报数据困在 social-crawler workspace（持续性系统缺陷） **现象**：weibo_daily_2026-05-11.md 生成成功（275行，social-crawler/memory/），但 main workspace memory/ 里完全没有这个文件。今日复盘只能依赖 2026-05-11.md 里的人工摘要（520三大品牌信号）。 **根因**： - MEMORY.md 教训16（5/7）已记录「多workspace数据不同步暴露pipeline盲区」 - 今天（5/11）是第5天，同一问题第2次正式观察 - Pipeline 脚本生成报告到 social-crawler/memory/，从不主动同步到 main workspace memory/ - 这不是偶发问题，是架构设计缺陷 **怎么修复（具体）**： Pipeline 脚本末尾添加一行 cp 命令，将报告同步到 main workspace： ```bash cp /Users/yifansmacmini/.openclaw/workspace/social-crawler/memory/weibo_daily_2026-05-11.md \\ /Users/yifansmacmini/.openclaw/workspace/memory/ ``` 或者用 ln -s 做符号链接，使两个 memory/ 目录实质合并。",
+      "recallCount": 9,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 9,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-11T14:05:11.531Z",
+      "lastRecalledAt": "2026-05-28T14:05:12.519Z",
+      "queryHashes": [
+        "c1e9250420ae",
+        "c8982979c44c",
+        "ab62bed9ea3d",
+        "5876c483b27e",
+        "ce0cd9a1ecde",
+        "86ae29961ebc",
+        "17dd42177c7c",
+        "da72802706c2",
+        "7ef340556000"
+      ],
+      "recallDays": [
+        "2026-05-11",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-05-14",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "social-crawler",
+        "weibo-daily-2026-05-11.md",
+        "social-crawler/memory",
+        "memory.md",
+        "5/7",
+        "5/11",
+        "users/yifansmacmini",
+        "openclaw/workspace/memory"
+      ]
+    },
+    "memory:memory/2026-05-12.md:1:13": {
+      "key": "memory:memory/2026-05-12.md:1:13",
+      "path": "memory/2026-05-12.md",
+      "startLine": 1,
+      "endLine": 13,
+      "source": "memory",
+      "snippet": "# 2026-05-12 CEO Noon Dreaming ## 系统状态 - Pipeline：5/12 weibo_daily已生成（2465行，social-crawler/），连续第4天 - 数据同步：main workspace memory/ 仍无今日报告，连续断裂第12天 - Morning dreaming：今日（5/12）无CEO morning dreaming记录 - 飞书发群P0：第11天未解决 ## 今日无管理决策 （静默结束，不向任何人报告）",
+      "recallCount": 15,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 15,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-13T14:11:00.910Z",
+      "lastRecalledAt": "2026-05-28T04:05:38.246Z",
+      "queryHashes": [
+        "88e6e25d24ac",
+        "dd588cf9d56a",
+        "d5781d5d729f",
+        "1974b0bca87a",
+        "698c9d7a60df",
+        "4f78bce42bf9",
+        "4ba216a1be15",
+        "f73c122f7cb1",
+        "b57f289363dc",
+        "737049bea086",
+        "2c8a294fa1eb",
+        "f122880c685b",
+        "6b4a42673ffb",
+        "435f46d3dfad",
+        "2195712d21df"
+      ],
+      "recallDays": [
+        "2026-05-13",
+        "2026-05-14",
+        "2026-05-15",
+        "2026-05-16",
+        "2026-05-17",
+        "2026-05-18",
+        "2026-05-19",
+        "2026-05-20",
+        "2026-05-21",
+        "2026-05-22",
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "5/12",
+        "weibo-daily已生成",
+        "social-crawler",
+        "ceo",
+        "noon",
+        "dreaming",
+        "系统",
+        "状态"
+      ]
+    },
+    "memory:memory/2026-05-11.md:25:48": {
+      "key": "memory:memory/2026-05-11.md:25:48",
+      "path": "memory/2026-05-11.md",
+      "startLine": 25,
+      "endLine": 48,
+      "source": "memory",
+      "snippet": "或者用 ln -s 做符号链接，使两个 memory/ 目录实质合并。 **预防**：任何新建 pipeline 脚本，必须在设计阶段包含「数据出口」——明确写入哪个 workspace 的 memory/，并确认该路径与复盘session可见性一致。 --- ### 问题2：Pipeline 成功率评估混淆 **现象**：今日 pipeline 成功生成（5/11），但这不代表系统稳定。昨天（5/10）也成功了，但5/7-5/9连续断裂3天。 **根因**：「偶发有效」被误认为「已修复」。520营销动作吸引了注意力，导致系统真实状态的误判。 **怎么修复**：建立 Pipeline 健康度仪表盘——记录每次 cron 触发的：触发时间、脚本执行时长、报告行数、报告字节数。任何一项异常（比如行数<50或字节数<5000）立即告警。 **预防**：连续3天以上稳定的 pipeline 才能标记为「稳定」，中间有断裂要重新计算。 --- ### 问题3：520共振日未被充分利用 **现象**：今天是520，三大品牌（瑞幸/库迪/星巴克）同日共振，是行业年度最重要观察日之一。但日报数据不可见，无法做深度分析。 **根因**：问题1的连锁反应——数据在 social-crawler workspace 里，但当前 session 看不到原始报告，无法做结构化分析。",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-13T14:27:59.874Z",
+      "lastRecalledAt": "2026-05-28T04:05:47.221Z",
+      "queryHashes": [
+        "2888aea5f9d9",
+        "ae22db5edb24"
+      ],
+      "recallDays": [
+        "2026-05-13",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "5/11",
+        "5/10",
+        "但5/7-5/9连续断裂3天",
+        "瑞幸/库迪/星巴克",
+        "social-crawler",
+        "或者",
+        "符号",
+        "目录"
+      ]
+    },
+    "memory:memory/2026-05-11.md:87:116": {
+      "key": "memory:memory/2026-05-11.md:87:116",
+      "path": "memory/2026-05-11.md",
+      "startLine": 87,
+      "endLine": 116,
+      "source": "memory",
+      "snippet": "| 指标 | 数据 | |------|------| | 今日 Pipeline 触发 | ✅ 成功 | | 报告生成耗时 | 未知（无日志） | | 复盘耗时（本次） | ~8分钟（读取+分析+写文件） | | 问题识别效率 | 差：同个问题（教训16）第2次观察才确认未修复 | **最耗时步骤**：多 workspace 数据溯源——需要手动去 social-crawler workspace 查找报告才能确认内容。这个步骤本应自动化。 --- ## 第五步：明日预判 明天（5/12）是520后第一天： - 520营销内容会进入自然发酵期，是观察「内容生命周期」的好窗口 - 鲜果类产品（杨梅/蜜瓜等）夏季争夺赛进入第二周，需持续监控 - Pipeline 如果继续稳定，可验证「偶发有效」是否升级为「稳定」 **需提前准备**： 1. 确认 weibo_daily_2026-05-12 是否存在于 main workspace memory/（如果不存在，说明数据同步问题仍未解决） 2. 检查 Pipeline 脚本是否有多余版本（教训12：「脚本混乱」持续4天） --- ## 系统状态最终确认 | 环节 | 状态 | 连续未解决天数 | |------|------|--------------| | Pipeline 自动触发 | ⚠️ 偶发有效（5/10-5/11连续2天） | 需建立稳定标准 | | 多workspace数据同步 | ❌ 持续断裂 | 第5天（教训16未修复） |",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-13T14:27:59.874Z",
+      "lastRecalledAt": "2026-05-28T04:05:47.221Z",
+      "queryHashes": [
+        "2888aea5f9d9",
+        "1654d8563791",
+        "ae22db5edb24"
+      ],
+      "recallDays": [
+        "2026-05-13",
+        "2026-05-25",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "social-crawler",
+        "5/12",
+        "杨梅/蜜瓜等",
+        "weibo-daily-2026-05-12",
+        "5/10-5/11连续2天",
+        "指标",
+        "数据",
+        "今日"
+      ]
+    },
+    "memory:memory/2026-05-11.md:45:70": {
+      "key": "memory:memory/2026-05-11.md:45:70",
+      "path": "memory/2026-05-11.md",
+      "startLine": 45,
+      "endLine": 70,
+      "source": "memory",
+      "snippet": "**现象**：今天是520，三大品牌（瑞幸/库迪/星巴克）同日共振，是行业年度最重要观察日之一。但日报数据不可见，无法做深度分析。 **根因**：问题1的连锁反应——数据在 social-crawler workspace 里，但当前 session 看不到原始报告，无法做结构化分析。 **修复价值**：如果能看到原始报告，今天可以分析：三大品牌在同一天选择不同IP联名策略背后的逻辑差异。这是教科书级别的案例。 --- ### 平台风控/爬虫失败 今日无风控警报、无爬虫失败报告。Pipeline 正常运行。 --- ## 第二步：知识缝合（520共振验证） 今日520共振完整落地，三大品牌同日动作： | 品牌 | 联名/IP | 叙事类型 | 对曼拾的意义 | |------|---------|---------|-------------| | 瑞幸 | 原田治OSAMU GOODS | 艺术家IP+节日情感 | KFS自然流量型 | | 库迪 | Hattie Stewart | 时尚策划人+审美叙事 | 审美溢价型 | | 星巴克 | 《只此青绿》 | 文化机构背书 | 品牌溢价型 | **模式确认：节日共振三段论实地验证** 节日节点→品牌集体营销→内容差异化成为竞争焦点。这个框架今天完整落地。",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-14T14:17:01.362Z",
+      "lastRecalledAt": "2026-05-15T04:08:24.399Z",
+      "queryHashes": [
+        "ed752b1afa3f",
+        "76e87ed8d164"
+      ],
+      "recallDays": [
+        "2026-05-14",
+        "2026-05-15"
+      ],
+      "conceptTags": [
+        "瑞幸/库迪/星巴克",
+        "social-crawler",
+        "平台风控/爬虫失败",
+        "联名/ip",
+        "现象",
+        "今天是",
+        "三大",
+        "品牌"
+      ]
+    },
+    "memory:memory/2026-05-16.md:1:35": {
+      "key": "memory:memory/2026-05-16.md:1:35",
+      "path": "memory/2026-05-16.md",
+      "startLine": 1,
+      "endLine": 35,
+      "source": "memory",
+      "snippet": "# 2026-05-16 Daily Memory ## CEO Dreaming Night - 2026-05-16（22:00） > Pipeline 第17天 | 周六夜间 --- ## 第一步：今日工作回顾 ### 已完成工作 - 茶饮日报：social-crawler/memory/weibo_daily_2026-05-16.md 于12:56成功生成（10783字节） - 今日关键品牌信号： - 瑞幸「绯色月光」特调5/18全国上市（3万店爆款） - 瑞幸×刘亦菲代言小青桔美式 - 奈雪×潦草小狗联名上线（水蜜桃酸奶昔） - CoCo周年庆×快乐小狗NFC手办 - 霸王茶姬×胡先煦景迈山茶祖节同行溯源 - 茉莉奶白龙眼系列5/19上市 - 茉酸奶「海岛online」牛油果系列上线 ### 犯过的错误 - noon dreaming 误判\"日报未产出\"（只看cron状态，未核实social-crawler/memory/原始文件） - 导致夜间dreaming降低了预期，可能遗漏知识缝合机会 ### 遇到的卡点 - Pipeline监控盲区：cron状态和实际产出不匹配，手动触发绕过了cron监控 - 两个workspace数据不同步问题持续（main workspace memory/ 无当日报告） --- ## 第二步：知识缝合 ### 今日新洞察 - 瑞幸×刘亦菲：成熟品牌用流量明星做品类教育（「小青桔美式」这个品类用刘亦菲来建立认知）",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-16T14:16:02.281Z",
+      "lastRecalledAt": "2026-05-16T14:16:02.281Z",
+      "queryHashes": [
+        "1974b0bca87a"
+      ],
+      "recallDays": [
+        "2026-05-16"
+      ],
+      "conceptTags": [
+        "特调5/18全国上市",
+        "茉莉奶白龙眼系列5/19上市",
+        "未核实social-crawler/memory/原始文件",
+        "ceo",
+        "dreaming",
+        "night",
+        "pipeline",
+        "周六"
+      ]
+    },
+    "memory:memory/2026-05-09.md:27:42": {
+      "key": "memory:memory/2026-05-09.md:27:42",
+      "path": "memory/2026-05-09.md",
+      "startLine": 27,
+      "endLine": 42,
+      "source": "memory",
+      "snippet": "- 手动触发的系统在周末发生双重衰减：触发频率自然下降 + 问题积累不被发现 - 新认知：周末不是\"系统低负载休息\"，是\"手动触发器失效的叠加期\"，零产出窗口会持续扩大直到下一个工作日有人发现问题 **脚本版本混乱加速验证** - /tmp/下脚本文件从5/8的若干版本增加到5/9上午更多版本（clean_v3*, final_report_generator, rebuild_report, patch_report_format） - 说明5/8-5/9期间有人在尝试修复，但没有用统一的入口脚本 - 问题识别和修复执行之间存在断层 --- ## 第三步：记忆更新 **今日无新行动**，等待周一汇报。 静默结束。",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-18T14:05:54.389Z",
+      "lastRecalledAt": "2026-05-18T14:05:54.389Z",
+      "queryHashes": [
+        "9604ff3ce09d"
+      ],
+      "recallDays": [
+        "2026-05-18"
+      ],
+      "conceptTags": [
+        "tmp/下脚本文件从5/8的若干版本增加到5/9上午更多版本",
+        "clean-v3",
+        "final-report-generator",
+        "rebuild-report",
+        "patch-report-format",
+        "说明5/8-5/9期间有人在尝试修复",
+        "触发",
+        "系统"
+      ]
+    },
+    "memory:memory/2026-05-15.md:55:73": {
+      "key": "memory:memory/2026-05-15.md:55:73",
+      "path": "memory/2026-05-15.md",
+      "startLine": 55,
+      "endLine": 73,
+      "source": "memory",
+      "snippet": "→ **复用价值**：曼拾给茶饮客户设计代言策略时，先问「这个明星能帮我们生产多少可持续用的内容素材」——深入溯源/参与品牌活动/亲签互动，都是生产素材的方式。单纯曝光型代言（拍完海报就用不了了）在2026年已经不够用了。 --- ## 第三步：记忆更新 ### 无需更新 MEMORY.md 今日四个观察均是对已有认知的验证和细化，未发现全新洞察： - 水蜜桃季启动 → 验证「时令鲜果三段论」 - 溯源双轨并行 → 验证「审美叙事三层」 - 宠物IP是入场门槛 → 验证「IP联名无差异化」 - 明星代言素材化 → 延伸「场景共建者」概念 今日是「知识验证日」而非「知识生产日」，MEMORY.md 今日无需追加。 ### 写入 daily memory 写入 `memory/2026-05-15.md`，内容为本次 noon dreaming 全记录。",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-19T04:09:51.438Z",
+      "lastRecalledAt": "2026-05-19T04:09:51.438Z",
+      "queryHashes": [
+        "17dd42177c7c"
+      ],
+      "recallDays": [
+        "2026-05-19"
+      ],
+      "conceptTags": [
+        "深入溯源/参与品牌活动/亲签互动",
+        "memory.md",
+        "memory/2026-05-15.md",
+        "价值",
+        "客户",
+        "设计",
+        "代言",
+        "策略"
+      ]
+    },
+    "memory:memory/2026-05-18.md:26:55": {
+      "key": "memory:memory/2026-05-18.md:26:55",
+      "path": "memory/2026-05-18.md",
+      "startLine": 26,
+      "endLine": 55,
+      "source": "memory",
+      "snippet": "1. 节前静默（节前48小时）：策略性静默，避免注意力稀释 2. 节中共振（节中当天）：集中爆发 3. 节后密集发布（节后次日）：建立季节主角身份 4. 下一节点循环 ### 各分身状态 | 分身 | 今日状态 | |------|------| | Social Crawler | 正常产出报告，数据完整 | | CEO | 无管理决策，低频监控模式 | | CFO | 执行阻塞第23天未解决，今晚是行动节点 | | Brain Mining | 观察到库迪体育营销系统化（IRONMAN 70.3 + 世界田联钻石联赛）| | Strategic Planner | 共振期四段节奏框架正式建立 | | Supermind | 品牌内容静默期节点入库 | --- ## 第二步：知识缝合 今日有两个新观察值得缝合： ### 1. 库迪体育营销系统化 → 茶饮体育营销赛道完整 IRONMAN 70.3 + 世界田联钻石联赛厦门站双赛事同日官宣，钻石合作伙伴身份确立。关联之前「瑞幸体育大使商竣程」和「沪上阿姨体育营销」方向——体育营销正在从单次合作升级为「系列赛事赞助体系」，库迪是当前体育营销最系统化的茶饮品牌。 **整合认知**：茶饮行业体育营销已形成三个层次： - 运动员代言（瑞幸） - 赛事赞助（库迪） - 体育内容共创（沪上阿姨）",
+      "recallCount": 25,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 25,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-19T14:08:13.693Z",
+      "lastRecalledAt": "2026-05-28T14:13:04.017Z",
+      "queryHashes": [
+        "7b63f9e4ac97",
+        "c76bb947f7e7",
+        "bd5e55664075",
+        "099b5b8c4484",
+        "da5e2aefd786",
+        "7280b5419dc5",
+        "737049bea086",
+        "4422989dff31",
+        "8a726563cea4",
+        "703494c5dcbd",
+        "443504348c77",
+        "0c2aff958444",
+        "3cd7bb7c35a3",
+        "20640e438f7c",
+        "92ac47ec4357",
+        "26eb323df56c",
+        "003f5d1fac3f",
+        "cf1868644bad",
+        "0809fb6ac103",
+        "5bbf37ab235a",
+        "d3828b1b960e",
+        "2c21913a7082",
+        "2195712d21df",
+        "1f9ae8174bae"
+      ],
+      "recallDays": [
+        "2026-05-19",
+        "2026-05-20",
+        "2026-05-21",
+        "2026-05-22",
+        "2026-05-23",
+        "2026-05-24",
+        "2026-05-25",
+        "2026-05-26",
+        "2026-05-27",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "70.3",
+        "静默",
+        "小时",
+        "策略",
+        "避免",
+        "注意力",
+        "稀释",
+        "共振"
+      ]
+    },
+    "memory:memory/2026-05-11.md:111:121": {
+      "key": "memory:memory/2026-05-11.md:111:121",
+      "path": "memory/2026-05-11.md",
+      "startLine": 111,
+      "endLine": 121,
+      "source": "memory",
+      "snippet": "## 系统状态最终确认 | 环节 | 状态 | 连续未解决天数 | |------|------|--------------| | Pipeline 自动触发 | ⚠️ 偶发有效（5/10-5/11连续2天） | 需建立稳定标准 | | 多workspace数据同步 | ❌ 持续断裂 | 第5天（教训16未修复） | | /tmp/ 脚本版本管理 | ⚠️ 待清理 | 持续4天 | | 520共振观察 | ✅ 数据采集成功，内容不可直接访问 | — | 静默结束。",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-20T04:08:38.810Z",
+      "lastRecalledAt": "2026-05-20T04:08:38.810Z",
+      "queryHashes": [
+        "91d8af4aa249"
+      ],
+      "recallDays": [
+        "2026-05-20"
+      ],
+      "conceptTags": [
+        "5/10-5/11连续2天",
+        "系统",
+        "状态",
+        "最终",
+        "确认",
+        "环节",
+        "连续",
+        "解决"
+      ]
+    },
+    "memory:memory/2026-05-07.md:1:25": {
+      "key": "memory:memory/2026-05-07.md:1:25",
+      "path": "memory/2026-05-07.md",
+      "startLine": 1,
+      "endLine": 25,
+      "source": "memory",
+      "snippet": "# 2026-05-07 夜间沉思（22:00） ## 第一步：今日工作回顾 ### 系统状态一览 | 环节 | 状态 | 说明 | |------|------|------| | 数据抓取（早） | ✅ 正常 | 11:43执行，11:45 JSON存档 | | 报告生成 | ❌ 未执行 | 5/7 weibo_daily未生成 | | cron茶饮日报 | error | 连续第N天error | | 飞书发群 | 未打通 | 已知，不再推进 | ### 问题逐条分析 **问题1：今日日报pipeline断裂** - 根因：手动触发系统的自然衰减。5/6手动补救成功后，系统进入「自动等待」状态，没有人记得还有第二步要跑。 - 怎么修复：需要在social-crawler端实现自动一体化，而不是依赖分步骤手动触发。今天中午12:06的weibo_daily生成（34680字节）证明脚本是完整的，但cron配置（330b7be9状态error）一直有问题。 - 预防：完全自动化（cron驱动），不依赖手动记忆。 **问题2：cron 330b7be9持续error** - 根因：cron配置的deliver是announce->feishu，但脚本本身没有输出announcement格式的文本，导致deliver失败。 - 怎么修复：在cron配置里把deliver改为\"not requested\"，让脚本自己处理飞书通知逻辑（如果有的话），而不是依赖cron的announce。或者修复脚本让它输出announcement格式的文本。",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-20T04:08:38.810Z",
+      "lastRecalledAt": "2026-05-20T04:08:38.810Z",
+      "queryHashes": [
+        "91d8af4aa249"
+      ],
+      "recallDays": [
+        "2026-05-20"
+      ],
+      "conceptTags": [
+        "5/7",
+        "weibo-daily未生成",
+        "5/6手动补救成功后",
+        "需要在social-crawler端实现自动一体化",
+        "06的weibo-daily生成",
+        "夜间",
+        "沉思",
+        "一步"
+      ]
+    },
+    "memory:memory/2026-05-03.md:1:39": {
+      "key": "memory:memory/2026-05-03.md:1:39",
+      "path": "memory/2026-05-03.md",
+      "startLine": 1,
+      "endLine": 39,
+      "source": "memory",
+      "snippet": "# Dreaming Night - 2026-05-03 --- ## 第一步：错题本 ### 错误1：今日实际使用了\"假最新\"脚本（核心问题） **现象**：今天 10:47 运行的脚本是 `/tmp/tea-crawler-final.mjs`，不是任何已命名的 v1-v6，而是另一个版本。State 文件日期仍是 2026-05-02（昨天），done=18。 **根因**： - 昨天（5月2日）中午手动修复了 v6，加入了 report 生成和分类逻辑 - 但今天 10:47 自动执行的是 `final.mjs`——一个**不写 state 文件、不生成分类报告、不发飞书群**的版本 - `/tmp/tea-crawler.mjs` 这个\"唯一执行脚本\"根本不存在 - MEMORY.md 里写的\"脚本入口：`/tmp/tea-crawler.mjs`\"是一个错误记录——从未存在过 **修复**： ``` # 删除所有非唯一版本 rm /tmp/tea-crawler-v*.mjs rm /tmp/tea-crawler-manual.mjs rm /tmp/tea-crawler-final.mjs rm /private/tmp/tea-crawler-v*.mjs rm /private/tmp/tea-crawler-manual.mjs rm /private/tmp/tea-crawler-final.mjs # 保留的那个版本，必须能： # 1. 连接 CDP（带重试） # 2. 更新 state 文件（date=today, done=19",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-21T14:06:56.736Z",
+      "lastRecalledAt": "2026-05-28T14:01:29.838Z",
+      "queryHashes": [
+        "da5e2aefd786",
+        "97df6f2ca17d"
+      ],
+      "recallDays": [
+        "2026-05-21",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "tmp/tea-crawler-final.mjs",
+        "v1-v6",
+        "final.mjs",
+        "tmp/tea-crawler.mjs",
+        "memory.md",
+        "tmp/tea-crawler-v",
+        "tmp/tea-crawler-manual.mjs",
+        "private/tmp/tea-crawler-v"
+      ]
+    },
+    "memory:memory/2026-05-22.md:1:50": {
+      "key": "memory:memory/2026-05-22.md:1:50",
+      "path": "memory/2026-05-22.md",
+      "startLine": 1,
+      "endLine": 50,
+      "source": "memory",
+      "snippet": "# 2026-05-22 CEO Dreaming Noon（12:07，周五，节后首个工作日） > Pipeline第24天 | 茉莉奶白百店齐开启动日 --- ## 第一步：今日管理回顾 ### 系统状态 | 项目 | 状态 | 备注 | |------|------|------| | weibo_daily 5/22 | ✅ 已生成 | 11:52 md；数据完整 | | Pipeline 自动触发 | ✅ 正常 | 连续工作日稳定 | | 飞书发群 P0 | ❌ 未解决 | 连续第24天无进展 | | 521节后 | 🔍 重点 | 节后首个工作日，营销节奏观察窗口 | ### 今日无管理决策 周五，节后首个工作日，系统稳定运行： - pipeline正常，无技术故障 - 飞书发群P0继续挂起（需逸凡决策，非今日紧急） - 无新增悬而未决事项 --- ## 第二步：知识缝合 **无新认知框架产生。** 昨日（5/21）night dreaming已完成： - 霸王茶姬「走走系列」新品即内容打法 - 库迪体育赛事营销升级 - 茉莉奶白百店齐开（今日启动） 今日是验证日，不是知识生产日。这些信号的实际效果需要观察，不急于整合。 --- ## 第三步：记忆更新 **无新增长期记忆。** 系统状态正常，P0维持原状，无需更新MEMORY.md。 写入 memory/2026-05-22.md 完成。 --- *静默结束。下一个dreaming：2026-05-22 夜间*",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-22T14:04:01.932Z",
+      "lastRecalledAt": "2026-05-22T14:04:01.932Z",
+      "queryHashes": [
+        "a87536bf6c3c"
+      ],
+      "recallDays": [
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "5/22",
+        "5/21",
+        "无需更新memory.md",
+        "memory/2026-05-22.md",
+        "ceo",
+        "dreaming",
+        "noon"
+      ]
+    },
+    "memory:memory/2026-05-18.md:1:35": {
+      "key": "memory:memory/2026-05-18.md:1:35",
+      "path": "memory/2026-05-18.md",
+      "startLine": 1,
+      "endLine": 35,
+      "source": "memory",
+      "snippet": "# 2026-05-18 Dreaming Night（22:08，周一） > Pipeline断裂第20天 | 520前夜 | 绯色月光全国上市日 --- ## 第一步：今日工作回顾 ### 整体状况 **茶饮日报产出：正常** - weibo_daily_2026-05-18.md 已生成（10999字节，19个品牌全遍历） - 报告时间戳显示约13:00产出，今日数据完整 - main workspace memory/ 仍无当日报告（P0问题持续20天） **今日重大事件日：绯色月光全国上市** - 瑞幸「绯色月光」5/18全国上市（年度特调，3万店爆款） - 库迪超燃椰青系列5/18同步首发（HPP+50亿后生元+1200mg益生元+天然电解质） - 古茗×线条小狗联名持续推进 - 茉莉奶白龙眼系列明天上市，今日静默预热 **520前48小时效应确认** - 今日（520前48小时）19个品牌全零产出（新品0条、IP联名0条、营销0条） - Strategic Planner 和 Supermind 今日均记录了「共振期节前静默」模式 - 共振期四段节奏框架今日正式确立： 1. 节前静默（节前48小时）：策略性静默，避免注意力稀释 2. 节中共振（节中当天）：集中爆发 3. 节后密集发布（节后次日）：建立季节主角身份 4. 下一节点循环 ### 各分身状态 | 分身 | 今日状态 | |------|------| | Social Crawler | 正常产出报告，数据完整 |",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-22T14:07:17.076Z",
+      "lastRecalledAt": "2026-05-25T04:02:40.955Z",
+      "queryHashes": [
+        "8a726563cea4",
+        "26eb323df56c"
+      ],
+      "recallDays": [
+        "2026-05-22",
+        "2026-05-25"
+      ],
+      "conceptTags": [
+        "weibo-daily-2026-05-18.md",
+        "5/18全国上市",
+        "库迪超燃椰青系列5/18同步首发",
+        "dreaming",
+        "night",
+        "周一",
+        "pipeline",
+        "断裂"
+      ]
+    },
+    "memory:memory/2026-05-03.md:59:95": {
+      "key": "memory:memory/2026-05-03.md:59:95",
+      "path": "memory/2026-05-03.md",
+      "startLine": 59,
+      "endLine": 95,
+      "source": "memory",
+      "snippet": "--- ### 错误3：State 文件和实际执行脱节 **现象**：state 文件 date=2026-05-02, done=18，但今天（5月3日）根本没有跑完 19 个品牌。 **根因**：final.mjs 不写 state 文件。任何不看日志的人会误以为\"昨天已经跑完了\"。 **修复**：在脚本开头做一致性检查——如果 state 文件日期不是今天，清空后重新开始。 --- ### 错误4：飞书发群逻辑从未上线（P0，连续第5天未修复） **现象**：报告从未发过 social crawler 群。 **根因**：这个问题从 4月30日 已知，今天是第5天。根本原因：每次 Dreaming 都识别但没人把它变成代码改动。 **修复**：明天必须直接改脚本加发群逻辑，不停留在\"记住要修\"。 --- ### 错误5：报告未生成 **现象**：5月3日的 weibo_daily_2026-05-03.md 不存在。今天只生成了 JSON 原始数据，没有分类报告。 **根因**：final.mjs 只抓数据，不处理报告生成和存档逻辑。 --- ## 第二步：更懂逸凡（上下文深化） 今天无新增交互记录。基于历史数据确认： **逸凡的核心关注点（稳定偏好）**： 1. **IP联名动向**是最高优先级（每次报告必有） 2. **听劝营销案例**值得单独标注（如古茗去年下架今年回归，霸王茶姬年度节奏）",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-25T04:06:25.987Z",
+      "lastRecalledAt": "2026-05-28T14:01:29.838Z",
+      "queryHashes": [
+        "acfa02efb4cf",
+        "97df6f2ca17d"
+      ],
+      "recallDays": [
+        "2026-05-25",
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "final.mjs",
+        "weibo-daily-2026-05-03.md",
+        "错误",
+        "state",
+        "文件",
+        "实际",
+        "执行",
+        "脱节"
+      ]
+    },
+    "memory:memory/2026-05-06.md:1:28": {
+      "key": "memory:memory/2026-05-06.md:1:28",
+      "path": "memory/2026-05-06.md",
+      "startLine": 1,
+      "endLine": 28,
+      "source": "memory",
+      "snippet": "# 2026-05-06 日志 ## Dreaming Noon - 12:00 ### 系统状态 - **weibo_daily 已生成**：5/6 10:21成功（17/19品牌，2个异常：沪上阿姨抓取失败、霸王茶姬0更新） - **飞书发群**：连续第8天未打通，阻塞原因明确（webhook URL无效） - **cron**：job id 330b7be9 状态 ok ### 知识缝合更新（追加至 MEMORY.md） 今日新洞察： 1. **杨梅季**成为初夏最密集共振品类（4+头部品牌同时推），比蜜瓜季/西瓜季竞争更激烈 2. **明星代言路径分化**：幸运咖（影帝+顶流=曝光大转化慢）vs 瑞幸（运动员功能背书=路径短转化快） 3. **霸王茶姬异常静默**：头部品牌0更新值得关注——可能是精准投放策略调整 4. **异业合作新入口**：Manner×优色林（护肤）、树夏×On昂跑（运动）——从生活方式搭车进化到精准场景用户对接 ### 悬而未决（P0） **飞书 webhook URL 获取**： - social crawler 群：oc_96796887fcf96dba638afa646fbb6bb2 - 操作：群里 → 群设置 → 群机器人 → 添加自定义机器人 → 复制 webhook URL - 需要逸凡执行（群管理员权限） - 拿到后2小时内可解决 ### 模式识别",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-25T04:06:25.987Z",
+      "lastRecalledAt": "2026-05-25T04:06:25.987Z",
+      "queryHashes": [
+        "acfa02efb4cf"
+      ],
+      "recallDays": [
+        "2026-05-25"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "5/6",
+        "17/19品牌",
+        "memory.md",
+        "比蜜瓜季/西瓜季竞争更激烈",
+        "日志",
+        "dreaming",
+        "noon"
+      ]
+    },
+    "memory:memory/2026-05-11.md:65:93": {
+      "key": "memory:memory/2026-05-11.md:65:93",
+      "path": "memory/2026-05-11.md",
+      "startLine": 65,
+      "endLine": 93,
+      "source": "memory",
+      "snippet": "| 库迪 | Hattie Stewart | 时尚策划人+审美叙事 | 审美溢价型 | | 星巴克 | 《只此青绿》 | 文化机构背书 | 品牌溢价型 | **模式确认：节日共振三段论实地验证** 节日节点→品牌集体营销→内容差异化成为竞争焦点。这个框架今天完整落地。 **新洞察**：艺术家/时尚类IP联名（瑞幸×原田治、库迪×Hattie Stewart）代表一种新趋势——用「圈内知名度」代替「大众知名度」来实现差异化。这和之前用明星代言的逻辑完全相反。这是营销精细化的信号，对曼拾客户有直接参考价值。 （追加写入 MEMORY.md） --- ## 第三步：更懂逸凡 **无今日直接交互**。520共振信号通过日报摘要传递，逸凡未发指令。 **待观察**：520当天是否有小红书品牌营销需求涌现——这是检验曼拾业务的关键窗口。从今日记忆来看，无相关信息，说明要么需求没有来，要么来了但未被记录。 --- ## 第四步：效率评估 | 指标 | 数据 | |------|------| | 今日 Pipeline 触发 | ✅ 成功 | | 报告生成耗时 | 未知（无日志） | | 复盘耗时（本次） | ~8分钟（读取+分析+写文件） | | 问题识别效率 | 差：同个问题（教训16）第2次观察才确认未修复 |",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-25T14:09:30.660Z",
+      "lastRecalledAt": "2026-05-25T14:09:30.660Z",
+      "queryHashes": [
+        "1654d8563791"
+      ],
+      "recallDays": [
+        "2026-05-25"
+      ],
+      "conceptTags": [
+        "艺术家/时尚类ip联名",
+        "memory.md",
+        "hattie",
+        "stewart",
+        "时尚",
+        "策划",
+        "审美",
+        "叙事"
+      ]
+    },
+    "memory:memory/2026-05-25.md:1:44": {
+      "key": "memory:memory/2026-05-25.md:1:44",
+      "path": "memory/2026-05-25.md",
+      "startLine": 1,
+      "endLine": 44,
+      "source": "memory",
+      "snippet": "# 2026-05-25 CEO Dreaming Noon（12:06，周一） > Pipeline断裂第26天 | 工作日模式 --- ## 第一步：今日管理回顾 ### 系统状态 | 项目 | 状态 | 备注 | |------|------| | weibo_daily 5/25 | ❌ 未生成 | 周一工作日，仍无触发 | | Pipeline 自动触发 | ⚠️ 断裂第26天 | 5/5后无自动触发 | | 飞书发群 P0 | ❌ 未解决 | 第25天未解决 | | 数据同步失效 | ⚠️ 持续 | weibo_daily 最新仅到5/9 | **今日无管理决策** 周一未见逸凡发出新的管理指令，系统状态维持不变。 **无遗漏重要管理事项** P0维持原状，等待向逸凡汇报。 --- ## 第二步：知识缝合 **无新认知框架。** 今日无新的管理观察，无需知识缝合。 --- ## 第三步：记忆更新 **无需更新 MEMORY.md。** 今日是标准监控日，静默结束。明日继续监控。 --- *静默结束*",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-28T04:05:38.246Z",
+      "lastRecalledAt": "2026-05-28T04:05:38.246Z",
+      "queryHashes": [
+        "2195712d21df"
+      ],
+      "recallDays": [
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "5/25",
+        "5/5后无自动触发",
+        "最新仅到5/9",
+        "memory.md",
+        "ceo",
+        "dreaming",
+        "noon"
+      ]
+    },
+    "memory:memory/2026-05-24.md:1:44": {
+      "key": "memory:memory/2026-05-24.md:1:44",
+      "path": "memory/2026-05-24.md",
+      "startLine": 1,
+      "endLine": 44,
+      "source": "memory",
+      "snippet": "# 2026-05-24 CEO Dreaming Noon（12:10，周日） > Pipeline断裂第25天 | 周日低频监控模式 --- ## 第一步：今日管理回顾 ### 系统状态 | 项目 | 状态 | 备注 | |------|------| | weibo_daily 5/24 | ❌ 未生成 | 周日无触发，pipeline持续断裂 | | Pipeline 自动触发 | ⚠️ 断裂第25天 | 5/5后无自动触发 | | 飞书发群 P0 | ❌ 未解决 | 第24天未解决 | | 数据同步失效 | ⚠️ 持续 | weibo_daily 最新仅到5/9 | **今日无管理决策** 周日低频监控，无新问题出现。 **无遗漏重要管理事项** P0维持原状，等待下周一工作日向逸凡汇报。 --- ## 第二步：知识缝合 **无新认知框架。** 周日静默期，无新的管理观察，不需要知识缝合。 --- ## 第三步：记忆更新 **无新内容需要更新。** 今日是周日低频监控日，静默结束。明日（周一）恢复工作日后按惯例汇报 P0+P2 状态。 --- *静默结束*",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-28T04:05:38.246Z",
+      "lastRecalledAt": "2026-05-28T04:05:38.246Z",
+      "queryHashes": [
+        "2195712d21df"
+      ],
+      "recallDays": [
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "weibo-daily",
+        "5/24",
+        "5/5后无自动触发",
+        "最新仅到5/9",
+        "ceo",
+        "dreaming",
+        "noon",
+        "周日"
+      ]
+    },
+    "memory:memory/2026-05-26.md:49:66": {
+      "key": "memory:memory/2026-05-26.md:49:66",
+      "path": "memory/2026-05-26.md",
+      "startLine": 49,
+      "endLine": 66,
+      "source": "memory",
+      "snippet": "1. **关联「脚本版本混乱」（5/5以来）：** 多版本并存不只是管理混乱问题，会直接导致执行了错误版本。今天的情况可能是其中一个版本能处理JSON但输出格式错误，另一个版本直接输出空内容。 2. **关联「Pipeline断裂三层面」（5/9 CEO night）：** 之前识别了触发断裂、同步断裂，今天补充第三层：**格式化断裂**——数据在，但人看不到。三个层面独立存在，各有根因。 3. **关联康德义务论视角：** 「格式化管道断裂」是系统自身没有\"善良意志\"——它没有主动确保输出可用的义务感，只是机械执行脚本。需要建立「输出可用性检查」作为格式化步骤的必须环节。 **复用价值：** 未来任何数据pipeline建设，必须包含「输出验证」步骤——不是跑完就算，而是确认输出对人有用。\"data exists but output is empty\" 是最容易被忽视的失败模式。 --- ## 第三步：记忆更新 **今日更新：** - 今日weibo_daily 5/26数据在social-crawler侧，main workspace无今日报告（Pipeline断裂第27天） - 发现格式化脚本bug：BACKUP_RAW有内容，处理后md全空 - 今日无新管理指令，继续维持监控",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-28T04:05:38.246Z",
+      "lastRecalledAt": "2026-05-28T04:05:38.246Z",
+      "queryHashes": [
+        "2195712d21df"
+      ],
+      "recallDays": [
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "backup",
+        "5/5以来",
+        "5/9",
+        "今日weibo-daily",
+        "5/26数据在social-crawler侧",
+        "backup-raw有内容",
+        "关联",
+        "脚本"
+      ]
+    },
+    "memory:memory/2026-05-03.md:30:66": {
+      "key": "memory:memory/2026-05-03.md:30:66",
+      "path": "memory/2026-05-03.md",
+      "startLine": 30,
+      "endLine": 66,
+      "source": "memory",
+      "snippet": "# 3. 生成分类报告（新品/IP联名/营销活动） # 4. 发飞书群 # 5. 存档到 social-crawler/memory/ # 6. process.exit(0) ``` **预防**：任何调试脚本创建后，如果它不是\"最终唯一版本\"，必须立即删除，不得在 /tmp/ 留任何中间版本。 --- ### 错误2：Morning Cron 连续第4天失败（或从未配置） **现象**：crontab -l 无 tea-crawler 相关记录。Morning cron 可能根本没有配置，或者配置了但从未成功执行。 **根因**： - 4月30日、5月1日、5月2日、5月3日连续4天 morning cron 都失败了 - 但今天下午 Dreaming 的判断是\"调整时间到 11:00\"，而实际问题可能是 **cron 根本没有被设置**，或设置后因脚本错误而失效 **修复**： ``` # 先确认 cron 是否存在 crontab -l | grep tea # 如果没有，配置正确的 cron 0 11 * * * /usr/local/bin/node /tmp/tea-crawler.mjs >> /tmp/tea-crawl.log 2>&1 ``` **预防**：每次修改脚本后，主动确认 cron 触发结果，不依赖\"应该会跑\"的假设。 --- ### 错误3：State 文件和实际执行脱节 **现象**：state 文件 date=2026-05-02, done=18，但今天（5月3日）根本没有跑完 19 个品牌。 **根因**：fin",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-28T14:01:29.838Z",
+      "lastRecalledAt": "2026-05-28T14:01:29.838Z",
+      "queryHashes": [
+        "97df6f2ca17d"
+      ],
+      "recallDays": [
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "新品/ip联名/营销活动",
+        "social-crawler/memory",
+        "process.exit",
+        "tea-crawler",
+        "usr/local/bin/node",
+        "tmp/tea-crawler.mjs",
+        "tmp/tea-crawl.log",
+        "生成"
+      ]
+    }
+  }
+}

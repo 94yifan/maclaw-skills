@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学会提问 · 批判性思维 — 思维导图</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --surface: #16213e;
+    --surface2: #0f3460;
+    --text: #e0e0e0;
+    --text-dim: #a0a0b8;
+    --accent-gold: #f0c040;
+    --accent-teal: #4ecdc4;
+    --accent-coral: #ff6b6b;
+    --accent-purple: #a78bfa;
+    --accent-blue: #60a5fa;
+    --accent-green: #34d399;
+    --domain1: #4ecdc4;
+    --domain2: #f0c040;
+    --domain3: #ff6b6b;
+    --domain4: #60a5fa;
+    --domain5: #a78bfa;
+    --flow-line: #f0c040;
+    --crossref-line: #ff6b6b;
+    --center-color: #f0c040;
+    --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #mindmap-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    cursor: grab;
+  }
+  #mindmap-container:active { cursor: grabbing; }
+  #mindmap-container.panning { cursor: grabbing; }
+  #transform-layer {
+    position: absolute;
+    top: 0; left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+  #svg-layer {
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+  #svg-layer line, #svg-layer path { pointer-events: stroke; }
+  #nodes-layer {
+    position: absolute;
+    top: 0; left: 0;
+  }
+  .mindmap-node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    z-index: 1;
+    border: 2px solid transparent;
+  }
+  .mindmap-node:hover {
+    z-index: 100;
+    filter: brightness(1.2);
+    box-shadow: var(--shadow-lg);
+  }
+  .mindmap-node.center-node {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 3px solid var(--center-color);
+    color: var(--center-color);
+    font-size: 20px;
+    padding: 16px 28px;
+    border-radius: 50%;
+    width: 160px; height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.4;
+    box-shadow: 0 0 40px rgba(240,192,64,0.3);
+  }
+  .mindmap-node.domain-node {
+    font-size: 16px;
+    padding: 12px 22px;
+    border-radius: 14px;
+  }
+  .mindmap-node.sub-node {
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  .mindmap-node.detail-node {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 400;
+    opacity: 0.85;
+    max-width: 200px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .mindmap-node.step-node {
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 20px;
+  }
+  /* Domain color themes */
+  .domain-d1 > .domain-node, .domain-d1.domain-node { background: var(--surface2); border-color: var(--domain1); color: var(--domain1); }
+  .domain-d1 .sub-node { background: #0d2b3d; border-color: rgba(78,205,196,0.4); color: #a8e6e0; }
+  .domain-d1 .detail-node { background: #0a1f2e; border-color: rgba(78,205,196,0.2); color: #8ad4ce; }
+
+  .domain-d2 > .domain-node, .domain-d2.domain-node { background: var(--surface2); border-color: var(--domain2); color: var(--domain2); }
+  .domain-d2 .sub-node { background: #2a2020; border-color: rgba(240,192,64,0.4); color: #f5d878; }
+  .domain-d2 .detail-node { background: #1f1818; border-color: rgba(240,192,64,0.2); color: #e8c860; }
+  .domain-d2 .step-node { background: #2a2515; border-color: rgba(240,192,64,0.6); color: #f5d878; }
+  .domain-d2 .step-node.step-active { background: #3a3010; border-color: var(--domain2); color: #fff; box-shadow: 0 0 20px rgba(240,192,64,0.3); }
+
+  .domain-d3 > .domain-node, .domain-d3.domain-node { background: var(--surface2); border-color: var(--domain3); color: var(--domain3); }
+  .domain-d3 .sub-node { background: #2d1a1a; border-color: rgba(255,107,107,0.4); color: #ffaaaa; }
+  .domain-d3 .detail-node { background: #1f1212; border-color: rgba(255,107,107,0.2); color: #ee9090; }
+
+  .domain-d4 > .domain-node, .domain-d4.domain-node { background: var(--surface2); border-color: var(--domain4); color: var(--domain4); }
+  .domain-d4 .sub-node { background: #1a2640; border-color: rgba(96,165,250,0.4); color: #a8caf8; }
+  .domain-d4 .detail-node { background: #121b2e; border-color: rgba(96,165,250,0.2); color: #90b8f0; }
+
+  .domain-d5 > .domain-node, .domain-d5.domain-node { background: var(--surface2); border-color: var(--domain5); color: var(--domain5); }
+  .domain-d5 .sub-node { background: #241e35; border-color: rgba(167,139,250,0.4); color: #cdbffa; }
+  .domain-d5 .detail-node { background: #1a1530; border-color: rgba(167,139,250,0.2); color: #b8a8f5; }
+
+  .node-collapsed .sub-node, .node-collapsed .detail-node { display: none; }
+
+  /* Controls */
+  #controls {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+  }
+  #controls button {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  #controls button:hover {
+    background: var(--surface2);
+    border-color: var(--accent-gold);
+  }
+  #legend {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 1000;
+    background: rgba(22,33,62,0.9);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-dim);
+  }
+  #legend h4 { margin-bottom: 8px; color: var(--text); font-size: 13px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .legend-line { width: 24px; height: 2px; flex-shrink: 0; }
+  .legend-line.solid { background: var(--flow-line); border: none; }
+  .legend-line.dashed { border-top: 2px dashed var(--crossref-line); background: none; height: 0; }
+  .legend-line.domain { border-top: 2px solid var(--accent-teal); background: none; height: 0; }
+  #tooltip {
+    position: fixed;
+    pointer-events: none;
+    z-index: 2000;
+    background: rgba(22,33,62,0.97);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    max-width: 320px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    color: var(--text);
+    box-shadow: var(--shadow-lg);
+    line-height: 1.5;
+  }
+  #tooltip.visible { opacity: 1; }
+  #tooltip h3 { font-size: 14px; margin-bottom: 6px; color: var(--accent-gold); }
+  #tooltip .tt-detail { color: var(--text-dim); font-size: 12px; margin-top: 4px; }
+  .flow-label {
+    font-size: 10px;
+    fill: var(--text-dim);
+    font-style: italic;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  .pulse { animation: pulse 2s infinite; }
+</style>
+</head>
+<body>
+
+<div id="mindmap-container">
+  <div id="transform-layer">
+    <svg id="svg-layer" width="2400" height="1800" viewBox="0 0 2400 1800"></svg>
+    <div id="nodes-layer"></div>
+  </div>
+</div>
+
+<div id="legend">
+  <h4>📖 图例</h4>
+  <div class="legend-item"><div class="legend-line solid"></div> 分析流程主线</div>
+  <div class="legend-item"><div class="legend-line dashed"></div> 跨域交叉引用</div>
+  <div class="legend-item"><span style="color:var(--accent-teal)">●</span> 域1 基础心态</div>
+  <div class="legend-item"><span style="color:var(--accent-gold)">●</span> 域2 分析流程</div>
+  <div class="legend-item"><span style="color:var(--accent-coral)">●</span> 域3 谬误识别</div>
+  <div class="legend-item"><span style="color:var(--accent-blue)">●</span> 域4 证据评估</div>
+  <div class="legend-item"><span style="color:var(--accent-purple)">●</span> 域5 输出行动</div>
+  <div style="margin-top:6px;color:var(--text-dim);font-size:11px">🖱️ 滚轮缩放 · 拖拽平移</div>
+  <div style="color:var(--text-dim);font-size:11px">👆 点击节点展开/折叠详情</div>
+</div>
+
+<div id="controls">
+  <button id="btn-zoom-in" title="放大">+</button>
+  <button id="btn-zoom-out" title="缩小">−</button>
+  <button id="btn-reset" title="重置视图">⟳</button>
+  <button id="btn-expand-all" title="展开全部">⊞</button>
+  <button id="btn-collapse-all" title="折叠详情">⊟</button>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+// ─── Node Data ───────────────────────────────────────────────
+// Each node: { id, parentId, x, y, label, detail?, domain, type }
+// Types: 'center', 'domain', 'sub', 'detail', 'step'
+
+const nodes = [
+  // ── CENTER ──
+  { id:'center', parentId:null, x:1050, y:750, label:'学会提问\n批判性思维', domain:'center', type:'center', detail:'尼尔·布朗 & 斯图尔特·基利\n评分 8.36/10 · 4277人评分\n系统性批判性思维操作手册' },
+
+  // ═══════════════ DOMAIN 1: 基础心态 ═══════════════
+  { id:'d1', parentId:'center', x:1050, y:180, label:'域1 · 基础心态', domain:'d1', type:'domain', detail:'Ch1 + Ch13\n批判性思维的心智基础和常见障碍' },
+  { id:'d1-sponge', parentId:'d1', x:650, y:80, label:'海绵式 vs 淘金式思维', domain:'d1', type:'sub', detail:'被动吸收信息 vs 主动筛选评估\n海绵式：全盘接收，不做判断\n淘金式：带着问题去读，批判性筛选' },
+  { id:'d1-weak', parentId:'d1', x:1450, y:80, label:'弱势 vs 强势批判性思维', domain:'d1', type:'sub', detail:'弱势：只用于攻击他人观点\n强势：也用于审视自己的信念\n真正的批判性思维需要勇气审视自我' },
+  { id:'d1-elephant', parentId:'d1', x:1050, y:40, label:'理性(骑手) vs 情感(大象)', domain:'d1', type:'sub', detail:'乔纳森·海特隐喻：理性驾驭情感\n但情感才是驱动力——需要觉察而非压制\n批判性思维需要情感与理性的协调' },
+  { id:'d1-barriers', parentId:'d1', x:650, y:260, label:'思维障碍', domain:'d1', type:'sub', detail:'四大常见障碍：\n① 思考过快（System 1 快思考）\n② 刻板印象（预设判断）\n③ 自我中心（我的经验就是世界）\n④ 一厢情愿（希望即真理）' },
+  { id:'d1-fast', parentId:'d1-barriers', x:450, y:320, label:'思考过快', domain:'d1', type:'detail' },
+  { id:'d1-stereotype', parentId:'d1-barriers', x:620, y:340, label:'刻板印象', domain:'d1', type:'detail' },
+  { id:'d1-egocentric', parentId:'d1-barriers', x:790, y:340, label:'自我中心', domain:'d1', type:'detail' },
+  { id:'d1-wishful', parentId:'d1-barriers', x:960, y:320, label:'一厢情愿', domain:'d1', type:'detail' },
+  { id:'d1-values', parentId:'d1', x:1450, y:260, label:'价值观多样性\n影响判断', domain:'d1', type:'sub', detail:'不同文化、成长背景的价值观\n会导致对同一论证截然不同的判断\n批判性思维要求觉察自身价值立场' },
+
+  // ═══════════════ DOMAIN 2: 分析流程 (10步) ═══════════════
+  { id:'d2', parentId:'center', x:1900, y:750, label:'域2 · 分析流程', domain:'d2', type:'domain', detail:'核心区域：10步评估环\n从看到论证到得出判断的完整路径\nCh2-Ch12' },
+
+  // The 10 steps - arranged in a curved flow on the right
+  { id:'d2-s1', parentId:'d2', x:1900, y:160, label:'Step 1\n锁定论题和结论', domain:'d2', type:'step', detail:'Ch2 · 分析起点\n先搞清楚：对方到底在说什么？\n论题类型：描述性(de是什么)/规定性(应不应该)\n找到结论句——关键词："因此""所以""由此可见"' },
+  { id:'d2-s2', parentId:'d2', x:1900, y:280, label:'Step 2\n识别理由', domain:'d2', type:'step', detail:'Ch3 · 找到支撑结论的论据\n理由 = 用来支持结论的陈述\n问自己：为什么作者相信这个结论？\n理由+结论 = 论证结构' },
+  { id:'d2-s3', parentId:'d2', x:1900, y:400, label:'Step 3\n检查歧义词', domain:'d2', type:'step', detail:'Ch4 · 哪些词语意思不明确？\n关键词可能有多种理解\n"自由""公平""效率"——在不同语境含义不同\n歧义会导致表面同意实则分歧' },
+  { id:'d2-s4', parentId:'d2', x:1900, y:520, label:'Step 4\n挖掘隐含假设', domain:'d2', type:'step', detail:'Ch5 · 论证的隐性前提\n① 价值观假设：认为某些价值优先于其他\n② 描述性假设：关于世界是什么的潜在信念\n这些假设决定了从理由到结论的跳跃' },
+  { id:'d2-s5', parentId:'d2', x:1900, y:640, label:'Step 5\n识别逻辑谬误', domain:'d2', type:'step', detail:'Ch6 · 论证中有没有谬误？\n谬误 = 看似合理实则错误的推理\n需要逐一检查常见谬误类型\n谬误常常源于错误的隐含假设' },
+  { id:'d2-s6', parentId:'d2', x:1900, y:760, label:'Step 6\n评估证据质量', domain:'d2', type:'step', detail:'Ch7-8 · 证据的效力如何？\n检查证据类型及可靠性\n个人经历、典型案例、证言、专家意见、\n个人观察、调查研究——各有局限' },
+  { id:'d2-s7', parentId:'d2', x:1900, y:880, label:'Step 7\n考虑替代原因', domain:'d2', type:'step', detail:'Ch9 · 有没有替代原因？\n警惕确认偏误：只看支持自己立场的原因\n相关性 ≠ 因果性\n竞争性假说：有没有其他解释？' },
+  { id:'d2-s8', parentId:'d2', x:1900, y:1000, label:'Step 8\n审查数据真实性', domain:'d2', type:'step', detail:'Ch10 · 数据有没有欺骗性？\n平均值陷阱（均值/中位数/众数不同）\n测量误差、统计方式偏差\n图表误导、基期选择' },
+  { id:'d2-s9', parentId:'d2', x:1900, y:1120, label:'Step 9\n发现省略信息', domain:'d2', type:'step', detail:'Ch11 · 有什么重要信息被省略了？\n论证者会选择性呈现信息\n问自己：缺少了什么？反面证据在哪？\n信息缺失可能导致完全不同的结论' },
+  { id:'d2-s10', parentId:'d2', x:1900, y:1240, label:'Step 10\n得出合理结论', domain:'d2', type:'step', detail:'Ch12 · 能得出哪些合理结论？\n不是非黑即白——灰度思维\n同一个证据可以支持多个结论\n有条件地接受，保留修正空间' },
+
+  // Flow labels between steps
+  { id:'d2-flow-label', parentId:'d2', x:1850, y:220, label:'▼', domain:'d2', type:'detail' },
+
+  // ═══════════════ DOMAIN 3: 常见谬误识别 ═══════════════
+  { id:'d3', parentId:'center', x:200, y:1050, label:'域3 · 常见谬误识别', domain:'d3', type:'domain', detail:'Ch6 详细版\n13种常见逻辑谬误速查\n→ 对应分析流程 Step 5' },
+  { id:'d3-adhominem', parentId:'d3', x:50, y:900, label:'人身攻击', domain:'d3', type:'sub', detail:'不针对论证，攻击论证者本人\n"你说得不对，因为你是XX"' },
+  { id:'d3-popularity', parentId:'d3', x:50, y:970, label:'诉诸公众', domain:'d3', type:'sub', detail:'多数人相信≠正确\n"大家都这么认为"' },
+  { id:'d3-authority', parentId:'d3', x:50, y:1040, label:'诉诸可疑权威', domain:'d3', type:'sub', detail:'引用非相关领域的权威\n演员代言药品≠医学证据' },
+  { id:'d3-label', parentId:'d3', x:50, y:1110, label:'乱贴标签', domain:'d3', type:'sub', detail:'用标签代替论证\n"这是极左/极右的观点"' },
+  { id:'d3-slippery', parentId:'d3', x:50, y:1180, label:'滑坡谬误', domain:'d3', type:'sub', detail:'假设一步必然导致极端后果\n没有中间缓冲可能' },
+  { id:'d3-dichotomy', parentId:'d3', x:180, y:900, label:'非此即彼', domain:'d3', type:'sub', detail:'虚假二分法\n忽略中间地带和第三种可能' },
+  { id:'d3-perfection', parentId:'d3', x:180, y:970, label:'完美主义谬误', domain:'d3', type:'sub', detail:'不完美=完全不可取\n方案有缺陷≠方案无效' },
+  { id:'d3-equivocation', parentId:'d3', x:180, y:1040, label:'偷换概念', domain:'d3', type:'sub', detail:'关键词语义在论证中悄悄转变\n同一个词前后含义不同' },
+  { id:'d3-emotion', parentId:'d3', x:180, y:1110, label:'诉诸感情', domain:'d3', type:'sub', detail:'用情绪代替逻辑\n恐惧、愤怒、怜悯作为论据' },
+  { id:'d3-assumption', parentId:'d3', x:180, y:1180, label:'假设谬误', domain:'d3', type:'sub', detail:'将有待证明的观点当作前提\n循环论证的变体' },
+  { id:'d3-hypocrisy', parentId:'d3', x:310, y:930, label:'诉诸虚伪', domain:'d3', type:'sub', detail:'"你自己也做不到"\n对方行为≠对方观点错误' },
+  { id:'d3-pity', parentId:'d3', x:310, y:1010, label:'诉诸怜悯', domain:'d3', type:'sub', detail:'利用同情心代替论证\n"可怜可怜我"作为论据' },
+  { id:'d3-circular', parentId:'d3', x:310, y:1090, label:'循环论证', domain:'d3', type:'sub', detail:'用结论本身来证明结论\n换种说法重新陈述结论' },
+
+  // ═══════════════ DOMAIN 4: 证据评估框架 ═══════════════
+  { id:'d4', parentId:'center', x:200, y:450, label:'域4 · 证据评估框架', domain:'d4', type:'domain', detail:'Ch7-8\n证据类型与评估维度\n→ 对应分析流程 Step 6' },
+  { id:'d4-personal', parentId:'d4', x:50, y:320, label:'个人经历', domain:'d4', type:'sub', detail:'生动但有偏差\n单一样本，缺乏代表性\n易受记忆重构影响' },
+  { id:'d4-case', parentId:'d4', x:50, y:390, label:'典型案例', domain:'d4', type:'sub', detail:'有说服力但样本极小\n案例经过筛选，可能不具代表性\n以偏概全的典型陷阱' },
+  { id:'d4-testimony', parentId:'d4', x:50, y:460, label:'当事人证言', domain:'d4', type:'sub', detail:'亲历者不等于客观\n可能有利益关系、记忆偏差\n选择性叙述是常态' },
+  { id:'d4-expert', parentId:'d4', x:50, y:530, label:'专家意见', domain:'d4', type:'sub', detail:'专家也有偏见和局限\n需验证：是否相关领域？\n有无利益冲突？同行是否认可？' },
+  { id:'d4-observation', parentId:'d4', x:250, y:320, label:'个人观察', domain:'d4', type:'sub', detail:'观察者偏差不可忽视\n所见≠所是\n观察本身可能改变行为' },
+  { id:'d4-research', parentId:'d4', x:250, y:390, label:'调查研究', domain:'d4', type:'sub', detail:'最有说服力的证据类型\n但需检查：\n样本量、抽样方式、测量方法、\n可重复性、发表偏倚' },
+  { id:'d4-dims', parentId:'d4', x:250, y:500, label:'评估维度', domain:'d4', type:'sub', detail:'可靠性 · 代表性\n偏差 · 样本量\n测量方法 · 可重复性' },
+
+  // ═══════════════ DOMAIN 5: 输出与行动 ═══════════════
+  { id:'d5', parentId:'center', x:600, y:1350, label:'域5 · 输出与行动', domain:'d5', type:'domain', detail:'Ch12延续\n批判性思维的最终产出\n→ 交叉对应 Step 10' },
+  { id:'d5-gray', parentId:'d5', x:420, y:1300, label:'灰度思维', domain:'d5', type:'sub', detail:'世界不是非黑即白\n多数问题没有唯一正确答案\n接受复杂性和不确定性' },
+  { id:'d5-conditional', parentId:'d5', x:600, y:1280, label:'有条件地\n接受结论', domain:'d5', type:'sub', detail:'"在X条件下，结论Y成立"\n明确接受的前提和边界\n随时准备根据新证据修正' },
+  { id:'d5-multiple', parentId:'d5', x:780, y:1300, label:'多个合理的\n结论选项', domain:'d5', type:'sub', detail:'同一组证据可以支持不同结论\n比较各结论的支撑力度\n选择最优而非唯一' },
+];
+
+// ─── Connection Definitions ──────────────────────────────────
+// { from, to, type: 'domain'|'flow'|'crossref'|'parent', label? }
+const connections = [
+  // Center → 5 domains
+  { from:'center', to:'d1', type:'domain', label:'心智基础' },
+  { from:'center', to:'d2', type:'domain', label:'核心方法' },
+  { from:'center', to:'d3', type:'domain', label:'谬误速查' },
+  { from:'center', to:'d4', type:'domain', label:'证据框架' },
+  { from:'center', to:'d5', type:'domain', label:'最终产出' },
+
+  // Domain 1 structure
+  { from:'d1', to:'d1-sponge', type:'parent' },
+  { from:'d1', to:'d1-weak', type:'parent' },
+  { from:'d1', to:'d1-elephant', type:'parent' },
+  { from:'d1', to:'d1-barriers', type:'parent' },
+  { from:'d1-barriers', to:'d1-fast', type:'parent' },
+  { from:'d1-barriers', to:'d1-stereotype', type:'parent' },
+  { from:'d1-barriers', to:'d1-egocentric', type:'parent' },
+  { from:'d1-barriers', to:'d1-wishful', type:'parent' },
+  { from:'d1', to:'d1-values', type:'parent' },
+
+  // Domain 2: 10-step flow (vertical chain)
+  { from:'d2', to:'d2-s1', type:'parent' },
+  { from:'d2-s1', to:'d2-s2', type:'flow', label:'▼' },
+  { from:'d2-s2', to:'d2-s3', type:'flow', label:'▼' },
+  { from:'d2-s3', to:'d2-s4', type:'flow', label:'▼' },
+  { from:'d2-s4', to:'d2-s5', type:'flow', label:'▼' },
+  { from:'d2-s5', to:'d2-s6', type:'flow', label:'▼' },
+  { from:'d2-s6', to:'d2-s7', type:'flow', label:'▼' },
+  { from:'d2-s7', to:'d2-s8', type:'flow', label:'▼' },
+  { from:'d2-s8', to:'d2-s9', type:'flow', label:'▼' },
+  { from:'d2-s9', to:'d2-s10', type:'flow', label:'▼' },
+
+  // Domain 3 structure
+  { from:'d3', to:'d3-adhominem', type:'parent' },
+  { from:'d3', to:'d3-popularity', type:'parent' },
+  { from:'d3', to:'d3-authority', type:'parent' },
+  { from:'d3', to:'d3-label', type:'parent' },
+  { from:'d3', to:'d3-slippery', type:'parent' },
+  { from:'d3', to:'d3-dichotomy', type:'parent' },
+  { from:'d3', to:'d3-perfection', type:'parent' },
+  { from:'d3', to:'d3-equivocation', type:'parent' },
+  { from:'d3', to:'d3-emotion', type:'parent' },
+  { from:'d3', to:'d3-assumption', type:'parent' },
+  { from:'d3', to:'d3-hypocrisy', type:'parent' },
+  { from:'d3', to:'d3-pity', type:'parent' },
+  { from:'d3', to:'d3-circular', type:'parent' },
+
+  // Domain 4 structure
+  { from:'d4', to:'d4-personal', type:'parent' },
+  { from:'d4', to:'d4-case', type:'parent' },
+  { from:'d4', to:'d4-testimony', type:'parent' },
+  { from:'d4', to:'d4-expert', type:'parent' },
+  { from:'d4', to:'d4-observation', type:'parent' },
+  { from:'d4', to:'d4-research', type:'parent' },
+  { from:'d4', to:'d4-dims', type:'parent' },
+
+  // Domain 5 structure
+  { from:'d5', to:'d5-gray', type:'parent' },
+  { from:'d5', to:'d5-conditional', type:'parent' },
+  { from:'d5', to:'d5-multiple', type:'parent' },
+
+  // ═══ CROSS-REFERENCES (dashed lines) ═══
+  // D1 → D2: 基础心态连接到分析流程起点
+  { from:'d1', to:'d2-s1', type:'crossref', label:'心智准备 → 开始分析' },
+
+  // Ch5 (d2-s4 假设) ↔ Ch6 (d2-s5 谬误)
+  { from:'d2-s4', to:'d2-s5', type:'crossref', label:'谬误常源于错误假设' },
+
+  // D3 (谬误域) → D2 Step 5
+  { from:'d3', to:'d2-s5', type:'crossref', label:'谬误速查 → Step 5' },
+
+  // Ch6 (谬误) ↔ Ch9 (替代原因)
+  { from:'d2-s5', to:'d2-s7', type:'crossref', label:'偷换因果是常见谬误' },
+
+  // D4 (证据域) → D2 Step 6
+  { from:'d4', to:'d2-s6', type:'crossref', label:'证据框架 → Step 6' },
+
+  // Ch7-8 (证据) ↔ Ch10 (数据)
+  { from:'d2-s6', to:'d2-s8', type:'crossref', label:'证据包含数据验证' },
+
+  // Ch9 (替代原因) ↔ Ch11 (省略信息)
+  { from:'d2-s7', to:'d2-s9', type:'crossref', label:'信息缺失→忽略替代解释' },
+
+  // Ch3 (理由) ↔ Ch4 (歧义)
+  { from:'d2-s2', to:'d2-s3', type:'crossref', label:'理由中的关键词歧义\n影响论证力度' },
+
+  // D5 → D2 Step 10: 输出与结论
+  { from:'d5-gray', to:'d2-s10', type:'crossref', label:'灰度思维' },
+  { from:'d5-multiple', to:'d2-s10', type:'crossref', label:'多结论可能' },
+  { from:'d5-conditional', to:'d2-s10', type:'crossref', label:'有条件接受' },
+
+  // D1-barriers → affects analysis
+  { from:'d1-barriers', to:'d2', type:'crossref', label:'障碍影响全流程' },
+];
+
+// ─── State ───────────────────────────────────────────────────
+let scale = 0.62;
+let panX = 0, panY = 0;
+let isPanning = false;
+let startX, startY, startPanX, startPanY;
+let expandedNodes = new Set(); // nodes whose detail children are visible (all start visible)
+let collapsedNodes = new Set(); // nodes whose ALL children are hidden
+
+const container = document.getElementById('mindmap-container');
+const transformLayer = document.getElementById('transform-layer');
+const svgLayer = document.getElementById('svg-layer');
+const nodesLayer = document.getElementById('nodes-layer');
+const tooltip = document.getElementById('tooltip');
+
+// Build node lookup
+const nodeMap = {};
+nodes.forEach(n => nodeMap[n.id] = n);
+
+// ─── Initial: expand all, collapse detail-only nodes ─────────
+// By default, show domain and sub nodes, but collapse detail nodes under barriers
+collapsedNodes.add('d1-barriers'); // detail nodes of barriers start hidden
+
+// ─── Rendering ───────────────────────────────────────────────
+function renderAll() {
+  renderNodes();
+  renderConnections();
+  updateTransform();
+}
+
+function getNodeVisible(nodeId) {
+  // A node is visible if none of its ancestors are collapsed
+  let current = nodeId;
+  while (current) {
+    if (collapsedNodes.has(current)) return false;
+    const node = nodeMap[current];
+    if (!node || !node.parentId) break;
+    current = node.parentId;
+  }
+  return true;
+}
+
+function findChildren(nodeId) {
+  return nodes.filter(n => n.parentId === nodeId);
+}
+
+function renderNodes() {
+  nodesLayer.innerHTML = '';
+  nodes.forEach(node => {
+    if (!getNodeVisible(node.id)) return;
+
+    const el = document.createElement('div');
+    el.className = `mindmap-node domain-${node.domain}`;
+    if (node.type === 'center') el.classList.add('center-node');
+    if (node.type === 'domain') el.classList.add('domain-node');
+    if (node.type === 'sub') el.classList.add('sub-node');
+    if (node.type === 'detail') el.classList.add('detail-node');
+    if (node.type === 'step') el.classList.add('step-node');
+    if (node.id === 'd2-s5') el.classList.add('step-active'); // highlight the central step
+
+    el.id = 'node-' + node.id;
+    el.style.left = node.x + 'px';
+    el.style.top = node.y + 'px';
+    el.innerHTML = (node.label || '').replace(/\n/g, '<br>');
+
+    // Hover: tooltip
+    el.addEventListener('mouseenter', (e) => showTooltip(e, node));
+    el.addEventListener('mouseleave', hideTooltip);
+    el.addEventListener('mousemove', (e) => moveTooltip(e));
+
+    // Click: expand/collapse
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleNode(node.id);
+    });
+
+    // For domain nodes, add pulse effect
+    if (node.type === 'domain' && node.id === 'd2') {
+      el.classList.add('pulse');
+    }
+
+    nodesLayer.appendChild(el);
+  });
+}
+
+function toggleNode(nodeId) {
+  const node = nodeMap[nodeId];
+  if (!node) return;
+
+  const children = findChildren(nodeId);
+
+  // For center, toggle nothing (stay expanded)
+  if (node.type === 'center') return;
+
+  // For detail nodes, just show tooltip (no children to toggle)
+  if (node.type === 'detail') return;
+
+  if (collapsedNodes.has(nodeId)) {
+    collapsedNodes.delete(nodeId);
+  } else {
+    if (children.length > 0) {
+      collapsedNodes.add(nodeId);
+    }
+  }
+  renderAll();
+}
+
+// ─── Connections ─────────────────────────────────────────────
+function renderConnections() {
+  // Clear SVG
+  while (svgLayer.firstChild) svgLayer.removeChild(svgLayer.firstChild);
+
+  // Add arrow marker definitions
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+
+  // Flow arrow (gold)
+  const flowMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+  flowMarker.setAttribute('id', 'arrow-flow');
+  flowMarker.setAttribute('markerWidth', '8');
+  flowMarker.setAttribute('markerHeight', '6');
+  flowMarker.setAttribute('refX', '8');
+  flowMarker.setAttribute('refY', '3');
+  flowMarker.setAttribute('orient', 'auto');
+  const flowArrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  flowArrow.setAttribute('d', 'M0,0 L8,3 L0,6 Z');
+  flowArrow.setAttribute('fill', '#f0c040');
+  flowMarker.appendChild(flowArrow);
+  defs.appendChild(flowMarker);
+
+  // CrossRef arrow (coral)
+  const crMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+  crMarker.setAttribute('id', 'arrow-cr');
+  crMarker.setAttribute('markerWidth', '8');
+  crMarker.setAttribute('markerHeight', '6');
+  crMarker.setAttribute('refX', '8');
+  crMarker.setAttribute('refY', '3');
+  crMarker.setAttribute('orient', 'auto');
+  const crArrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  crArrow.setAttribute('d', 'M0,0 L8,3 L0,6 Z');
+  crArrow.setAttribute('fill', '#ff6b6b');
+  crMarker.appendChild(crArrow);
+  defs.appendChild(crMarker);
+
+  svgLayer.appendChild(defs);
+
+  // Draw connections
+  const drawnConnections = new Set();
+
+  connections.forEach(conn => {
+    if (!getNodeVisible(conn.from) || !getNodeVisible(conn.to)) return;
+    // Avoid duplicate crossrefs
+    const key = [conn.from, conn.to, conn.type].join('|');
+    if (drawnConnections.has(key)) return;
+    drawnConnections.add(key);
+
+    const fromNode = nodeMap[conn.from];
+    const toNode = nodeMap[conn.to];
+    if (!fromNode || !toNode) return;
+
+    const path = createConnectionPath(fromNode, toNode, conn);
+
+    const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    pathEl.setAttribute('d', path);
+
+    if (conn.type === 'flow') {
+      pathEl.setAttribute('stroke', '#f0c040');
+      pathEl.setAttribute('stroke-width', '2.5');
+      pathEl.setAttribute('fill', 'none');
+      pathEl.setAttribute('marker-end', 'url(#arrow-flow)');
+      pathEl.style.opacity = '0.9';
+    } else if (conn.type === 'crossref') {
+      pathEl.setAttribute('stroke', '#ff6b6b');
+      pathEl.setAttribute('stroke-width', '1.8');
+      pathEl.setAttribute('stroke-dasharray', '8,5');
+      pathEl.setAttribute('fill', 'none');
+      pathEl.setAttribute('marker-end', 'url(#arrow-cr)');
+      pathEl.style.opacity = '0.6';
+    } else {
+      // domain or parent connection
+      if (conn.from === 'center') {
+        pathEl.setAttribute('stroke', (() => {
+          const m = { d1:'#4ecdc4', d2:'#f0c040', d3:'#ff6b6b', d4:'#60a5fa', d5:'#a78bfa' };
+          return m[conn.to] || '#e0e0e0';
+        })());
+        pathEl.setAttribute('stroke-width', '2.5');
+      } else {
+        pathEl.setAttribute('stroke', 'rgba(224,224,224,0.35)');
+        pathEl.setAttribute('stroke-width', '1.5');
+      }
+      pathEl.setAttribute('fill', 'none');
+    }
+
+    svgLayer.appendChild(pathEl);
+
+    // Add label for crossref and flow connections
+    if (conn.label && (conn.type === 'crossref' || conn.type === 'flow' || conn.from === 'center')) {
+      const midX = (fromNode.x + toNode.x) / 2;
+      const midY = (fromNode.y + toNode.y) / 2;
+      const textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      textEl.setAttribute('x', midX + 10);
+      textEl.setAttribute('y', midY - 6);
+      textEl.setAttribute('class', 'flow-label');
+      textEl.setAttribute('text-anchor', 'middle');
+      if (conn.type === 'crossref') {
+        textEl.setAttribute('fill', '#ff6b6b');
+      } else if (conn.type === 'flow') {
+        textEl.setAttribute('fill', '#f0c040');
+      } else {
+        textEl.setAttribute('fill', '#a0a0b8');
+      }
+      // Handle multi-line labels
+      const lines = conn.label.split('\n');
+      lines.forEach((line, i) => {
+        const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+        tspan.setAttribute('x', midX + 15);
+        tspan.setAttribute('dy', i === 0 ? '0' : '12');
+        tspan.textContent = line;
+        textEl.appendChild(tspan);
+      });
+      svgLayer.appendChild(textEl);
+    }
+  });
+
+  // Add flow arrow annotations on the right side (Step labels)
+  // Already handled by flow connections above
+}
+
+function createConnectionPath(fromNode, toNode, conn) {
+  const x1 = fromNode.x, y1 = fromNode.y;
+  const x2 = toNode.x, y2 = toNode.y;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+
+  // For the 10-step flow, use straight-ish lines with small curve
+  if (conn.type === 'flow' && Math.abs(dx) < 50) {
+    // Vertical flow connection
+    const midY = (y1 + y2) / 2;
+    return `M${x1},${y1} C${x1},${midY} ${x2},${midY} ${x2},${y2}`;
+  }
+
+  // For parent connections, use smooth curves
+  if (conn.type === 'parent' || conn.type === 'domain') {
+    const cpDist = Math.min(Math.abs(dx), Math.abs(dy), 200) * 0.5;
+    const cpx1 = x1 + (dx > 0 ? cpDist : -cpDist) * 0.3;
+    const cpy1 = y1 + (dy > 0 ? cpDist : -cpDist) * 0.3;
+    const cpx2 = x2 - (dx > 0 ? cpDist : -cpDist) * 0.3;
+    const cpy2 = y2 - (dy > 0 ? cpDist : -cpDist) * 0.3;
+    return `M${x1},${y1} C${cpx1},${cpy1} ${cpx2},${cpy2} ${x2},${y2}`;
+  }
+
+  // For crossrefs, use more dramatic curves
+  const cpDist = Math.max(Math.abs(dx), Math.abs(dy), 150) * 0.6;
+  const mx = (x1 + x2) / 2;
+  const my = (y1 + y2) / 2;
+  // Offset control point perpendicular to direction
+  const perpX = -dy / Math.sqrt(dx*dx + dy*dy + 1) * cpDist * 0.4;
+  const perpY = dx / Math.sqrt(dx*dx + dy*dy + 1) * cpDist * 0.4;
+  const cpx = mx + perpX;
+  const cpy = my + perpY;
+  return `M${x1},${y1} Q${cpx},${cpy} ${x2},${y2}`;
+
+  // Default: simple bezier
+  // const cpDist = Math.min(Math.abs(dx), Math.abs(dy), 120) * 0.5;
+  // return `M${x1},${y1} C${x1 + cpDist},${y1} ${x2 - cpDist},${y2} ${x2},${y2}`;
+}
+
+// ─── Tooltip ─────────────────────────────────────────────────
+function showTooltip(e, node) {
+  if (!node.detail) return;
+  tooltip.innerHTML = `<h3>${(node.label||'').replace(/\n/g,' · ')}</h3><div>${node.detail.replace(/\n/g,'<br>')}</div>`;
+  tooltip.classList.add('visible');
+  moveTooltip(e);
+}
+
+function moveTooltip(e) {
+  const x = e.clientX + 18;
+  const y = e.clientY + 10;
+  tooltip.style.left = Math.min(x, window.innerWidth - 340) + 'px';
+  tooltip.style.top = Math.min(y, window.innerHeight - 200) + 'px';
+}
+
+function hideTooltip() {
+  tooltip.classList.remove('visible');
+}
+
+// ─── Zoom & Pan ──────────────────────────────────────────────
+function updateTransform() {
+  transformLayer.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+}
+
+container.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? 0.92 : 1.08;
+  const newScale = Math.min(Math.max(scale * delta, 0.2), 2.5);
+
+  // Zoom toward cursor
+  const rect = container.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+
+  const scaleChange = newScale / scale;
+  panX = mouseX - scaleChange * (mouseX - panX);
+  panY = mouseY - scaleChange * (mouseY - panY);
+  scale = newScale;
+
+  updateTransform();
+}, { passive: false });
+
+container.addEventListener('mousedown', (e) => {
+  if (e.target === container || e.target === svgLayer) {
+    isPanning = true;
+    container.classList.add('panning');
+    startX = e.clientX;
+    startY = e.clientY;
+    startPanX = panX;
+    startPanY = panY;
+  }
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isPanning) return;
+  panX = startPanX + (e.clientX - startX);
+  panY = startPanY + (e.clientY - startY);
+  updateTransform();
+});
+
+window.addEventListener('mouseup', () => {
+  isPanning = false;
+  container.classList.remove('panning');
+});
+
+// ─── Touch support ───────────────────────────────────────────
+let lastTouchDist = 0;
+container.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) {
+    isPanning = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startPanX = panX;
+    startPanY = panY;
+  } else if (e.touches.length === 2) {
+    isPanning = false;
+    lastTouchDist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+  }
+}, { passive: false });
+
+container.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  if (e.touches.length === 1 && isPanning) {
+    panX = startPanX + (e.touches[0].clientX - startX);
+    panY = startPanY + (e.touches[0].clientY - startY);
+    updateTransform();
+  } else if (e.touches.length === 2) {
+    const dist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    if (lastTouchDist > 0) {
+      const delta = dist / lastTouchDist;
+      const newScale = Math.min(Math.max(scale * delta, 0.2), 2.5);
+      const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      const rect = container.getBoundingClientRect();
+      const mouseX = cx - rect.left;
+      const mouseY = cy - rect.top;
+      const scaleChange = newScale / scale;
+      panX = mouseX - scaleChange * (mouseX - panX);
+      panY = mouseY - scaleChange * (mouseY - panY);
+      scale = newScale;
+      updateTransform();
+    }
+    lastTouchDist = dist;
+  }
+}, { passive: false });
+
+container.addEventListener('touchend', () => {
+  isPanning = false;
+  lastTouchDist = 0;
+});
+
+// ─── Controls ────────────────────────────────────────────────
+document.getElementById('btn-zoom-in').addEventListener('click', (e) => {
+  e.stopPropagation();
+  scale = Math.min(scale * 1.15, 2.5);
+  updateTransform();
+});
+document.getElementById('btn-zoom-out').addEventListener('click', (e) => {
+  e.stopPropagation();
+  scale = Math.max(scale * 0.87, 0.2);
+  updateTransform();
+});
+document.getElementById('btn-reset').addEventListener('click', (e) => {
+  e.stopPropagation();
+  scale = 0.62;
+  panX = 0;
+  panY = 0;
+  updateTransform();
+});
+document.getElementById('btn-expand-all').addEventListener('click', (e) => {
+  e.stopPropagation();
+  collapsedNodes.clear();
+  renderAll();
+});
+document.getElementById('btn-collapse-all').addEventListener('click', (e) => {
+  e.stopPropagation();
+  // Collapse all detail and sub nodes, keep domains visible
+  nodes.forEach(n => {
+    if (n.type === 'detail') {
+      // find parent sub node and collapse it
+      const parent = nodeMap[n.parentId];
+      if (parent && (parent.type === 'sub' || parent.type === 'domain')) {
+        collapsedNodes.add(n.parentId);
+      }
+    }
+  });
+  // Also collapse domain children
+  ['d1-barriers'].forEach(id => collapsedNodes.add(id));
+  renderAll();
+});
+
+// ─── Keyboard shortcuts ──────────────────────────────────────
+window.addEventListener('keydown', (e) => {
+  if (e.key === '+' || e.key === '=') { scale = Math.min(scale * 1.1, 2.5); updateTransform(); }
+  if (e.key === '-') { scale = Math.max(scale * 0.9, 0.2); updateTransform(); }
+  if (e.key === '0') { scale = 0.62; panX = 0; panY = 0; updateTransform(); }
+});
+
+// ─── Initial Render ──────────────────────────────────────────
+renderAll();
+
+// Center the view initially
+panX = 100;
+panY = 80;
+updateTransform();
+
+console.log('✅ 学会提问 · 批判性思维 — 思维导图已就绪');
+console.log('   🖱️ 滚轮缩放 | 拖拽平移 | 点击节点展开/折叠');
+console.log('   📖 实线=分析流程 | 虚线=交叉引用');
+</script>
+</body>
+</html>

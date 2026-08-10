@@ -1,0 +1,192 @@
+{
+  "瑞幸咖啡": {
+    "uid": "6349791448",
+    "total": 0,
+    "posts": []
+  },
+  "库迪咖啡": {
+    "uid": "7791266545",
+    "total": 0,
+    "posts": []
+  },
+  "古茗": {
+    "uid": "2809775704",
+    "total": 0,
+    "posts": []
+  },
+  "幸运咖": {
+    "uid": "6519396553",
+    "total": 0,
+    "posts": []
+  },
+  "茉莉奶白": {
+    "uid": "7577524421",
+    "total": 3,
+    "posts": [
+      {
+        "id": "5316896619758612",
+        "created_at": "Sat Jul 04 10:00:00 +0800 2026",
+        "timestamp": 1783130400000,
+        "timestamp_beijing": "2026/7/4 10:00:00",
+        "text": "素龙专属大屏，共赴恋夏罗曼城 转发+关注，请五位宝喝素龙联名漂亮水 以夏日为名，把浪漫写进城市光影 以友情为线，用快乐串联共同记忆 📅7月3日起 素龙×茉莉奶白联名大屏上线 定格属于罗曼城的盛夏画面 📅7月6日-7月10日 素龙专属庆生大屏上线 共赴生日之约 👈具体时间请左滑查看 *大屏图片 ...全文",
+        "is_original": true,
+        "is_retweeted": false,
+        "image_count": 4,
+        "reposts_count": 449,
+        "comments_count": 246,
+        "attitudes_count": 519
+      },
+      {
+        "id": "5316662577334592",
+        "created_at": "Fri Jul 03 18:30:00 +0800 2026",
+        "timestamp": 1783074600000,
+        "timestamp_beijing": "2026/7/3 18:30:00",
+        "text": "蜡笔小新夏日运动会，盛夏启幕 转发+关注，请5位宝喝夏日漂亮水 海风、烈日、小新的鬼马—— 是这场运动会的全部规则，剩下的，只管撒野。 茉莉奶白 携手@天猫 @阿里鱼 跟着小新的步调松弛入场 解锁专属夏日「新」玩法 7.17-8.31，黑皮小新即将空降深圳 K11 ECOAST 一场不太标准、但足够尽兴的运 ...全文",
+        "is_original": true,
+        "is_retweeted": false,
+        "image_count": 1,
+        "reposts_count": 604,
+        "comments_count": 240,
+        "attitudes_count": 837
+      },
+      {
+        "id": "5316564431407236",
+        "created_at": "Fri Jul 03 12:00:00 +0800 2026",
+        "timestamp": 1783051200000,
+        "timestamp_beijing": "2026/7/3 12:00:00",
+        "text": "抽奖 | 小茉莉 × 素龙 联名呈上夏日礼 转发+关注，分享一句你最爱的夏日歌词 即可参与抽奖 七月的风裹着鲜葡萄香 混着轻快旋律漫过街角 恋夏罗曼城的夏日序章 由小茉莉和素龙一同开启 🎁恋夏好礼 「一等奖」10位：「恋夏罗曼城」素龙限定 · 联名葡萄香氛皂套餐 + 香卡套组 「二等奖」20位：「恋 ...全文",
+        "is_original": true,
+        "is_retweeted": false,
+        "image_count": 1,
+        "reposts_count": 1664,
+        "comments_count": 1124,
+        "attitudes_count": 1411
+      }
+    ]
+  },
+  "霸王茶姬": {
+    "uid": "5652018762",
+    "total": 0,
+    "posts": []
+  },
+  "喜茶": {
+    "uid": "2804387887",
+    "total": 1,
+    "posts": [
+      {
+        "id": "5316898469970948",
+        "created_at": "Sat Jul 04 10:07:21 +0800 2026",
+        "timestamp": 1783130841000,
+        "timestamp_beijing": "2026/7/4 10:07:21",
+        "text": "邀请你成为喜茶研发 hey！灵感研发员 今天开始，我们把研发特权交给你 选茶底、选鲜果、加小料 灵感到位，直接出杯 今天你想特调一杯____？ 💡DIY专属喜茶功能上线 7/4起喜茶go陆续开放，7/5全国见 #喜茶DIY##DIY专属喜茶##人人都是喜茶研发# 喜茶的微博视频",
+        "is_original": true,
+        "is_retweeted": false,
+        "image_count": 1,
+        "reposts_count": 6,
+        "comments_count": 27,
+        "attitudes_count": 82
+      }
+    ]
+  },
+  "星巴克": {
+    "uid": "1741514817",
+    "total": 0,
+    "posts": []
+  },
+  "茶百道": {
+    "uid": "6502206666",
+    "total": 1,
+    "posts": [
+      {
+        "id": "5316621373802714",
+        "created_at": "Fri Jul 03 15:46:16 +0800 2026",
+        "timestamp": 1783064776000,
+        "timestamp_beijing": "2026/7/3 15:46:16",
+        "text": "这一杯，即将回归！ 在评论区call出TA的名字_____?抽5️⃣位茶宝请你喝！（*饮品通用券1张） #茶百道##茶百道新品# 抽奖详情",
+        "is_original": true,
+        "is_retweeted": false,
+        "image_count": 1,
+        "reposts_count": 491,
+        "comments_count": 2437,
+        "attitudes_count": 1113
+      }
+    ]
+  },
+  "奈雪的茶": {
+    "uid": "5884674413",
+    "total": 0,
+    "posts": []
+  },
+  "CoCo都可": {
+    "uid": "2030619861",
+    "total": 2,
+    "posts": [
+      {
+        "id": "5316911719780826",
+        "created_at": "Sat Jul 04 11:00:00 +0800 2026",
+        "timestamp": 1783134000000,
+        "timestamp_beijing": "2026/7/4 11:00:00",
+        "text": "不是勉强凑对，是天生对味！喝过就忘不掉啦🍎 【🧱+🍎+👍】揪3位Co粉尝尝苹果！ 🍵 遇见大红袍，是彼此成就的默契 岩茶醇厚，中和果酸，撑起苹果的清爽 大红袍自带花果香，与苹果的蜜香叠加 入口清甜微酸先至，岩韵丰韵后出 沉稳耐品，越喝越有滋味✨ 🧊 撞上气泡美式，是一拍即合的玩伴 ...全文",
+        "is_original": true,
+        "is_retweeted": false,
+        "image_count": 3,
+        "reposts_count": 20,
+        "comments_count": 20,
+        "attitudes_count": 18
+      },
+      {
+        "id": "5316594634592339",
+        "created_at": "Fri Jul 03 14:00:01 +0800 2026",
+        "timestamp": 1783058401000,
+        "timestamp_beijing": "2026/7/3 14:00:01",
+        "text": "毛茸茸的我们🥰 【🧱+🍎+👍】汪揪3位Co粉喝奶茶！ 快乐小狗日记📝 最近认识很多新朋友 热情的，傲娇的 本汪都很喜欢呼呼💨 幸福大概就是朋友和好天气吧～ 看看你们的毛茸茸呀！ coco都可 #coco# #coco快乐小狗# #小狗日记# #一杯coco简单快乐#",
+        "is_original": true,
+        "is_retweeted": false,
+        "image_count": 2,
+        "reposts_count": 159,
+        "comments_count": 163,
+        "attitudes_count": 118
+      }
+    ]
+  },
+  "爷爷不泡茶": {
+    "uid": "7769072120",
+    "total": 0,
+    "posts": []
+  },
+  "沪上阿姨": {
+    "uid": "3921865344",
+    "total": 0,
+    "posts": []
+  },
+  "乐乐茶": {
+    "uid": "6253473981",
+    "total": 0,
+    "posts": []
+  },
+  "皮爷咖啡": {
+    "uid": "6360528436",
+    "total": 0,
+    "posts": []
+  },
+  "M Stand": {
+    "uid": "6345199298",
+    "total": 0,
+    "posts": []
+  },
+  "Manner": {
+    "uid": "6808111794",
+    "total": 0,
+    "posts": []
+  },
+  "茉酸奶": {
+    "uid": "5188894132",
+    "total": 0,
+    "posts": []
+  },
+  "树夏酸奶": {
+    "uid": "7144806571",
+    "total": 0,
+    "posts": []
+  }
+}

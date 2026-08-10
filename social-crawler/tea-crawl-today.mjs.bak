@@ -1,0 +1,184 @@
+import { chromium } from 'playwright-core';
+import { writeFileSync } from 'fs';
+
+const brands = [
+  { name: '瑞幸咖啡', uid: '6349791448' },
+  { name: '库迪', uid: '7791266545' },
+  { name: '古茗', uid: '2809775704' },
+  { name: '幸运咖', uid: '6519396553' },
+  { name: '茉莉奶白', uid: '7577524421' },
+  { name: '霸王茶姬', uid: '5652018762' },
+  { name: '喜茶', uid: '2804387887' },
+  { name: '星巴克', uid: 'starbucks' },
+  { name: '茶百道', uid: '6502206666' },
+  { name: '奈雪的茶', uid: '5884674413' },
+  { name: 'CoCo', uid: '2030619861' },
+  { name: '爷爷不泡茶', uid: '7769072120' },
+  { name: '沪上阿姨', uid: '3921865344' },
+  { name: '乐乐茶', uid: '6253473981' },
+  { name: '皮爷咖啡', uid: '6360528436' },
+  { name: 'M Stand', uid: '6345199298' },
+  { name: 'Manner', uid: '6808111794' },
+  { name: '茉酸奶', uid: '5188894132' },
+  { name: '树夏酸奶', uid: '7144806571' },
+];
+
+function isTargetDay(dateStr) {
+  if (!dateStr) return false;
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  const y = String(yesterday.getMonth()+1).padStart(2,'0') + '-' + String(yesterday.getDate()).padStart(2,'0');
+  const t = String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  const nd = ds => { const p=ds.split('-'); return (p.length===2 ? String(parseInt(p[0])).padStart(2,'0')+'-'+String(parseInt(p[1])).padStart(2,'0') : ds); };
+  return nd(dateStr) === y || nd(dateStr) === t;
+}
+
+function isValid(text) {
+  if (!text || text.length < 15) return false;
+  if (/抱歉.*不存在|该昵称|暂无.*内容/.test(text)) return false;
+  if (/加入群|粉丝群\s*\d/.test(text)) return false;
+  return true;
+}
+
+function classify(text) {
+  const t = text || '';
+  const isIP = /联名|代言|×/.test(t) && !/暂无/.test(t);
+  const isNew = /新品|上市|首发|新系列|新口味|全新|升级回归/.test(t) && !/暂无/.test(t);
+  return isIP ? 'IP' : isNew ? '新品' : '营销';
+}
+
+async function crawlBrand(page, brand) {
+  // 直接用 m.weibo.cn 移动版
+  const url = 'https://m.weibo.cn/u/' + brand.uid;
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+  await page.waitForTimeout(5000);
+
+  for (const y of [0, 600, 1200, 1800]) {
+    await page.evaluate((Y) => window.scrollTo(0, Y), y);
+    await page.waitForTimeout(2000);
+  }
+
+  const posts = await page.evaluate(() => {
+    const results = [];
+    const cards = document.querySelectorAll('.card');
+    for (const card of cards) {
+      const timeEl = card.querySelector('span.time');
+      const textEl = card.querySelector('.weibo-text');
+      if (!timeEl || !textEl) continue;
+      const timeStr = timeEl.innerText.trim();
+      const text = textEl.innerText.trim().slice(0, 350);
+      if (text.length > 10) {
+        results.push({
+          date: timeStr.split(' ')[0],
+          time: timeStr.split(' ')[1] || '',
+          text
+        });
+      }
+    }
+    return results;
+  });
+  return posts;
+}
+
+function generateReport(results) {
+  const now = new Date();
+  const dateDisplay = now.getFullYear() + '年' + String(now.getMonth()+1).padStart(2,'0') + '月' + String(now.getDate()).padStart(2,'0') + '日';
+
+  let out = '# ' + dateDisplay + ' 茶饮品牌热点日报\n\n> 数据区间：前一日 0:00 - 当日当前\n\n---\n\n';
+
+  for (const brand of brands) {
+    const r = results[brand.name];
+    if (!r) continue;
+    out += '## ' + brand.name + '\n\n';
+    out += '【新品上市】\n';
+    if (r['新品'].length) r['新品'].forEach(p => out += '- ' + p.text + '\n'); else out += '- 暂无新品\n';
+    out += '\n【IP联名/艺人宣发】\n';
+    if (r['IP'].length) r['IP'].forEach(p => out += '- ' + p.text + '\n'); else out += '- 暂无IP联名/艺人宣发\n';
+    out += '\n【营销活动】\n';
+    if (r['营销'].length) r['营销'].forEach(p => out += '- ' + p.text + '\n'); else out += '- 暂无营销活动\n';
+    out += '\n---\n\n';
+  }
+
+  const totalAll = { '新品': 0, 'IP': 0, '营销': 0 };
+  let tableRows = '';
+  for (const brand of brands) {
+    const r = results[brand.name];
+    if (!r) continue;
+    const t = r['新品'].length + r['IP'].length + r['营销'].length;
+    if (t === 0) continue;
+    totalAll['新品'] += r['新品'].length;
+    totalAll['IP'] += r['IP'].length;
+    totalAll['营销'] += r['营销'].length;
+    tableRows += '| ' + brand.name + ' | ' + (r['新品'].length || '-') + ' | ' + (r['IP'].length || '-') + ' | ' + (r['营销'].length || '-') + ' |\n';
+  }
+
+  out += '## 今日概览\n\n| 品牌 | 新品上市 | IP联名/艺人宣发 | 营销活动 |\n|------|----------|----------------|----------|\n';
+  out += tableRows;
+  out += '\n**汇总：新品 ' + totalAll['新品'] + ' 条 | IP联名 ' + totalAll['IP'] + ' 条 | 营销活动 ' + totalAll['营销'] + ' 条**\n\n';
+
+  const allTexts = brands.flatMap(b => [
+    ...(results[b.name] || {})['新品'] || [],
+    ...(results[b.name] || {})['营销'] || [],
+    ...(results[b.name] || {})['IP'] || []
+  ].map(p => p.text || '')).join('');
+
+  const seasonBrands = brands.filter(b => /杨梅|蜜瓜|西瓜|桃子|青梅|芭乐|荔枝|柠檬|芒果/.test(allTexts)).map(b => b.name);
+  const newBrands = brands.filter(b => results[b.name] && results[b.name]['新品'].length > 0).map(b => b.name);
+  const ipBrands = brands.filter(b => results[b.name] && results[b.name]['IP'].length > 0).map(b => b.name);
+
+  out += '## 今日行业洞察\n\n';
+  if (newBrands.length) out += '1. **新品密集**：`' + newBrands.join('、') + '`等' + newBrands.length + '个品牌有新品动作，共' + totalAll['新品'] + '款。\n\n';
+  if (ipBrands.length) out += '2. **IP联动**：`' + ipBrands.join('、') + '`等' + ipBrands.length + '个品牌有IP/代言动态。\n\n';
+  if (seasonBrands.length) out += '3. **时令鲜果**：`' + seasonBrands.slice(0, 5).join('、') + '`等品牌密集押注时令鲜果（杨梅/蜜瓜/西瓜/桃子等），夏日争夺战持续。\n\n';
+  if (totalAll['新品'] + totalAll['IP'] + totalAll['营销'] > 0) out += '4. **行业动态**：`' + brands.length + '`个品牌今日正常更新，市场活跃。\n';
+  out = out.replace(/\n\n\n+/g, '\n\n');
+
+  return out;
+}
+
+// 主逻辑
+const browser = await chromium.connectOverCDP('http://localhost:9333');
+// 尝试用现有context新建page
+let page;
+try {
+  const ctx = browser.contexts()[0];
+  page = await ctx.newPage();
+} catch(e) {
+  // fallback: browser直接newPage
+  page = await browser.newPage();
+}
+
+await page.setViewportSize({ width: 390, height: 844 });
+const results = {};
+
+for (let i = 0; i < brands.length; i++) {
+  const b = brands[i];
+  process.stdout.write('[' + (i + 1) + '/' + brands.length + '] ' + b.name + '... ');
+  try {
+    const posts = await crawlBrand(page, b);
+    const filtered = posts.filter(p => isTargetDay(p.date)).filter(p => isValid(p.text));
+    const cats = { '新品': [], 'IP': [], '营销': [] };
+    filtered.forEach(p => { cats[classify(p.text)].push(p); });
+    results[b.name] = cats;
+    const total = cats['新品'].length + cats['IP'].length + cats['营销'].length;
+    console.log(total + '条 (新' + cats['新品'].length + ' IP' + cats['IP'].length + ' 营' + cats['营销'].length + ')');
+  } catch (e) {
+    results[b.name] = { '新品': [], 'IP': [], '营销': [] };
+    process.stdout.write('err: ' + e.message.slice(0, 40) + ' ');
+  }
+  await page.waitForTimeout(5000);
+}
+
+await browser.close();
+
+const report = generateReport(results);
+const now = new Date();
+const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+const outFile = '/Users/yifansmacmini/.openclaw/workspace/social-crawler/memory/weibo_daily_' + dateStr + '.md';
+writeFileSync(outFile, report);
+console.log('\n=== 报告已写入 ' + outFile + ' ===');
+
+const jsonOut = '/Users/yifansmacmini/.openclaw/workspace/social-crawler/memory/weibo_daily_' + dateStr + '.json';
+writeFileSync(jsonOut, JSON.stringify({ date: dateStr, results }, null, 2));
+console.log('=== JSON 已写入 ' + jsonOut + ' ===');

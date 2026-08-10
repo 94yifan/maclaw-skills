@@ -1,0 +1,118 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>冲突理论</title>
+<style>
+  :root {
+    --bg: #f5f5f5;
+    --fg: #1a1a2e;
+    --muted: #787878;
+    --line: #a0a0a0;
+    --box: #ffffff;
+    --box-border: #d0d0d0;
+    --accent: #2d7ee7;
+    --warm: #e8a838;
+    --cool: #5b8def;
+    --success: #3eb86b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a2e;
+      --fg: #e0e0e0;
+      --muted: #888;
+      --line: #555;
+      --box: #222244;
+      --box-border: #444;
+      --accent: #6aa3ff;
+      --warm: #f0c060;
+      --cool: #7bb0ff;
+      --success: #5cd68a;
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 13px/1.4 -apple-system, BlinkMacSystemFont, "SF Mono", "Fira Code", "Cascadia Code", "Segoe UI", monospace;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
+  svg {
+    width: 520px;
+    height: 760px;
+    display: block;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,.08));
+  }
+</style>
+<svg viewBox="0 0 520 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="var(--line)" />
+    </marker>
+  </defs>
+  <style>
+    .t  { font: 600 14px -apple-system,BlinkMacSystemFont,"SF Mono","Fira Code","Cascadia Code","Segoe UI",monospace; fill: var(--fg); text-anchor: middle; }
+    .ts { font: 500 12px -apple-system,BlinkMacSystemFont,"SF Mono","Fira Code","Cascadia Code","Segoe UI",monospace; fill: var(--muted); text-anchor: middle; }
+    .tt { font: 500 11px -apple-system,BlinkMacSystemFont,"SF Mono","Fira Code","Cascadia Code","Segoe UI",monospace; fill: var(--muted); text-anchor: middle; }
+    .r  { stroke: var(--box-border); stroke-width: 1; rx: 6; fill: var(--box); }
+    .e  { stroke: var(--line); stroke-width: 1.5; fill: none; }
+  </style>
+
+  <!-- 1. 人性 -->
+  <rect x="200" y="30" width="120" height="44" class="r" stroke="var(--accent)" />
+  <text x="260" y="57" class="t">人性</text>
+
+  <line x1="260" y1="74" x2="260" y2="108" class="e" marker-end="url(#arr)" />
+
+  <!-- 2. 七情六欲 -->
+  <rect x="180" y="112" width="160" height="44" class="r" />
+  <text x="260" y="139" class="t">七情六欲</text>
+
+  <line x1="260" y1="156" x2="260" y2="190" class="e" marker-end="url(#arr)" />
+
+  <!-- 3. 冲突 -->
+  <rect x="140" y="194" width="240" height="56" class="r" stroke="var(--warm)" />
+  <text x="260" y="220" class="t" fill="var(--warm)">冲突</text>
+  <text x="260" y="240" class="ts">生理需求有限 · 心理需求无限</text>
+
+  <!-- split lines -->
+  <line x1="260" y1="250" x2="260" y2="272" class="e" />
+  <line x1="150" y1="272" x2="370" y2="272" class="e" />
+  <line x1="150" y1="272" x2="150" y2="303" class="e" marker-end="url(#arr)" />
+  <line x1="370" y1="272" x2="370" y2="303" class="e" marker-end="url(#arr)" />
+
+  <!-- 4. 发现/制造 -->
+  <rect x="75" y="307" width="150" height="50" class="r" />
+  <text x="150" y="328" class="t">发现冲突</text>
+  <text x="150" y="346" class="tt">→ 发现需求</text>
+
+  <rect x="295" y="307" width="150" height="50" class="r" />
+  <text x="370" y="328" class="t">制造冲突</text>
+  <text x="370" y="346" class="tt">→ 创造需求</text>
+
+  <!-- converge lines -->
+  <line x1="150" y1="357" x2="150" y2="382" class="e" />
+  <line x1="370" y1="357" x2="370" y2="382" class="e" />
+  <line x1="150" y1="382" x2="370" y2="382" class="e" />
+  <line x1="260" y1="382" x2="260" y2="413" class="e" marker-end="url(#arr)" />
+
+  <!-- 5. 进攻左脑 + 进攻右脑 → 解决冲突 -->
+  <rect x="100" y="417" width="320" height="70" class="r" stroke="var(--cool)" />
+  <text x="170" y="443" class="t" fill="var(--cool)">进攻左脑</text>
+  <text x="350" y="443" class="t" fill="var(--cool)">进攻右脑</text>
+  <text x="170" y="462" class="tt">（产品真相）</text>
+  <text x="350" y="462" class="tt">（品牌真相）</text>
+  <text x="260" y="447" class="ts" font-size="10" fill="var(--muted)">+</text>
+  <text x="260" y="472" class="tt" fill="var(--accent)">──── 解决冲突</text>
+
+  <!-- arrow to 品牌崛起 -->
+  <line x1="260" y1="487" x2="260" y2="521" class="e" marker-end="url(#arr)" />
+
+  <!-- 6. 品牌崛起 -->
+  <rect x="185" y="525" width="150" height="50" class="r" stroke="var(--success)" />
+  <text x="260" y="548" class="t" fill="var(--success)" font-size="15">品牌崛起</text>
+  <text x="260" y="565" class="tt">终极成果</text>
+
+</svg>

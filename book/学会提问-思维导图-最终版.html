@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学会提问 · 批判性思维</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;background:#f5f7fa;font-family:-apple-system,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif}
+.header{text-align:center;padding:16px 20px 8px;background:linear-gradient(135deg,#f5f7fa,#eaeef5)}
+.header h1{font-size:18px;font-weight:700;color:#1a1a2e}
+.header p{font-size:12px;color:#777;margin-top:2px}
+
+.scroll-wrap{overflow-x:auto;overflow-y:visible;padding:12px 20px 30px;display:flex;justify-content:center}
+
+.tree{display:flex;flex-direction:column;align-items:center;padding-bottom:20px}
+
+/* Root */
+.row-root{display:flex;justify-content:center;margin-bottom:8px}
+.root-node{
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,#4338ca,#312e81);
+  box-shadow:0 3px 15px rgba(67,56,202,.3);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  color:#fff
+}
+.root-node .a{font-size:14px;font-weight:700}
+.root-node .b{font-size:10px;opacity:.85;margin-top:1px}
+
+/* Branches row */
+.row-branches{display:flex;justify-content:center;gap:10px;position:relative;margin-top:4px}
+.col{display:flex;flex-direction:column;align-items:center;min-width:0}
+
+.branch-node{
+  border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;
+  color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.1);
+  white-space:nowrap
+}
+.c0{background:#3b82f6}.c1{background:#7c3aed}.c2{background:#f59e0b}.c3{background:#059669}.c4{background:#db2777}
+
+/* Leaves */
+.leaf-list{display:flex;flex-direction:column;gap:5px;margin-top:8px;align-items:center}
+.leaf-node{
+  border-radius:6px;padding:4px 10px;font-size:11px;color:#333;line-height:1.35;
+  border:1px solid;box-shadow:0 1px 2px rgba(0,0,0,.04);
+  white-space:nowrap;max-width:none
+}
+.l0{border-color:#93c5fd;background:#eff6ff}
+.l1{border-color:#c4b5fd;background:#f5f3ff}
+.l2{border-color:#fcd34d;background:#fffbeb}
+.l3{border-color:#6ee7b7;background:#ecfdf5}
+.l4{border-color:#f9a8d4;background:#fdf2f8}
+
+/* Lines */
+.lines-wrap{position:relative;width:100%;height:16px}
+.lines-wrap svg{position:absolute;top:0;left:0;width:100%;height:16px;overflow:visible;pointer-events:none}
+
+/* Connections */
+.row-conn{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;max-width:1000px}
+.conn-item{
+  padding:4px 10px;border-radius:6px;font-size:10px;color:#555;
+  background:rgba(255,255,255,.85);border:1px dashed #bbb;line-height:1.4
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>学会提问 · 批判性思维</h1>
+  <p>当别人想说服你时，该怎么一步步拆解他的论证？</p>
+</div>
+
+<div class="scroll-wrap">
+<div class="tree" id="tree"></div>
+</div>
+
+<script>
+const branches = [
+  {c:'#3b82f6', cls:'c0', lcls:'l0', label:'①先摆正心态', nodes:[
+    '用淘金式思维主动筛选，别当海绵被动吸收',
+    '用强势批判性思维质疑自己',
+    '警惕六大障碍：太快·刻板·只看想看的·自我中心·一厢情愿·被情绪牵',
+  ]},
+  {c:'#7c3aed', cls:'c1', lcls:'l1', label:'②10步拆解论证', nodes:[
+    '1.搞清楚对方在争论什么问题，找到核心结论',
+    '2.找出支撑结论的理由——没理由不值得信',
+    '3.检查关键词有没有歧义，让对方说清楚',
+    '4.挖掘没明说的前提——默认了什么价值观？',
+    '5.检查论证中有没有逻辑谬误',
+    '6.评估证据：个人经历？专家意见？科学研究？',
+    '7.问有没有替代原因——相关不等于因果',
+    '8.审查数据——平均数可能骗人，误差常被隐瞒',
+    '9.找找对方故意省略了什么信息？',
+    '10.灰度思考——结论不是非黑即白',
+  ]},
+  {c:'#f59e0b', cls:'c2', lcls:'l2', label:'③常见逻辑谬误', nodes:[
+    '人身攻击：不反驳观点，转而攻击提出观点的人',
+    '诉诸公众：因为很多人信，所以它一定是对的',
+    '滑坡谬误：如果A就会Z——中间每一步都没证据',
+    '非此即彼：复杂问题简化成两个极端选项',
+    '循环论证：用结论本身来证明结论（绕圈子）',
+    '诉诸情感：用恐惧愤怒或同情代替理性论证',
+  ]},
+  {c:'#059669', cls:'c3', lcls:'l3', label:'④评估证据质量', nodes:[
+    '个人经历≠普遍规律：你朋友的事不代表所有人',
+    '典型个案≠统计数据：极端例子有冲击力但不普遍',
+    '专家意见≠绝对真理：只在专业领域可信',
+    '调查研究：看样本是否随机、样本量够不够',
+  ]},
+  {c:'#db2777', cls:'c4', lcls:'l4', label:'⑤形成独立判断', nodes:[
+    '灰度思维：大多数重要问题不是非黑即白',
+    '有条件地接受结论，而不是全盘接受或拒绝',
+    '换一个假设，就可能得出完全不同的结论',
+  ]},
+];
+
+const conns = [
+  '第5章(隐含假设) → 第6章(谬误)：谬误源于错误前提假设',
+  '第7-8章(证据) ↔ 第10章(数据)：数据是证据的一种',
+  '第9章(替代原因) ↔ 第11章(省略信息)：信息缺失会漏掉替代解释',
+  '第4章(歧义) ↔ 第5章(假设)：歧义词往往暴露了隐藏假设',
+];
+
+// Build
+const tree = document.getElementById('tree');
+
+// Row 1: Root
+const rowRoot = document.createElement('div');
+rowRoot.className = 'row-root';
+rowRoot.innerHTML = '<div class="root-node"><div class="a">学会提问</div><div class="b">批判性思维</div></div>';
+tree.appendChild(rowRoot);
+
+// Lines 1: Root to branches
+const linesWrap1 = document.createElement('div');
+linesWrap1.className = 'lines-wrap';
+const svg1 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+svg1.setAttribute('width', '100%');
+svg1.setAttribute('height', '16');
+linesWrap1.appendChild(svg1);
+tree.appendChild(linesWrap1);
+
+// Row 2: Branches + Leaves
+const rowBranches = document.createElement('div');
+rowBranches.className = 'row-branches';
+
+const cols = [];
+branches.forEach((br, i) => {
+  const col = document.createElement('div');
+  col.className = 'col';
+  
+  const bEl = document.createElement('div');
+  bEl.className = `branch-node ${br.cls}`;
+  bEl.textContent = br.label;
+  col.appendChild(bEl);
+  
+  const list = document.createElement('div');
+  list.className = 'leaf-list';
+  br.nodes.forEach(txt => {
+    const n = document.createElement('div');
+    n.className = `leaf-node ${br.lcls}`;
+    n.textContent = txt;
+    list.appendChild(n);
+  });
+  col.appendChild(list);
+  rowBranches.appendChild(col);
+  cols.push({ el: col, branchEl: bEl });
+});
+
+tree.appendChild(rowBranches);
+
+// Lines 2: Connection lines between columns
+const linesWrap2 = document.createElement('div');
+linesWrap2.className = 'lines-wrap';
+linesWrap2.style.height = '18px';
+const svg2 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+svg2.setAttribute('width', '100%');
+svg2.setAttribute('height', '18');
+linesWrap2.appendChild(svg2);
+tree.appendChild(linesWrap2);
+
+// Row 3: Connections info
+const rowConn = document.createElement('div');
+rowConn.className = 'row-conn';
+conns.forEach(t => {
+  const item = document.createElement('div');
+  item.className = 'conn-item';
+  item.textContent = t;
+  rowConn.appendChild(item);
+});
+tree.appendChild(rowConn);
+
+// Draw lines after layout
+function drawLines() {
+  requestAnimationFrame(() => {
+    const rootEl = tree.querySelector('.root-node');
+    const tr = tree.getBoundingClientRect();
+    
+    if (!rootEl) return;
+    const rr = rootEl.getBoundingClientRect();
+    const rootCX = rr.left - tr.left + rr.width/2;
+    const rootBY = rr.bottom - tr.top;
+    
+    svg1.innerHTML = '';
+    svg2.innerHTML = '';
+    
+    // Root → branches
+    cols.forEach(({branchEl}) => {
+      const br = branchEl.getBoundingClientRect();
+      const brCX = br.left - tr.left + br.width/2;
+      const brTY = br.top - tr.top;
+      
+      if (brCX && brTY) {
+        const ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+        ln.setAttribute('x1', rootCX);
+        ln.setAttribute('y1', rootBY);
+        ln.setAttribute('x2', brCX);
+        ln.setAttribute('y2', brTY);
+        ln.setAttribute('stroke','#94a3b8');
+        ln.setAttribute('stroke-width','1.5');
+        ln.setAttribute('opacity','0.35');
+        svg1.appendChild(ln);
+      }
+    });
+    
+    // Cross connections between branch columns
+    const brEls = cols.map(c => c.branchEl);
+    if (brEls.length >= 2) {
+      // Connect col[1](10步) to col[2](谬误) and col[3](证据)
+      const connPairs = [[1,2],[1,3],[1,4],[0,1]];
+      connPairs.forEach(([fi, ti]) => {
+        const fRect = brEls[fi].getBoundingClientRect();
+        const tRect = brEls[ti].getBoundingClientRect();
+        if (!fRect || !tRect) return;
+        
+        const fX = fRect.left - tr.left + fRect.width;
+        const fY = fRect.top - tr.top + fRect.height/2;
+        const tX = tRect.left - tr.left;
+        const tY = tRect.top - tr.top + tRect.height/2;
+        
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        const midX = (fX + tX) / 2;
+        const d = `M${fX},${fY} Q${(fX+midX)/2},${(fY+tY)/2} ${midX},${(fY+tY)/2} Q${(midX+tX)/2},${(fY+tY)/2} ${tX},${tY}`;
+        path.setAttribute('d', d);
+        path.setAttribute('stroke','#94a3b8');
+        path.setAttribute('stroke-width','1');
+        path.setAttribute('stroke-dasharray','4,4');
+        path.setAttribute('fill','none');
+        path.setAttribute('opacity','0.3');
+        svg2.appendChild(path);
+      });
+    }
+  });
+}
+
+drawLines();
+window.addEventListener('resize', () => { svg1.innerHTML=''; svg2.innerHTML=''; drawLines(); });
+</script>
+</body>
+</html>

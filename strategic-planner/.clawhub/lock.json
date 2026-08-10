@@ -24,6 +24,224 @@
     "ocr-local": {
       "version": "1.0.0",
       "installedAt": 1777826995885
+    },
+    "data-report-review": {
+      "version": "1.0.0",
+      "installedAt": 1785127314502,
+      "registry": "https://clawhub.ai",
+      "artifact": {
+        "kind": "archive",
+        "sha256": "f6997af77ba364960f3e6270dd0713fcc0be67f8ad0b24c2c939827d722a5375",
+        "integrity": "sha256-9pl693ujZJYPPmJw3QcT/MC+Z/itCyTCyTmCfXIqU3U="
+      },
+      "skillFile": {
+        "path": "SKILL.md",
+        "sha256": "930834c3cf774f8c0b1ed29a485296ed2f84157f8e36e0a1dd7558cc7395252f"
+      },
+      "verification": {
+        "schema": "clawhub.skill.verify.v1",
+        "ok": true,
+        "decision": "pass",
+        "reasons": [],
+        "card": {
+          "available": true,
+          "path": "skill-card.md",
+          "url": "https://wry-manatee-359.convex.site/api/v1/skills/data-report-review/card?ownerHandle=mingginwan&version=1.0.0",
+          "sha256": "3bb9e14300adadea7298aa42477883538f9ff22ae3ee182e617ed030828fad67",
+          "size": 1832,
+          "contentType": "text/markdown; charset=utf-8"
+        },
+        "artifact": {
+          "sourceFingerprint": "07b22c310b618173986760f26683b0f2775153bf1fd0460aa3635b8448777c7b",
+          "bundleFingerprints": [
+            "1a857fbbab58dfa756025cdef63ff2c86088ebe65a0cb7725da1430352336b8e"
+          ],
+          "files": [
+            {
+              "path": "SKILL.md",
+              "size": 3522,
+              "sha256": "930834c3cf774f8c0b1ed29a485296ed2f84157f8e36e0a1dd7558cc7395252f",
+              "contentType": "text/markdown"
+            }
+          ]
+        },
+        "provenance": {
+          "source": "unavailable",
+          "reason": "No server-resolved GitHub import provenance is stored for this version."
+        },
+        "security": {
+          "status": "clean",
+          "passed": true,
+          "rawStatus": "clean",
+          "verdict": "benign",
+          "confidence": "high",
+          "summary": "This is a report-review checklist skill with no code, credentials, persistence, or external access requested.",
+          "model": "gpt-5.5",
+          "checkedAt": 1779947734270,
+          "signals": {
+            "staticScan": {
+              "status": "clean",
+              "rawStatus": "clean",
+              "reasonCodes": [],
+              "summary": "No suspicious patterns detected.",
+              "engineVersion": "v2.4.5",
+              "checkedAt": 1777526728993
+            },
+            "virusTotal": {
+              "status": "clean",
+              "rawStatus": "clean",
+              "verdict": null,
+              "analysis": null,
+              "source": "engines",
+              "scanner": null,
+              "engineStats": {
+                "harmless": 0,
+                "malicious": 0,
+                "suspicious": 0,
+                "undetected": 63
+              },
+              "checkedAt": 1780086684003
+            },
+            "skillSpector": {
+              "status": "clean",
+              "rawStatus": "clean",
+              "score": 0,
+              "severity": "LOW",
+              "recommendation": "SAFE",
+              "issueCount": 0,
+              "scannerVersion": "2.0.0",
+              "summary": null,
+              "error": null,
+              "checkedAt": 1779947713822
+            },
+            "dependencyRegistry": null
+          }
+        },
+        "signature": {
+          "status": "unsigned"
+        }
+      }
+    },
+    "creative-performance-diagnoser2": {
+      "version": "1.0.0",
+      "installedAt": 1785127314787,
+      "registry": "https://clawhub.ai",
+      "artifact": {
+        "kind": "archive",
+        "sha256": "282717f372be3659a1562cba2dc615426e7f83eb69f3ebe6e2ca5f651806af13",
+        "integrity": "sha256-KCcX83K+NlmhViy6LcYVQm5/g+tp8+vm4spfZRgGrxM="
+      },
+      "skillFile": {
+        "path": "SKILL.md",
+        "sha256": "78a5d5202d52825345d0be2f99ae6994f6067ce4fe3ee0b5fc0b2d82f0a35dc3"
+      },
+      "verification": {
+        "schema": "clawhub.skill.verify.v1",
+        "ok": true,
+        "decision": "pass",
+        "reasons": [],
+        "card": {
+          "available": true,
+          "path": "skill-card.md",
+          "url": "https://wry-manatee-359.convex.site/api/v1/skills/creative-performance-diagnoser2/card?ownerHandle=ahsbnb&version=1.0.0",
+          "sha256": "25f5dafb540d064618a5f8e50d265280d96e62bcc4fb1f56d16ff5adaaea5cc7",
+          "size": 2032,
+          "contentType": "text/markdown; charset=utf-8"
+        },
+        "artifact": {
+          "sourceFingerprint": "139142511af75bd0b4f90726d5d3604390c7f2be54ce8b8696a3ae51ea04a8f9",
+          "bundleFingerprints": [
+            "5347024c85fcc98ffa532d219e7a4a0d8f05a36d8e9f99931780c6117818d5e5"
+          ],
+          "files": [
+            {
+              "path": "config/taobao.json",
+              "size": 297,
+              "sha256": "5bc842ae5bf8e08a3f8343ab20063ba5f0fb6a5e0f9ccd899b6099450b6224fd",
+              "contentType": "application/json"
+            },
+            {
+              "path": "input/内容报表_20260314_092445.csv",
+              "size": 87964,
+              "sha256": "228fe4e50acb5f436a3c85985da28ff6b0a236959dba9d0ab6fd0c3f1fd87db6",
+              "contentType": "text/csv"
+            },
+            {
+              "path": "input/内容报表_20260314_092445_utf8.csv",
+              "size": 103450,
+              "sha256": "1ae159264828b3fa3232804992fc29aff6d22ade769f894c8eacc5309fedaa1a",
+              "contentType": "text/csv"
+            },
+            {
+              "path": "scripts/analyzer_generic.py",
+              "size": 13085,
+              "sha256": "1da3beb1651ab662b35c869ab1ea06d48dd3936427bbcc2c91f029aa6833a29a",
+              "contentType": "text/plain"
+            },
+            {
+              "path": "SKILL.md",
+              "size": 18814,
+              "sha256": "78a5d5202d52825345d0be2f99ae6994f6067ce4fe3ee0b5fc0b2d82f0a35dc3",
+              "contentType": "text/markdown"
+            }
+          ]
+        },
+        "provenance": {
+          "source": "unavailable",
+          "reason": "No server-resolved GitHub import provenance is stored for this version."
+        },
+        "security": {
+          "status": "clean",
+          "passed": true,
+          "rawStatus": "clean",
+          "verdict": "benign",
+          "confidence": "medium",
+          "summary": "This appears to be a purpose-aligned advertising report analysis skill, with a privacy caution around optional sharing to Feishu or email.",
+          "model": "gpt-5.5",
+          "checkedAt": 1779933349923,
+          "signals": {
+            "staticScan": {
+              "status": "clean",
+              "rawStatus": "clean",
+              "reasonCodes": [],
+              "summary": "No suspicious patterns detected.",
+              "engineVersion": "v2.4.5",
+              "checkedAt": 1777526687506
+            },
+            "virusTotal": {
+              "status": "clean",
+              "rawStatus": "clean",
+              "verdict": null,
+              "analysis": null,
+              "source": "engines",
+              "scanner": null,
+              "engineStats": {
+                "harmless": 0,
+                "malicious": 0,
+                "suspicious": 0,
+                "undetected": 61
+              },
+              "checkedAt": 1780086608454
+            },
+            "skillSpector": {
+              "status": "clean",
+              "rawStatus": "clean",
+              "score": 13,
+              "severity": "LOW",
+              "recommendation": "SAFE",
+              "issueCount": 1,
+              "scannerVersion": "2.0.0",
+              "summary": null,
+              "error": null,
+              "checkedAt": 1779933300281
+            },
+            "dependencyRegistry": null
+          }
+        },
+        "signature": {
+          "status": "unsigned"
+        }
+      }
     }
   }
 }

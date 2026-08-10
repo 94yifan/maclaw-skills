@@ -40,20 +40,75 @@ function classifyPost(text) {
 }
 
 function cleanText(text) {
-  return text
-    .replace(/转发评论赞/g, '')
-    .replace(/转发/g, '')
-    .replace(/评论/g, '')
-    .replace(/赞/g, '')
-    .replace(/已编辑/g, '')
-    .replace(/来自.*?(?=\n|$)/g, '')
-    .replace(/Live/g, '')
-    .replace(/^\d+$/gm, '')
-    .replace(/\.{3,}\d+/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .substring(0, 300);
+  if (!text) return '';
+  let t = text;
+  const P = '[+\\uff13\\u2795]';
+  
+  // 按行清理
+  const rawLines = t.split('\n').filter(l => l.trim().length > 0);
+  const cleanedLines = [];
+  
+  for (const line of rawLines) {
+    let l = line.trim();
+    
+    // 跳过：仅数字（互动数）
+    if (/^\\d+$/.test(l)) continue;
+    // 跳过：仅emoji+数字
+    if (/^[\\u2600-\\u27bf\\u1f600-\\u1f64f\\u1f300-\\u1f5ff\\u1f680-\\u1f6ff]+$/.test(l)) continue;
+    // 跳过：来自微博xxx
+    if (/^来自/.test(l)) continue;
+    // 跳过：超话标题行
+    if (/\\S+超话$/.test(l)) continue;
+    // 跳过：用户名+超话+时间（完整前缀行）
+    if (l.match(/^[^\\n]{2,30}(?:超话|的微博|微博视频)/)) continue;
+    
+    // 去掉@mention
+    l = l.replace(/@\\S+/g, '');
+    // 微博话题
+    l = l.replace(/#([^#]+)#/g, '$1');
+    l = l.replace(/#/g, '');
+    // 去掉播放视频
+    l = l.replace(/播放视频$/, '');
+    l = l.replace(/微博视频/g, '');
+    // 去掉时间戳
+    l = l.replace(/^\\d+-\\d+\\s*\\d+:\\d+$/, '');
+    l = l.replace(/^\\d+分钟前$/, '');
+    l = l.replace(/^\\d+小时前$/, '');
+    l = l.replace(/^昨天$/, '');
+    l = l.replace(/^今天$/, '');
+    l = l.replace(/已编辑/, '');
+    
+    // 参与语
+    l = l.replace(new RegExp(\`关注\${P}转发分享[^\\n]{0,150}\`, 'gi'), '');
+    l = l.replace(new RegExp(\`关注\${P}转发[^\\n]{0,100}\`, 'gi'), '');
+    l = l.replace(new RegExp(\`关\${P}转[^\\n]{0,100}\`, 'gi'), '');
+    l = l.replace(new RegExp(\`关\${P}赞[^\\n]{0,80}\`, 'gi'), '');
+    l = l.replace(/[，,]\s*抽\s*\\d+\s*位[^\\n]{0,100}/g, '，');
+    l = l.replace(/[，,]\s*揪\s*\\d+\s*位[^\\n]{0,100}/g, '，');
+    l = l.replace(/[，,]\s*随机抽\s*\\d+\\s*(?:位|人)[^\\n]{0,100}/g, '，');
+    l = l.replace(/[，,]\s*送[^\\n]{0,40}/g, '，');
+    l = l.replace(/【转发请喝】【^\\n】*/g, '');
+    l = l.replace(/【请喝】【^\\n】*/g, '');
+    
+    // 去掉截断
+    l = l.replace(/[.。]{2,}\\s*展开$/, '');
+    l = l.replace(/[.。]{3,}/g, '');
+    
+    // 去掉互动数字
+    l = l.replace(/\\d+万次观看/g, '');
+    l = l.replace(/\\d+[.·]\\d+万/g, '');
+    l = l.replace(/\\d+万/g, '');
+    l = l.replace(/\\d+:\\d+$/, '');
+    
+    l = l.trim();
+    if (l.length > 5 && !/^[，,、\\s\\d]+$/.test(l)) {
+      cleanedLines.push(l);
+    }
+  }
+  
+  return cleanedLines.join(' ').substring(0, 300);
 }
+
 
 async function crawlBrand(page, brand) {
   const url = brand.id === 'starbucks' ? 'https://weibo.com/starbucks' : `https://weibo.com/u/${brand.id}`;

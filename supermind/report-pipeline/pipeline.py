@@ -344,6 +344,12 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         dispatch_all(schema, project_config)
         return
     
+    # ── Step 4.5: 品牌概览 ──
+    if num == 4.5:
+        from steps.content_gen import generate_brand_overview
+        generate_brand_overview(schema, project_config)
+        return
+    
     # ── Step 5: 行业分析 ──
     if num == 5:
         from steps.content_gen import generate_ch2

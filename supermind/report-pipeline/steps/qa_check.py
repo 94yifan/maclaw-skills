@@ -100,6 +100,10 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
         'ch2_chain': c_dir / "ch2_chain_map.md",
         'ch3_content_types': c_dir / "ch3_content_types.md",
         'ch6_opp': c_dir / "ch6_opportunity_map.md",
+        # v2.1基础扫描三章（品牌概览/产品矩阵/渠道供应链，标准件）
+        'brand_overview': c_dir / "brand_overview.md",
+        'product_matrix': c_dir / "product_matrix.md",
+        'channel_supply_chain': c_dir / "channel_supply_chain.md",
     }
     
     # 检查是否存在统一报告文件
@@ -124,6 +128,31 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
         "detail": f"需包含: {', '.join(required_chapters)}",
         "status": "FAIL" if missing_chapters else "PASS",
         "message": f"缺失章节: {', '.join(missing_chapters)}" if missing_chapters else "全部章节已就位"
+    })
+    
+    # A-1.5: 基础扫描三章完整性（品牌概览/产品矩阵/渠道供应链，V1.3固化标准件）
+    base_scan_chapters = ['brand_overview', 'product_matrix', 'channel_supply_chain']
+    base_scan_missing = []
+    for ch_key in base_scan_chapters:
+        path = chapter_files.get(ch_key)
+        if not path or not path.exists():
+            base_scan_missing.append(ch_key)
+        elif path.exists():
+            # 进一步检查文件是否有实质内容（非空prompt模板）
+            try:
+                content = load_markdown(path)
+                if len(content.strip()) < 200:
+                    base_scan_missing.append(f"{ch_key}（内容不足200字符）")
+            except (FileNotFoundError, OSError):
+                base_scan_missing.append(ch_key)
+    
+    results.append({
+        "category": "A. 结构性检查",
+        "check": "A-1.5 基础扫描三章完整性",
+        "rule": "品牌概览/产品矩阵/渠道供应链三章为每份报告的标准开头（V1.3固化），不可缺失",
+        "detail": f"需包含: {', '.join(base_scan_chapters)}",
+        "status": "FAIL" if base_scan_missing else "PASS",
+        "message": f"缺失: {', '.join(base_scan_missing)}" if base_scan_missing else "基础扫描三章完整"
     })
     
     # A-2: 深度品牌五维一致性
@@ -535,6 +564,45 @@ def check_charts(schema: ReportSchema, project_config: ProjectConfig) -> List[di
         "detail": f"末尾图表数: {end_of_file_chart_count}, 内嵌图表数: {inline_chart_count}",
         "status": "PASS" if chart_position_ok else "FAIL",
         "message": "" if chart_position_ok else f"警告：{end_of_file_chart_count}张图表位于文档末尾，应移至正文对应章节"
+    })
+    
+    # C-7: 价格维度行业适配性检查（v2.1新增）
+    # 速冻面点/短保面点消费者看客单价（单件价），非斤价
+    price_metric_issues = []
+    industry_lower = project_config.industry.lower()
+    is_dim_sum_industry = any(kw in industry_lower for kw in ['面点', '烘焙', '面包', '粽子', '馒头', '包子', '烧麦', '早餐', '水饺', '汤圆', '馄饨', '馄饨'])
+    
+    if is_dim_sum_industry:
+        # 检查chart_brand_comparison_3的标题/坐标是否用了斤价
+        chart3_files = list(c_dir.glob("chart_brand_comparison_3.*"))
+        for cf in chart3_files:
+            try:
+                content = load_markdown(cf) if cf.suffix == '.md' else ''
+                # 也检查HTML源文件
+                html_cf = cf.with_suffix('.html')
+                if html_cf.exists():
+                    content += load_markdown(html_cf)
+            except Exception:
+                content = ''
+            if '斤价' in content and '单件' not in content and '客单价' not in content:
+                price_metric_issues.append(f"{cf.name}: 面点行业应使用单件客单价而非斤价")
+        
+        # 同时检查正文中是否有不当的斤价描述
+        for cf in content_files:
+            try:
+                c = cf.read_text(encoding='utf-8')
+            except Exception:
+                continue
+            if '斤价' in c:
+                price_metric_issues.append(f"{cf.name}: 正文含'斤价'描述，面点行业建议改为单件客单价")
+    
+    results.append({
+        "category": "C. 图表检查",
+        "check": "C-7 价格维度行业适配",
+        "rule": "面点/烘焙/早餐行业应使用单件客单价，非斤价/均价（消费者看'一包多少钱'非'一斤多少钱'）",
+        "detail": f"行业: {project_config.industry}，发现 {len(price_metric_issues)} 处价格维度不适配",
+        "status": "FAIL" if price_metric_issues else "PASS",
+        "message": "; ".join(price_metric_issues) if price_metric_issues else "价格维度与行业适配"
     })
     
     # C-6: 图表数据源标注（2026-07-18新增，逸凡要求）

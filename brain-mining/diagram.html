@@ -1,0 +1,208 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>冲突理论逻辑链 — Brain Mining</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f8fafc;
+    --fg: #172033;
+    --muted: #5b6475;
+    --line: #475569;
+    --neutral: #e2e8f0;
+    --input: #bfdbfe;
+    --process: #c7d2fe;
+    --storage: #99f6e4;
+    --external: #fde68a;
+    --risk: #fecaca;
+    --strong: #1e40af;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --fg: #e5e7eb;
+      --muted: #94a3b8;
+      --line: #64748b;
+      --neutral: #334155;
+      --input: #1e3a5f;
+      --process: #3730a3;
+      --storage: #115e59;
+      --external: #78350f;
+      --risk: #7f1d1d;
+      --strong: #60a5fa;
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font:
+      14px/1.4 ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+  main {
+    max-width: 880px;
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .title {
+    font-size: 18px;
+    font-weight: 650;
+    fill: var(--fg);
+  }
+  .subtitle {
+    font-size: 12px;
+    fill: var(--muted);
+  }
+  .label {
+    font-size: 14px;
+    font-weight: 600;
+    fill: var(--fg);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+  .small {
+    font-size: 11px;
+    fill: var(--muted);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+  .tag {
+    font-size: 10px;
+    fill: var(--fg);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+  .node {
+    stroke: var(--line);
+    stroke-width: 1.5;
+    rx: 8;
+    ry: 8;
+  }
+  .pill {
+    stroke: var(--line);
+    stroke-width: 1;
+    rx: 16;
+    ry: 16;
+  }
+  .neutral { fill: var(--neutral); }
+  .input   { fill: var(--input); }
+  .process { fill: var(--process); }
+  .storage { fill: var(--storage); }
+  .external { fill: var(--external); }
+  .risk    { fill: var(--risk); }
+  .edge {
+    stroke: var(--line);
+    stroke-width: 1.8;
+    fill: none;
+  }
+  .edge-thin {
+    stroke: var(--muted);
+    stroke-width: 1.2;
+    fill: none;
+    stroke-dasharray: 4 3;
+  }
+  .bracket {
+    stroke: var(--muted);
+    stroke-width: 1;
+    fill: none;
+  }
+</style>
+<main>
+  <svg viewBox="0 0 800 680" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Title -->
+    <text x="400" y="28" class="title" text-anchor="middle">冲突理论逻辑链</text>
+    <text x="400" y="46" class="subtitle" text-anchor="middle">叶茂中冲突理论 — 品牌崛起底层逻辑</text>
+
+    <!-- ===== LAYER 1: 人性 ===== -->
+    <rect x="330" y="70" width="140" height="44" class="node input" />
+    <text x="400" y="92" class="label">人性</text>
+
+    <!-- Arrow: 人性 → 七情六欲 -->
+    <path d="M 400 114 L 400 144" class="edge" marker-end="url(#arrow)" />
+
+    <!-- ===== LAYER 2: 七情六欲 ===== -->
+    <rect x="310" y="144" width="180" height="44" class="node neutral" />
+    <text x="400" y="166" class="label">七情六欲</text>
+
+    <!-- Arrow: 七情六欲 → 冲突 -->
+    <path d="M 400 188 L 400 218" class="edge" marker-end="url(#arrow)" />
+
+    <!-- ===== LAYER 3: 冲突 ===== -->
+    <rect x="300" y="218" width="200" height="52" class="node risk" />
+    <text x="400" y="236" class="label">冲突</text>
+    <text x="400" y="252" class="small">生理需求有限  vs  心理需求无限</text>
+
+    <!-- Branch arrows: 冲突 → 发现冲突 + 制造冲突 -->
+    <path d="M 400 270 L 400 290 L 240 290 L 240 314" class="edge" marker-end="url(#arrow)" />
+    <path d="M 400 270 L 400 290 L 560 290 L 560 314" class="edge" marker-end="url(#arrow)" />
+
+    <!-- Decorative labels on branch lines -->
+    <text x="400" y="288" class="tag" fill="var(--line)">二分法</text>
+
+    <!-- ===== LAYER 4: 发现冲突 / 制造冲突 ===== -->
+    <!-- Left: 发现冲突 -->
+    <rect x="160" y="314" width="160" height="50" class="node process" />
+    <text x="240" y="332" class="label">发现冲突</text>
+    <text x="240" y="350" class="small">= 发现需求</text>
+
+    <!-- Right: 制造冲突 -->
+    <rect x="480" y="314" width="160" height="50" class="node process" />
+    <text x="560" y="332" class="label">制造冲突</text>
+    <text x="560" y="350" class="small">= 创造需求</text>
+
+    <!-- Arrows to next layer -->
+    <path d="M 240 364 L 240 404" class="edge" marker-end="url(#arrow)" />
+    <path d="M 560 364 L 560 404" class="edge" marker-end="url(#arrow)" />
+
+    <!-- ===== LAYER 5: 进攻左脑 / 进攻右脑 ===== -->
+    <!-- Left: 进攻左脑(产品真相) -->
+    <rect x="145" y="404" width="190" height="60" class="node storage" />
+    <text x="240" y="420" class="label">进攻左脑</text>
+    <text x="240" y="438" class="small">产品真相 · 理性诉求</text>
+    <text x="240" y="452" class="small">功能 / 参数 / 性价比</text>
+
+    <!-- Right: 进攻右脑(品牌真相) -->
+    <rect x="465" y="404" width="190" height="60" class="node external" />
+    <text x="560" y="420" class="label">进攻右脑</text>
+    <text x="560" y="438" class="small">品牌真相 · 感性诉求</text>
+    <text x="560" y="452" class="small">情感 / 价值观 / 身份</text>
+
+    <!-- Convergence arrows: both → 解决冲突 -->
+    <path d="M 240 464 L 240 500 L 400 500 L 400 518" class="edge" marker-end="url(#arrow)" />
+    <path d="M 560 464 L 560 500 L 400 500" class="edge" />
+
+    <!-- Merge label -->
+    <text x="400" y="498" class="tag" fill="var(--line)">合二为一</text>
+
+    <!-- ===== LAYER 6: 解决冲突 ===== -->
+    <rect x="310" y="518" width="180" height="44" class="node input" />
+    <text x="400" y="540" class="label">解决冲突</text>
+
+    <!-- Arrow: 解决冲突 → 品牌崛起 -->
+    <path d="M 400 562 L 400 592" class="edge" marker-end="url(#arrow)" />
+
+    <!-- ===== LAYER 7: 品牌崛起 ===== -->
+    <rect x="310" y="592" width="180" height="52" class="node storage" />
+    <text x="400" y="610" class="label" font-size="16" font-weight="700">品牌崛起</text>
+    <text x="400" y="628" class="small">品牌崛起</text>
+
+    <!-- Arrow marker definition -->
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+        <path d="M 0 0 L 10 5 L 0 10 Z" fill="var(--line)" />
+      </marker>
+    </defs>
+
+  </svg>
+</main>

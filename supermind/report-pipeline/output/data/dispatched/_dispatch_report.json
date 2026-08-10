@@ -1,0 +1,12 @@
+{
+  "project": "度亚 智能窗帘行业品牌扫描",
+  "generated_at": "2026-08-10T16:53:54.341287",
+  "stats": {
+    "total_records_dispatched": 0,
+    "targets_written": 0,
+    "data_sources_processed": 0
+  },
+  "targets": [
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/_dispatch_report.json"
+  ]
+}

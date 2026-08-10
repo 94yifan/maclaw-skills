@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学会提问（原书第12版）· 批判性思维导图</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    overflow: hidden;
+    font-family: "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    height: 100vh; width: 100vw;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+  }
+  body.dragging { cursor: grabbing; }
+  body.grabbing * { cursor: grabbing !important; }
+
+  svg { width:100%; height:100%; }
+
+  /* ForeignObject contents */
+  .node-box {
+    width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:6px 10px;
+    font-size:13px; line-height:1.45; color:#e0e0e0;
+    overflow:hidden;
+  }
+  .node-box.center-text {
+    font-size:18px; font-weight:bold; line-height:1.5;
+    color:#ffffff; padding:12px 18px;
+    letter-spacing:0.5px; pointer-events:none;
+  }
+  .node-box.branch-title {
+    font-size:15px; font-weight:bold; color:#4fc3f7;
+    letter-spacing:0.5px; pointer-events:none;
+  }
+  .node-box.step-node {
+    font-size:12.5px; text-align:left; padding:4px 10px;
+    line-height:1.4; pointer-events:none;
+  }
+  .node-box.fallacy-node {
+    font-size:12px; text-align:left; padding:3px 8px;
+    line-height:1.35; pointer-events:none;
+  }
+  .node-box.evidence-node {
+    font-size:12px; text-align:left; padding:3px 10px;
+    line-height:1.35; pointer-events:none;
+  }
+  .node-box.output-node {
+    font-size:13px; text-align:left; padding:5px 12px;
+    line-height:1.4; pointer-events:none;
+  }
+  .node-box.connector {
+    font-size:12px; color:#ffd54f; font-style:italic; pointer-events:none;
+  }
+
+  /* Node backgrounds */
+  .node-rect { transition: all 0.25s ease; }
+  .node-rect:hover { filter: brightness(1.4) drop-shadow(0 0 8px rgba(79,195,247,0.6)); }
+
+  /* Tooltip */
+  .tooltip-overlay {
+    position:fixed; pointer-events:none; z-index:9999;
+    background:rgba(30,30,50,0.95); color:#e0e0e0;
+    border:1px solid #4fc3f7; border-radius:8px;
+    padding:8px 14px; font-size:13px; line-height:1.5;
+    max-width:380px; opacity:0; transition:opacity 0.15s;
+    box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  }
+  .tooltip-overlay.visible { opacity:1; }
+
+  /* Legend */
+  .legend {
+    position:fixed; bottom:16px; left:16px;
+    background:rgba(20,20,40,0.85); border:1px solid rgba(255,255,255,0.15);
+    border-radius:10px; padding:10px 16px; color:#aaa; font-size:11px;
+    z-index:100; line-height:1.6;
+  }
+  .legend span { display:inline-block; width:28px; height:3px; margin-right:6px; border-radius:2px; vertical-align:middle; }
+  .legend .solid { background:#4fc3f7; }
+  .legend .dash-gold { background:#ffd54f; border-bottom:2px dashed #ffd54f; height:0; }
+  .legend .dash-green { background:#81c784; border-bottom:2px dashed #81c784; height:0; }
+
+  .controls {
+    position:fixed; bottom:16px; right:16px;
+    display:flex; gap:8px; z-index:100;
+  }
+  .controls button {
+    background:rgba(20,20,40,0.85); border:1px solid rgba(255,255,255,0.2);
+    color:#ccc; border-radius:8px; padding:6px 14px; cursor:pointer;
+    font-size:12px; transition:all 0.2s;
+  }
+  .controls button:hover { background:rgba(79,195,247,0.2); border-color:#4fc3f7; color:#fff; }
+
+  .info-banner {
+    position:fixed; top:10px; left:50%; transform:translateX(-50%);
+    background:rgba(79,195,247,0.15); border:1px solid rgba(79,195,247,0.4);
+    border-radius:20px; padding:6px 20px; color:#aaa; font-size:11px;
+    z-index:100; pointer-events:none;
+  }
+</style>
+</head>
+<body>
+
+<div class="info-banner">🖱️ 滚轮缩放　|　拖拽平移　|　点击节点展开/折叠　|　悬停查看详情</div>
+
+<div class="legend">
+  <div><span class="solid"></span> 流程主路径（实线）</div>
+  <div><span style="display:inline-block;width:28px;height:0;border-top:2px dashed #ffd54f;margin-right:6px;vertical-align:middle;"></span> 跨步骤引用（金色虚线）</div>
+  <div><span style="display:inline-block;width:28px;height:0;border-top:2px dashed #81c784;margin-right:6px;vertical-align:middle;"></span> 跨步骤引用（绿色虚线）</div>
+</div>
+
+<div class="controls">
+  <button onclick="resetView()">🔄 重置视图</button>
+  <button onclick="expandAll()">📖 全部展开</button>
+  <button onclick="collapseAll()">📕 全部折叠</button>
+</div>
+
+<svg id="mindmap" xmlns="http://www.w3.org/2000/svg"></svg>
+<div class="tooltip-overlay" id="tooltip"></div>
+
+<script>
+(function() {
+  const svg = document.getElementById('mindmap');
+  const tooltip = document.getElementById('tooltip');
+  const SVG_W = 4400, SVG_H = 3500;
+
+  // ----- Zoom & Pan State -----
+  let viewX = -200, viewY = -200, scale = 0.72;
+  let dragging = false, dragStartX, dragStartY, dragViewX, dragViewY;
+  const MIN_SCALE = 0.25, MAX_SCALE = 1.8;
+
+  function applyTransform() {
+    const g = document.getElementById('main-group');
+    if (g) g.setAttribute('transform', `translate(${viewX},${viewY}) scale(${scale})`);
+  }
+
+  // Mouse wheel zoom
+  svg.addEventListener('wheel', e => {
+    e.preventDefault();
+    const rect = svg.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const oldScale = scale;
+    const delta = e.deltaY > 0 ? 0.92 : 1.08;
+    scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale * delta));
+    const ratio = scale / oldScale;
+    viewX = mx - ratio * (mx - viewX);
+    viewY = my - ratio * (my - viewY);
+    applyTransform();
+  }, {passive:false});
+
+  // Drag pan
+  svg.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    dragging = true;
+    dragStartX = e.clientX; dragStartY = e.clientY;
+    dragViewX = viewX; dragViewY = viewY;
+    document.body.classList.add('dragging');
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    viewX = dragViewX + (e.clientX - dragStartX);
+    viewY = dragViewY + (e.clientY - dragStartY);
+    applyTransform();
+  });
+  window.addEventListener('mouseup', () => {
+    dragging = false;
+    document.body.classList.remove('dragging');
+  });
+
+  // Touch support
+  let touchDist0 = 0, touchScale0 = 1, touchViewX0 = 0, touchViewY0 = 0;
+  svg.addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      touchDist0 = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      touchScale0 = scale;
+      touchViewX0 = viewX;
+      touchViewY0 = viewY;
+    } else if (e.touches.length === 1) {
+      dragging = true;
+      dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+      dragViewX = viewX; dragViewY = viewY;
+    }
+  }, {passive:false});
+  svg.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (e.touches.length === 2) {
+      const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, touchScale0 * (d / touchDist0)));
+      applyTransform();
+    } else if (e.touches.length === 1 && dragging) {
+      viewX = dragViewX + (e.touches[0].clientX - dragStartX);
+      viewY = dragViewY + (e.touches[0].clientY - dragStartY);
+      applyTransform();
+    }
+  }, {passive:false});
+  svg.addEventListener('touchend', () => { dragging = false; });
+
+  // ----- SVG Setup -----
+  const mainGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
+  mainGroup.setAttribute('id','main-group');
+
+  // Defs
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+
+  // Gradients
+  const gradCenter = document.createElementNS('http://www.w3.org/2000/svg','radialGradient');
+  gradCenter.setAttribute('id','grad-center');
+  gradCenter.innerHTML = `<stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#0d1b2a"/>`;
+  defs.appendChild(gradCenter);
+
+  const gradBranch1 = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+  gradBranch1.setAttribute('id','grad-b1'); gradBranch1.setAttribute('x1','0');gradBranch1.setAttribute('y1','0');gradBranch1.setAttribute('x2','1');gradBranch1.setAttribute('y2','0');
+  gradBranch1.innerHTML = `<stop offset="0%" stop-color="#1b3a4b"/><stop offset="100%" stop-color="#0d2137"/>`;
+  defs.appendChild(gradBranch1);
+
+  const gradBranch2 = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+  gradBranch2.setAttribute('id','grad-b2'); gradBranch2.setAttribute('x1','0');gradBranch2.setAttribute('y1','0');gradBranch2.setAttribute('x2','1');gradBranch2.setAttribute('y2','0');
+  gradBranch2.innerHTML = `<stop offset="0%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#0d2440"/>`;
+  defs.appendChild(gradBranch2);
+
+  const gradStep = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+  gradStep.setAttribute('id','grad-step'); gradStep.setAttribute('x1','0');gradStep.setAttribute('y1','0');gradStep.setAttribute('x2','1');gradStep.setAttribute('y2','0');
+  gradStep.innerHTML = `<stop offset="0%" stop-color="#152238"/><stop offset="100%" stop-color="#0a1628"/>`;
+  defs.appendChild(gradStep);
+
+  const gradFallacy = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+  gradFallacy.setAttribute('id','grad-fallacy'); gradFallacy.setAttribute('x1','0');gradFallacy.setAttribute('y1','0');gradFallacy.setAttribute('x2','1');gradFallacy.setAttribute('y2','0');
+  gradFallacy.innerHTML = `<stop offset="0%" stop-color="#2a1a2e"/><stop offset="100%" stop-color="#1a0d20"/>`;
+  defs.appendChild(gradFallacy);
+
+  const gradEvidence = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+  gradEvidence.setAttribute('id','grad-evidence'); gradEvidence.setAttribute('x1','0');gradEvidence.setAttribute('y1','0');gradEvidence.setAttribute('x2','1');gradEvidence.setAttribute('y2','0');
+  gradEvidence.innerHTML = `<stop offset="0%" stop-color="#1a2e2a"/><stop offset="100%" stop-color="#0d1a18"/>`;
+  defs.appendChild(gradEvidence);
+
+  const gradOutput = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+  gradOutput.setAttribute('id','grad-output'); gradOutput.setAttribute('x1','0');gradOutput.setAttribute('y1','0');gradOutput.setAttribute('x2','1');gradOutput.setAttribute('y2','0');
+  gradOutput.innerHTML = `<stop offset="0%" stop-color="#2a2a1e"/><stop offset="100%" stop-color="#1a1a0d"/>`;
+  defs.appendChild(gradOutput);
+
+  // Arrow marker
+  const marker = document.createElementNS('http://www.w3.org/2000/svg','marker');
+  marker.setAttribute('id','arrow-blue'); marker.setAttribute('markerWidth','10');marker.setAttribute('markerHeight','7');
+  marker.setAttribute('refX','9');marker.setAttribute('refY','3.5');marker.setAttribute('orient','auto');
+  marker.innerHTML = `<polygon points="0 0, 10 3.5, 0 7" fill="#4fc3f7"/>`;
+  defs.appendChild(marker);
+
+  const markerGold = document.createElementNS('http://www.w3.org/2000/svg','marker');
+  markerGold.setAttribute('id','arrow-gold'); markerGold.setAttribute('markerWidth','8');markerGold.setAttribute('markerHeight','6');
+  markerGold.setAttribute('refX','7');markerGold.setAttribute('refY','3');markerGold.setAttribute('orient','auto');
+  markerGold.innerHTML = `<polygon points="0 0, 8 3, 0 6" fill="#ffd54f"/>`;
+  defs.appendChild(markerGold);
+
+  const filterGlow = document.createElementNS('http://www.w3.org/2000/svg','filter');
+  filterGlow.setAttribute('id','glow');
+  filterGlow.innerHTML = `<feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>`;
+  defs.appendChild(filterGlow);
+
+  mainGroup.appendChild(defs);
+
+  // ----- Drawing Helpers -----
+  let nodeIdCounter = 0;
+  function nid() { return 'n' + (++nodeIdCounter); }
+
+  // Track collapse state
+  const collapseState = {};
+
+  function makeNode(id, x, y, w, h, html, cssClass, gradient, borderColor, rx=10) {
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('id', id);
+    g.setAttribute('transform', `translate(${x-w/2},${y-h/2})`);
+    g.setAttribute('data-cx', x);
+    g.setAttribute('data-cy', y);
+    g.setAttribute('data-w', w);
+    g.setAttribute('data-h', h);
+    g.style.cursor = 'pointer';
+
+    const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('width', w); rect.setAttribute('height', h);
+    rect.setAttribute('rx', rx); rect.setAttribute('ry', rx);
+    rect.setAttribute('fill', gradient || 'url(#grad-step)');
+    rect.setAttribute('stroke', borderColor || 'rgba(255,255,255,0.2)');
+    rect.setAttribute('stroke-width', '1.5');
+    rect.classList.add('node-rect');
+    g.appendChild(rect);
+
+    const fo = document.createElementNS('http://www.w3.org/2000/svg','foreignObject');
+    fo.setAttribute('width', w); fo.setAttribute('height', h);
+    fo.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" class="node-box ${cssClass}">${html}</div>`;
+    g.appendChild(fo);
+
+    return g;
+  }
+
+  function makeLine(x1,y1,x2,y2, color='#4fc3f7', width=2, dashed=false, markerEnd='url(#arrow-blue)') {
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1); line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+    line.setAttribute('stroke',color);
+    line.setAttribute('stroke-width',width);
+    if (dashed) line.setAttribute('stroke-dasharray','6,4');
+    if (markerEnd) line.setAttribute('marker-end',markerEnd);
+    line.setAttribute('opacity','0.8');
+    return line;
+  }
+
+  function makePath(d, color='#4fc3f7', width=2, dashed=false, markerEnd='url(#arrow-blue)') {
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',d);
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke',color);
+    path.setAttribute('stroke-width',width);
+    if (dashed) path.setAttribute('stroke-dasharray','6,4');
+    if (markerEnd) path.setAttribute('marker-end',markerEnd);
+    path.setAttribute('opacity','0.8');
+    path.setAttribute('stroke-linecap','round');
+    return path;
+  }
+
+  function curvedPath(x1,y1,x2,y2) {
+    const dx = x2 - x1, dy = y2 - y1;
+    const cpx = x1 + dx*0.5, cpy = y1 + dy*0.5;
+    return `M${x1},${y1} Q${cpx},${cpy} ${x2},${y2}`;
+  }
+
+  // ----- Build Mind Map -----
+  const linesGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
+  linesGroup.setAttribute('id','lines');
+  const nodesGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
+  nodesGroup.setAttribute('id','nodes');
+
+  // ===== CENTER NODE =====
+  const CX = 1400, CY = 1200;
+
+  const centerNode = makeNode('center', CX, CY, 560, 120,
+    '学会提问 · 批判性思维<br><span style="font-size:13px;font-weight:normal;color:#aaa;">—— 当别人想说服你时，你该怎么拆解他的论证？</span>',
+    'center-text', 'url(#grad-center)', '#4fc3f7', 14);
+  nodesGroup.appendChild(centerNode);
+
+  // ===== BRANCH 1: 先摆正心态 =====
+  const B1X = CX, B1Y = 680;
+  const b1node = makeNode('b1', B1X, B1Y, 400, 52,
+    '① 先摆正心态（第1章 + 第13章）',
+    'branch-title', 'url(#grad-b1)', '#e57373', 10);
+  // Add collapse indicator
+  const b1ind = document.createElementNS('http://www.w3.org/2000/svg','text');
+  b1ind.setAttribute('id','b1-indicator'); b1ind.setAttribute('x','375'); b1ind.setAttribute('y','31');
+  b1ind.setAttribute('fill','#e57373'); b1ind.setAttribute('font-size','12'); b1ind.textContent='▼';
+  b1node.appendChild(b1ind);
+  nodesGroup.appendChild(b1node);
+  linesGroup.appendChild(makeLine(CX, CY-60, B1X, B1Y+26, '#e57373', 2.5, false, 'url(#arrow-blue)'));
+
+  const b1children = [
+    { x:B1X-280, y:B1Y-150, w:370, h:42, t:'不要像海绵一样被动吸收信息——读什么就信什么，等于放弃了独立思考', cls:'', grad:'url(#grad-b1)', bc:'rgba(229,115,115,0.5)' },
+    { x:B1X+280, y:B1Y-150, w:370, h:42, t:'用「淘金式思维」主动筛选：边读边问自己"这个观点站得住吗"', cls:'', grad:'url(#grad-b1)', bc:'rgba(229,115,115,0.5)' },
+    { x:B1X-280, y:B1Y-230, w:370, h:42, t:'区分「弱势批判性思维」和「强势批判性思维」——前者只想驳倒对方，后者愿意质疑自己的信念', cls:'', grad:'url(#grad-b1)', bc:'rgba(229,115,115,0.35)' },
+    { x:B1X+280, y:B1Y-240, w:370, h:55, t:'警惕六大障碍：思考太快下结论、刻板印象蒙蔽判断、思维习惯只看想看的、自我中心、一厢情愿、情感像大象而理智只是骑手', cls:'', grad:'url(#grad-b1)', bc:'rgba(229,115,115,0.35)' },
+  ];
+  const b1g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  b1g.setAttribute('id','b1-children');
+  b1children.forEach((c,i) => {
+    const id = 'b1c'+i;
+    const n = makeNode(id, c.x, c.y, c.w, c.h, c.t, c.cls, c.grad, c.bc, 8);
+    b1g.appendChild(n);
+    linesGroup.appendChild(makeLine(B1X, B1Y-26, c.x, c.y+(c.h/2), 'rgba(229,115,115,0.5)', 1.5, true));
+  });
+  // connector from b1 to b2
+  const b1conn = makeNode('b1-conn', B1X-30, B1Y+120, 320, 36,
+    '→ 心态调整好后，启动分析流程', 'connector', 'none', 'rgba(255,213,79,0.4)', 6);
+  nodesGroup.appendChild(b1conn);
+  linesGroup.appendChild(makePath(curvedPath(B1X, B1Y+26, B1X-30, B1Y+120), '#ffd54f', 1.5, true));
+
+  nodesGroup.appendChild(b1g);
+
+  // ===== BRANCH 2: 10步流程 (main pipeline) =====
+  const stepData = [
+    { id:'s1', x:CX+440, y:300, w:420, h:44, label:'<b style="color:#4fc3f7;">Step 1</b>　先搞清楚对方在讨论什么问题，以及他的核心主张（结论）是什么', ch:'（第2章）' },
+    { id:'s2', x:CX+550, y:510, w:430, h:44, label:'<b style="color:#4fc3f7;">Step 2</b>　找到支撑他结论的理由，没有理由的结论不值得相信', ch:'（第3章）' },
+    { id:'s3', x:CX+460, y:720, w:440, h:44, label:'<b style="color:#4fc3f7;">Step 3</b>　检查论证中哪些关键词可能有歧义，让对方说清楚他指的是什么', ch:'（第4章）' },
+    { id:'s4', x:CX+600, y:930, w:440, h:44, label:'<b style="color:#4fc3f7;">Step 4</b>　挖掘没明说出来的前提：对方的价值观假设是什么？他默认了哪些事实？', ch:'（第5章）' },
+    { id:'s5', x:CX+500, y:1140, w:430, h:44, label:'<b style="color:#4fc3f7;">Step 5</b>　看看论证中是否有逻辑谬误，不要被偷换概念或人身攻击带偏', ch:'（第6章）' },
+    { id:'s6', x:CX+620, y:1350, w:440, h:44, label:'<b style="color:#4fc3f7;">Step 6</b>　评估证据的可靠性：这是个人经历还是科学研究？样本够不够大？', ch:'（第7-8章）' },
+    { id:'s7', x:CX+540, y:1560, w:450, h:44, label:'<b style="color:#4fc3f7;">Step 7</b>　问一句：还有没有其他可能的解释？不能因为A发生在B之前就说A导致B', ch:'（第9章）' },
+    { id:'s8', x:CX+650, y:1770, w:450, h:44, label:'<b style="color:#4fc3f7;">Step 8</b>　数据有没有在骗你？平均数可能掩盖真实分布，误差可能被隐瞒', ch:'（第10章）' },
+    { id:'s9', x:CX+560, y:1980, w:460, h:44, label:'<b style="color:#4fc3f7;">Step 9</b>　找找对方刻意省略了什么信息？数据只说了有利的一面吗？', ch:'（第11章）' },
+    { id:'s10',x:CX+680, y:2190, w:450, h:44, label:'<b style="color:#4fc3f7;">Step 10</b>　最后，灰度思考：结论不是非黑即白的，条件不同结论就可能不同', ch:'（第12章）' },
+  ];
+
+  const stepNodes = [];
+  stepData.forEach((s,i) => {
+    const n = makeNode(s.id, s.x, s.y, s.w, s.h, s.label+' <span style="color:#888;font-size:10px;">'+s.ch+'</span>', 'step-node', 'url(#grad-step)', 'rgba(79,195,247,0.4)', 8);
+    nodesGroup.appendChild(n);
+    stepNodes.push({...s, node:n});
+
+    // Arrow between steps (main pipeline)
+    if (i > 0) {
+      const prev = stepData[i-1];
+      const startY = prev.y + prev.h/2;
+      const endY = s.y - s.h/2;
+      linesGroup.appendChild(makePath(
+        `M${prev.x},${startY} C${prev.x},${(startY+endY)/2} ${s.x},${(startY+endY)/2} ${s.x},${endY}`,
+        '#4fc3f7', 2.5, false, 'url(#arrow-blue)'
+      ));
+    }
+  });
+
+  // Arrow from center to Step 1
+  linesGroup.appendChild(makePath(
+    `M${CX+280},${CY-30} C${CX+500},${CY-200} ${stepData[0].x-200},${stepData[0].y} ${stepData[0].x-210},${stepData[0].y}`,
+    '#4fc3f7', 2.5, false, 'url(#arrow-blue)'
+  ));
+
+  // ===== BRANCH 3: 常见谬误速查 (attached to Step 5) =====
+  const s5 = stepData[4];
+  const B3X = s5.x + 360, B3Y = 1060;
+
+  const b3node = makeNode('b3', B3X, B3Y, 320, 48,
+    '③ 常见谬误速查',
+    'branch-title', 'url(#grad-fallacy)', '#ce93d8', 10);
+  const b3ind = document.createElementNS('http://www.w3.org/2000/svg','text');
+  b3ind.setAttribute('id','b3-indicator'); b3ind.setAttribute('x','298'); b3ind.setAttribute('y','29');
+  b3ind.setAttribute('fill','#ce93d8'); b3ind.setAttribute('font-size','12'); b3ind.textContent='▼';
+  b3node.appendChild(b3ind);
+  nodesGroup.appendChild(b3node);
+  linesGroup.appendChild(makeLine(s5.x+s5.w/2, s5.y, B3X-150, B3Y, '#ce93d8', 2, true, 'url(#arrow-blue)'));
+
+  const fallacies = [
+    '人身攻击谬误：不反驳观点，反而攻击提出观点的人品',
+    '诉诸公众谬误：因为很多人相信，所以它一定是对的',
+    '诉诸可疑权威谬误：引用一个不靠谱的"专家"来撑场面',
+    '乱贴标签谬误：给某个观点贴个负面标签，就不用正面回应它了',
+    '滑坡谬误：如果允许A，B就会发生，最后导致可怕的Z——但每一步都没证据',
+    '非此即彼谬误：把复杂问题简化为两个极端选项，好像没有中间地带',
+    '完美主义谬误：如果方案不能完美解决问题，就干脆什么都不做',
+    '偷换概念谬误：用一个词的不同含义来模糊论证',
+    '诉诸情感谬误：用恐惧、愤怒或同情代替理性论证',
+    '循环论证谬误：把需要证明的结论当成了前提',
+  ];
+
+  const b3g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  b3g.setAttribute('id','b3-children');
+  fallacies.forEach((f,i) => {
+    const col = i < 5 ? 0 : 1;
+    const row = i < 5 ? i : i-5;
+    const x = B3X - 180 + col*340;
+    const y = B3Y + 70 + row*80;
+    const n = makeNode('b3c'+i, x, y, 330, 68, f, 'fallacy-node', 'url(#grad-fallacy)', 'rgba(206,147,216,0.35)', 7);
+    b3g.appendChild(n);
+    linesGroup.appendChild(makeLine(B3X, B3Y+24, x, y, 'rgba(206,147,216,0.4)', 1, true));
+  });
+  nodesGroup.appendChild(b3g);
+
+  // ===== BRANCH 4: 证据评估框架 (attached to Step 6) =====
+  const s6 = stepData[5];
+  const B4X = s6.x + 380, B4Y = 1400;
+
+  const b4node = makeNode('b4', B4X, B4Y, 320, 48,
+    '④ 证据评估框架',
+    'branch-title', 'url(#grad-evidence)', '#81c784', 10);
+  const b4ind = document.createElementNS('http://www.w3.org/2000/svg','text');
+  b4ind.setAttribute('id','b4-indicator'); b4ind.setAttribute('x','298'); b4ind.setAttribute('y','29');
+  b4ind.setAttribute('fill','#81c784'); b4ind.setAttribute('font-size','12'); b4ind.textContent='▼';
+  b4node.appendChild(b4ind);
+  nodesGroup.appendChild(b4node);
+  linesGroup.appendChild(makeLine(s6.x+s6.w/2, s6.y, B4X-150, B4Y, '#81c784', 2, true, 'url(#arrow-blue)'));
+
+  const evidences = [
+    '个人经历：你的一个朋友遇到的事，不代表别人都会遇到',
+    '典型案例：一个极端的例子很有冲击力，但不代表普遍情况',
+    '当事人证言：名人代言不等于产品有效，他们可能收了钱',
+    '专家意见：专家只在他们的专业领域可信，跨领域就未必了',
+    '调查研究：要看样本是否随机、样本量够不够、测量方法是否科学',
+    '个人观察：人的观察充满偏见，我们只看到我们想看的',
+  ];
+
+  const b4g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  b4g.setAttribute('id','b4-children');
+  evidences.forEach((e,i) => {
+    const x = B4X - 30;
+    const y = B4Y + 70 + i*70;
+    const n = makeNode('b4c'+i, x, y, 370, 58, e, 'evidence-node', 'url(#grad-evidence)', 'rgba(129,199,132,0.35)', 7);
+    b4g.appendChild(n);
+    linesGroup.appendChild(makeLine(B4X, B4Y+24, x, y, 'rgba(129,199,132,0.4)', 1, true));
+  });
+  nodesGroup.appendChild(b4g);
+
+  // ===== BRANCH 5: 形成自己的判断 (attached to Step 10) =====
+  const s10 = stepData[9];
+  const B5X = s10.x - 480, B5Y = s10.y;
+
+  const b5node = makeNode('b5', B5X, B5Y, 340, 48,
+    '⑤ 怎么形成自己的判断',
+    'branch-title', 'url(#grad-output)', '#ffd54f', 10);
+  const b5ind = document.createElementNS('http://www.w3.org/2000/svg','text');
+  b5ind.setAttribute('id','b5-indicator'); b5ind.setAttribute('x','318'); b5ind.setAttribute('y','29');
+  b5ind.setAttribute('fill','#ffd54f'); b5ind.setAttribute('font-size','12'); b5ind.textContent='▼';
+  b5node.appendChild(b5ind);
+  nodesGroup.appendChild(b5node);
+  linesGroup.appendChild(makeLine(s10.x-s10.w/2, s10.y, B5X+160, B5Y, '#ffd54f', 2, true, 'url(#arrow-blue)'));
+
+  const outputs = [
+    '灰度思维：大多数重要问题不是非黑即白的，不要强迫自己选边站',
+    '有条件地接受：可以接受在特定条件下的结论，而不是全盘接受或全盘拒绝',
+    '多个结论的可能性：同一个论证，换一个假设就可能得出不同的结论',
+  ];
+
+  const b5g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  b5g.setAttribute('id','b5-children');
+  outputs.forEach((o,i) => {
+    const x = B5X - 30;
+    const y = B5Y + 70 + i*70;
+    const n = makeNode('b5c'+i, x, y, 380, 52, o, 'output-node', 'url(#grad-output)', 'rgba(255,213,79,0.35)', 7);
+    b5g.appendChild(n);
+    linesGroup.appendChild(makeLine(B5X, B5Y+24, x, y, 'rgba(255,213,79,0.4)', 1, true));
+  });
+  nodesGroup.appendChild(b5g);
+
+  // ===== CROSS-REFERENCE DASHED LINES =====
+  // Step 4 ↔ Step 5: assumptions ↔ fallacies
+  const s4 = stepData[3];
+  const crossRefs = [
+    { from:s4, to:s5, color:'#ffd54f', label:'很多谬误的根源是隐含假设站不住脚' },
+    { from:s6, to:stepData[7], color:'#ffd54f', label:'数据是证据的一种，要一起评估' },
+    { from:stepData[6], to:stepData[8], color:'#81c784', label:'信息缺失会让你漏掉替代解释' },
+    { from:stepData[2], to:s4, color:'#81c784', label:'歧义词往往暴露了隐藏假设' },
+  ];
+
+  crossRefs.forEach(cr => {
+    const x1 = cr.from.x + cr.from.w/2 + 20;
+    const y1 = cr.from.y;
+    const x2 = cr.to.x + cr.to.w/2 + 20;
+    const y2 = cr.to.y;
+    linesGroup.appendChild(makePath(
+      `M${x1},${y1} C${x1+80},${(y1+y2)/2} ${x2+80},${(y1+y2)/2} ${x2},${y2}`,
+      cr.color, 1.8, true, null
+    ));
+    // Label
+    const lx = (x1+x2)/2 + 100;
+    const ly = (y1+y2)/2 - 10;
+    const labelG = document.createElementNS('http://www.w3.org/2000/svg','g');
+    const bg = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    bg.setAttribute('x', lx-180); bg.setAttribute('y', ly-14);
+    bg.setAttribute('width', '360'); bg.setAttribute('height', '22');
+    bg.setAttribute('rx', '4'); bg.setAttribute('fill', 'rgba(10,10,30,0.85)');
+    bg.setAttribute('stroke', cr.color); bg.setAttribute('stroke-width', '0.5');
+    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x', lx); txt.setAttribute('y', ly+3);
+    txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('fill', cr.color);
+    txt.setAttribute('font-size', '11'); txt.textContent = cr.label;
+    labelG.appendChild(bg); labelG.appendChild(txt);
+    nodesGroup.appendChild(labelG);
+  });
+
+  // ===== BRANCH 2 TITLE =====
+  const b2title = makeNode('b2-title', CX+520, CY-150, 420, 48,
+    '② 沿着10步流程拆解论证（第2-12章）<span style="color:#aaa;font-size:11px;">—— 核心骨架</span>',
+    'branch-title', 'url(#grad-b2)', '#4fc3f7', 10);
+  nodesGroup.appendChild(b2title);
+  linesGroup.appendChild(makePath(curvedPath(CX+280, CY, CX+520, CY-150), '#4fc3f7', 2.5, false, 'url(#arrow-blue)'));
+  // Title to Step 1
+  linesGroup.appendChild(makePath(curvedPath(CX+520, CY-126, stepData[0].x, stepData[0].y-stepData[0].h/2), '#4fc3f7', 1.5, true));
+
+  // ---- Assemble ----
+  mainGroup.appendChild(linesGroup);
+  mainGroup.appendChild(nodesGroup);
+  svg.appendChild(mainGroup);
+
+  // ===== COLLAPSE TOGGLE =====
+  const collapseMap = {
+    'b1': { group:'b1-children', extra:['b1-conn'] },
+    'b3': { group:'b3-children', extra:[] },
+    'b4': { group:'b4-children', extra:[] },
+    'b5': { group:'b5-children', extra:[] },
+  };
+
+  Object.keys(collapseMap).forEach(k => collapseState[k] = false);
+
+  function toggleCollapse(branchId) {
+    collapseState[branchId] = !collapseState[branchId];
+    const cfg = collapseMap[branchId];
+    const g = document.getElementById(cfg.group);
+    if (g) g.style.display = collapseState[branchId] ? 'none' : '';
+    cfg.extra.forEach(eid => {
+      const el = document.getElementById(eid);
+      if (el) el.style.display = collapseState[branchId] ? 'none' : '';
+    });
+    // Update indicator
+    const indicator = document.getElementById(branchId+'-indicator');
+    if (indicator) {
+      indicator.textContent = collapseState[branchId] ? '▶' : '▼';
+    }
+  }
+
+  // Attach click handlers directly to branch g elements
+  ['b1','b3','b4','b5'].forEach(bid => {
+    const g = document.getElementById(bid);
+    if (g) {
+      g.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCollapse(bid);
+      });
+    }
+  });
+
+  // ===== TOOLTIP ON HOVER =====
+  let tooltipTimer = null;
+  nodesGroup.addEventListener('mouseover', e => {
+    const target = e.target.closest('g[id]');
+    if (!target) return;
+    const fo = target.querySelector('foreignObject');
+    if (!fo) return;
+    const div = fo.querySelector('div');
+    if (!div) return;
+    const text = div.textContent.trim();
+    if (text.length < 20) return;
+
+    clearTimeout(tooltipTimer);
+    tooltip.textContent = text;
+    tooltip.classList.add('visible');
+    tooltipTimer = setTimeout(() => {
+      tooltip.style.left = (e.clientX + 16) + 'px';
+      tooltip.style.top = (e.clientY - 40) + 'px';
+    }, 100);
+  });
+  nodesGroup.addEventListener('mousemove', e => {
+    if (tooltip.classList.contains('visible')) {
+      tooltip.style.left = (e.clientX + 16) + 'px';
+      tooltip.style.top = (e.clientY - 40) + 'px';
+    }
+  });
+  nodesGroup.addEventListener('mouseout', () => {
+    clearTimeout(tooltipTimer);
+    tooltip.classList.remove('visible');
+  });
+
+  // ===== GLOBAL FUNCTIONS =====
+  window.resetView = function() {
+    viewX = -200; viewY = -200; scale = 0.72;
+    applyTransform();
+  };
+  window.expandAll = function() {
+    Object.keys(collapseMap).forEach(k => {
+      collapseState[k] = false;
+      const g = document.getElementById(collapseMap[k].group);
+      if (g) g.style.display = '';
+      collapseMap[k].extra.forEach(eid => {
+        const el = document.getElementById(eid);
+        if (el) el.style.display = '';
+      });
+      const indicator = document.getElementById(k+'-indicator');
+      if (indicator) indicator.textContent = '▼';
+    });
+  };
+  window.collapseAll = function() {
+    Object.keys(collapseMap).forEach(k => {
+      collapseState[k] = true;
+      const g = document.getElementById(collapseMap[k].group);
+      if (g) g.style.display = 'none';
+      collapseMap[k].extra.forEach(eid => {
+        const el = document.getElementById(eid);
+        if (el) el.style.display = 'none';
+      });
+      const indicator = document.getElementById(k+'-indicator');
+      if (indicator) indicator.textContent = '▶';
+    });
+  };
+
+  // Initial
+  applyTransform();
+
+})();
+</script>
+</body>
+</html>

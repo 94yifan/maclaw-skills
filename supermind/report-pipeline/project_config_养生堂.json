@@ -1,0 +1,77 @@
+{
+  "project_name": "养生堂 品牌竞品研究",
+  "industry": "保健品/膳食补充剂",
+  "industry_type": "health_supplements",
+  "report_type": "品牌竞品研究咨询报告",
+  "framework_version": "V5",
+  "brands": {
+    "focus": "养生堂",
+    "deep": [
+      "汤臣倍健",
+      "Swisse",
+      "金达威",
+      "善存",
+      "康恩贝",
+      "修正药业",
+      "健美生"
+    ],
+    "reference": [
+      "GNC",
+      "安利纽崔莱",
+      "无限极",
+      "完美",
+      "健合集团",
+      "仙乐健康"
+    ],
+    "summary": [
+      "GNC",
+      "安利纽崔莱",
+      "无限极",
+      "完美",
+      "健合集团",
+      "仙乐健康",
+      "东阿阿胶",
+      "碧生源",
+      "同仁堂健康",
+      "以岭药业"
+    ]
+  },
+  "founder_name": "钟睒睒",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true,
+    "_note_ecommerce": "保健品是电商重品类。天猫/京东是核心渠道，抖音直播是快速增长的保健品销售渠道。电商数据必采，归入五维模型市场维度和渠道供应链章节。"
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "scale_estimation": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true
+  },
+  "industry_trends": {
+    "_note": "保健品/膳食补充剂赛道特定趋势维度",
+    "dimensions": [
+      "老龄化与银发经济",
+      "年轻化养生消费升级",
+      "功能性食品/药食同源",
+      "跨境电商与进口保健品竞争",
+      "直播电商/内容电商渠道变迁",
+      "精准营养与个性化补充",
+      "保健品监管政策趋严"
+    ]
+  },
+  "special_methodology": {
+    "_note": "养生堂特殊性：背靠农夫山泉集团，创始人钟睒睒为中国首富，品牌有天然渠道和资本优势"
+  },
+  "ch5_brand_comparison_dimensions": "五维对比（市场渠道/品牌力/产品/趋势/人群），重点对比渠道效率+产品差异化+保健品场景占位+品牌信任度+跨境电商能力",
+  "output_dir": "./output/yangshengtang_20260727_v2",
+  "output_settings": {
+    "docx_filename": "养生堂-保健品线-V2-20260727.docx"
+  }
+}

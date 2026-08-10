@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学会提问 · 批判性思维</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.title-bar {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title-bar h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 2px;
+}
+
+.title-bar .subtitle {
+  font-size: 15px;
+  color: #666;
+  margin-top: 8px;
+  font-weight: 400;
+}
+
+/* Main container - horizontal flow */
+.mindmap {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Section: 心态 */
+.section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid #3b82f6;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-header .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.section-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.section-header .chapter {
+  font-size: 12px;
+  color: #999;
+  font-weight: 400;
+  margin-left: auto;
+}
+
+.section-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  background: #f0f4ff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.tag strong {
+  color: #3b82f6;
+}
+
+.tag.highlight {
+  background: #fff7ed;
+  border-left: 3px solid #f59e0b;
+}
+
+/* Flow section - the 10 steps */
+.flow-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid #7c3aed;
+}
+
+.flow-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.flow-header .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.flow-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.flow-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #f8f6ff;
+  border-radius: 10px;
+  transition: box-shadow 0.2s;
+}
+
+.step:hover {
+  box-shadow: 0 2px 8px rgba(124,58,237,0.12);
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  line-height: 1.4;
+}
+
+.step-chapter {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+/* Arrow between rows */
+.flow-arrow {
+  text-align: center;
+  color: #7c3aed;
+  font-size: 20px;
+  padding: 4px 0;
+  opacity: 0.5;
+}
+
+/* Cross-connections */
+.connections {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid #f59e0b;
+}
+
+.connections h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 12px;
+}
+
+.conn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.conn-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #fffbeb;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.conn-arrow {
+  color: #f59e0b;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.conn-desc {
+  color: #888;
+  font-size: 12px;
+}
+
+/* Fallacies section */
+.fallacies-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid #f59e0b;
+}
+
+.fallacies-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.fallacy-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fffbeb;
+  border-radius: 8px;
+}
+
+.fallacy-icon {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.fallacy-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Evidence section */
+.evidence-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid #10b981;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.evidence-item {
+  padding: 12px 14px;
+  background: #ecfdf5;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.evidence-item strong {
+  color: #059669;
+}
+
+/* Output section */
+.output-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid #ec4899;
+}
+
+.output-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.output-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fdf2f8;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.output-item .check {
+  color: #ec4899;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .flow-steps { grid-template-columns: 1fr; }
+  .fallacies-grid { grid-template-columns: 1fr; }
+  .evidence-grid { grid-template-columns: 1fr; }
+  .conn-grid { grid-template-columns: 1fr; }
+  body { padding: 20px 12px; }
+  .title-bar h1 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="title-bar">
+  <h1>学会提问 · 批判性思维</h1>
+  <div class="subtitle">当别人想说服你时，你应该怎么一步步拆解他的论证？</div>
+</div>
+
+<div class="mindmap">
+
+  <!-- ① 心态 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="badge">①</span>
+      <h2>先摆正心态</h2>
+      <span class="chapter">第1章 + 第13章</span>
+    </div>
+    <div class="section-tags">
+      <div class="tag">用<strong>淘金式思维</strong>主动筛选信息，别当海绵被动吸收</div>
+      <div class="tag">用<strong>强势批判性</strong>质疑自己的信念，不只想着驳倒别人</div>
+      <div class="tag highlight">⚠️ 警惕六大障碍：思考太快下结论 · 刻板印象 · 只看想看的 · 自我中心 · 一厢情愿 · 被情绪牵着走</div>
+    </div>
+  </div>
+
+  <!-- ↓ 箭头 -->
+  <div class="flow-arrow">⬇</div>
+
+  <!-- ② 10步流程 -->
+  <div class="flow-section">
+    <div class="flow-header">
+      <span class="badge">②</span>
+      <h2>10步拆解论证</h2>
+    </div>
+    <div class="flow-steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <div class="step-content">
+          <div class="step-title">搞清楚对方在争论什么问题，找到他的核心结论</div>
+          <div class="step-chapter">第2章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <div class="step-content">
+          <div class="step-title">找出支撑结论的理由——没有理由的结论不值得信</div>
+          <div class="step-chapter">第3章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <div class="step-content">
+          <div class="step-title">检查关键词有没有歧义，让对方说清楚到底指什么</div>
+          <div class="step-chapter">第4章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <div class="step-content">
+          <div class="step-title">挖掘没明说的前提：对方默认了什么价值观和事实？</div>
+          <div class="step-chapter">第5章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">5</span>
+        <div class="step-content">
+          <div class="step-title">检查论证中有没有逻辑谬误（见下方谬误速查）</div>
+          <div class="step-chapter">第6章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">6</span>
+        <div class="step-content">
+          <div class="step-title">评估证据：是个人经历、专家意见还是科学研究？</div>
+          <div class="step-chapter">第7-8章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">7</span>
+        <div class="step-content">
+          <div class="step-title">问有没有替代原因——相关不等于因果</div>
+          <div class="step-chapter">第9章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">8</span>
+        <div class="step-content">
+          <div class="step-title">审数据：平均数可能骗人，误差和遗漏常被隐瞒</div>
+          <div class="step-chapter">第10章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">9</span>
+        <div class="step-content">
+          <div class="step-title">找找对方故意省略了什么信息？只看有利的一面？</div>
+          <div class="step-chapter">第11章</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">10</span>
+        <div class="step-content">
+          <div class="step-title">灰度思考——结论不是非黑即白，换一个假设就不同</div>
+          <div class="step-chapter">第12章</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ↓ 箭头 -->
+  <div class="flow-arrow">⬇</div>
+
+  <!-- ③ 谬误速查 -->
+  <div class="fallacies-section">
+    <div class="section-header">
+      <span class="badge">③</span>
+      <h2>常见逻辑谬误速查</h2>
+      <span class="chapter">第6章 · 挂在Step 5</span>
+    </div>
+    <div class="fallacies-grid">
+      <div class="fallacy-card"><span class="fallacy-icon">⚠</span><span class="fallacy-text"><strong>人身攻击</strong>：不反驳观点，转而攻击提出观点的人</span></div>
+      <div class="fallacy-card"><span class="fallacy-icon">⚠</span><span class="fallacy-text"><strong>诉诸公众</strong>：因为很多人相信，所以它就是对的</span></div>
+      <div class="fallacy-card"><span class="fallacy-icon">⚠</span><span class="fallacy-text"><strong>滑坡谬误</strong>：如果允许A，B就会发生，最后导致Z——每步都没证据</span></div>
+      <div class="fallacy-card"><span class="fallacy-icon">⚠</span><span class="fallacy-text"><strong>非此即彼</strong>：把复杂问题简化为两个极端选项，没有中间地带</span></div>
+      <div class="fallacy-card"><span class="fallacy-icon">⚠</span><span class="fallacy-text"><strong>循环论证</strong>：用结论本身来证明结论（绕圈子）</span></div>
+      <div class="fallacy-card"><span class="fallacy-icon">⚠</span><span class="fallacy-text"><strong>诉诸情感</strong>：用恐惧、愤怒或同情代替理性论证</span></div>
+    </div>
+  </div>
+
+  <!-- ④ 证据评估 -->
+  <div class="evidence-section">
+    <div class="section-header">
+      <span class="badge">④</span>
+      <h2>证据评估框架</h2>
+      <span class="chapter">第7-8章 · 挂在Step 6</span>
+    </div>
+    <div class="evidence-grid">
+      <div class="evidence-item"><strong>个人经历</strong> ≠ 普遍规律——你朋友遇到的事不代表所有人都会遇到</div>
+      <div class="evidence-item"><strong>典型个案</strong> ≠ 统计数据——一个极端例子很有冲击力但不代表普遍情况</div>
+      <div class="evidence-item"><strong>专家意见</strong> ≠ 绝对真理——专家只在专业领域可信，跨领域未必</div>
+      <div class="evidence-item"><strong>调查研究</strong> —— 关键看：样本是否随机？样本量够不够？测量方法科学吗？</div>
+    </div>
+  </div>
+
+  <!-- ⑤ 输出判断 -->
+  <div class="output-section">
+    <div class="section-header">
+      <span class="badge">⑤</span>
+      <h2>形成自己的判断</h2>
+      <span class="chapter">第12章</span>
+    </div>
+    <div class="output-items">
+      <div class="output-item"><span class="check">✔</span> 大多数重要问题不是非黑即白，用<strong>灰度思维</strong>看问题</div>
+      <div class="output-item"><span class="check">✔</span> 可以<strong>有条件地接受</strong>结论，而不是全盘接受或全盘拒绝</div>
+      <div class="output-item"><span class="check">✔</span> 换一个假设，就可能得出完全不同的结论</div>
+    </div>
+  </div>
+
+  <!-- 交叉连接 -->
+  <div class="connections">
+    <h3>🔄 关键概念之间的交叉关系</h3>
+    <div class="conn-grid">
+      <div class="conn-item"><span class="conn-arrow">第4章 ⇄ 第5章</span><span class="conn-desc">歧义词往往暴露了隐藏假设</span></div>
+      <div class="conn-item"><span class="conn-arrow">第5章 ⇄ 第6章</span><span class="conn-desc">谬误的根源常常是错误的前提假设</span></div>
+      <div class="conn-item"><span class="conn-arrow">第7-8章 ⇄ 第10章</span><span class="conn-desc">数据是证据的一种，要一起评估</span></div>
+      <div class="conn-item"><span class="conn-arrow">第9章 ⇄ 第11章</span><span class="conn-desc">信息缺失会让你漏掉替代解释</span></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

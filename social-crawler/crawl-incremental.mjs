@@ -1,0 +1,142 @@
+import { chromium } from 'playwright-core';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
+
+const STATE_FILE = '/tmp/tea-crawl-progress-0609.json';
+const OUTPUT_FILE = '/Users/yifansmacmini/.openclaw/workspace/social-crawler/memory/weibo_daily_2026-06-09.json';
+
+const brands = [
+  { name: '瑞幸咖啡', uid: '6349791448' }, { name: '库迪', uid: '7791266545' },
+  { name: '古茗', uid: '2809775704' }, { name: '幸运咖', uid: '6519396553' },
+  { name: '茉莉奶白', uid: '7577524421' }, { name: '霸王茶姬', uid: '5652018762' },
+  { name: '喜茶', uid: '2804387887' }, { name: '星巴克', uid: 'starbucks' },
+  { name: '茶百道', uid: '6502206666' }, { name: '奈雪的茶', uid: '5884674413' },
+  { name: 'CoCo', uid: '2030619861' }, { name: '爷爷不泡茶', uid: '7769072120' },
+  { name: '沪上阿姨', uid: '3921865344' }, { name: '乐乐茶', uid: '6253473981' },
+  { name: '皮爷咖啡', uid: '6360528436' }, { name: 'M Stand', uid: '6345199298' },
+  { name: 'Manner', uid: '6808111794' }, { name: '茉酸奶', uid: '5188894132' },
+  { name: '树夏酸奶', uid: '7144806571' },
+];
+
+function isTargetDay(dateStr) {
+  if (!dateStr) return false;
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  const fmt = d => String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  const nd = ds => {
+    const p = ds.split(/[-/.]/);
+    if (p.length < 2) return ds;
+    return String(parseInt(p[0])).padStart(2,'0') + '-' + String(parseInt(p[1])).padStart(2,'0');
+  };
+  return nd(dateStr) === fmt(yesterday) || nd(dateStr) === fmt(today);
+}
+
+function classify(text) {
+  const t = text || '';
+  const isIP = /联名|代言|×/.test(t);
+  const isNew = /新品|上市|首发|新系列|新口味|全新|升级回归/.test(t);
+  return isIP ? 'IP' : isNew ? '新品' : '营销';
+}
+
+// Resume from previous progress
+let allResults = {};
+if (existsSync(STATE_FILE)) {
+  try {
+    allResults = JSON.parse(readFileSync(STATE_FILE, 'utf-8'));
+    console.log(`Resuming from state file: ${Object.keys(allResults).length} brands already done`);
+  } catch(e) { allResults = {}; }
+}
+
+console.log('Connecting to Chrome via CDP port 9333...');
+const browser = await chromium.connectOverCDP('http://127.0.0.1:9333');
+const ctx = browser.contexts()[0] || await browser.newContext();
+const page = await ctx.newPage();
+await page.setViewportSize({ width: 390, height: 844 });
+
+for (let i = 0; i < brands.length; i++) {
+  const b = brands[i];
+  if (allResults[b.name]) {
+    console.log(`[${i+1}/19] ${b.name} ... already done, skipping`);
+    continue;
+  }
+
+  const url = b.uid === 'starbucks'
+    ? 'https://m.weibo.cn/u/1802303610'
+    : `https://m.weibo.cn/u/${b.uid}`;
+
+  process.stdout.write(`[${i+1}/19] ${b.name}... `);
+
+  try {
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    await page.waitForTimeout(4000);
+
+    // Deep scroll to load all available posts
+    for (let s = 0; s < 30; s++) {
+      await page.evaluate(() => window.scrollBy(0, 400));
+      await page.waitForTimeout(1000);
+    }
+    await page.waitForTimeout(2000);
+
+    const posts = await page.evaluate(() => {
+      const results = [];
+      const cards = document.querySelectorAll('.card, .card-wrap');
+      for (const card of cards) {
+        const timeEl = card.querySelector('.time');
+        const textEl = card.querySelector('.weibo-text');
+        if (!timeEl || !textEl) continue;
+        const timeStr = (timeEl.innerText || '').trim();
+        const text = (textEl.innerText || '').trim().slice(0, 500);
+        if (text.length > 10) {
+          results.push({ date: timeStr.split(' ')[0], text });
+        }
+      }
+      return results;
+    });
+
+    const filtered = posts.filter(p => {
+      if (!isTargetDay(p.date)) return false;
+      const t = p.text;
+      if (t.length < 15) return false;
+      if (/抱歉.*不存在|暂无.*内容/.test(t)) return false;
+      if (/粉丝群\s*\d/.test(t)) return false;
+      return true;
+    });
+
+    // Dedup
+    const seen = new Set();
+    const uniquePosts = [];
+    for (const p of filtered) {
+      const key = p.text.replace(/[#@]\S+/g, '').trim().slice(0, 80);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      uniquePosts.push(p);
+    }
+
+    const cats = { '新品': [], 'IP': [], '营销': [] };
+    uniquePosts.forEach(p => cats[classify(p.text)].push({ text: p.text, date: p.date }));
+    allResults[b.name] = cats;
+    const total = cats['新品'].length + cats['IP'].length + cats['营销'].length;
+    console.log(`${total}条 (新${cats['新品'].length} IP${cats['IP'].length} 营${cats['营销'].length})`);
+
+    // Save incremental state
+    writeFileSync(STATE_FILE, JSON.stringify(allResults, null, 2));
+
+  } catch (e) {
+    allResults[b.name] = { '新品': [], 'IP': [], '营销': [] };
+    console.log(`err: ${e.message.slice(0, 50)}`);
+    writeFileSync(STATE_FILE, JSON.stringify(allResults, null, 2));
+  }
+
+  await page.waitForTimeout(3000);
+}
+
+await browser.close();
+
+// Write final output
+const now = new Date();
+const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+writeFileSync(OUTPUT_FILE, JSON.stringify({ date: dateStr, results: allResults }, null, 2));
+console.log(`\n=== Final JSON saved to ${OUTPUT_FILE} ===`);
+
+// Cleanup state
+try { writeFileSync(STATE_FILE, '{}'); } catch(e) {}

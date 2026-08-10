@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from steps.utils import (
-    step_start, step_success, step_fail,
+    step_start, step_success, step_fail, step_skip,
     save_json, save_text, load_markdown,
     content_dir, reports_dir, BASE_DIR
 )

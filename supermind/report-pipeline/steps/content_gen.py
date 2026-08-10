@@ -505,6 +505,107 @@ def generate_ch6(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     return out_path
 
 
+def build_brand_overview_prompt(schema: ReportSchema, project_config: ProjectConfig) -> str:
+    """构建品牌概览（报告开头三章）prompt。"""
+    overview = schema._raw.get("module_h_brand_overview", {})
+    sections = overview.get("sections", {})
+
+    sec1 = sections.get("1", {})
+    sec1_subs = sec1.get("subsections", {})
+    sec2 = sections.get("2", {})
+    sec2_subs = sec2.get("subsections", {})
+    sec3 = sections.get("3", {})
+    sec3_subs = sec3.get("subsections", {})
+
+    prompt = f"""# 品牌概览（报告开头三章）
+
+## 项目信息
+- 品牌：{project_config.focus_brand}
+- 行业：{project_config.industry}
+- 报告类型：{project_config.report_type}
+
+## 写作规范
+{WRITING_HARD_RULES}
+- 所有表格用 Markdown 表格格式
+- 数字必须标注来源或推算依据
+- 不作排名、不排序、纯信息陈列
+
+## 一、品牌概览
+
+### 1.1 基础信息
+{sec1_subs.get("1.1", {}).get("format", "表格：品牌全称/公司主体/创始人/联合创始人/总部/工厂/品牌定位/核心品类/品牌使命")}
+- 来源：{sec1_subs.get("1.1", {}).get("source", "前置调研")}
+- QA：{sec1.get("qa_check", "基础信息≥8维度")}
+
+### 1.2 品牌发展里程碑
+{sec1_subs.get("1.2", {}).get("format", "时间线表格：时间|事件|意义，≥8个事件")}
+- 来源：{sec1_subs.get("1.2", {}).get("source", "前置调研+深度稿件")}
+
+### 1.3 规模判断
+{sec1_subs.get("1.3", {}).get("format", "核心锚点+增速轨迹+规模区间+判断依据≥3条")}
+- 来源：{sec1_subs.get("1.3", {}).get("source", "Step 6 本品五维扫描")}
+
+## 二、产品与品类矩阵
+
+### 2.1 核心品类
+{sec2_subs.get("2.1", {}).get("format", "表格：品类/推出时间/产品形态/市场地位")}
+- 来源：{sec2_subs.get("2.1", {}).get("source", "前置调研+电商数据")}
+- QA：{sec2.get("qa_check", "核心品类表≥4个品类且标注市场地位")}
+
+### 2.2 定价带与客单价
+{sec2_subs.get("2.2", {}).get("format", "表格：品类/价格区间/定位(入门/中端/高端)")}
+- 来源：{sec2_subs.get("2.2", {}).get("source", "电商数据(天猫+京东)")}
+- QA：{sec2.get("qa_check", "定价带有具体数字")}
+
+### 2.3 季节性品类结构
+{sec2_subs.get("2.3", {}).get("format", "分析季节依赖+平滑策略+全品类消费日历覆盖度")}
+- 来源：{sec2_subs.get("2.3", {}).get("source", "品类数据+行业趋势")}
+
+## 三、渠道与供应链
+
+### 3.1 渠道演变路径
+{sec3_subs.get("3.1", {}).get("format", "表格：阶段/时间/核心渠道/特征，≥4个阶段")}
+- 来源：{sec3_subs.get("3.1", {}).get("source", "前置调研+企业公开信息")}
+
+### 3.2 供应链能力
+{sec3_subs.get("3.2", {}).get("format", "表格：维度/详情 + 供应链评估(优势/风险/原料进口依赖度)")}
+- 来源：{sec3_subs.get("3.2", {}).get("source", "企业公开信息+行业对标")}
+
+## 输出要求
+1. 直接输出品牌概览正文，从 ## 品牌概览 开始
+2. 所有子节按上述格式输出，表格用 Markdown 表格
+3. 缺失数据标注 [待补充]，不编造
+4. 规模判断不给单一数字，给锚点数字+侧面证据+范围区间
+
+请直接输出品牌概览内容。"""
+    return prompt
+
+
+def generate_brand_overview(schema: ReportSchema, project_config: ProjectConfig) -> Path:
+    """Step 4.5: 生成品牌概览（报告开头三章）。"""
+    step_start("brand_overview_generation", "品牌概览生成 (Step 4.5)")
+
+    out_dir = content_dir(project_config)
+    prompt = build_brand_overview_prompt(schema, project_config)
+
+    # 保存 prompt 供 Pro 填充
+    prompt_path = out_dir / "brand_overview_prompt.md"
+    save_text(prompt, prompt_path)
+
+    # 创建占位文件
+    out_path = out_dir / "brand_overview.md"
+    save_text(
+        f"# 品牌概览 — {project_config.focus_brand}\n\n"
+        f"[本内容由 DeepSeek V4 Pro 生成]\n\n"
+        f"Prompt 文件: {prompt_path}\n",
+        out_path
+    )
+
+    verify_output_file(out_path, "brand_overview_generation")
+    step_success("brand_overview_generation", [str(out_path), str(prompt_path)])
+    return out_path
+
+
 # ── 数据加载辅助 ──────────────────────────────────────────
 
 def load_dispatched_for_chapter(chapter: str, schema: ReportSchema) -> Dict:
@@ -554,6 +655,7 @@ def run_content_steps(schema: ReportSchema, project_config: ProjectConfig,
     
     results = {}
     step_map = {
+        'brand_overview': generate_brand_overview,
         'ch2': generate_ch2,
         'ch3': generate_ch3,
         'ch4': generate_ch4,

@@ -1,0 +1,69 @@
+{
+  "project_name": "康尔馨 品牌竞品研究",
+  "industry": "床品/酒店级家纺",
+  "industry_type": "home_textile_hotel",
+  "report_type": "品牌竞品研究咨询报告",
+  "framework_version": "V5",
+  "brands": {
+    "focus": "康尔馨",
+    "deep": [
+      "亚朵生活",
+      "罗莱生活",
+      "梦百合",
+      "Downia",
+      "水星家纺",
+      "网易严选"
+    ],
+    "reference": [
+      "富安娜",
+      "睡眠博士",
+      "野兽派",
+      "躺岛"
+    ],
+    "summary": [
+      "富安娜",
+      "睡眠博士",
+      "野兽派",
+      "躺岛",
+      "京东京造",
+      "梦洁家纺",
+      "无印良品",
+      "宜家"
+    ]
+  },
+  "founder_name": "周观林",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true,
+    "_note_ecommerce": "床品是电商重品类。天猫/京东是核心渠道，抖音直播是新增长渠道。电商数据必采，归入五维模型市场维度和渠道供应链章节。"
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "scale_estimation": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true
+  },
+  "industry_trends": {
+    "_note": "床品/睡眠赛道特定趋势维度",
+    "dimensions": [
+      "睡眠经济升级",
+      "酒店级床品C端化",
+      "功能性面料科技",
+      "智能睡眠设备跨界",
+      "年轻化消费趋势",
+      "DTC品牌崛起"
+    ]
+  },
+  "special_methodology": {},
+  "ch5_brand_comparison_dimensions": "五维对比（市场渠道/品牌力/产品/趋势/人群），重点对比品牌渠道效率+产品差异化+睡眠场景占位",
+  "output_dir": "./output/kangerxin_20260722",
+  "output_settings": {
+    "docx_filename": "康尔馨-酒店级床品-V1.6-20260722.docx"
+  }
+}

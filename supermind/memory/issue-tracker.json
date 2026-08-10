@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-07-11",
+  "trackedIssues": [
+    {
+      "id": "ISSUE-001",
+      "description": "Dreaming cron 300s timeout导致连续执行失败（21次，6月22日-7月10日）",
+      "identifiedDate": "2026-06-23",
+      "rootCause": "模型调用阶段超时（model-call-started）——deepseek-v4-flash在特定时段（10:03/22:05）不可用，无fallback模型",
+      "fixAction": "添加fallback模型配置 + 将timeoutSeconds从300升级到600",
+      "fixStatus": "未修复（6月26日标记的「已修复」不属实——实际从未落地）",
+      "notes": "6/26标记为已修复但后续14次运行仍全部300s超时。本次（7/11 22:05）手动由逸凡私聊触发才成功",
+      "nextCheckDate": "2026-07-14",
+      "checkResult": null
+    },
+    {
+      "id": "ISSUE-002",
+      "description": "SC日报自5月28日起停摆，44天无数据产出",
+      "identifiedDate": "2026-06-23",
+      "rootCause": "未知（CDP 9333端口可能不可用；social-crawler cron配置可能已丢失；workspace被重置）",
+      "fixAction": "检查social-crawler workspace的cron job和SC日报流程状态",
+      "fixStatus": "未修复",
+      "nextCheckDate": "2026-07-14",
+      "checkResult": null
+    },
+    {
+      "id": "ISSUE-003",
+      "description": "知识缝合中断+日常记忆缺失44天",
+      "identifiedDate": "2026-06-23",
+      "rootCause": "Dreaming cron超时导致缝合步骤从未执行；没有自动化的日常记忆采集机制",
+      "fixAction": "常见每日摘要cron自动记录系统日志到memory/YYYY-MM-DD.md",
+      "fixStatus": "未修复",
+      "nextCheckDate": "2026-07-14",
+      "checkResult": null
+    },
+    {
+      "id": "ISSUE-004",
+      "description": "产品迭代决策框架未被用于系统自身维护决策",
+      "identifiedDate": "2026-06-23",
+      "rootCause": "框架创建后未设定「创作者先用」规则",
+      "fixAction": "Dreaming流程中加入「用产品迭代决策框架评估优先级」步骤",
+      "fixStatus": "未修复",
+      "nextCheckDate": "2026-07-14",
+      "checkResult": null
+    },
+    {
+      "id": "ISSUE-005",
+      "description": "Dreaming cron无fallback模型导致21次连续超时",
+      "identifiedDate": "2026-07-11",
+      "rootCause": "系统架构对模型单点依赖没有任何冗余设计",
+      "fixAction": "在cron配置中添加fallback模型（需与逸凡确认备选模型）",
+      "fixStatus": "未修复",
+      "nextCheckDate": "2026-07-14",
+      "checkResult": null
+    },
+    {
+      "id": "ISSUE-006",
+      "description": "系统静默无告警机制——19天无产出但逸凡未收到通知",
+      "identifiedDate": "2026-07-11",
+      "rootCause": "cron失败未配置alert机制；系统故障静默检测不存在",
+      "fixAction": "为关键cron配置failureAlert通知（cron工具已支持failureAlert对象）",
+      "fixStatus": "未修复",
+      "nextCheckDate": "2026-07-14",
+      "checkResult": null
+    }
+  ]
+}

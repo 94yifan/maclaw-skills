@@ -1,0 +1,34 @@
+{
+  "project_name": "度亚 智能窗帘行业品牌扫描",
+  "industry": "智能窗帘/电动窗帘",
+  "schema_version": "1.6",
+  "brands": {
+    "focus": "度亚（DUYAAR）",
+    "deep": ["杜亚 DOOYA", "Aqara 绿米", "欧瑞博 ORVIBO", "LifeSmart 云起", "邦先生 Mr.Bond", "小米米家"],
+    "reference": [],
+    "summary": []
+  },
+  "founder_name": "",
+  "data_sources": {
+    "ecommerce_platforms": ["tmall", "jd", "douyin"],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": false,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "output_dir": "./output/度亚_智能窗帘行业品牌扫描_20260810_1708",
+  "output_settings": {
+    "docx_filename": "度亚-智能窗帘-V1-20260810.docx"
+  }
+}

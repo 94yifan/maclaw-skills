@@ -1,0 +1,18 @@
+[2026-06-20T03:21:42.899Z] INFO: Running in mode [{"mode":"ZHIPU"}]
+[2026-06-20T03:21:42.901Z] INFO: MCP Server Application initialized
+[2026-06-20T03:21:42.901Z] INFO: Starting MCP server...
+[2026-06-20T03:21:42.903Z] INFO: UI to Artifact tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: Text Extraction tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: Error Diagnosis tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: Diagram Analysis tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: Data Visualization Analysis tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: UI Diff Check tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: General Image Analysis tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: Video analysis tool registered successfully
+[2026-06-20T03:21:42.903Z] INFO: Successfully registered all tools
+[2026-06-20T03:21:42.904Z] INFO: MCP Server started successfully [{"mode":"ZHIPU","name":"zai-mcp-server","version":"0.1.2"}]
+[2026-06-20T03:21:42.908Z] INFO: Starting general image analysis [{"imageSource":"/Users/yifansmacmini/.openclaw/media/inbound/beda5115-e3de-4fbe-a018-dc1afd0a5d8d.png","prompt":"详细描述这张图片的内容"}]
+[2026-06-20T03:21:42.909Z] DEBUG: Encoded image to base64 [{"imageSource":"/Users/yifansmacmini/.openclaw/media/inbound/beda5115-e3de-4fbe-a018-dc1afd0a5d8d.png","mimeType":"image/png"}]
+[2026-06-20T03:21:42.909Z] INFO: Request ZAI chat completions API for vision analysis [{"model":"glm-4.6v","messageCount":2}]
+[2026-06-20T03:22:02.518Z] INFO: Request chat completions API for vision analysis successful
+[2026-06-20T03:22:02.518Z] INFO: analyze-image analysis completed successfully

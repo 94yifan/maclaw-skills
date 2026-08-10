@@ -1,13 +1,13 @@
 {
-  "project": "北纬47度 品牌竞品研究",
-  "started_at": "2026-07-18T18:15:43.824702",
-  "completed_at": "2026-07-18T18:15:43.837414",
+  "project": "度亚 智能窗帘行业品牌扫描",
+  "started_at": "2026-08-10T17:10:24.100178",
+  "completed_at": "2026-08-10T17:10:24.115051",
   "steps": {
     "qa_check": {
-      "description": "QA 自动检查 — 结构/内容/图表/交付四层",
+      "description": "QA 自动检查 — 结构/内容/图表/交付四层 + 终端docx验证",
       "status": "success",
-      "started_at": "2026-07-18T18:15:43.828742",
-      "completed_at": "2026-07-18T18:15:43.837259",
+      "started_at": "2026-08-10T17:10:24.101404",
+      "completed_at": "2026-08-10T17:10:24.114821",
       "error": null,
       "outputs": [
         "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/qa_report.md"

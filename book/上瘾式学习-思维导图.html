@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上瘾式学习：科学的自学成才法 - 思维导图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #F5F5F0; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif; }
+  #viewport { width: 100%; height: 100%; position: relative; overflow: hidden; cursor: grab; }
+  #viewport:active { cursor: grabbing; }
+  #canvas { position: absolute; transform-origin: 0 0; }
+  #connectors { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+  .node { position: absolute; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px 14px; cursor: default; user-select: none; box-shadow: 0 2px 8px rgba(0,0,0,0.10); transition: box-shadow 0.2s; }
+  .node:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.18); }
+  .node .text { line-height: 1.55; font-size: 13.5px; color: #fff; word-break: break-word; }
+  .node-root { background: #4A4A4A; border: none; }
+  .node-root .text { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+  .node-branch { font-weight: 700; font-size: 15px; border: none; }
+  .node-leaf { border: none; }
+  .node-leaf .text { font-size: 13px; color: #fff; }
+  #zoomInfo { position: fixed; bottom: 20px; right: 20px; background: rgba(255,255,255,0.90); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: #666; box-shadow: 0 1px 6px rgba(0,0,0,0.10); pointer-events: none; z-index: 100; }
+  .hint { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.88); padding: 5px 16px; border-radius: 20px; font-size: 12px; color: #999; pointer-events: none; z-index: 100; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="canvas">
+    <svg id="connectors"></svg>
+    <div id="nodesContainer"></div>
+  </div>
+</div>
+<div class="hint">滚轮缩放 · 拖拽平移</div>
+<div id="zoomInfo">100%</div>
+<script>
+(function() {
+  // ─── Data ───────────────────────────────────────────
+  const rootLabel = '上瘾式学习：科学的自学成才法';
+
+  const branches = [
+    {
+      label: '四种低效学习误区',
+      color: '#E74C3C',
+      leaves: [
+        '反复阅读（重读）：邓洛斯基评价有效性较低',
+        '抄写或总结到笔记：字迹工整≠学进去了',
+        '高亮标记和画线：划了等于学过了是错觉',
+        '依赖学习风格：无科学依据的伪标签'
+      ]
+    },
+    {
+      label: '四大科学高效利器',
+      color: '#3498DB',
+      leaves: [
+        '主动回忆：白纸默写+教别人来加深理解',
+        '分散学习：间隔重复巩固长期记忆',
+        '精细提问与自我解释：追问为什么+用自己的话解释',
+        '交叉学习：混合不同类型问题提升实战能力'
+      ]
+    },
+    {
+      label: '古老记忆术辅助',
+      color: '#27AE60',
+      leaves: [
+        '核心原则：难记内容转换成好记图像',
+        '三种方法：图像转换法+故事法+地点法（记忆宫殿）',
+        '关键技巧：越离谱的图像越难忘'
+      ]
+    },
+    {
+      label: '身心调节与执行',
+      color: '#F39C12',
+      leaves: [
+        '学习动机：自我决定论三需求+内在目标更持久',
+        '实用窍门：情境效应+费曼技巧+康奈尔笔记',
+        '睡眠与运动：睡眠巩固记忆+运动增加BDNF',
+        '焦虑管理：写日记消解负面情绪'
+      ]
+    }
+  ];
+
+  // ─── Layout Parameters ──────────────────────────────
+  const nodeH = {
+    root: 56,
+    branch: 50,
+    leaf: 54
+  };
+  const leafW = 186;
+  const branchW = 220;
+  const rootW = 360;
+  const leafGap = 12;
+  const branchSubtreeGap = 30;
+  const levelGap = 150;            // root → branches
+  const level2Gap = 150;           // branches → leaves
+
+  const rootY = 70;
+  const branchY = rootY + levelGap;
+  const leafY  = branchY + level2Gap;
+
+  // Tree bottom for height computation (add margin)
+  const treeBottom = leafY + nodeH.leaf + 80;
+
+  // ─── Compute Leaf Groups & Positions ────────────────
+  const groups = branches.map((b, bi) => {
+    const count = b.leaves.length;
+    const totalW = count * leafW + (count - 1) * leafGap;
+    return { branchIdx: bi, count, totalW };
+  });
+
+  // Arrange groups left-to-right with gaps
+  let currentLeft = 30; // left margin
+  const groupInfo = groups.map((g, i) => {
+    const start = currentLeft;
+    // store leaf positions for this group
+    const leafPositions = [];
+    for (let j = 0; j < g.count; j++) {
+      const lx = start + j * (leafW + leafGap);
+      leafPositions.push(lx);
+    }
+    const centerX = start + g.totalW / 2;
+    const rightEdge = start + g.totalW;
+    currentLeft = rightEdge + branchSubtreeGap;
+    return {
+      branchIdx: i,
+      start,
+      totalW: g.totalW,
+      centerX,
+      leafPositions,
+      rightEdge
+    };
+  });
+
+  const totalWidth = currentLeft - branchSubtreeGap + 30; // + right margin
+
+  // Root center
+  const rootCx = totalWidth / 2;
+
+  // ─── Create Nodes ───────────────────────────────────
+  const nodesContainer = document.getElementById('nodesContainer');
+  const connectors = document.getElementById('connectors');
+
+  // Helper to create a node div
+  function createNode(cssClass, text, left, top, width, height, bgColor) {
+    const div = document.createElement('div');
+    div.className = 'node ' + cssClass;
+    div.style.left = left + 'px';
+    div.style.top = top + 'px';
+    div.style.width = width + 'px';
+    div.style.height = height + 'px';
+    if (bgColor) div.style.background = bgColor;
+    const span = document.createElement('span');
+    span.className = 'text';
+    span.textContent = text;
+    div.appendChild(span);
+    nodesContainer.appendChild(div);
+    return div;
+  }
+
+  // Root
+  createNode('node-root', rootLabel,
+    rootCx - rootW / 2, rootY, rootW, nodeH.root, '#4A4A4A');
+
+  // Branches & Leaves
+  const branchCenters = [];
+  const leafPositionsAll = [];
+
+  groupInfo.forEach((gi, bi) => {
+    const b = branches[bi];
+    const bx = gi.centerX - branchW / 2;
+    createNode('node-branch', b.label,
+      bx, branchY, branchW, nodeH.branch, b.color);
+    branchCenters.push({ x: gi.centerX, y: branchY, color: b.color });
+
+    const branchLeafPositions = [];
+    gi.leafPositions.forEach((lx, li) => {
+      const ly = leafY;
+      createNode('node-leaf', b.leaves[li],
+        lx, ly, leafW, nodeH.leaf, b.color);
+      branchLeafPositions.push({ x: lx + leafW / 2, y: ly });
+    });
+    leafPositionsAll.push(branchLeafPositions);
+  });
+
+  // ─── SVG Connectors ─────────────────────────────────
+  connectors.setAttribute('width', totalWidth);
+  connectors.setAttribute('height', treeBottom);
+
+  function drawConnector(x1, y1, x2, y2, color) {
+    const midY = (y1 + y2) / 2;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const d = `M ${x1} ${y1} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2}`;
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', color || '#999');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('stroke-linejoin', 'round');
+    connectors.appendChild(path);
+  }
+
+  // Root → Branches
+  const rootBottom = rootY + nodeH.root;
+  branchCenters.forEach(bc => {
+    drawConnector(rootCx, rootBottom, bc.x, bc.y, '#888');
+  });
+
+  // Branches → Leaves
+  branchCenters.forEach((bc, bi) => {
+    const leaves = leafPositionsAll[bi];
+    const branchBottom = bc.y + nodeH.branch;
+    leaves.forEach(leaf => {
+      drawConnector(bc.x, branchBottom, leaf.x, leaf.y, bc.color);
+    });
+  });
+
+  // ─── Set Canvas Size ────────────────────────────────
+  const canvas = document.getElementById('canvas');
+  canvas.style.width = totalWidth + 'px';
+  canvas.style.height = treeBottom + 'px';
+
+  // ─── Zoom & Pan ─────────────────────────────────────
+  let scale = 1;
+  let panX = 0;
+  let panY = 0;
+  let isDragging = false;
+  let startX, startY;
+  let startPanX, startPanY;
+
+  const viewport = document.getElementById('viewport');
+  const zoomInfo = document.getElementById('zoomInfo');
+
+  // initial pan to center
+  function initialFit() {
+    const vw = viewport.clientWidth;
+    const vh = viewport.clientHeight;
+    const sx = vw / totalWidth;
+    const sy = vh / treeBottom;
+    scale = Math.min(sx, sy, 1) * 0.85;
+    // center
+    panX = (vw - totalWidth * scale) / 2;
+    panY = (vh - treeBottom * scale) / 2;
+    applyTransform();
+    updateZoomInfo();
+  }
+
+  function applyTransform() {
+    canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  }
+
+  function updateZoomInfo() {
+    zoomInfo.textContent = Math.round(scale * 100) + '%';
+  }
+
+  // Scroll zoom
+  viewport.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    const rect = viewport.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    const delta = -e.deltaY;
+    const factor = 1 + (delta > 0 ? 0.08 : -0.08);
+    const newScale = Math.min(Math.max(scale * factor, 0.15), 3);
+
+    // Zoom toward mouse position
+    const fx = (mx - panX) / scale;
+    const fy = (my - panY) / scale;
+
+    scale = newScale;
+    panX = mx - fx * scale;
+    panY = my - fy * scale;
+
+    applyTransform();
+    updateZoomInfo();
+  }, { passive: false });
+
+  // Drag pan
+  viewport.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startPanX = panX;
+    startPanY = panY;
+    viewport.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    panX = startPanX + dx;
+    panY = startPanY + dy;
+    applyTransform();
+  });
+
+  window.addEventListener('mouseup', function() {
+    if (isDragging) {
+      isDragging = false;
+      viewport.style.cursor = 'grab';
+    }
+  });
+
+  // Touch support for mobile
+  let lastTouchDist = 0;
+  let lastTouchCenter = null;
+  let touchPanX = 0, touchPanY = 0;
+
+  viewport.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      startPanX = panX;
+      startPanY = panY;
+    } else if (e.touches.length === 2) {
+      const t1 = e.touches[0], t2 = e.touches[1];
+      lastTouchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      lastTouchCenter = {
+        x: (t1.clientX + t2.clientX) / 2,
+        y: (t1.clientY + t2.clientY) / 2
+      };
+      touchPanX = panX;
+      touchPanY = panY;
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  viewport.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      panX = startPanX + (t.clientX - startX);
+      panY = startPanY + (t.clientY - startY);
+      applyTransform();
+    } else if (e.touches.length === 2) {
+      const t1 = e.touches[0], t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      if (lastTouchDist > 0) {
+        const factor = dist / lastTouchDist;
+        const newScale = Math.min(Math.max(scale * factor, 0.15), 3);
+
+        const tc = {
+          x: (t1.clientX + t2.clientX) / 2,
+          y: (t1.clientY + t2.clientY) / 2
+        };
+
+        // Zoom toward touch center
+        const worldX = (tc.x - touchPanX) / scale;
+        const worldY = (tc.y - touchPanY) / scale;
+        scale = newScale;
+        panX = tc.x - worldX * scale;
+        panY = tc.y - worldY * scale;
+
+        lastTouchDist = dist;
+        touchPanX = panX;
+        touchPanY = panY;
+        applyTransform();
+        updateZoomInfo();
+      }
+    }
+  }, { passive: false });
+
+  viewport.addEventListener('touchend', function(e) {
+    if (e.touches.length < 2) lastTouchDist = 0;
+  });
+
+  // ─── Initialize ─────────────────────────────────────
+  window.addEventListener('resize', initialFit);
+  initialFit();
+})();
+</script>
+</body>
+</html>

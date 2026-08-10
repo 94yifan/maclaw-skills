@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "glm-vision": {
+      "command": "npx -y @z_ai/mcp-server",
+      "env": {
+        "Z_AI_API_KEY": "e645b5b2d39c401eb817b6a8ff71843f.be60BdYRW6BhYXfG",
+        "Z_AI_MODE": "ZHIPU",
+        "HOME": "/Users/yifansmacmini/.openclaw/workspace"
+      }
+    }
+  }
+}

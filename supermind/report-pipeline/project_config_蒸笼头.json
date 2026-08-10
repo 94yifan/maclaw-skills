@@ -1,0 +1,34 @@
+{
+  "project_name": "蒸笼头 品牌竞品研究",
+  "industry": "中式短保鲜食/速冻面点",
+  "schema_version": "1.6",
+  "brands": {
+    "focus": "蒸笼头（上海蒸笼头食品有限公司）",
+    "deep": ["巴比食品", "安井食品", "三全食品", "广州酒家", "思念食品", "五芳斋"],
+    "reference": ["缸鸭狗", "沈大成", "避风塘", "知味观"],
+    "summary": ["吉祥馄饨", "南翔"]
+  },
+  "founder_name": "冷怡佳（总经理）",
+  "data_sources": {
+    "ecommerce_platforms": ["tmall", "jd", "douyin"],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": false,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "output_dir": "./output/蒸笼头_品牌竞品研究_20260804",
+  "output_settings": {
+    "docx_filename": "蒸笼头-中式短保面点-V1-20260804.docx"
+  }
+}

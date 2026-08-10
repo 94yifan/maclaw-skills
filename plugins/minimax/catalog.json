@@ -1,0 +1,54 @@
+{
+  "generatedBy": "openclaw-plugin-model-catalog-v1",
+  "providers": {
+    "minimax": {
+      "baseUrl": "https://api.minimaxi.com/anthropic",
+      "models": [
+        {
+          "id": "MiniMax-M2.7",
+          "name": "MiniMax M2.7",
+          "reasoning": true,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0.3,
+            "output": 1.2,
+            "cacheRead": 0.06,
+            "cacheWrite": 0.375
+          },
+          "contextWindow": 204800,
+          "maxTokens": 131072
+        }
+      ],
+      "api": "anthropic-messages",
+      "authHeader": true,
+      "apiKey": "sk-cp-L7gF9JdH3OLrMVJYcuwo4ji4RQ3n22v3xrpxUeGs9zIwrG-nlbog-K5RXBFtY4u8tBwlc_v-sM6F_WYDXcqkx_6skPMBpan38YC1nojFrdWeb4VdfJOXnHw"
+    },
+    "minimax-cn": {
+      "baseUrl": "https://api.minimaxi.com/anthropic",
+      "models": [
+        {
+          "id": "MiniMax-M2.7",
+          "name": "MiniMax M2.7",
+          "reasoning": true,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0.3,
+            "output": 1.2,
+            "cacheRead": 0.06,
+            "cacheWrite": 0.375
+          },
+          "contextWindow": 204800,
+          "maxTokens": 131072,
+          "api": "anthropic-messages"
+        }
+      ],
+      "apiKey": "sk-cp-L7gF9JdH3OLrMVJYcuwo4ji4RQ3n22v3xrpxUeGs9zIwrG-nlbog-K5RXBFtY4u8tBwlc_v-sM6F_WYDXcqkx_6skPMBpan38YC1nojFrdWeb4VdfJOXnHw",
+      "api": "anthropic-messages",
+      "authHeader": true
+    }
+  }
+}

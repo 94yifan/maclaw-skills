@@ -1,0 +1,168 @@
+{
+  "generated_at": "2026-08-10T16:53:54.340232",
+  "project": "度亚 智能窗帘行业品牌扫描",
+  "industry": "智能窗帘/电动窗帘",
+  "instructions": [
+    {
+      "source_key": "ecommerce.tmall",
+      "name": "天猫旗舰店",
+      "category": "ecommerce",
+      "priority": "P0",
+      "extraction_fields": [
+        "SKU名称",
+        "售价",
+        "规格",
+        "斤价/单件价",
+        "已售/付款数",
+        "回头客率",
+        "综合评分",
+        "评价关键词(Top5正面+Top3负面)"
+      ],
+      "mapping": [
+        "→ ch3.deep_brands.market_channel: 爆款SKU名称, 已售/付款数, 回头客率, 综合评分, 斤价/单件价",
+        "→ ch3.deep_brands.product: SKU名称, 售价/规格, 斤价, 已售数据, 评价关键词",
+        "→ ch4.market_channel_deep: 全部字段"
+      ],
+      "industry_adapter": {},
+      "brands": [
+        "杜亚 DOOYA",
+        "Aqara 绿米",
+        "欧瑞博 ORVIBO",
+        "LifeSmart 云起",
+        "邦先生 Mr.Bond",
+        "小米米家"
+      ],
+      "_status": "pending_collection"
+    },
+    {
+      "source_key": "ecommerce.jd",
+      "name": "京东自营",
+      "category": "ecommerce",
+      "priority": "P0",
+      "extraction_fields": [
+        "爆款SKU",
+        "已售(万+)",
+        "复购率",
+        "大包装囤货数据",
+        "斤价"
+      ],
+      "mapping": [
+        "→ ch3.deep_brands.market_channel: 爆款SKU, 已售, 复购率, 大包装囤货数据",
+        "→ ch3.deep_brands.product: 斤价",
+        "→ ch4.market_channel_deep: 全部字段"
+      ],
+      "industry_adapter": {},
+      "brands": [
+        "杜亚 DOOYA",
+        "Aqara 绿米",
+        "欧瑞博 ORVIBO",
+        "LifeSmart 云起",
+        "邦先生 Mr.Bond",
+        "小米米家"
+      ],
+      "_status": "pending_collection"
+    },
+    {
+      "source_key": "financial.annual_report",
+      "name": "上市公司年报/招股书",
+      "category": "financial",
+      "priority": "P0",
+      "extraction_fields": [
+        "营收(年度+季度)",
+        "归母净利润",
+        "扣非净利润",
+        "毛利率",
+        "净利率",
+        "收入结构(分业务线)",
+        "销售费用率",
+        "研发投入金额+占比",
+        "员工人数",
+        "产能/产量数据"
+      ],
+      "mapping": [
+        "→ ch3.deep_brands.market_channel: 营收, 归母净利润, 扣非净利润, 毛利率, 收入结构",
+        "→ ch4.market_channel_deep: 全部字段",
+        "→ ch5.group_level: 全部字段"
+      ],
+      "industry_adapter": {},
+      "brands": [
+        "__industry_level__"
+      ],
+      "_status": "pending_collection"
+    },
+    {
+      "source_key": "industry.research_reports",
+      "name": "行业研报/白皮书",
+      "category": "industry",
+      "priority": "P0",
+      "extraction_fields": [
+        "市场规模(当前+预测)",
+        "CAGR",
+        "品牌集中度(CR5/CR10)",
+        "细分品类结构",
+        "头部品牌市占率",
+        "渠道结构",
+        "消费趋势关键词"
+      ],
+      "mapping": [
+        "→ ch2.porter_five_forces: 全部字段",
+        "→ ch2.industry_trends: 全部字段"
+      ],
+      "industry_adapter": {},
+      "brands": [
+        "__industry_level__"
+      ],
+      "_status": "pending_collection"
+    },
+    {
+      "source_key": "social_media.weibo",
+      "name": "微博",
+      "category": "social_media",
+      "priority": "P1",
+      "extraction_fields": [
+        "品牌代言人(时间线)",
+        "IP联名(IP+时间)",
+        "品牌campaign主题",
+        "内容更新频率"
+      ],
+      "mapping": [
+        "→ ch3.deep_brands.brand_power: 全部字段"
+      ],
+      "industry_adapter": {},
+      "brands": [
+        "杜亚 DOOYA",
+        "Aqara 绿米",
+        "欧瑞博 ORVIBO",
+        "LifeSmart 云起",
+        "邦先生 Mr.Bond",
+        "小米米家"
+      ],
+      "_status": "pending_collection"
+    },
+    {
+      "source_key": "social_media.douyin",
+      "name": "抖音",
+      "category": "social_media",
+      "priority": "P1",
+      "extraction_fields": [
+        "官方号粉丝数",
+        "直播频次",
+        "内容定位",
+        "渠道角色判断"
+      ],
+      "mapping": [
+        "→ ch3.deep_brands.market_channel: 全部字段"
+      ],
+      "industry_adapter": {},
+      "brands": [
+        "杜亚 DOOYA",
+        "Aqara 绿米",
+        "欧瑞博 ORVIBO",
+        "LifeSmart 云起",
+        "邦先生 Mr.Bond",
+        "小米米家"
+      ],
+      "_status": "pending_collection"
+    }
+  ]
+}

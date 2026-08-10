@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "registry": "https://clawhub.ai",
+  "slug": "creative-performance-diagnoser2",
+  "installedVersion": "1.0.0",
+  "installedAt": 1785127314787,
+  "artifact": {
+    "kind": "archive",
+    "sha256": "282717f372be3659a1562cba2dc615426e7f83eb69f3ebe6e2ca5f651806af13",
+    "integrity": "sha256-KCcX83K+NlmhViy6LcYVQm5/g+tp8+vm4spfZRgGrxM="
+  },
+  "skillFile": {
+    "path": "SKILL.md",
+    "sha256": "78a5d5202d52825345d0be2f99ae6994f6067ce4fe3ee0b5fc0b2d82f0a35dc3"
+  }
+}

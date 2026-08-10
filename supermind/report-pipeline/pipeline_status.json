@@ -1,13 +1,13 @@
 {
-  "project": "度亚 智能窗帘行业品牌扫描",
-  "started_at": "2026-08-10T17:10:24.100178",
-  "completed_at": "2026-08-10T17:10:24.115051",
+  "project": "杜亚 智能窗帘行业品牌扫描",
+  "started_at": "2026-08-10T22:25:07.850958",
+  "completed_at": "2026-08-10T22:25:07.878509",
   "steps": {
     "qa_check": {
       "description": "QA 自动检查 — 结构/内容/图表/交付四层 + 终端docx验证",
       "status": "success",
-      "started_at": "2026-08-10T17:10:24.101404",
-      "completed_at": "2026-08-10T17:10:24.114821",
+      "started_at": "2026-08-10T22:25:07.851427",
+      "completed_at": "2026-08-10T22:25:07.878231",
       "error": null,
       "outputs": [
         "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/qa_report.md"

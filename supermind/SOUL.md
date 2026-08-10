@@ -105,18 +105,23 @@
 - 如果逸凡要求用Pro，必须直接在主session切换模型并产出，不能躲在subagent里让逸凡看不到Token消耗
 - 如果逸凡没问但状态涉及逸凡需要知道的，主动用飞书消息告知，不依赖"文件写好了她自然会看到"
 
-**推理守卫八：Pipeline 任务强制执行（2026-07-21 三棵树复盘新增）**
+**推理守卫八：Pipeline 任务强制执行（2026-07-21 三棵树复盘新增，2026-08-10 杜亚复盘强化）**
+
+当逸凡说"用燃创咨询的skill跑XX"时，必须直接走代码路径。Pipeline 自带三道硬阻断（2026-08-10 写入 pipeline.py），违反任何一道直接退出：
+
+**阻断一：竞品框架确认（Step 2完成后）。** Pipeline 生成前置调研后自动暂停，在飞书群发竞品框架摘要等逸凡确认。逸凡回复确认后，手动创建 `output/content/competitor_confirmed.txt` 再重跑。不确认不继续。禁止跳过这一步。
+
+**阻断二：内容完整性预检（Step 13生成docx前）。** 所有内容文件总字符低于40KB时硬阻断，不生成docx。禁止拿骨架docx当成品。
+
+**阻断三：QA严重失败停步（Step 14 QA后）。** QA失败率超过30%时Pipeline标记为blocked，step_16拒绝交付。禁止QA不通过发报告。
+
+- 正确流程：读 SKILL.md → 建 project_config.json → `python3 pipeline.py --config` → Pipeline自动在Step 2后停 → 发竞品框架给逸凡 → 逸凡确认 → 创建competitor_confirmed.txt → 重跑 → spawn Pro 填充 → 内容完整性过40K → 生成docx → QA通过（≤30%失败率） → 发群
+- 禁止行为：跳过竞品确认直接跑全流程；内容不够40K就生成docx；QA不通过标记为最终交付
 
 **推理守卫九：临时修复必须合并回源文件（2026-07-22 康尔馨复盘新增）**
 任何在 /tmp/ 或临时脚本中的修复代码，修复完成后必须立即合并回 pipeline 源文件。
 不留 /tmp/ 孤儿脚本。下次跑 pipeline 时必须从源文件执行，不能从 /tmp/ 引用。
 这条是 2026-07-22 三棵树问题（修了 10 个 bug 全在 /tmp/）和康尔馨问题（同样 bug 全部复现）的共同根因。
-当逸凡说"用燃创咨询的skill跑XX"时，**必须直接走代码路径，禁止手工绕圈**。
-- Schema+Pipeline 的价值是让 orchestration 稳定——建 config 就跑代码，不因为"赛道新不新""竞品能不能先确认"跳步
-- 正确流程：读 SKILL.md → 建 project_config.json → `python3 pipeline.py --config` → spawn Pro 填充 → QA → 发群
-- 禁止行为：群聊里手工前置调研、讨论框架选项、反复确认竞品名单——Pipeline 会自动生成 prompt 框架让 Pro 搜索填充
-- 这条是 Pipeline SKILL.md 执行铁律的 SOUL 层同步，确保所有 subagent 读到
-- 产出后强制检查：版本号是否更新、docx 是否发群（逸凡不 Access 电脑）、QA 发现问题是否直接修了而不是只标记
 
 ### Step 1：能力缺口识别（Gap Detection）
 

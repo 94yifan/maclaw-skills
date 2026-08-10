@@ -212,7 +212,10 @@ def main():
     # ── 初始化状态 -- 找到之前的状态 ──
     try:
         status = load_status()
-        if status.get("overall") != "idle":
+        if status.get("overall") == "blocked":
+            # 保留 blocked 标记，确保最终交付步骤的 QA 拦截生效
+            print("⛔ 检测到 pipeline 处于 blocked 状态（QA 未通过），阻断标记已保留")
+        elif status.get("overall") != "idle":
             print("⚠ 检测到已有 pipeline 状态")
             status = init_status()
     except (FileNotFoundError, json.JSONDecodeError):
@@ -259,10 +262,14 @@ def main():
     for num, name, desc, automated, agent in steps_to_run:
         try:
             _execute_step(num, name, desc, automated, agent, schema, project_config)
-        except SystemExit:
-            # step_fail 会调用 sys.exit(1)
+        except SystemExit as e:
+            if e.code == 0:
+                # 干净退出（如 Step 2 竞品确认暂停），不视为错误
+                print(f"\n⏸  Pipeline 已暂停（Step {num}: {name}）")
+                sys.exit(0)
+            # step_fail / 安全门禁 会调用 sys.exit(1)
             print(f"\n❌ Pipeline 在 Step {num} ({name}) 处中止")
-            print(f"   详细错误请查看: {Path(project_config.output_dir) / 'pipeline_error.md'}")
+            print(f"   详细错误请查看: {BASE_DIR / 'pipeline_error.md'}")
             sys.exit(1)
         except Exception as e:
             print(f"\n❌ Pipeline 在 Step {num} ({name}) 处发生未预期异常")
@@ -301,6 +308,7 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
     if num == 2:
         step_start(step_name, desc)
         research_path = BASE_DIR / "output" / "content" / "pre_research.md"
+        research_path.parent.mkdir(parents=True, exist_ok=True)
         research_content = f"""# 前置调研框架
 
 项目: {project_config.project_name}
@@ -330,6 +338,21 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         with open(research_path, "w", encoding="utf-8") as f:
             f.write(research_content)
         step_success(step_name, [str(research_path)])
+
+        # ⛔ Gate 1: 竞品框架确认 — 未经逸凡确认不得继续
+        confirm_path = BASE_DIR / "output" / "content" / "competitor_confirmed.txt"
+        if not confirm_path.exists():
+            print("\n" + "="*60)
+            print("  ⛔ Pipeline 暂停：竞品框架确认")
+            print("="*60)
+            print("  竞品框架已生成: output/content/pre_research.md")
+            print("  请在飞书群中发送竞品框架摘要，等待逸凡确认。")
+            print("  逸凡回复'确认'/'没问题'/'开始跑'后，手动创建以下文件再重新运行:")
+            print(f"  touch {confirm_path}")
+            print("="*60)
+            sys.exit(0)
+        else:
+            print("  ✓ 竞品框架已确认 (competitor_confirmed.txt)")
         return
     
     # ── Step 3: 数据采集 ──
@@ -597,7 +620,40 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
     
     # ── Step 13: docx 生成 ──
     if num == 13:
-        from steps.docx_builder import assemble_docx
+        from steps.docx_builder import assemble_docx, _get_content_dir
+
+        # ⛔ Gate 2: 内容完整性预检 — 内容太薄禁止生成 docx
+        # 复用 docx_builder 的目录解析逻辑，保证检查的就是 assemble_docx 实际读取的目录
+        content_root = _get_content_dir(project_config)
+        if not content_root.exists():
+            print("❌ 内容目录不存在，无法生成 docx")
+            sys.exit(1)
+
+        # Count total chars across all .md files (excluding *_prompt.md and template files)
+        total_chars = 0
+        md_count = 0
+        for md_file in content_root.glob("**/*.md"):
+            # Skip prompt files and template files (files that contain ONLY a section header or are empty templates)
+            if md_file.name.endswith("_prompt.md"):
+                continue
+            text = md_file.read_text(encoding='utf-8')
+            # Skip template-only files (less than 200 chars = likely a template/placeholder)
+            if len(text) < 200:
+                continue
+            total_chars += len(text)
+            md_count += 1
+
+        MIN_CHARS = 40000  # 40K chars minimum
+        MIN_FILES = 6      # at least brand_overview + ch2 + ch5 + ch6 + a few competitors
+
+        if total_chars < MIN_CHARS:
+            print(f"\n❌ 内容完整性不达标，docx 生成被阻断")
+            print(f"   总字符数: {total_chars} (最低要求: {MIN_CHARS})")
+            print(f"   有效内容文件数: {md_count} (最低要求: {MIN_FILES})")
+            print(f"   请在填充足够内容后重新运行: python3 pipeline.py --config config.json --step 13")
+            sys.exit(1)
+
+        print(f"  ✓ 内容完整性检查通过: {total_chars} 字符, {md_count} 个有效文件")
         assemble_docx(schema, project_config)
         return
     
@@ -605,6 +661,43 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
     if num == 14:
         from steps.qa_check import run_full_qc
         run_full_qc(schema, project_config)
+
+        # ⛔ Gate 3: QA 失败阻断 — 失败率 >30% 时标记 blocked 并中止
+        qa_report_path = BASE_DIR / "output" / "reports" / "qa_report.md"
+        if qa_report_path.exists():
+            import re
+            qa_text = qa_report_path.read_text(encoding='utf-8')
+            # 兼容实际报告格式（表格: | ❌ 失败 | 10 |）与旧格式（✗ 失败: 10）
+            fail_match = re.search(r'(?:✗|❌)\s*失败\s*[|:]\s*(\d+)', qa_text)
+            total_match = re.search(r'总检查项\s*[|:]\s*(\d+)', qa_text)
+            if fail_match and total_match:
+                failures = int(fail_match.group(1))
+                total = int(total_match.group(1))
+                if total > 0:
+                    fail_pct = failures / total * 100
+                    if fail_pct > 30:
+                        print(f"\n⛔ QA 严重不达标，Pipeline 标记为 blocked")
+                        print(f"   失败率: {failures}/{total} ({fail_pct:.0f}%) > 30%")
+                        print(f"   请修复问题后重新运行 QA")
+                        # Mark pipeline as blocked
+                        status = load_status()
+                        status["overall"] = "blocked"
+                        status["blocked_at"] = "step_14"
+                        status["block_reason"] = f"QA失败率 {failures}/{total} ({fail_pct:.0f}%) > 30%"
+                        save_status(status)
+                        print("   Pipeline 状态已更新为 'blocked'")
+                        print("   修复后运行: python3 pipeline.py --config config.json --step 14")
+                        sys.exit(1)
+                    else:
+                        print(f"  ✓ QA 通过 (失败率 {fail_pct:.0f}% ≤ 30%)")
+                        # QA 通过后清除之前的 blocked 标记，允许继续最终交付
+                        status = load_status()
+                        if status.get("overall") == "blocked":
+                            status["overall"] = "idle"
+                            status.pop("blocked_at", None)
+                            status.pop("block_reason", None)
+                            save_status(status)
+                            print("  ✓ 已清除 blocked 状态，可继续最终交付")
         return
     
     # ── Step 15: 截图审查 ──
@@ -641,6 +734,14 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
     
     # ── Step 16: 最终交付（手动） ──
     if num == 16:
+        # ⛔ Gate 3: blocked 状态禁止最终交付
+        status = load_status()
+        if status.get("overall") == "blocked":
+            print(f"\n⛔ Pipeline 处于 blocked 状态，无法执行最终交付")
+            print(f"   阻断原因: {status.get('block_reason', '未知')}")
+            print(f"   请修复 QA 问题后重新运行")
+            sys.exit(1)
+
         step_start(step_name, desc)
         
         # 列出所有交付物

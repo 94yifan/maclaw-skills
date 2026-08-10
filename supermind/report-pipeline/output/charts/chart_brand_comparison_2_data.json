@@ -4,27 +4,51 @@
   "type": "horizontalBar",
   "data": [
     {
-      "name": "杜亚 DOOYA",
-      "value": 650
+      "name": "米家",
+      "value": 1250
     },
     {
       "name": "Aqara 绿米",
-      "value": 550
+      "value": 1150
     },
     {
       "name": "欧瑞博 ORVIBO",
+      "value": 1050
+    },
+    {
+      "name": "创明",
+      "value": 950
+    },
+    {
+      "name": "科思顿 Kaosturn",
+      "value": 850
+    },
+    {
+      "name": "摩力克",
+      "value": 750
+    },
+    {
+      "name": "如鱼得水",
+      "value": 650
+    },
+    {
+      "name": "三千金",
+      "value": 550
+    },
+    {
+      "name": "凯迪仕（智能门锁/转型对标）",
       "value": 450
     },
     {
-      "name": "LifeSmart 云起",
+      "name": "九牧（卫浴/安装服务标杆）",
       "value": 350
     },
     {
-      "name": "邦先生 Mr.Bond",
+      "name": "好太太（晾衣架/品类延伸）",
       "value": 250
     },
     {
-      "name": "小米米家",
+      "name": "奥普（浴霸/建材转线上）",
       "value": 150
     }
   ],

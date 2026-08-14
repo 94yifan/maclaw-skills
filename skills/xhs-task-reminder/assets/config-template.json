@@ -1,0 +1,59 @@
+{
+  "_说明": "项目配置模板。apply Skill 时用第0步问询清单逐项确认后填写，必填项缺失则提醒流程不启动。",
+  "project": {
+    "project_name": "项目名",
+    "client_name": "客户名",
+    "project_type": "投流投放|KFS种草|商务策略|其他",
+    "need_client_report": true
+  },
+  "members": [
+    {
+      "name": "姓名",
+      "open_id": "ou_xxx",
+      "side": "分侧名（无分侧留空）"
+    }
+  ],
+  "side_mapping": {
+    "_说明": "有分侧才填，如 {\"成猫\": \"陈思安\", \"幼猫\": \"花花\"}",
+    "侧名": "负责人姓名"
+  },
+  "bitable": {
+    "app_token": "完整 app_token（勿缩写）",
+    "table_id": "表ID",
+    "use_standard_fields": true,
+    "extra_fields": []
+  },
+  "tagging": {
+    "categories": [
+      "分类选项，按项目类型配置"
+    ],
+    "use_sub_category": true,
+    "level_standard": "S级：重要调户/大促/策略/未完成关键词打包；A级：日常循环/数据机制；B级：已完成低影响",
+    "use_daily_flag": true
+  },
+  "reminder": {
+    "main_time": "10:55",
+    "use_default_rhythm": true,
+    "special_reminders": [
+      {
+        "task_name": "任务名",
+        "frequency": "每天18:00 | 每48小时 | 其他",
+        "targets": ["负责人姓名"]
+      }
+    ]
+  },
+  "daily_checks": [
+    {
+      "check_name": "检查项",
+      "time": "检查时间",
+      "owner": "负责人姓名",
+      "note": "结果记当日memory，不写表格备注"
+    }
+  ],
+  "evening_report": {
+    "time": "19:10",
+    "dimensions": ["搜索", "人群", "内容", "日常"],
+    "split_by_side": true
+  },
+  "special_rules": []
+}

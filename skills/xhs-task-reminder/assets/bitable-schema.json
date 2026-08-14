@@ -1,0 +1,115 @@
+{
+  "_说明": "标准字段定义模板。分类/次级分类的选项值由 config（第0步问询产出）驱动，下方为蓝氏示例，实际项目按 config.tagging.categories 覆盖。",
+  "table_name": "项目运营待办表",
+  "fields": [
+    {
+      "field_name": "日期",
+      "type": 5,
+      "type_name": "DateTime",
+      "description": "记录日期",
+      "property": {
+        "date_formatter": "yyyy/MM/dd"
+      }
+    },
+    {
+      "field_name": "具体内容",
+      "type": 1,
+      "type_name": "Text",
+      "description": "待办的具体内容描述"
+    },
+    {
+      "field_name": "分类",
+      "type": 3,
+      "type_name": "SingleSelect",
+      "description": "任务分类（选项由 config.tagging.categories 配置，下方为蓝氏示例）",
+      "property": {
+        "options": [
+          {"name": "调户-新增人群"},
+          {"name": "新增关键词"},
+          {"name": "成本控制"},
+          {"name": "放量"},
+          {"name": "内容产出"},
+          {"name": "汇报沟通"},
+          {"name": "数据监控"},
+          {"name": "策略规划"},
+          {"name": "调户-新增笔记"}
+        ]
+      }
+    },
+    {
+      "field_name": "次级分类",
+      "type": 3,
+      "type_name": "SingleSelect",
+      "description": "次级分类，可空",
+      "property": {
+        "options": [
+          {"name": "调户-新增人群"},
+          {"name": "新增关键词"},
+          {"name": "成本控制"},
+          {"name": "放量"},
+          {"name": "内容产出"},
+          {"name": "汇报沟通"},
+          {"name": "数据监控"},
+          {"name": "策略规划"},
+          {"name": "调户-新增笔记"}
+        ]
+      }
+    },
+    {
+      "field_name": "负责人",
+      "type": 1,
+      "type_name": "Text",
+      "description": "负责人姓名（多人用逗号分隔）"
+    },
+    {
+      "field_name": "截止时间",
+      "type": 1,
+      "type_name": "Text",
+      "description": "截止日期或具体时间描述"
+    },
+    {
+      "field_name": "状态",
+      "type": 3,
+      "type_name": "SingleSelect",
+      "description": "任务状态",
+      "property": {
+        "options": [
+          {"name": "待开始"},
+          {"name": "进行中"},
+          {"name": "已完成"}
+        ]
+      }
+    },
+    {
+      "field_name": "备注",
+      "type": 1,
+      "type_name": "Text",
+      "description": "备注信息（状态更新记录、特殊提醒等）"
+    },
+    {
+      "field_name": "级别",
+      "type": 3,
+      "type_name": "SingleSelect",
+      "description": "任务级别",
+      "property": {
+        "options": [
+          {"name": "S级"},
+          {"name": "A级"},
+          {"name": "B级"}
+        ]
+      }
+    },
+    {
+      "field_name": "是否日常",
+      "type": 3,
+      "type_name": "SingleSelect",
+      "description": "是否为日常循环任务",
+      "property": {
+        "options": [
+          {"name": "日常"},
+          {"name": "非日常"}
+        ]
+      }
+    }
+  ]
+}

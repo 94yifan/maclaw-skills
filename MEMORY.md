@@ -128,6 +128,12 @@
 
 ---
 
+## 失败上报规则（2026-08-14 新增）
+
+**凡定时任务/自动化流程执行失败（模型报错、超时、中断、私信未发出等），第一时间私信逸凡报错**，附任务名 + 失败原因 + 时间点。不闷头重试、不等群消息被动发现。
+
+案例：8/14 09:00 催思安 cron 因 DeepSeek API 请求中断失败（externalAbort，usage=0），私信未发出，逸凡要求以后类似情况及时私信上报。
+
 ## 已安装 Skills（全部备份到 GitHub）
 
 - **feishu-approval-submitter**（v1，2026-07-13）：通用飞书审批提交 Skill。通过 API 自动创建审批实例，支持 input/textarea/radio/amount/date/attachment 等控件，自动上传附件，account 控件用 textarea 替代。适配付款申请、报销、费用申请等所有飞书审批模板。关键约束：account 类型控件 API 不支持，需用 textarea 替代；form 参数必须是 JSON 字符串；附件上传端点是 `www.feishu.cn/approval/openapi/v2/file/upload`。

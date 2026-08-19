@@ -1,0 +1,72 @@
+{
+  "project_name": "瑞幸即享咖啡 预包装咖啡（速溶/咖啡液/瓶装即饮）赛道品牌扫描",
+  "industry": "预包装咖啡（速溶咖啡/咖啡液/瓶装即饮咖啡）",
+  "schema_version": "2.0",
+  "focus_product": "瑞幸即享咖啡（瑞幸咖啡预包装产品线：冻干速溶咖啡粉、冷萃/浓缩咖啡液、瓶装罐装即饮咖啡）",
+  "brands": {
+    "focus": "瑞幸即享咖啡",
+    "deep": [
+      "三顿半",
+      "雀巢",
+      "永璞",
+      "隅田川",
+      "星巴克",
+      "农夫山泉炭仌"
+    ],
+    "reference": [
+      "AGF",
+      "UCC",
+      "连咖啡",
+      "Costa",
+      "统一雅哈",
+      "康师傅贝纳颂",
+      "魔爪",
+      "麦斯威尔",
+      "喜茶（瓶装）"
+    ],
+    "summary": [
+      "三得利",
+      "AGF Blendy",
+      "摩可纳Moccona"
+    ]
+  },
+  "founder_name": "",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": false,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": true,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {
+    "dimensions": [
+      "精品速溶/冻干咖啡升级",
+      "咖啡液便携化与冷萃化",
+      "即饮咖啡健康化（低糖0糖）",
+      "平价精品化（瑞幸9.9元心智向零售延伸）",
+      "现制咖啡品牌向零售预包装延伸"
+    ]
+  },
+  "special_methodology": {
+    "focus_product_analysis": "瑞幸即享三品类深挖：冻干速溶（精品速溶对标三顿半）→ 咖啡液（便携对标永璞隅田川）→ 瓶装即饮（RTD对标星巴克雀巢炭仌）→ 瑞幸品牌势能与9.9元心智的零售化延伸"
+  },
+  "output_dir": "./output/瑞幸即享咖啡_20260817",
+  "output_settings": {
+    "docx_filename": "瑞幸即享-预包装咖啡-V1-20260817.docx"
+  }
+}

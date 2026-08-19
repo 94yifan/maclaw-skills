@@ -1,0 +1,78 @@
+{
+  "project_name": "CoCo都可 现制茶饮（新式茶饮/台式奶茶）赛道品牌扫描",
+  "industry": "现制茶饮（新式茶饮）",
+  "schema_version": "2.0",
+  "focus_product": "珍珠奶茶/鲜芋系列（经典台式奶茶，10-20元价格带，加盟为主）",
+  "brands": {
+    "focus": "CoCo都可",
+    "deep": [
+      "蜜雪冰城（平价现制茶饮王者，下沉市场）",
+      "一点点（台式奶茶，同价位直接对标）",
+      "古茗（中端奶茶加盟龙头）",
+      "茶百道（中端奶茶万店）",
+      "沪上阿姨（中端五谷鲜果茶饮）",
+      "霸王茶姬（国风鲜奶茶头部）"
+    ],
+    "reference": [
+      "喜茶（高端新式茶饮引领者）",
+      "奈雪的茶（高端现制茶饮+烘焙）",
+      "茉莉奶白（东方美学鲜奶茶新锐）",
+      "乐乐茶（新茶饮+烘焙）",
+      "爷爷不泡茶（地域特色茶饮）",
+      "柠季（柠檬茶细分赛道）",
+      "林里LINLEE（手打柠檬茶）",
+      "东方墨兰（国风茶饮新锐）",
+      "茉酸奶（酸奶饮品）",
+      "树夏酸奶（酸奶饮品）"
+    ],
+    "summary": [
+      "瑞幸咖啡",
+      "库迪",
+      "幸运咖",
+      "星巴克",
+      "Manner",
+      "M Stand",
+      "皮爷咖啡",
+      "挪瓦咖啡"
+    ]
+  },
+  "founder_name": "洪肇水（台湾，1997年淡水创立，待前置调研核实）",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": true,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {
+    "dimensions": [
+      "健康化（低糖/0卡/真茶真奶/鲜果）",
+      "万店加盟模式与下沉市场争夺",
+      "国风/东方美学叙事",
+      "出海全球化布局",
+      "品类细分（柠檬茶/酸奶/鲜奶茶/轻乳茶）"
+    ]
+  },
+  "special_methodology": {
+    "focus_product_analysis": "CoCo珍珠奶茶/鲜芋系列单品深挖：经典台式奶茶定位 → 鲜芋/芋圆工艺 → 价格带与渠道（加盟+街边店） → 与高端新茶饮的竞争错位"
+  },
+  "output_dir": "./output/CoCo都可_20260817",
+  "output_settings": {
+    "docx_filename": "CoCo都可-现制茶饮-V1-20260817.docx"
+  }
+}

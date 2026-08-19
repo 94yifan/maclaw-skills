@@ -204,6 +204,7 @@ option = {{
     xAxis: {{ type: 'value', name: '{y_label}', nameLocation: 'middle', nameGap: 30 }},
     yAxis: {{ type: 'category', data: {names}, axisLabel: {{ fontSize: 12 }} }},
     series: [{{
+        name: '品牌名称对比',
         type: 'bar',
         data: {values},
         barWidth: '60%',

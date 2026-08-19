@@ -20,13 +20,53 @@ def ensure_dir(path: Union[str, Path]) -> Path:
     return p
 
 
+def _project_subdir(project_config) -> str:
+    """
+    解析项目隔离子目录名（稳定，不重复创建空目录）。
+
+    优先级：
+    1. config 显式配置的 output_subdir
+    2. config 显式配置的 output_dir（取其 basename）
+    3. output/ 下已存在的同名项目目录（最新一个，复用而非新建）
+    4. 都没有时生成新的时间戳目录
+
+    修复：之前每次调用都生成新时间戳，导致重复运行步骤时不断创建空目录，
+    而 docx 生成按 mtime 取最新目录时会选中空占位目录。
+    """
+    if project_config is None:
+        return ""
+    raw = getattr(project_config, "_raw", None) or {}
+    # 1. 显式 output_subdir
+    subdir = raw.get("output_subdir", "")
+    if subdir:
+        return subdir
+    # 2. 显式 output_dir → 取 basename
+    od = raw.get("output_dir", "")
+    if od:
+        return Path(od).name
+    # 3. 复用 output/ 下已存在的同名项目目录（最新一个）
+    pname = project_config.project_name.replace(" ", "_")
+    root = BASE_DIR / "output"
+    if root.exists():
+        existing = sorted(
+            (d for d in root.iterdir()
+             if d.is_dir() and d.name.startswith(pname)),
+            key=lambda d: d.stat().st_mtime,
+            reverse=True,
+        )
+        if existing:
+            return existing[0].name
+    # 4. 新时间戳目录
+    return pname + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+
+
 def output_dir(sub: str = "", project_config=None) -> Path:
     """
     output/ 基础目录。带 project_config 时使用 output_subdir 隔离，
     否则兼容旧路径（无隔离）。
     """
     if project_config:
-        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        subdir = _project_subdir(project_config)
         d = ensure_dir(BASE_DIR / "output" / subdir / sub)
     else:
         d = ensure_dir(BASE_DIR / "output" / sub)
@@ -35,35 +75,35 @@ def output_dir(sub: str = "", project_config=None) -> Path:
 
 def data_raw_dir(project_config=None) -> Path:
     if project_config:
-        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        subdir = _project_subdir(project_config)
         return ensure_dir(BASE_DIR / "output" / subdir / "data" / "raw")
     return ensure_dir(BASE_DIR / "output" / "data" / "raw")
 
 
 def data_dispatched_dir(project_config=None) -> Path:
     if project_config:
-        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        subdir = _project_subdir(project_config)
         return ensure_dir(BASE_DIR / "output" / subdir / "data" / "dispatched")
     return ensure_dir(BASE_DIR / "output" / "data" / "dispatched")
 
 
 def content_dir(project_config=None) -> Path:
     if project_config:
-        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        subdir = _project_subdir(project_config)
         return ensure_dir(BASE_DIR / "output" / subdir / "content")
     return ensure_dir(BASE_DIR / "output" / "content")
 
 
 def charts_dir(project_config=None) -> Path:
     if project_config:
-        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        subdir = _project_subdir(project_config)
         return ensure_dir(BASE_DIR / "output" / subdir / "charts")
     return ensure_dir(BASE_DIR / "output" / "charts")
 
 
 def reports_dir(project_config=None) -> Path:
     if project_config:
-        subdir = getattr(project_config, "output_subdir", None) or project_config.project_name.replace(" ", "_") + "_" + __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M")
+        subdir = _project_subdir(project_config)
         return ensure_dir(BASE_DIR / "output" / subdir / "reports")
     return ensure_dir(BASE_DIR / "output" / "reports")
 

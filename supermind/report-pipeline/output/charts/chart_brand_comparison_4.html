@@ -16,10 +16,11 @@ option = {
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
     grid: { left: '3%', right: '8%', bottom: '8%', containLabel: true },
     xAxis: { type: 'value', name: '回头客率(%)', nameLocation: 'middle', nameGap: 30 },
-    yAxis: { type: 'category', data: ["米家", "Aqara 绿米", "欧瑞博 ORVIBO", "创明", "科思顿 Kaosturn", "摩力克", "如鱼得水", "三千金", "凯迪仕（智能门锁/转型对标）", "九牧（卫浴/安装服务标杆）", "好太太（晾衣架/品类延伸）", "奥普（浴霸/建材转线上）"], axisLabel: { fontSize: 12 } },
+    yAxis: { type: 'category', data: ["三顿半", "雀巢", "永璞", "隅田川", "星巴克", "农夫山泉炭仌", "三得利", "AGF Blendy", "摩可纳Moccona"], axisLabel: { fontSize: 12 } },
     series: [{
+        name: '品牌名称对比',
         type: 'bar',
-        data: [1250, 1150, 1050, 950, 850, 750, 650, 550, 450, 350, 250, 150],
+        data: [950, 850, 750, 650, 550, 450, 350, 250, 150],
         barWidth: '60%',
         label: { show: true, position: 'right', formatter: function(p) { return p.value; } },
         itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [

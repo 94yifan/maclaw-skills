@@ -1,0 +1,67 @@
+{
+  "project_name": "康师傅 特别特鲜泡面 非油炸方便面赛道品牌扫描",
+  "industry": "非油炸/健康方便面（类现制速食升级赛道）",
+  "schema_version": "2.0",
+  "focus_product": "特别特鲜泡面（单篓水煮工艺，5分钟冲泡还原鲜煮口感，非油炸，上市登顶抖音新品榜TOP1）",
+  "brands": {
+    "focus": "康师傅",
+    "deep": [
+      "今麦郎（拉面范 0油炸系列）",
+      "白象（汤好喝、非油炸）",
+      "统一（汤达人、高端汤面）",
+      "拉面说（高端速食新锐）",
+      "日清合味道（Nissin杯面）",
+      "五谷道场（中粮旗下非油炸老牌）"
+    ],
+    "reference": [
+      "康师傅鲜Q面（内部非油炸对标）",
+      "康师傅老母鸡汤面（锁鲜工艺）",
+      "农心辛拉面（韩式进口高端面）",
+      "好欢螺/李子柒（螺蛳粉新形态速食）"
+    ],
+    "summary": [
+      "康师傅红烧牛肉面",
+      "统一来一桶",
+      "白象汤好喝",
+      "康师傅大汤王"
+    ]
+  },
+  "founder_name": "魏应州（魏氏四兄弟，顶新国际集团）",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": true,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {
+    "dimensions": [
+      "非油炸/零油炸健康化",
+      "类现制口感还原",
+      "高端化价格带上移",
+      "场景化细分（正餐/夜宵/健身控卡）"
+    ]
+  },
+  "special_methodology": {
+    "focus_product_analysis": "特别特鲜泡面单品深挖：工艺（单篓水煮）→ 卖点（5分钟还原鲜煮）→ 渠道表现（抖音新品榜TOP1）→ 健康场景卡位（非油炸矩阵）"
+  },
+  "output_dir": "./output/康师傅_特别特鲜泡面_20260814",
+  "output_settings": {
+    "docx_filename": "康师傅-非油炸方便面-V1-20260814.docx"
+  }
+}

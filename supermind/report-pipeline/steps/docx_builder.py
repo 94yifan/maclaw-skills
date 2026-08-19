@@ -110,6 +110,22 @@ def assemble_docx(schema: ReportSchema, project_config: ProjectConfig) -> Path:
         doc.add_page_break()
 
     # ═══════════════════════════════════════════════
+    # 产品矩阵（基础扫描第二章）
+    # ═══════════════════════════════════════════════
+    if chapter_map.get('product_matrix'):
+        _add_heading(doc, '产品矩阵', level=1)
+        add_md_content_to_docx(doc, chapter_map['product_matrix'])
+        doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
+    # 渠道与供应链（基础扫描第三章）
+    # ═══════════════════════════════════════════════
+    if chapter_map.get('channel_supply_chain'):
+        _add_heading(doc, '渠道与供应链', level=1)
+        add_md_content_to_docx(doc, chapter_map['channel_supply_chain'])
+        doc.add_page_break()
+
+    # ═══════════════════════════════════════════════
     # CH1: 核心发现与咨询窗口
     # ═══════════════════════════════════════════════
     _add_heading(doc, '第1章  核心发现与咨询窗口', level=1)
@@ -265,6 +281,9 @@ def build_chapter_map(project_config: ProjectConfig) -> Dict[str, str]:
 
     # brand_overview
     result['brand_overview'] = _read(c_dir / "brand_overview.md")
+    # v2.1 基础扫描三章：产品矩阵 + 渠道供应链
+    result['product_matrix'] = _read(c_dir / "product_matrix.md")
+    result['channel_supply_chain'] = _read(c_dir / "channel_supply_chain.md")
 
     # ch1 — if not exists, generate default content
     ch1_path = c_dir / "ch1_findings.md"
@@ -546,6 +565,8 @@ def _build_toc(schema: ReportSchema, project_config: ProjectConfig) -> List[str]
     """构建目录列表。"""
     items = [
         '品牌概览',
+        '产品矩阵',
+        '渠道与供应链',
         '第1章  核心发现与咨询窗口',
         '第2章  行业格局与竞品总矩阵',
         '第3章  竞品多维度扫描',
@@ -637,7 +658,16 @@ def _get_content_dir(project_config) -> Path:
                 if md_files:
                     matches.append((d.stat().st_mtime, cdir))
     if matches:
-        matches.sort(reverse=True)
+        # 优先选择有实质内容的目录（>5000字符视为有真实内容），
+        # 避免选中空占位目录；内容质量相同时再按 mtime 最新优先。
+        def _has_content(cdir):
+            md_files = list(cdir.glob('*.md')) + list(cdir.glob('**/*.md'))
+            md_files = [f for f in md_files if not f.name.endswith('_prompt.md')]
+            if not md_files:
+                return (0, 0)
+            total = sum(f.stat().st_size for f in md_files if f.stat().st_size > 200)
+            return (1 if total > 5000 else 0, total)  # 5000 chars = 有真实内容
+        matches.sort(key=lambda m: (*_has_content(m[1]), m[0]), reverse=True)
         return matches[0][1]
     # 3. 回退：通用目录
     return content_dir()

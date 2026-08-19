@@ -35,6 +35,7 @@ WRITING_HARD_RULES = """
 - 末句=这个判断对竞品意味着什么
 - 禁止星号强调（**）、破折号列表体（- xxx - yyy）、填充词（本质上/整体而言/值得注意的是）
 - 人群收入跨度不得超过2个档位（如5000-8000 ok，5000-50000 rejected）
+- 含具体数字的关键声称必须标注证据层级，格式：句末附（evidence_tier：confirmed/reported/mapped/speculation），禁止数字裸陈述无层级；推测性数字必须标 speculation
 """
 
 
@@ -362,6 +363,22 @@ def build_ch6_prompt(schema: ReportSchema, project_config: ProjectConfig,
 
 # ── 各步骤执行器 ──────────────────────────────────────────
 
+def _save_placeholder(path: Path, content: str) -> None:
+    """
+    写占位文件；若目标文件已有实质内容（>200字符且非占位模板）则跳过。
+    避免重复运行内容生成步骤时，用空占位模板覆盖已填充的真实内容。
+    """
+    if path.exists():
+        try:
+            existing = path.read_text(encoding='utf-8')
+        except Exception:
+            existing = ""
+        if len(existing.strip()) > 200 and "[本内容由 DeepSeek V4 Pro 生成]" not in existing:
+            print(f"  ⏭ 已存在实质内容，跳过覆盖: {path.name}")
+            return
+    save_text(content, path)
+
+
 def generate_ch2(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     """Step 5: 生成第二章。"""
     step_start("ch2_generation", "行业分析写作 (Step 5)")
@@ -378,7 +395,7 @@ def generate_ch2(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     save_text(prompt, prompt_path)
     
     # 创建占位文件（实际调用由 DeepSeek Pro 代理执行）
-    save_text(f"# 第二章：{schema.get_chapter_title('ch2')}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n", out_path)
+    _save_placeholder(out_path, f"# 第二章：{schema.get_chapter_title('ch2')}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n")
     
     verify_output_file(out_path, "ch2_generation")
     step_success("ch2_generation", [str(out_path), str(prompt_path)])
@@ -401,7 +418,7 @@ def generate_ch3(schema: ReportSchema, project_config: ProjectConfig) -> Path:
         
         # 占位 markdown
         brand_file = ch3_dir / f"deep_{brand}.md"
-        save_text(f"# 深度品牌：{brand}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_file}\n", brand_file)
+        _save_placeholder(brand_file, f"# 深度品牌：{brand}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_file}\n")
     
     # 汇总品牌 prompt
     if project_config.summary_brands:
@@ -460,7 +477,7 @@ def generate_ch4(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     save_text(prompt, prompt_path)
     
     out_path = ch4_dir / f"{project_config.focus_brand}_deep.md" if project_config.focus_brand else ch4_dir / "focus_brand_deep.md"
-    save_text(f"# 第四章：{schema.get_chapter_title('ch4')} — {project_config.focus_brand}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n", out_path)
+    _save_placeholder(out_path, f"# 第四章：{schema.get_chapter_title('ch4')} — {project_config.focus_brand}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n")
     
     verify_output_file(out_path, "ch4_generation")
     step_success("ch4_generation", [str(out_path)])
@@ -479,7 +496,7 @@ def generate_ch5(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     save_text(prompt, prompt_path)
     
     out_path = out_dir / "ch5_gap.md"
-    save_text(f"# 第五章：{schema.get_chapter_title('ch5')}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n", out_path)
+    _save_placeholder(out_path, f"# 第五章：{schema.get_chapter_title('ch5')}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n")
     
     verify_output_file(out_path, "ch5_generation")
     step_success("ch5_generation", [str(out_path)])
@@ -498,7 +515,7 @@ def generate_ch6(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     save_text(prompt, prompt_path)
     
     out_path = out_dir / "ch6_recommendations.md"
-    save_text(f"# 第六章：{schema.get_chapter_title('ch6')}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n", out_path)
+    _save_placeholder(out_path, f"# 第六章：{schema.get_chapter_title('ch6')}\n\n[本内容由 DeepSeek V4 Pro 生成]\n\nPrompt 文件: {prompt_path}\n")
     
     verify_output_file(out_path, "ch6_generation")
     step_success("ch6_generation", [str(out_path)])
@@ -594,11 +611,11 @@ def generate_brand_overview(schema: ReportSchema, project_config: ProjectConfig)
 
     # 创建占位文件
     out_path = out_dir / "brand_overview.md"
-    save_text(
+    _save_placeholder(
+        out_path,
         f"# 品牌概览 — {project_config.focus_brand}\n\n"
         f"[本内容由 DeepSeek V4 Pro 生成]\n\n"
         f"Prompt 文件: {prompt_path}\n",
-        out_path
     )
 
     verify_output_file(out_path, "brand_overview_generation")

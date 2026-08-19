@@ -657,47 +657,113 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         assemble_docx(schema, project_config)
         return
     
-    # ── Step 14: QA 检查 ──
+    # ── Step 14: QA 检查（两阶段：内容 QA → docx QA） ──
     if num == 14:
+        import re
         from steps.qa_check import run_full_qc
-        run_full_qc(schema, project_config)
 
-        # ⛔ Gate 3: QA 失败阻断 — 失败率 >30% 时标记 blocked 并中止
-        qa_report_path = BASE_DIR / "output" / "reports" / "qa_report.md"
-        if qa_report_path.exists():
-            import re
-            qa_text = qa_report_path.read_text(encoding='utf-8')
-            # 兼容实际报告格式（表格: | ❌ 失败 | 10 |）与旧格式（✗ 失败: 10）
+        def _parse_qa_report(report_path):
+            """从 QA 报告解析 (failures, total)，兼容表格与旧格式。"""
+            if not report_path.exists():
+                return None
+            qa_text = report_path.read_text(encoding='utf-8')
             fail_match = re.search(r'(?:✗|❌)\s*失败\s*[|:]\s*(\d+)', qa_text)
             total_match = re.search(r'总检查项\s*[|:]\s*(\d+)', qa_text)
             if fail_match and total_match:
-                failures = int(fail_match.group(1))
-                total = int(total_match.group(1))
-                if total > 0:
-                    fail_pct = failures / total * 100
-                    if fail_pct > 30:
-                        print(f"\n⛔ QA 严重不达标，Pipeline 标记为 blocked")
-                        print(f"   失败率: {failures}/{total} ({fail_pct:.0f}%) > 30%")
-                        print(f"   请修复问题后重新运行 QA")
-                        # Mark pipeline as blocked
-                        status = load_status()
-                        status["overall"] = "blocked"
-                        status["blocked_at"] = "step_14"
-                        status["block_reason"] = f"QA失败率 {failures}/{total} ({fail_pct:.0f}%) > 30%"
+                return int(fail_match.group(1)), int(total_match.group(1))
+            return None
+
+        # ══ Phase 1: Content QA — 直接检查 markdown 内容，不依赖 docx 生成 ══
+        print("\n  📋 Phase 1: Content QA (markdown 内容检查)")
+        content_report = run_full_qc(schema, project_config, phase="content")
+        parsed = _parse_qa_report(content_report)
+        if parsed:
+            failures, total = parsed
+            if total > 0 and failures / total > 0.30:
+                print(f"\n⛔ 内容 QA 严重不达标，Pipeline 标记为 blocked")
+                print(f"   内容失败率: {failures}/{total} ({failures/total*100:.0f}%) > 30%")
+                print(f"   ⚠ 问题出在【内容】本身（markdown），不是 docx 生成环节")
+                print(f"   ⚠ 请回退到对应的内容生成步骤（5-9）修复内容后重新运行 QA")
+                status = load_status()
+                status["overall"] = "blocked"
+                status["blocked_at"] = "step_14_content"
+                status["block_reason"] = f"内容QA失败率 {failures}/{total} ({failures/total*100:.0f}%) > 30%"
+                save_status(status)
+                print("   Pipeline 状态已更新为 'blocked'")
+                print("   修复后运行: python3 pipeline.py --config config.json --step 14")
+                sys.exit(1)
+            print(f"  ✓ 内容 QA 通过 (失败率 {failures/total*100:.0f}% ≤ 30%)")
+        else:
+            print("  ⚠ 无法解析内容 QA 报告，继续 docx QA")
+
+        # ══ Phase 2: Docx QA — 内容通过后，才检查 docx 格式 ══
+        print("\n  📋 Phase 2: Docx QA (docx 格式检查)")
+        docx_report = run_full_qc(schema, project_config, phase="docx")
+
+        # ⛔ Gate 3: docx QA 失败阻断 — 失败率 >30% 时标记 blocked 并中止
+        parsed = _parse_qa_report(docx_report)
+        if parsed:
+            failures, total = parsed
+            if total > 0:
+                fail_pct = failures / total * 100
+                if fail_pct > 30:
+                    print(f"\n⛔ Docx QA 严重不达标，Pipeline 标记为 blocked")
+                    print(f"   失败率: {failures}/{total} ({fail_pct:.0f}%) > 30%")
+                    print(f"   请修复问题后重新运行 QA")
+                    # Mark pipeline as blocked
+                    status = load_status()
+                    status["overall"] = "blocked"
+                    status["blocked_at"] = "step_14"
+                    status["block_reason"] = f"QA失败率 {failures}/{total} ({fail_pct:.0f}%) > 30%"
+                    save_status(status)
+                    print("   Pipeline 状态已更新为 'blocked'")
+                    print("   修复后运行: python3 pipeline.py --config config.json --step 14")
+                    sys.exit(1)
+                else:
+                    print(f"  ✓ Docx QA 通过 (失败率 {fail_pct:.0f}% ≤ 30%)")
+                    # QA 通过后清除之前的 blocked 标记，允许继续最终交付
+                    status = load_status()
+                    if status.get("overall") == "blocked":
+                        status["overall"] = "idle"
+                        status.pop("blocked_at", None)
+                        status.pop("block_reason", None)
                         save_status(status)
-                        print("   Pipeline 状态已更新为 'blocked'")
-                        print("   修复后运行: python3 pipeline.py --config config.json --step 14")
-                        sys.exit(1)
-                    else:
-                        print(f"  ✓ QA 通过 (失败率 {fail_pct:.0f}% ≤ 30%)")
-                        # QA 通过后清除之前的 blocked 标记，允许继续最终交付
-                        status = load_status()
-                        if status.get("overall") == "blocked":
-                            status["overall"] = "idle"
-                            status.pop("blocked_at", None)
-                            status.pop("block_reason", None)
+                        print("  ✓ 已清除 blocked 状态，可继续最终交付")
+        else:
+            # 兼容旧报告格式（找不到统计行时静默通过）
+            qa_report_path = BASE_DIR / "output" / "reports" / "qa_report.md"
+            if qa_report_path.exists():
+                qa_text = qa_report_path.read_text(encoding='utf-8')
+                fail_match = re.search(r'(?:✗|❌)\s*失败\s*[|:]\s*(\d+)', qa_text)
+                total_match = re.search(r'总检查项\s*[|:]\s*(\d+)', qa_text)
+                if fail_match and total_match:
+                    failures = int(fail_match.group(1))
+                    total = int(total_match.group(1))
+                    if total > 0:
+                        fail_pct = failures / total * 100
+                        if fail_pct > 30:
+                            print(f"\n⛔ QA 严重不达标，Pipeline 标记为 blocked")
+                            print(f"   失败率: {failures}/{total} ({fail_pct:.0f}%) > 30%")
+                            print(f"   请修复问题后重新运行 QA")
+                            # Mark pipeline as blocked
+                            status = load_status()
+                            status["overall"] = "blocked"
+                            status["blocked_at"] = "step_14"
+                            status["block_reason"] = f"QA失败率 {failures}/{total} ({fail_pct:.0f}%) > 30%"
                             save_status(status)
-                            print("  ✓ 已清除 blocked 状态，可继续最终交付")
+                            print("   Pipeline 状态已更新为 'blocked'")
+                            print("   修复后运行: python3 pipeline.py --config config.json --step 14")
+                            sys.exit(1)
+                        else:
+                            print(f"  ✓ QA 通过 (失败率 {fail_pct:.0f}% ≤ 30%)")
+                            # QA 通过后清除之前的 blocked 标记，允许继续最终交付
+                            status = load_status()
+                            if status.get("overall") == "blocked":
+                                status["overall"] = "idle"
+                                status.pop("blocked_at", None)
+                                status.pop("block_reason", None)
+                                save_status(status)
+                                print("  ✓ 已清除 blocked 状态，可继续最终交付")
         return
     
     # ── Step 15: 截图审查 ──

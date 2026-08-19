@@ -29,10 +29,30 @@ from steps.utils import (
 from config import ReportSchema, ProjectConfig
 
 
-def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
+def _project_content_dir(project_config) -> Path:
+    """
+    解析项目实际使用的 content 目录（与 docx_builder 生成 docx 时读取的目录一致）。
+    优先 config.output_dir → output/ 下匹配项目名的有内容目录 → 通用 content_dir()。
+    """
+    try:
+        from steps.docx_builder import _get_content_dir
+        return _get_content_dir(project_config)
+    except Exception:
+        return content_dir()
+
+
+def run_full_qc(schema: ReportSchema, project_config: ProjectConfig, phase: str = "all") -> Path:
     """
     Step 12 主入口：运行全套 QA 检查。
     返回 QA 报告路径。
+
+    phase 参数（两阶段 QA）：
+      - "content": 内容 QA 阶段 — 只检查 markdown 内容（结构/内容/图表/粒度/证据层级），
+                    不依赖 docx 生成，docx 格式问题不会污染内容检查结果。
+                    报告写入 qa_report_content.md
+      - "docx":    docx QA 阶段 — 只检查交付物与终端 docx（交付检查 + docx 直接解析）。
+                    应在内容 QA 通过后执行。报告写入 qa_report.md
+      - "all":     全部检查（默认，向后兼容）。
     """
     step_start("qa_check", "QA 自动检查 — 结构/内容/图表/交付四层 + 终端docx验证")
     
@@ -48,10 +68,21 @@ def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     # 证据层级一致性检查（v2.0新增）
     tier_results = check_evidence_tier_consistency(schema, project_config)
     
-    # 第六层：终端docx直接验证（直接解析docx文件，检查图片嵌入+内容相关性+电商数据）
-    docx_results = check_docx_final(project_config)
+    # 品牌名实体身份校验（v2.1新增，推理守卫三·实体身份子规则）
+    brand_results = check_brand_names(schema, project_config)
     
-    all_results = structural_results + content_results + chart_results + granularity_results + delivery_results + tier_results + docx_results
+    # 第六层：终端docx直接验证（直接解析docx文件，检查图片嵌入+内容相关性+电商数据）
+    if phase == "content":
+        # Phase 1: 仅内容层 — 不涉及 docx，格式问题不应污染内容检查
+        all_results = structural_results + content_results + chart_results + granularity_results + tier_results + brand_results
+        report_name = "qa_report_content.md"
+    elif phase == "docx":
+        # Phase 2: 仅交付/docx 层 — 内容已通过后才执行
+        all_results = delivery_results + check_docx_final(project_config)
+        report_name = "qa_report.md"
+    else:
+        all_results = structural_results + content_results + chart_results + granularity_results + delivery_results + tier_results + brand_results + check_docx_final(project_config)
+        report_name = "qa_report.md"
     
     # 统计
     total = len(all_results)
@@ -62,7 +93,7 @@ def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
     # 生成报告
     report = generate_qa_report(all_results, schema, project_config, total, passed, failed, warnings)
     
-    report_path = r_dir / "qa_report.md"
+    report_path = r_dir / report_name
     save_text(report, report_path)
     
     print(f"\n  QA 总检查项: {total}")
@@ -83,7 +114,7 @@ def run_full_qc(schema: ReportSchema, project_config: ProjectConfig) -> Path:
 def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
     """A. 结构性检查。"""
     results = []
-    c_dir = content_dir()
+    c_dir = _project_content_dir(project_config)
     ch3_dir = c_dir / "ch3_competitive"
     ch4_dir = c_dir / "ch4_deep"
     
@@ -119,6 +150,9 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
         missing_chapters = []
         for ch_key, path in chapter_files.items():
             if not path.exists():
+                # ch6 兼容 docx_builder 的回退链：ch6_strategy.md 或 ch6_recommendations.md 任一存在即视为有
+                if ch_key == 'ch6' and (c_dir / "ch6_recommendations.md").exists():
+                    continue
                 missing_chapters.append(ch_key)
     
     results.append({
@@ -162,7 +196,16 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
     dim_check_ok = True
     missing_dims_detail = []
     for brand in deep_brands:
+        # 兼容品牌名含特殊字符（如“/”）无法直接出现在文件名中的情况：
+        # 依次尝试原始名、·替换斜杠的命名、以及括号前的基础名
         brand_files = list(ch3_dir.glob(f"deep_{brand}*.md"))
+        if not brand_files:
+            alt = brand.replace("/", "·")
+            brand_files = list(ch3_dir.glob(f"deep_{alt}*.md"))
+        if not brand_files:
+            base = brand.split("（")[0]
+            if base and base != brand:
+                brand_files = list(ch3_dir.glob(f"deep_{base}*.md"))
         if not brand_files:
             dim_check_ok = False
             missing_dims_detail.append(f"{brand}: 无内容文件")
@@ -173,6 +216,9 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
                 content = load_markdown(bf)
                 for dim in required_dims:
                     # 检查维度关键词
+                    # 2026-08-17 修复：dim_keywords 的键必须与 dim 完全一致，
+                    # 不能用 dim.split("/")[0]（会把「市场/渠道」拆成「市场」导致查不到键，
+                    # 回退成字面匹配「市场/渠道」，把「## 一、市场与渠道」格式误报为缺维度）。
                     dim_keywords = {
                         "市场/渠道": ["市场", "渠道", "财务", "天猫", "京东", "抖音"],
                         "品牌力": ["品牌", "代言", "联名", "营销", "种草"],
@@ -180,7 +226,7 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
                         "趋势": ["趋势", "行业风向", "内容热点", "用户情绪"],
                         "人群": ["人群", "用户", "画像", "消费者"],
                     }
-                    keywords = dim_keywords.get(dim.split("/")[0], [dim])
+                    keywords = dim_keywords.get(dim, [dim])
                     if not any(kw in content for kw in keywords):
                         dim_check_ok = False
                         missing_dims_detail.append(f"{brand}: 可能缺失维度「{dim}」")
@@ -225,7 +271,7 @@ def check_structural(schema: ReportSchema, project_config: ProjectConfig) -> Lis
 def check_content(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
     """B. 内容检查。"""
     results = []
-    c_dir = content_dir()
+    c_dir = _project_content_dir(project_config)
     
     # 收集所有内容文件（支持独立文件ch*.md和统一文件report*.md）
     content_files = []
@@ -302,9 +348,15 @@ def check_content(schema: ReportSchema, project_config: ProjectConfig) -> List[d
     }
     
     ai_issues = []
+    # 排除 markdown 表格分隔行（| --- |）造成的误报：结构性语法不是AI腔
+    import re as _re
+    _content_for_ai = _re.sub(r'^\|[\s:|-]+\|\s*$', '', all_content, flags=_re.MULTILINE)
     for pattern_name, patterns in ai_patterns.items():
         for pat in patterns:
-            found = all_content.count(pat)
+            if pat in ("* ", "- ", "• "):
+                found = _content_for_ai.count(pat)
+            else:
+                found = all_content.count(pat)
             if found > 0:
                 ai_issues.append(f"{pattern_name} ({pat}): {found}次")
     
@@ -542,7 +594,7 @@ def check_charts(schema: ReportSchema, project_config: ProjectConfig) -> List[di
     
     # C-5: 图表嵌入位置（2026-07-18新增，逸凡要求）
     # 图表不能统一放在末尾附录，必须嵌入正文对应的分析位置
-    content_files = list(content_dir().glob("*.md"))
+    content_files = list(_project_content_dir(project_config).glob("*.md"))
     end_of_file_chart_count = 0
     inline_chart_count = 0
     for cf in content_files:
@@ -653,9 +705,10 @@ GRANULARITY_RULES = {
 def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
     """检查报告颗粒度完整性——每章段的内容密度是否达标"""
     results = []
-    content_files = list(content_dir().glob("*.md"))
+    c_dir = _project_content_dir(project_config)
+    content_files = list(c_dir.glob("*.md"))
     # 同时读取子目录中的内容（如 ch3_competitive/deep_*.md）
-    for subdir in content_dir().iterdir():
+    for subdir in c_dir.iterdir():
         if subdir.is_dir():
             content_files.extend(subdir.glob("*.md"))
     
@@ -764,20 +817,24 @@ def check_granularity(schema: ReportSchema, project_config: ProjectConfig) -> Li
     
     # D-5: 创始人研究 - 统计创始人研究区块中的非空行数
     founder_lines = 0
-    founder_match = re.search(r'(#{1,2}\s+[^\n]*创始人[^\n]*)', all_content)
+    founder_chars = 0
+    founder_match = re.search(r'(#{1,2}\s+[^\n]*创始人[^\n]*研究[^\n]*)', all_content) or re.search(r'(#{1,2}\s+[^\n]*创始人[^\n]*)', all_content)
     if founder_match:
         start_pos = founder_match.start()
         rest = all_content[start_pos:]
         # 找到下一个非子标题的 H1/H2 标题的位置
-        next_h1 = re.search(r'\n#{1,2}\s+(?!第|二|三|四|五|六|[0-9]+\.|关键|创业|成长|核心|个人|原生|参考|数据|创始人|经营|稿件)', rest)
+        next_h1 = re.search(r'\n#{1,2}\s+(?!第|一|二|三|四|五|六|七|八|九|十|[0-9]+\.|关键|创业|成长|核心|个人|原生|参考|数据|创始人|经营|稿件)', rest)
         if next_h1:
             block = rest[:next_h1.start()]
         else:
             block = rest
         founder_lines = len([l for l in block.split('\n') if l.strip() and not l.strip().startswith('#')])
+        founder_chars = len(block.strip())
     
     min_founder = GRANULARITY_RULES["founder_research"]["min_lines"]
-    founder_ok = founder_lines >= min_founder
+    founder_enabled = project_config.get("modules_enabled.founder_research", True)
+    # 创始人研究关闭时跳过；开启时行数≥40 或 字符数≥3000（长段落格式但内容充足）均视为达标
+    founder_ok = (not founder_enabled) or founder_lines >= min_founder or founder_chars >= 3000
     results.append({
         "category": "D. 颗粒度检查",
         "check": "D-5 创始人研究行数",
@@ -815,7 +872,7 @@ def check_evidence_tier_consistency(schema: ReportSchema, project_config: Projec
     - unmarked_claims: 关键声称是否缺少evidence_tier标注
     """
     results = []
-    c_dir = content_dir()
+    c_dir = _project_content_dir(project_config)
 
     # 收集所有content markdown文件
     content_files = list(c_dir.glob("*.md"))
@@ -840,7 +897,7 @@ def check_evidence_tier_consistency(schema: ReportSchema, project_config: Projec
     confirmed_patterns = [
         ("经核实", r'经核实'),
         ("官方确认", r'官方确认'),
-        ("确认", r'确认'),
+        ("确认", r'(?<!已)确认(?!\])'),
         ("数据显示", r'数据显示'),
         ("公开披露", r'公开披露'),
         ("财报显示", r'财报显示'),
@@ -939,6 +996,70 @@ def check_evidence_tier_consistency(schema: ReportSchema, project_config: Projec
     return results
 
 
+def check_brand_names(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
+    """
+    品牌名实体身份校验（推理守卫三·实体身份子规则，08-10 杜亚→度亚教训）。
+    规则依据 report_schema.json 中 qa_rules 的 brand_name_presence 定义。
+    检查项：
+    - focus 品牌名在全部内容中至少出现 N 次（全篇错写/缺失 = 疑似实体名被写错）
+    - deep/summary 品牌名在全部内容中至少出现 1 次
+    """
+    results = []
+    c_dir = _project_content_dir(project_config)
+    content_files = list(c_dir.glob("*.md"))
+    for subdir in c_dir.iterdir():
+        if subdir.is_dir():
+            content_files.extend(subdir.glob("*.md"))
+
+    all_content = ""
+    for cf in content_files:
+        if cf.name.endswith("_prompt.md"):
+            continue
+        try:
+            all_content += cf.read_text(encoding="utf-8") + "\n"
+        except Exception:
+            continue
+
+    if not all_content.strip():
+        results.append({
+            "category": "B. 内容质量",
+            "check": "B-11 brand_name_presence",
+            "rule": "config中的品牌名必须在内容中逐字出现（实体身份校验）",
+            "detail": "无内容可检查",
+            "status": "FAIL",
+            "message": "内容目录为空，无法执行品牌名校验"
+        })
+        return results
+
+    brands = []
+    if project_config.focus_brand:
+        brands.append(("focus", project_config.focus_brand))
+    for b in (getattr(project_config, "deep_brands", None) or []):
+        brands.append(("deep", b))
+    for b in (getattr(project_config, "summary_brands", None) or []):
+        brands.append(("summary", b))
+
+    missing = []
+    for role, name in brands:
+        if not name:
+            continue
+        cnt = all_content.count(name)
+        if role == "focus" and cnt < 3:
+            missing.append(f"focus[{name}]全篇仅{cnt}次（<3，疑似被错写如杜亚→度亚）")
+        elif role != "focus" and cnt == 0:
+            missing.append(f"{role}[{name}]全篇0出现")
+
+    results.append({
+        "category": "B. 内容质量",
+        "check": "B-11 brand_name_presence",
+        "rule": "config中的品牌名必须在内容中逐字出现（实体身份校验，拦截杜亚→度亚类错写）",
+        "detail": f"检查 {len(brands)} 个品牌名（focus≥3次/deep+summary≥1次），异常 {len(missing)} 个",
+        "status": "FAIL" if missing else "PASS",
+        "message": "; ".join(missing) if missing else "所有config品牌名均在内容中正确出现"
+    })
+    return results
+
+
 # ── E. 交付检查 ────────────────────────────────────────────
 
 def check_delivery(schema: ReportSchema, project_config: ProjectConfig) -> List[dict]:
@@ -968,7 +1089,7 @@ def check_delivery(schema: ReportSchema, project_config: ProjectConfig) -> List[
     })
     
     # D-3: 数据完整性
-    c_dir_content = content_dir()
+    c_dir_content = _project_content_dir(project_config)
     content_file_count = len(list(c_dir_content.rglob("*.md"))) if c_dir_content.exists() else 0
     results.append({
         "category": "D. 交付检查",

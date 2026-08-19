@@ -1,16 +1,56 @@
 {
-  "project": "杜亚 智能窗帘行业品牌扫描",
-  "started_at": "2026-08-10T22:25:07.850958",
-  "completed_at": "2026-08-10T22:25:07.878509",
+  "project": "瑞幸即享咖啡 预包装咖啡（速溶/咖啡液/瓶装即饮）赛道品牌扫描",
+  "started_at": "2026-08-17T23:56:15.205212",
+  "completed_at": "2026-08-17T23:56:15.441474",
   "steps": {
+    "docx_assembly": {
+      "description": "DOCX 生成 — 纯 python-docx 重建版",
+      "status": "success",
+      "started_at": "2026-08-17T23:56:15.206737",
+      "completed_at": "2026-08-17T23:56:15.399433",
+      "error": null,
+      "outputs": [
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/瑞幸即享-预包装咖啡-V1-20260817.docx"
+      ]
+    },
     "qa_check": {
       "description": "QA 自动检查 — 结构/内容/图表/交付四层 + 终端docx验证",
       "status": "success",
-      "started_at": "2026-08-10T22:25:07.851427",
-      "completed_at": "2026-08-10T22:25:07.878231",
+      "started_at": "2026-08-17T23:56:15.419485",
+      "completed_at": "2026-08-17T23:56:15.440783",
       "error": null,
       "outputs": [
         "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/qa_report.md"
+      ]
+    },
+    "step_15": {
+      "description": "GLM 5V Turbo截图验证图表标签+文档效果",
+      "status": "success",
+      "started_at": "2026-08-17T23:56:15.440931",
+      "completed_at": "2026-08-17T23:56:15.441079",
+      "error": null,
+      "outputs": [
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/screenshot_review.txt"
+      ]
+    },
+    "step_16": {
+      "description": "docx+QA报告+核验表",
+      "status": "success",
+      "started_at": "2026-08-17T23:56:15.441188",
+      "completed_at": "2026-08-17T23:56:15.441365",
+      "error": null,
+      "outputs": [
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/蒸笼头-中式短保面点-V1.1-20260804.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/芝华仕-软体家具-V1-20260815.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/蒸笼头-中式短保面点-V1-20260804.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/度亚-智能窗帘-V1-20260810.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/康师傅-非油炸方便面-V1-20260814.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/CoCo都可-现制茶饮-V1-20260817.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/杜亚-智能窗帘-V1-20260810.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/瑞幸即享-预包装咖啡-V1-20260817.docx",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/qa_report_content.md",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/qa_report.md",
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/pipeline_status.json"
       ]
     }
   },

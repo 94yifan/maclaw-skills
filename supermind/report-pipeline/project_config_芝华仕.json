@@ -1,0 +1,72 @@
+{
+  "project_name": "芝华仕 软体家具（功能沙发+床垫）品牌扫描",
+  "industry": "软体家具（功能大沙发 + 床垫）",
+  "schema_version": "2.0",
+  "focus_product": "芝华仕双品类核心：①功能大沙发（头等舱系列为主，3-4人位/转角电动功能沙发，非单人沙发）②床垫系列（芝华仕床垫矩阵 + 爱蒙Enlanda高端床垫线）",
+  "brands": {
+    "focus": "芝华仕",
+    "deep": [
+      "顾家家居",
+      "左右沙发",
+      "La-Z-Boy乐至宝",
+      "喜临门",
+      "慕思股份",
+      "梦百合"
+    ],
+    "reference": [
+      "全友家居（性价比全屋软体）",
+      "曲美家居（设计导向软体）",
+      "爱蒙Enlanda（敏华内部高端床垫对标）",
+      "舒达Serta（进口高端床垫）",
+      "丝涟Sealy（进口床垫）",
+      "金可儿KingKoil（进口床垫）"
+    ],
+    "summary": [
+      "席梦思Simmons",
+      "穗宝床垫",
+      "雅兰床垫",
+      "林氏木业",
+      "源氏木语",
+      "敏华控股"
+    ]
+  },
+  "founder_name": "黄敏利（敏华控股创始人、董事会主席）",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": true,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {
+    "dimensions": [
+      "功能沙发智能化/电动化升级",
+      "床垫健康化与睡眠科技（护脊/智能床垫/AI睡眠监测）",
+      "软体家具高端化与品牌化",
+      "内销崛起与渠道变革（家居卖场→直播/抖音/小红书）",
+      "一站式大家居（软体单品→全屋整装）"
+    ]
+  },
+  "special_methodology": {
+    "dual_category_deep_dive": "芝华仕双品类深挖：①功能大沙发（头等舱系列/都市系列，3-4人位转角电动，明确非单人沙发边界）②床垫系列（芝华仕床垫矩阵+爱蒙Enlanda高端线），分别做产品矩阵、价格带、卖点、对应赛道对标"
+  },
+  "output_dir": "./output/芝华仕_20260815",
+  "output_settings": {
+    "docx_filename": "芝华仕-软体家具-V1-20260815.docx"
+  }
+}

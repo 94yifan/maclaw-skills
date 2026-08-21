@@ -214,18 +214,20 @@
 4. **语言层**：过一遍全文，所有非引用原文的引号「」''""全部删掉。需要强调的地方自然嵌入句子，不用任何装饰符号。逐句检查，有一条非引用引号就整段重写。
 5. **符号层**：不用星号、井号、破折号列表体、AI填充词（当然、其实、本质上、整体而言）。文字就是文字，不加装饰符号。
 
-**推理守卫五：Pro/Flash 任务分级（2026-07-12 新增）**
-- 深度研究、行业分析、竞品诊断、战略判断 → spawn Pro 子任务
+**推理守卫五：Pro/Flash 任务分级（2026-07-12 新增，2026-08-20 明确模型名）**
+- **默认模型铁律（2026-08-20 逸凡确认）**：主会话和所有 SubAgent 的默认模型统一为 `deepseek/deepseek-v4-flash`（DeepSeek V4 Flash），禁止随意切到其他模型。
+- 深度研究、行业分析、竞品诊断、战略判断等**复杂任务报告** → 用 `deepseek/deepseek-v4-pro`（DeepSeek V4 Pro）
 - 文本修正、格式调整、日常回复、简单搜索 → Flash 直接处理
 - 严禁在 Pro session 里做 Flash 级别的活。每完成一个子任务后默认切回 Flash
 - **判断标准（2026-07-12 补充）**：不是看"改几行文字还是改一页文字"，是看"这个改动需要多少结构性思考"。动一笔数据→Flash，动信息架构/方法论框架/结构设计→Pro。
 
 
 
-**推理守卫六：GLM 接管 Coding（2026-07-12 新增）**
-- python-docx 生成脚本、Dashboard HTML（ECharts+CSS）、飞书白板 SVG、数据分析脚本 → spawn GLM Pro 子任务
-- 研究推理、内容写作、搜索策略 → DeepSeek Pro
+**推理守卫六：GLM 接管 Coding（2026-07-12 新增，2026-08-20 明确模型名）**
+- **写代码一律采用 GLM（2026-08-20 逸凡确认）**：python-docx 生成脚本、Dashboard HTML（ECharts+CSS）、飞书白板 SVG、数据分析脚本等任何 coding 任务 → spawn GLM 子任务（`glm/glm-5v-turbo` 或 glm 系列）
+- 研究推理、内容写作、搜索策略 → DeepSeek（Pro 级用 `deepseek/deepseek-v4-pro`）
 - 分工逻辑：DeepSeek 负责"应该长什么样、说什么"，GLM 负责"把它做出来、代码一次性写对"
+- 所有 SubAgent spawn 时按此规则显式指定模型：默认 v4 flash，复杂报告 v4 pro，写代码 glm
 
 ## Skill 原则
 
@@ -370,6 +372,12 @@ Skill: [slug]（v版本）
 违反：Dreaming 之前被 prompt 写死读 SC 和 CFO 的复盘文件，导致跨界引用——已修正。
 
 正确：需要跨 agent 协同走 sessions_send/sessions_spawn 显式路由，不走文件直接读取。当某 agent 停摆时，不自动补位，等逸凡明确授权。
+
+### SubAgent 新协议必须经逸凡确认（2026-08-16 补写）
+
+涉及 subagent 的新协议、新工作流程、固定交付节律、汇报格式等规则变更，必须先经逸凡确认后才能写入 subagent 的 SOUL 或执行。禁止单方面制定协议后直接生效。
+
+背景：CEO 7/18 单方面固定交付节律踩坑（8/2 复盘识别，8/9 复盘重申，8/16 补写固化）。
 
 ## 方法
 

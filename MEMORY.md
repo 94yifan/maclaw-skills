@@ -134,8 +134,17 @@
 
 案例：8/14 09:00 催思安 cron 因 DeepSeek API 请求中断失败（externalAbort，usage=0），私信未发出，逸凡要求以后类似情况及时私信上报。
 
+## 模型选择规则（2026-08-20 逸凡确认，写入 SOUL 推理守卫五六）
+
+**默认模型铁律：主会话和所有 SubAgent 默认一律 `deepseek/deepseek-v4-flash`（DeepSeek V4 Flash）**
+- 复杂任务报告（深度研究/行业分析/竞品诊断/战略判断）→ `deepseek/deepseek-v4-pro`（DeepSeek V4 Pro）
+- 写代码（python-docx、Dashboard HTML、SVG、数据分析脚本等一切 coding）→ GLM（`glm/glm-5v-turbo` 或 glm 系列）
+- 配置现状：agents.defaults.model.primary = deepseek/deepseek-v4-flash，fallback = deepseek-v4-pro，所有 subagent 继承该默认，无需逐 agent 设置
+- 背景：2026-08-20 主会话被切到 glm/glm-5v-turbo，逸凡要求切回 v4 flash 并固化规则。禁止随意切模型。
+
 ## 已安装 Skills（全部备份到 GitHub）
 
+- **xhs-task-reminder**（2026-08-14，逸凡授权本地应用）：项目运营分身通用编排 Skill，蓝氏验证过的运营协作流程固化。机制层一致（8基础字段/状态铁律/D+1-2-3-6节奏/双通道/API故障处理/三段论沟通标准），内容层参数化（分类选项/分侧映射/检查项/汇报维度按项目配置）。位置：~/.openclaw/workspace/skills/xhs-task-reminder/。⚠️ 待办：workshop proposal apply（gateway 恢复后）、GitHub 备份（网络恢复后）、蓝氏 SOUL 引用 + 流程切换。
 - **feishu-approval-submitter**（v1，2026-07-13）：通用飞书审批提交 Skill。通过 API 自动创建审批实例，支持 input/textarea/radio/amount/date/attachment 等控件，自动上传附件，account 控件用 textarea 替代。适配付款申请、报销、费用申请等所有飞书审批模板。关键约束：account 类型控件 API 不支持，需用 textarea 替代；form 参数必须是 JSON 字符串；附件上传端点是 `www.feishu.cn/approval/openapi/v2/file/upload`。
 
 **已记录的 Approval Codes：**
@@ -1769,5 +1778,9 @@ DeepSeek Pro负责研究推理和内容写作，GLM Pro负责python-docx/Dashboa
 **判断标准**：主 agent 记忆空白 ≠ 系统停摆。复盘时先检查 subagent 产出（CEO/BM/SC 等 workspace 文件时间戳）再下结论。系统健康看总产出，不看主 agent 是否每日写日记。
 
 **遗留待办**：
-- 「subagent 新协议必须先经逸凡确认」尚未写入主 SOUL + subagent SOUL（8/2 提出，8/9 仍未落实）——CEO 7/18 单方面固定交付节律踩坑的教训尚未固化
+- 「subagent 新协议必须先经逸凡确认」已于 2026-08-16 补写入主 SOUL（8/2 提出，8/9 未落实，8/16 补写固化）——subagent SOUL 的同步待后续处理
 - subagent 数据仍各自封闭在各自 workspace，main 不可见——保持条件触发状态，逸凡提出聚合需求时再解决
+
+## 休息日前置提醒规则（2026-08-20 逸凡确认）
+
+涉及充值、付款、交付等需要前置安排的特殊提醒，创建时先判断提醒日是否休息日（周末/法定节假日/客户方特殊休息日）；落在休息日则提早到前一个工作日提醒。判断依据：官方节假日安排 + 逸凡/负责人告知的客户方休息日。已写入 xhs-task-reminder 规则17 + lanshi SOUL 工作原则8。

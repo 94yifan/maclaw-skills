@@ -42,8 +42,7 @@
             "cacheWrite": 0.375
           },
           "contextWindow": 204800,
-          "maxTokens": 131072,
-          "api": "anthropic-messages"
+          "maxTokens": 131072
         }
       ],
       "apiKey": "sk-cp-L7gF9JdH3OLrMVJYcuwo4ji4RQ3n22v3xrpxUeGs9zIwrG-nlbog-K5RXBFtY4u8tBwlc_v-sM6F_WYDXcqkx_6skPMBpan38YC1nojFrdWeb4VdfJOXnHw",

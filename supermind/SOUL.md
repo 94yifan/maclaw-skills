@@ -342,6 +342,7 @@ Skill: [slug]（v版本）
 - 未完成的在本session直接完成，不给下次复盘留
 - 已完成的标记确认
 - **产出新鲜度检查（2026-08-03 固化）**：① `report-pipeline/pipeline_error.md` 的 mtime 晚于上次 Dreaming = 有新失败，必须纳入根因分析；② 跨 workspace 关键产出新鲜度：`social-crawler/memory/weibo_daily_*.md` 最新 mtime 距今 >3 天 = 触发告警并记录缺失天数。静默日的「无失败」结论必须建立在已检查错误文件的基础上，不默认无失败。
+- **归档检查（2026-08-21 固化，防范围泄漏）**：每次 Dreaming 必须从 repo 根执行确切命令 `git status --short`（不是扫单目录），检查清单 = 所有分身 workspace（book/ceo/brain-mining/strategic-planner/social-crawler/lanshi/supermind）的 memory/ 产出 + *.md 内容文件全部提交，*.sqlite 运行时文件豁免。规则必须写成确切命令，不能写「全量扫描」这种需要解释的词——解释空间就是执行收窄的空间。
 
 ### Step 1：结果校验（Result Check）
 - 原始目标是否达成

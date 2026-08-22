@@ -7,6 +7,7 @@
         {
           "id": "deepseek-v4-flash",
           "name": "DeepSeek V4 Flash",
+          "api": "openai-completions",
           "reasoning": true,
           "input": [
             "text"
@@ -23,12 +24,12 @@
             "supportsReasoningEffort": true,
             "supportsUsageInStreaming": true,
             "maxTokensField": "max_tokens"
-          },
-          "api": "openai-completions"
+          }
         },
         {
           "id": "deepseek-v4-pro",
           "name": "DeepSeek V4 Pro",
+          "api": "openai-completions",
           "reasoning": true,
           "input": [
             "text"
@@ -45,12 +46,12 @@
             "supportsReasoningEffort": true,
             "supportsUsageInStreaming": true,
             "maxTokensField": "max_tokens"
-          },
-          "api": "openai-completions"
+          }
         },
         {
           "id": "deepseek-chat",
           "name": "DeepSeek Chat",
+          "api": "openai-completions",
           "reasoning": false,
           "input": [
             "text"
@@ -66,12 +67,12 @@
           "compat": {
             "supportsUsageInStreaming": true,
             "maxTokensField": "max_tokens"
-          },
-          "api": "openai-completions"
+          }
         },
         {
           "id": "deepseek-reasoner",
           "name": "DeepSeek Reasoner",
+          "api": "openai-completions",
           "reasoning": true,
           "input": [
             "text"
@@ -88,8 +89,7 @@
             "supportsReasoningEffort": false,
             "supportsUsageInStreaming": true,
             "maxTokensField": "max_tokens"
-          },
-          "api": "openai-completions"
+          }
         }
       ],
       "api": "openai-completions",

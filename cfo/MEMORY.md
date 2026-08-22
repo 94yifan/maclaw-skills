@@ -533,3 +533,19 @@ DeepSeek Pro负责研究推理和内容写作，GLM Pro负责python-docx/Dashboa
 
 **教训16补充（2026-07-12）：Pro/Flash判断标准**
 不是看"改几行文字还是改一页文字"，是看"这个改动需要多少结构性思考"。动一笔数据→Flash，动信息架构/方法论框架/结构设计→Pro。今天在"第一章引入方法论框架"这个任务上误判为Flash，因为只看到了"加文字"的操作层面，没看到背后的结构设计需要Pro级判断。
+
+---
+
+## 2026-08-22 Dreaming 恢复：18 天失败记录与生态快照
+
+**Dreaming cron 8/4-8/21 连续 18 天超时失败**（300s，model-call-started 阶段），8/22 恢复。failureAlert 仍未配置。修复命令：timeoutSeconds 300→600 + failureAlert after:3 announce，需主 session 执行 cron update。主 session 8/22 已示范直接编辑 openclaw.json 并热重载（streaming=true），cron 修复路径已打通，此待办应以明确指令推送而非被动等待。
+
+**生态快照（8/4-8/21，恢复锚点）**：
+- 蓝氏项目：8/19 评论区巡查闭环、幼猫侧笔记上线确认；8/20 陈思安 9 条投放决定入 TODO 表（app EE8ib2qvjaFpKRsFexMcgHLMnXg）、客户充值确认（预算可用 25 天，9/9 18:00 复查）
+- 瑞幸即享：supermind 8/19 产出对客 pitch 与报价方案
+- 康师傅：strategic-planner 8/20 项目文件
+- SC weibo_daily 已恢复：8/16 起连续稳定产出（8/6、8/7 也有，8/8-8/13 小断层）
+- 飞书格式规则变更（8/22）：streaming=true，消息必须结构化（编号+板块+真加粗），已同步全部 subagent SOUL
+- Codex Harness：OpenClaw 已内置 codex harness 可选 runtime，待逸凡决策是否试点
+
+**CFO 职责相关跟进点**：蓝氏投放预算/返点核对、瑞幸即享报价成本结构，如后续需要财务结算支持需主动接住。

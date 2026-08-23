@@ -417,9 +417,12 @@ def generate_png_from_chart_def(chart_def: dict, brands: List[str], data: List[d
             c = colors[i % len(colors)]
             draw.rectangle([left + 5, y, left + 5 + bar_len, y + bar_h], fill=c)
 
-            # 数值标签
-            if val >= 10000:
-                label = f"{val/10000:.0f}万"
+            # 数值标签（兼容小数与整数，避免 int() 截断店效等小数值）
+            if isinstance(val, float) and val != int(val):
+                label = f"{val:.2f}".rstrip('0').rstrip('.')
+            elif val >= 10000:
+                v = val / 10000
+                label = (f"{v:.1f}".rstrip('0').rstrip('.')) + "万"
             else:
                 label = str(int(val))
             draw.text((left + 10 + bar_len, y + bar_h // 2 - 6), label, fill=(40, 40, 40), font=font_bar)

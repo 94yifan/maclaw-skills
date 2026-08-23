@@ -1,43 +1,31 @@
 {
   "chart_id": "chart_brand_comparison_2",
-  "title": "京东自营爆款销售对比",
+  "title": "品牌店效对比（亿元/店/年，约数）",
   "type": "horizontalBar",
   "data": [
     {
-      "name": "三顿半",
-      "value": 950
+      "name": "老铺黄金",
+      "value": 4.59
     },
     {
-      "name": "雀巢",
-      "value": 850
+      "name": "周大福",
+      "value": 0.15
     },
     {
-      "name": "永璞",
-      "value": 750
+      "name": "周生生",
+      "value": 0.29
     },
     {
-      "name": "隅田川",
-      "value": 650
+      "name": "老凤祥",
+      "value": 0.14
     },
     {
-      "name": "星巴克",
-      "value": 550
+      "name": "六福集团",
+      "value": 0.05
     },
     {
-      "name": "农夫山泉炭仌",
-      "value": 450
-    },
-    {
-      "name": "三得利",
-      "value": 350
-    },
-    {
-      "name": "AGF Blendy",
-      "value": 250
-    },
-    {
-      "name": "摩可纳Moccona",
-      "value": 150
+      "name": "谢瑞麟",
+      "value": 0.05
     }
   ],
   "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_2.html",

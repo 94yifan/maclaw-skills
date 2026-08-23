@@ -1,43 +1,31 @@
 {
   "chart_id": "chart_brand_comparison_3",
-  "title": "各品牌核心产品斤价/单件价对比",
+  "title": "品牌核心单品价格对比（元，约数）",
   "type": "horizontalBar",
   "data": [
     {
-      "name": "三顿半",
-      "value": 950
+      "name": "Goro's羽毛",
+      "value": 20000
     },
     {
-      "name": "雀巢",
-      "value": 850
+      "name": "谢瑞麟双貔貅元宝手链",
+      "value": 18411
     },
     {
-      "name": "永璞",
-      "value": 750
+      "name": "老铺黄金古法金器",
+      "value": 8000
     },
     {
-      "name": "隅田川",
-      "value": 650
+      "name": "克罗心银饰",
+      "value": 3000
     },
     {
-      "name": "星巴克",
-      "value": 550
+      "name": "Alex and Ani手镯",
+      "value": 300
     },
     {
-      "name": "农夫山泉炭仌",
-      "value": 450
-    },
-    {
-      "name": "三得利",
-      "value": 350
-    },
-    {
-      "name": "AGF Blendy",
-      "value": 250
-    },
-    {
-      "name": "摩可纳Moccona",
-      "value": 150
+      "name": "神都印象香灰手串",
+      "value": 99
     }
   ],
   "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_3.html",

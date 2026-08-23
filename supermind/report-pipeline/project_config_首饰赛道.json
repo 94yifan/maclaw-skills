@@ -1,0 +1,86 @@
+{
+  "project_name": "首饰赛道研究（高端首饰潮牌+国内外黄金+玄学神学IP配饰）",
+  "industry": "首饰/珠宝（高端银饰潮牌+黄金珠宝+玄学神学IP配饰）",
+  "schema_version": "2.0",
+  "focus_product": "老铺黄金（古法黄金/宫廷非遗工艺，黄金从保值品向文化奢侈品升级的标杆）",
+  "brands": {
+    "focus": "老铺黄金",
+    "deep": [
+      "克罗心",
+      "Goro's",
+      "周大福",
+      "神都印象",
+      "Alex and Ani",
+      "谢瑞麟"
+    ],
+    "reference": [
+      "周生生",
+      "老凤祥",
+      "六福珠宝",
+      "潮宏基",
+      "周大生",
+      "中国黄金",
+      "老庙黄金",
+      "明牌珠宝",
+      "Tiffany蒂芙尼",
+      "Cartier卡地亚",
+      "Bvlgari宝格丽",
+      "First Arrows（日本印第安银饰）",
+      "Cody Sanderson（美国印第安银饰）",
+      "高山隆STOP LIGHT（日本朋克银饰）",
+      "Energy Muse（美国能量石首饰）",
+      "MantraBand（美国励志铭文手镯）",
+      "Satya Jewelry（美国梵文瑜伽灵性首饰）",
+      "Karma & Luck（美国佛教灵性符号首饰）"
+    ],
+    "summary": [
+      "转运珠",
+      "水晶脉轮/能量首饰出海",
+      "风水饰品出海",
+      "藏传玄学饰品出海",
+      "Vivienne Westwood珠宝线",
+      "Ambush",
+      "Gucci珠宝线",
+      "Givenchy珠宝线"
+    ]
+  },
+  "founder_name": "徐高明（老铺黄金创始人，古法黄金概念推广者，待前置调研核实）",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": true,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {
+    "dimensions": [
+      "黄金从保值品向文化奢侈品升级（老铺黄金验证）",
+      "高端银饰潮牌的符号系统与稀缺性机制",
+      "玄学神学IP配饰（能量/灵性/宗教/民俗符号）出海与本土爆发",
+      "传统黄金珠宝按克计价模式受冲击与同质化",
+      "寓意型首饰的情绪价值溢价与祛魅风险"
+    ]
+  },
+  "special_methodology": {
+    "focus_product_analysis": "老铺黄金三线深挖：古法工艺与文化IP溢价（黄金材质保底+符号做增量）→ 门店克制扩张与稀缺性（41家店店效4.59亿）→ 从按克卖到按件卖的模式升级。赛道研究按逸凡原命题三大并列板块展开：①高端首饰潮牌（克罗心/Goro's等银饰符号+稀缺）②国内外黄金品牌（老铺黄金+传统龙头+国际珠宝）③玄学神学IP配饰品牌（能量/灵性/宗教/民俗符号，看怎么发展起来的），寓意型首饰作为玄学神学IP板块下的一个分支"
+  },
+  "output_dir": "./output/首饰赛道_20260823",
+  "output_settings": {
+    "docx_filename": "首饰赛道-高端潮牌+黄金+玄学IP配饰-V1-20260823.docx"
+  }
+}

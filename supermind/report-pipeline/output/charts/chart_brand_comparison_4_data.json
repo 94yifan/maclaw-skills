@@ -1,43 +1,23 @@
 {
   "chart_id": "chart_brand_comparison_4",
-  "title": "各品牌回头客/复购率对比",
+  "title": "品牌净利率对比（%，约数）",
   "type": "horizontalBar",
   "data": [
     {
-      "name": "三顿半",
-      "value": 950
+      "name": "老铺黄金",
+      "value": 19
     },
     {
-      "name": "雀巢",
-      "value": 850
+      "name": "周大福",
+      "value": 6.4
     },
     {
-      "name": "永璞",
-      "value": 750
+      "name": "六福集团",
+      "value": 8
     },
     {
-      "name": "隅田川",
-      "value": 650
-    },
-    {
-      "name": "星巴克",
-      "value": 550
-    },
-    {
-      "name": "农夫山泉炭仌",
-      "value": 450
-    },
-    {
-      "name": "三得利",
-      "value": 350
-    },
-    {
-      "name": "AGF Blendy",
-      "value": 250
-    },
-    {
-      "name": "摩可纳Moccona",
-      "value": 150
+      "name": "周生生",
+      "value": 5
     }
   ],
   "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_4.html",

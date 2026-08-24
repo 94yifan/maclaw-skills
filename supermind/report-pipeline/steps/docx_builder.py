@@ -302,6 +302,9 @@ def build_chapter_map(project_config: ProjectConfig) -> Dict[str, str]:
     # ch2 — 行业格局 + 产业链地图
     ch2_base = _read(c_dir / "ch2_industry.md")
     ch2_chain = _read(c_dir / "ch2_chain_map.md")
+    if not ch2_chain:
+        # pipeline Step 5.1 生成名为 industry_chain_map.md
+        ch2_chain = _read(c_dir / "industry_chain_map.md")
     if ch2_base and ch2_chain:
         result['ch2'] = ch2_base + "\n\n" + ch2_chain
     elif ch2_base:
@@ -334,6 +337,9 @@ def build_chapter_map(project_config: ProjectConfig) -> Dict[str, str]:
     if not result['ch3_content_types']:
         # 也检查子目录命名
         result['ch3_content_types'] = _read(ch3_dir / "content_types.md")
+    if not result['ch3_content_types']:
+        # pipeline Step 7.1 生成名为 content_type_analysis.md
+        result['ch3_content_types'] = _read(c_dir / "content_type_analysis.md")
 
     # ch4 — 深度品牌分析
     focus = project_config.focus_brand

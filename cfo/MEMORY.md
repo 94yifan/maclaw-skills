@@ -540,6 +540,8 @@ DeepSeek Pro负责研究推理和内容写作，GLM Pro负责python-docx/Dashboa
 
 **Dreaming cron 8/4-8/21 连续 18 天超时失败**（300s，model-call-started 阶段），8/22 恢复。failureAlert 仍未配置。修复命令：timeoutSeconds 300→600 + failureAlert after:3 announce，需主 session 执行 cron update。主 session 8/22 已示范直接编辑 openclaw.json 并热重载（streaming=true），cron 修复路径已打通，此待办应以明确指令推送而非被动等待。
 
+**8/27 更新（挂账第 6 天，配置仍未变）**：修正后的完成运行时长序列——8/22=250.7s、8/23=218.5s、8/24=233.6s、8/25=294.9s（峰值，余量 5.1s）、8/26=226.4s。注意：8/26 dreaming 曾把 8/25 的 294.9s 误记为 8/26 本轮值（读到的是上一轮完成值），引用 duration 时必须带 lastRunAtMs 归属校验。
+
 **生态快照（8/4-8/21，恢复锚点）**：
 - 蓝氏项目：8/19 评论区巡查闭环、幼猫侧笔记上线确认；8/20 陈思安 9 条投放决定入 TODO 表（app EE8ib2qvjaFpKRsFexMcgHLMnXg）、客户充值确认（预算可用 25 天，9/9 18:00 复查）
 - 瑞幸即享：supermind 8/19 产出对客 pitch 与报价方案

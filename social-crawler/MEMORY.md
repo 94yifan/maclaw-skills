@@ -110,12 +110,21 @@ M Stand(6345199298)、Manner(6808111794)、茉酸奶(5188894132)、
 - **存档**：写入 `social-crawler/memory/weibo_daily_YYYY-MM-DD.md`
 - **技能调用**：无论是cron自动触发还是手动跑日报，都必须先load `weibo-daily-report` skill再写报告
 
-## 已知未解决问题（2026-08-30 更新）
+## 已知未解决问题（2026-09-03 Dreaming 更新）
 
-1. **P0 - tea-daily-report 无 cron 自动化**：OpenClaw cron 里只有 dreaming-social-crawler，日报全靠手动。crontab 里只有 morning-crawl.sh（10:40）。
-2. **P0 - morning-crawl.sh 已失效但仍在跑**：硬编码日期（写死存到 tea-raw-2026-06-14.json，今天 8/30 跑完还是存这个文件名）+ 只爬22个品牌（缺东方墨兰）+ 输出从未被使用。应废弃或修复。
-3. **P0 - dreaming cron 超时**：300s 超时连续失败（MEMORY.md 膨胀到108KB 是主因）。已压缩 MEMORY.md + 归档备份，但 timeoutSeconds 需从 300 调至 600（cron 工具在本轮受限无法改，需主 session 执行）。
+> **明日开工必读**：以下 5 项已连续多日挂起（9/1、9/2、9/3 三次 dreaming 待办执行率均为 0/5）。isolated dreaming 环境无法改 cron/crontab/发消息，唯一能执行这些的是主 session 或逸凡。
+
+1. **P0 - morning-crawl.sh 失效脚本仍在 crontab（连续 6 天）**：`crontab -e` 删除 `40 10 * * * .../morning-crawl.sh` 整行。该脚本硬编码 6/14 文件名 + 只爬 22 品牌 + 输出从未被使用，每天 10:40 定时污染 /tmp/tea-raw-2026-06-14.json。删除命令：crontab 里删掉含 morning-crawl.sh 的一行即可，手动日报流程不需要它兜底。
+2. **P0 - tea-daily-report 无 cron 自动化**：OpenClaw cron 里只有 dreaming-social-crawler，日报 100% 手动。是否建 11:00 自动日报 job。
+3. **P0 - dreaming cron 配置未改**：timeoutSeconds 300→600 + model deepseek-v4-pro。8/30、8/31 两天 error 根因配置未变，近期 ok 属运气样本。
 4. **P1 - 飞书云文档存档**：日报发群但不做云文档存档（逸凡核心诉求之一，尚未恢复）。
+5. **P1 - 树夏酸奶/皮爷咖啡停更**：建议移出 23 品牌监测或标注"长期停更"（树夏最新 8/22 但账号实际近停更、皮爷 7/31）。
+
+## 2026-09-03 窗口纪律教训（写日报前必读，8/22 铁律加强版）
+
+- 9/3 日报因窗口口径漂移漏报 2 条实质动态：古茗红颜石榴汁瓶装全国上线（9/2 11:05 发，从未进任何日报）、喜茶周三小奖励（9/2 11:07，错标无动态）
+- 根因：日报 header 窗口按**发稿时刻**反推 24h（写 11:17），爬虫 evaluate 按**抓取时刻**过滤（11:00-11:02），不一致产生 15-17 分钟缝隙
+- **铁律**：header 窗口必须引用 raw crawlTime/爬虫日志的窗口；写日报前凡 latest 距窗口起点 <60 分钟的帖子逐条核对 evaluate 判定；过滤只发生在 evaluate 内一次，报告阶段零人工过滤
 
 ## 2026-07-12 系统性教训（P0级底线，由supermind暴露，同步所有agent）
 

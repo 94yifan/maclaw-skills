@@ -128,7 +128,7 @@
 ## 已知悬而未决
 
 - **MEMORY.md 膨胀 = cron 超时结构性根因（2026-08-29 新增，P1）**：SC 的 Dreaming cron 连续 30+ 天超时停摆实锤根因 = MEMORY.md 膨胀（76KB+/730 行）；08-12~15 曾连续 4 天超时同因。治本方案：缝合区季度归档机制（memory/archive/，只保留近 2 个月缝合+索引），目标体积控制 100KB 内。监控：每次 Dreaming 自检 MEMORY.md 字节数。**（2026-09-08 实测修正：supermind/MEMORY.md 09-04 二次归档后当前 70,950B/627 行，远低于 150KB 线，近 1-2 月无超时风险；但 repo 根 /workspace/MEMORY.md = 176.7KB/1786 行仍超 150KB 线，待确认是否仍被主 session 加载——若不再加载应归档瘦身，见挂账 4）**
-- **GitHub push 补推（2026-08-29 新增）**：归档 commit 72a51ea 已落库，push 失败（github.com:443 超时，网络被墙）；待网络恢复后 `git push github main` 补推。
+- **GitHub push 补推（2026-08-29 新增，09-08 更新）**：本地 commit 持续累积（最新 25404d2，09-08 dreaming+课程资产+SOUL/TOOLS），push 均失败（github.com:443 超时，网络被墙）；待网络恢复后 `git push github main` 补推。
 - **SC 微博日报稳定观察窗第 20 天（2026-09-04 更新）**：08-16~09-04 连续 20 天正常产出，8/22 铁律以来执行质量达峰值（header 窗口=crawlTime、无动态品牌逐秒匹配 raw.latest、交叉验证零缺陷）。产出端稳定，但机制端（触发源，100% 依赖主 session 手动/日报无 cron job）未定位，未宣布已修复——tea-daily-report 建 11:00 cron job 仍挂账待逸凡确认。
 - **SC 系统动作挂账（2026-09-04，连续 4-7 天）**：①morning-crawl.sh 每晨 10:42 污染 6/14 旧文件（第 7 天）——删除命令 `crontab -l | grep -v morning-crawl.sh | crontab -`，isolated exec 环境 crontab 写入已双实证挂起（SC 09-04 + 主 session cron run 09-04 复现，kill 后条目原样保留未半改），唯一路径=主 session 主机/逸凡终端；②SC dreaming cron timeoutSeconds 300→600 + model deepseek-v4-pro（上次实际 197s 贴近上限）；③tea-daily-report 建 11:00 cron job；④飞书云文档存档恢复（逸凡核心诉求 P1）；⑤CFO cron（jobId=07cd1aef-08d4-4109-a178-a20c8adc8209）timeoutSeconds 300→600 + failureAlert，挂账第 14 天。执行边界图见 09-04 缝合点 3。
 - **代码类待办静态优先**：step_skip 已静态验证疑似修复（utils.py:271 有定义、pipeline.py import 完整、import 测试通过），待下次生产运行最终确认。教训：代码类待办默认先静态验证（grep+import 测试），不等待生产触发。

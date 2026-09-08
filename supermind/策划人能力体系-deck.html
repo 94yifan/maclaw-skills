@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI时代策划人的能力体系</title>
+<style>
+  :root {
+    --ink: #1C1B18; --ink-soft: #45413A; --muted: #8A8478;
+    --bg: #FAF9F6; --card: #FFFFFF; --line: #ECEAE4;
+    --accent: #D97757; --accent-deep: #B85C3E; --accent-soft: #F4E3DA;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink);
+    overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  }
+  .deck { display: flex; height: 100vh; }
+  .slide {
+    width: 100vw; height: 100vh; flex: 0 0 100vw; scroll-snap-align: center;
+    display: flex; flex-direction: column;
+    padding: 5vh 7vw; position: relative; overflow-y: auto; background: var(--bg);
+  }
+  .slide::before { content: ''; margin-top: auto; }
+  .slide::after { content: ''; margin-bottom: auto; }
+  .slide.cover { background: #FFFFFF; }
+  .pageno { position: absolute; top: 3.5vh; right: 4vw; font-size: 12px; color: var(--muted); letter-spacing: 1px; font-variant-numeric: tabular-nums; }
+  .kicker { font-size: 12px; letter-spacing: 4px; font-weight: 600; color: var(--accent-deep); margin-bottom: 1.6vh; }
+  h1 { font-size: clamp(40px, 6vw, 84px); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 2vh; }
+  h2 { font-size: clamp(24px, 3.6vw, 46px); font-weight: 700; line-height: 1.18; letter-spacing: -0.015em; margin-bottom: 1.6vh; }
+  h3 { font-size: clamp(16px, 1.8vw, 22px); font-weight: 700; margin: 1.8vh 0 0.8vh; color: var(--ink); }
+  .sub { font-size: clamp(14px, 1.4vw, 18px); color: var(--muted); line-height: 1.7; max-width: 760px; }
+  .hl { color: var(--accent-deep); font-weight: 700; }
+  .mark { background: var(--accent-soft); color: var(--accent-deep); padding: 0.06em 0.3em; border-radius: 5px; font-weight: 700; }
+  .mark-solid { background: var(--accent); color: #fff; padding: 0.08em 0.34em; border-radius: 5px; font-weight: 700; }
+  /* 列表：编号独立成行，每个要点一行 */
+  .grid { display: grid; gap: 1.6vh; max-width: 920px; }
+  .li { display: flex; gap: 12px; align-items: flex-start; font-size: clamp(14px, 1.5vw, 19px); line-height: 1.7; color: var(--ink-soft); }
+  .li .n { flex: 0 0 auto; color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; min-width: 1.5em; }
+  .li .dot { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: 0.66em; }
+  .li .t { flex: 1 1 auto; min-width: 0; word-break: break-word; }
+  .li b { color: var(--ink); font-weight: 600; }
+  .quote { font-size: clamp(18px, 2.3vw, 28px); line-height: 1.55; font-weight: 600; margin-bottom: 2.2vh; max-width: 920px; }
+  .quote .num { color: var(--accent); margin-right: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .cover-kw { position: absolute; bottom: 7vh; left: 7vw; display: flex; align-items: baseline; gap: 1.8vw; flex-wrap: wrap; }
+  .cover-kw .kw { font-size: clamp(24px, 3vw, 42px); font-weight: 600; color: var(--ink); letter-spacing: 0.01em; }
+  .cover-kw .sep { color: var(--accent); font-size: clamp(18px, 2.4vw, 30px); font-weight: 300; }
+  .cover-kw .kw em { font-style: normal; color: var(--muted); font-size: 12px; letter-spacing: 2px; margin-left: 7px; font-weight: 500; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.3vw; max-width: 960px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 2vh 1.5vw; }
+  .card .t { font-weight: 700; font-size: clamp(15px, 1.5vw, 19px); margin-bottom: 0.7vh; }
+  .card .d { color: var(--muted); font-size: clamp(12px, 1.2vw, 15px); line-height: 1.6; }
+  .casebox { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 1.8vh 1.6vw; margin-top: 1.4vh; max-width: 920px; }
+  .casebox .ct { font-weight: 700; color: var(--accent-deep); font-size: 13px; letter-spacing: 2px; margin-bottom: 1vh; }
+  .casebox .cb-body { font-size: clamp(13px, 1.35vw, 17px); line-height: 1.75; color: var(--ink-soft); }
+  .casebox .cb-body .li { font-size: clamp(13px, 1.35vw, 17px); }
+  .bigquote { font-size: clamp(20px, 2.5vw, 34px); font-weight: 600; line-height: 1.5; border-left: 4px solid var(--accent); padding-left: 2vw; max-width: 860px; }
+  .hint { position: absolute; bottom: 3vh; left: 7vw; font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+  @media (max-width: 700px) { .slide { padding: 4.5vh 6vw; } }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1 封面 -->
+  <section class="slide cover">
+    <div class="pageno">01 / 41</div>
+    <div class="kicker">MEANSPLUS · 策划人培养</div>
+    <h1>AI时代<br>策划人的能力体系</h1>
+    <div class="sub">工具在快速进化。真正不可替代的，从来不是会用工具，而是人本身的三件事。</div>
+    <div class="cover-kw">
+      <span class="kw">当回事<em>心态</em></span><span class="sep">·</span>
+      <span class="kw">问到底<em>思维</em></span><span class="sep">·</span>
+      <span class="kw">给判断<em>交付</em></span>
+    </div>
+    <div class="hint">横向翻页 · 左右方向键</div>
+  </section>
+
+  <!-- 2 课程定位 -->
+  <section class="slide">
+    <div class="pageno">02 / 41</div>
+    <div class="kicker">课程定位</div>
+    <h2>这门课解决什么</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">AI 时代，策划人凭什么不可替代。答案不在工具，在三件事：<b>把事当个事</b>（心态）、<b>问对问题选对答案</b>（第一性）、<b>有据有判断有立场</b>（表达）。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">对应策划人的四种核心能力：<b>洞察、思考、逻辑串联、定位第一性问题</b>。</div></div>
+    </div>
+    <div class="cards" style="margin-top:2.2vh;">
+      <div class="card"><div class="t">工作线 · 8 个 session</div><div class="d">教怎么把活干好。从心态到交付，一条完整的工作链路。</div></div>
+      <div class="card"><div class="t">成长线 · 3 个 session</div><div class="d">教怎么让自己持续变强。从输入到沉淀到工具跟进。</div></div>
+    </div>
+    <div class="grid" style="margin-top:2.2vh;">
+      <div class="li"><div class="dot"></div><div class="t">两条线的关系：成长线是工作线的<span class="mark">燃料</span>，工作线是成长线的<span class="mark">实践场</span>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">每个 session 四段：<b>思维</b>（为什么）→ <b>实战</b>（怎么做）→ <b>案例</b>（走一遍）→ <b>作业</b>（自己练）。作业不看，等于白听。</div></div>
+    </div>
+  </section>
+
+  <!-- 3 三个 Keywords -->
+  <section class="slide">
+    <div class="pageno">03 / 41</div>
+    <div class="kicker">主线 · 三个 Keywords</div>
+    <h2>一句话拎起整门课</h2>
+    <div class="grid" style="margin-top:2vh;">
+      <div class="li"><div class="dot"></div><div class="t"><span class="mark-solid">当回事</span>&nbsp;&nbsp;心态。把事当自己的事，这是<b>地基</b>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t"><span class="mark-solid">问到底</span>&nbsp;&nbsp;思维。追问到第一性，这是<b>方法</b>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t"><span class="mark-solid">给判断</span>&nbsp;&nbsp;交付。给出唯一的主张和判断，这是<b>结果</b>。</div></div>
+    </div>
+    <div class="sub" style="margin-top:4vh;">为什么做、怎么做、交付什么。三段接起来，就是整个课程。</div>
+  </section>
+
+  <!-- 4-6 九金句 -->
+  <section class="slide"><div class="pageno">04 / 41</div><div class="kicker">九个金句 · 当回事</div>
+    <div class="quote"><span class="num">01</span>把自己当回事，才会把事当回事。</div>
+    <div class="quote"><span class="num">02</span>苟活，是先从心里把自己<span class="hl">辞退</span>了。</div>
+    <div class="quote"><span class="num">03</span>交作业还是交结果，差别只在心里<span class="hl">签没签自己的名</span>。</div>
+  </section>
+  <section class="slide"><div class="pageno">05 / 41</div><div class="kicker">九个金句 · 问到底</div>
+    <div class="quote"><span class="num">04</span>客户给的是<span class="mark">需求</span>，不是问题。问题挖出来，方案才轮到你出。</div>
+    <div class="quote"><span class="num">05</span>追问到底，是挖到<span class="hl">再问一句就是废话</span>的地方。</div>
+    <div class="quote"><span class="num">06</span>敢问到底，才敢对客户说，你要的可能<span class="hl">不是曝光</span>。</div>
+  </section>
+  <section class="slide"><div class="pageno">06 / 41</div><div class="kicker">九个金句 · 给判断</div>
+    <div class="quote"><span class="num">07</span>客户买的是<span class="mark">判断</span>，不是你的勤快。</div>
+    <div class="quote"><span class="num">08</span>一份方案只有一个主张，<span class="hl">多了等于没有</span>。</div>
+    <div class="quote"><span class="num">09</span>讲给外行听能复述，你才算<span class="hl">有主张</span>。</div>
+  </section>
+
+  <!-- 7 S1 思维 -->
+  <section class="slide"><div class="pageno">07 / 41</div><div class="kicker">工作线 · Session 1 · Ownership</div>
+    <h2>把事当自己的事 · 思维</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">人和人的差距，首先是心态，不是能力。<b>能力可以练，心态只能自己想通</b>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">同一个活，两种结果：打工心态，<b>做完交差，剩下的不归我管</b>；老板心态，<b>负责到出结果为止</b>，哪一环有问题都管。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">差别一个词 Ownership，把事当自己的事。反面是那句口头禅：<span class="mark">这不是我的活</span>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">为什么是地基：后面所有能力都要一个前提，<b>你真的在乎结果</b>。不在乎结果，你不会挖真实需求、不会追问第一性、不会养品味。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">再深一层，是康德的善良意志：不是因为能交差、有回报才做好，是因为它本来就该被做好。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">收口：<b>把自己当回事的人，才会把事当回事</b>。苟活的人，本质是先把自己看轻了。</div></div>
+    </div>
+  </section>
+
+  <!-- 8 S1 实战+案例+作业 -->
+  <section class="slide"><div class="pageno">08 / 41</div><div class="kicker">工作线 · Session 1 · Ownership</div>
+    <h2>实战 · 案例 · 作业</h2>
+    <h3>三个自查</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">出问题，第一反应是找原因，还是找借口。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">一件不归你管但影响结果的活，是当没看见，还是接过来。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">交付的东西，自己这关过不过得去，敢不敢签名字。</div></div>
+    </div>
+    <h3>三个动作</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">把要交的东西当成自己的作品，交之前在心里签上名。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">接任务先问：这个事要达成什么结果，而不是我该干哪些活。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">交付前自己先挑毛病，挑到挑不出来再交。</div></div>
+    </div>
+    <div class="casebox"><div class="ct">案例</div><div class="cb-body">A 把资料整理成规整 PPT 按时交，内容都对，但没有一个观点是他自己的。B 动手前先问三个问题：品牌是缺策略、缺创意、还是缺执行<br>过去一年最让创始人睡不着觉的是什么<br>目标是活下来还是做到前三。问完发现客户真正焦虑的是定位不清，B 的提案第一页先捋定位再谈传播。<b>A 交的是作业，B 交的是结果，差距在 B 把这事当成了自己的事。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">拿一件你最近接的活，三步写：
+      <div class="li"><div class="n">1</div><div class="t">写清这件活要达成的结果是什么。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">列出你当时只做了分内的哪些，漏了哪些影响结果但没人管的环节。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">写下重来一次你会多做哪三个动作。写完对照：那三个漏掉的环节，是不是你一开始就知道、但觉得不归你管。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 9 S2 思维 -->
+  <section class="slide"><div class="pageno">09 / 41</div><div class="kicker">工作线 · Session 2 · 问对问题</div>
+    <h2>客户给的是需求，不是问题</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">客户给的<span class="mark">大部分是需求</span>，不是问题。我要曝光、我要做新品宣发、我要降价，都是需求。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">客户带着答案来，但答案往往是错的。一个人腿疼说我要买止疼药，<b>止疼药是需求，腿疼才是问题</b>，而腿疼背后可能是骨折。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">策划人第一个动作不是执行，是<b>把需求翻译回问题</b>。这一步对了，后面事半功倍；错了，做得越漂亮，错得越远。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">第一性，就是那个不能再往下问的、真正驱动他做这件事的东西。</div></div>
+    </div>
+    <div class="casebox" style="margin-top:2vh;"><div class="ct">为什么客户给的是需求，不是问题</div><div class="cb-body">三层：<br>给需求<b>省力</b>，说我要曝光是确定的，说我的问题是什么要停下来反思。<br>给需求<b>体面</b>，承认我不知道问题在哪是脆弱的，给需求显得心里有数。<br>他<b>以为找到了答案</b>，把最近看到的表象当成了问题，手段被当成了目的。所以客户的需求，是他自以为是答案的答案。你的价值是替他把那个他没说、甚至没意识到的问题挖出来。</div></div>
+  </section>
+
+  <!-- 10 S2 三个错误认知 -->
+  <section class="slide"><div class="pageno">10 / 41</div><div class="kicker">工作线 · Session 2 · 问对问题</div>
+    <h2>先打掉三个错误认知</h2>
+    <div class="sub" style="margin-bottom:2vh;">不敢追问，根源就在这三句。</div>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>客户是出题人，我是答题人。</b>错。客户带着问题来，但问题可能没问对，你的价值是帮他把题改对。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>客户比我懂他的生意，所以他说的就是对的。</b>错。客户懂他的生意，但不一定懂怎么把它讲清楚、做对。</div></div>
+      <div class="li"><div class="n">3</div><div class="t"><b>多问问题显得我不专业。</b>错。不问就接，做出来四不像，那才是不专业。</div></div>
+    </div>
+  </section>
+
+  <!-- 11 S2 两个问题 -->
+  <section class="slide"><div class="pageno">11 / 41</div><div class="kicker">工作线 · Session 2 · 问对问题</div>
+    <h2>第一性原理，是两个问题</h2>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>第一问，客户真正的问题是什么。</b>靠五层追问往下挖。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>第二问，客户凭什么立马选我们做服务商。</b>靠一个主张立起来。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">第一问挖不对，做的是错事；第二问答不出，做的是白事。</div></div>
+    </div>
+    <div class="casebox" style="margin-top:1.8vh;"><div class="ct">第二问展开 · 我们凭什么被选</div><div class="cb-body">这里的我们，指的是曼拾。客户手里摆着三四家服务商在比，凭什么立马选曼拾，这就是第二问要回答的。这个问题答不出，方案做得再全也是白做。</div></div>
+    <div class="grid" style="margin-top:1.2vh;">
+      <div class="li"><div class="dot"></div><div class="t">最典型的毛病：<b>处处都是点，没有侧重，把选择题交给客户</b>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">为什么眉毛胡子一把抓？不是不会取舍，是<b>不敢</b>。多写一个点，就多一分被认可的可能，同时少一分被否定的风险。所有点都摆上去，客户选哪个都算我说对了。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">这是把风险转移给客户。而客户付钱买的，恰恰是我们替他承担这个风险。方案里出现三个并列方向，等于告诉客户我们也不知道。</div></div>
+      <div class="li"><div class="dot"></div><div class="t"><b>一份方案，只能有一个主张</b>。其他内容都是为这一个主张服务的证据和展开，不是并列备选。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">判断有没有主张：把方案压缩成一句话，说给不懂行的人听，能复述就有主张，复述不出来就没有。</div></div>
+    </div>
+  </section>
+
+  <!-- 12 S2 五类问题 -->
+  <section class="slide"><div class="pageno">12 / 41</div><div class="kicker">工作线 · Session 2 · 实战</div>
+    <h2>第一步 · 品牌问题归成五类</h2>
+    <div class="grid" style="margin-top:1vh;">
+      <div class="li"><div class="n">1</div><div class="t"><b>认知问题</b>：没人知道你，或知道你但说不清你是谁（定位不清）。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>信任问题</b>：知道你，但不信你、不敢买（新品牌、口碑差）。</div></div>
+      <div class="li"><div class="n">3</div><div class="t"><b>生意问题</b>：产品、定价、渠道、复购本身的问题，营销救不了。</div></div>
+      <div class="li"><div class="n">4</div><div class="t"><b>竞争问题</b>：自己还行，但对手更强（同质化、被降维替代）。</div></div>
+      <div class="li"><div class="n">5</div><div class="t"><b>组织问题</b>：不是市场问题，是给老板投资人交代、KPI 驱动。</div></div>
+    </div>
+  </section>
+
+  <!-- 13 S2 两轴四象限 -->
+  <section class="slide"><div class="pageno">13 / 41</div><div class="kicker">工作线 · Session 2 · 实战</div>
+    <h2>第二步 · 两轴四象限</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t"><b>横轴，问题出在哪一层</b>：心智层（认知、信任、定位、同质化，消费者脑子里的，营销能碰）<br>生意层（产品、定价、渠道、复购，生意本身的，营销碰不了）。</div></div>
+      <div class="li"><div class="dot"></div><div class="t"><b>纵轴，紧迫性</b>：现在不解决就死 / 可以慢慢来。</div></div>
+    </div>
+    <div class="cards" style="margin-top:1.8vh;">
+      <div class="card"><div class="t">生意层 + 紧急</div><div class="d">紧迫看生存倒计时：现金流、复购率、退货率、差评率的趋势。动作：营销管不到这层，先修产品、渠道、定价。</div></div>
+      <div class="card"><div class="t">心智层 + 紧急</div><div class="d">紧迫看时机窗口：心智位置有没有人占、对手是不是在抢、品类是不是爆发期。动作：这轮营销该干。</div></div>
+      <div class="card"><div class="t">生意层 + 不紧急</div><div class="d">生意还扛得住，没生存压力。动作：先放着。</div></div>
+      <div class="card"><div class="t">心智层 + 不紧急</div><div class="d">没窗口压力，可以慢慢来。动作：排期后面。</div></div>
+    </div>
+    <div class="li" style="margin-top:1.8vh;"><div class="dot"></div><div class="t">左边两格，纵轴问的是<span class="hl">命</span>；右边两格，纵轴问的是<span class="hl">势</span>。</div></div>
+  </section>
+
+  <!-- 14 S2 五层追问 -->
+  <section class="slide"><div class="pageno">14 / 41</div><div class="kicker">工作线 · Session 2 · 实战</div>
+    <h2>第三步 · 五层追问链</h2>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>追问动机</b>：他为什么想要这个。同一个动作，动机天差地别，动机才值钱。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>追问上下文</b>：企业现在什么阶段。初创期和成熟期，同样要曝光是两回事。</div></div>
+      <div class="li"><div class="n">3</div><div class="t"><b>追问结果</b>：这个动作对他意味着什么。把动作翻译成他以为的结果，挖他的因果假设。</div></div>
+      <div class="li"><div class="n">4</div><div class="t"><b>追问权重</b>：这是不是他现在最该解决的核心问题。这一步最反直觉，要敢挑战他的需求。</div></div>
+      <div class="li"><div class="n">5</div><div class="t"><b>追问终极目标</b>：他真正要的是生意，还是别的。收口。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">结构：<b>前两问理解他，第三问翻译他，后两问挑战他</b>。</div></div>
+    </div>
+  </section>
+
+  <!-- 15 S2 案例 -->
+  <section class="slide"><div class="pageno">15 / 41</div><div class="kicker">工作线 · Session 2 · 案例</div>
+    <h2>我要做新品宣发，五层追问</h2>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>先归类</b>：宣发，最可能是认知问题（新品没人知道）或生意问题（产品没卖点），动作完全不一样。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>为什么宣发</b>：新品上市打认知、给渠道商信心、还是追热点。动机不同，方向不同。</div></div>
+      <div class="li"><div class="n">3</div><div class="t"><b>什么阶段</b>：新品冷启动（0 到 1），还是成熟品维护（1 到 10）。冷启动拼破圈，成熟维护拼效率。</div></div>
+      <div class="li"><div class="n">4</div><div class="t"><b>宣发意味着什么</b>：他以为宣发等于卖货，但宣发到卖货，中间隔着种草、转化、复购一整条链路。</div></div>
+      <div class="li"><div class="n">5</div><div class="t"><b>是不是核心问题</b>：产品力不行，宣发只是把差产品推给更多人。要敢说：你要的可能不是宣发，是产品的问题。</div></div>
+      <div class="li"><div class="n">6</div><div class="t"><b>真正要什么</b>：走完前五问，他要的是新品首波销量和品牌认知，宣发只是他以为能到那里的手段。</div></div>
+    </div>
+    <div class="casebox" style="margin-top:1.5vh;"><div class="ct">宣发落地 · KFS 方法论</div><div class="cb-body">营销需求落到小红书整合营销，就是 <b>KFS</b>：<b>K</b>（KOL 达人种草，造浪）、<b>F</b>（Feeds 信息流，放大）、<b>S</b>（Search 搜索，截流）。三条腿环环相扣：KOL 造内容，Feeds 放大曝光，Search 承接搜索意图。</div></div>
+  </section>
+
+  <!-- 16 S2 作业 -->
+  <section class="slide"><div class="pageno">16 / 41</div><div class="kicker">工作线 · Session 2 · 作业</div>
+    <h2>作业</h2>
+    <div class="casebox"><div class="ct">示范 · 拿我要做新品宣发走一遍</div><div class="cb-body">
+      <div class="li"><div class="n">1</div><div class="t">先归类：宣发，最可能是认知问题还是生意问题。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">再定位：放进两轴四象限，看落在哪个格子，该接不该接。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">再追问：<br>为什么宣发（打认知 / 给渠道信心 / 追热点）<br>什么阶段（冷启动 / 成熟维护）<br>宣发对他意味着什么（他以为宣发等于卖货，但隔着转化链路）<br>是不是核心问题（产品力不行，宣发是把差产品推给更多人）<br>他真正要的是什么。</div></div>
+      <div class="li"><div class="n">4</div><div class="t">落方法论：如果要接，落地就是 KFS，KOL 种草 + Feeds 放大 + Search 截流。</div></div>
+    </div></div>
+    <div class="casebox"><div class="ct">你的题</div><div class="cb-body">拿我要打品牌声量，或者我要提升转化，照上面四步走一遍，先归类、再定位、再追问，最后落到 KFS。</div></div>
+  </section>
+
+  <!-- 17 S3 思维+实战 -->
+  <section class="slide"><div class="pageno">17 / 41</div><div class="kicker">工作线 · Session 3 · 选对答案</div>
+    <h2>定位第一性 · 下 · 选对答案</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">问对问题后，你面对一堆答案，比的是<b>选</b>。AI 一分钟出 100 个方案，生成正在被工具接管，但选替不了。<span class="mark">值钱的是选的动作</span>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">选靠判断力和品味。品味不是天赋，是输入累积。天天看顶级作品，下限就被抬高。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">判断力前提是先有坐标系，三根轴：<b>对标</b>（什么是顶级的）、<b>底线</b>（什么是烂的）、<b>偏好</b>（什么是有品味但我不喜欢，品味和偏好是两回事）。</div></div>
+    </div>
+    <h3>选对答案三步</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">先排除：用底线筛掉明显错的，删比加重要，100 个留 80 个等于没选。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">再对标：剩下的往两个地方靠，客户阶段和品牌调性。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">用第一性复查：这个方案是不是真的对着核心问题去的，还是只是好看。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">关键：选的时候能说清为什么选它、为什么不要别的。<b>说不清等于没选</b>。</div></div>
+    </div>
+  </section>
+
+  <!-- 18 S3 案例+作业 -->
+  <section class="slide"><div class="pageno">18 / 41</div><div class="kicker">工作线 · Session 3</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 选代言</div><div class="cb-body">给新消费品牌选代言，团队拿回二十个候选。做判断的人先问三个问题：这个人在目标人群有没有信任状<br>气质和品牌调性贴不贴<br>品牌这个阶段要转化还是要破圈。三个问题筛下来，二十个只剩三个，再对着第一性问哪个最直接解决核心问题。<b>能说清为什么是这三个、为什么不要那十七个，才是真的在做判断。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">找一个你最近见到的 campaign，三步写：
+      <div class="li"><div class="n">1</div><div class="t">假设有三个方案可选，你选哪个。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">写为什么是它、为什么不是另外两个。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">标出你的理由里哪些是对标、哪些是底线、哪些其实只是个人偏好。第三条单独标出来，你会发现有多少所谓判断其实只是偏好。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 19 S4 思维+实战 -->
+  <section class="slide"><div class="pageno">19 / 41</div><div class="kicker">工作线 · Session 4 · 思考链路</div>
+    <h2>思考链路与逻辑串联</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">逻辑串联的本质是<b>不跳步</b>。结论从前提走到结果，每一环都要接得上。大多数方案死在跳步：前面说的和后面推的，中间断了一环。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">跳步常见，因为最省力。中间那环要花功夫验证，跳过去直接滑到结论，又快又顺，但一被追问就塌。所以逻辑串联练的是<b>思维严密性</b>，不是表达能力。</div></div>
+    </div>
+    <h3>四步</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">结论先行：先说主张，再解释为什么。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">前提摆明：结论建立在什么事实和假设上，事实和假设要分开。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">推理接上：每一步怎么推出来，不能跳。从 A 直接到 C，缺了 B，就是没想清楚。</div></div>
+      <div class="li"><div class="n">4</div><div class="t">反问自己：如果前提错了，结论还成立吗。</div></div>
+    </div>
+  </section>
+
+  <!-- 20 S4 案例+作业 -->
+  <section class="slide"><div class="pageno">20 / 41</div><div class="kicker">工作线 · Session 4</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 国潮联名跳步</div><div class="cb-body">一个方案写：年轻人喜欢国潮，所以我们做国潮联名，品牌就能年轻化。跳了两步：年轻人喜欢国潮，不等于我们的目标人群喜欢<br>做了国潮联名，不等于品牌就年轻化，中间隔着产品、体验、传播。严密的链要补中间：先证明目标人群里国潮的真实热度，再找国潮和品牌调性的契合点，最后想清联名后怎么落到产品体验。<b>少一环，结论就站不住。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">拿你最近一个方案抽三句话：
+      <div class="li"><div class="n">1</div><div class="t">我的结论是什么。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">我的前提是什么，哪些是事实、哪些是假设。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">从前提推到结论，中间有没有跳步。标出跳步的地方，这一步会痛，但这是最快找逻辑漏洞的方法。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 21 S5 思维+实战 -->
+  <section class="slide"><div class="pageno">21 / 41</div><div class="kicker">工作线 · Session 5 · 洞察</div>
+    <h2>洞察能力</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">洞察的前提是<b>共情</b>。AI 能分析数据，但不能替一个深夜加班的人感受开门那一刻的心情，而这个感受是洞察的起点。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">共情是把功能翻译成情绪场景。铁律：<b>功能、情绪、场景三者必须直接对应，不能跳步</b>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">错误示范：静音 120 分钟续航，所以终于可以躺着了。这两句没有因果，中间缺了感受。跳步的洞察是假洞察，客户一追问就露馅。</div></div>
+    </div>
+    <h3>翻译三步</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">功能：它客观能干什么，不带形容词。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">感受：人用它时具体什么感觉，要代入那个人。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">场景：这个感受落在哪个真实生活画面。三步必须一句接一句，断了就是跳步。</div></div>
+    </div>
+  </section>
+
+  <!-- 22 S5 案例+作业 -->
+  <section class="slide"><div class="pageno">22 / 41</div><div class="kicker">工作线 · Session 5</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 扫地机器人</div><div class="cb-body">功能：吸力强，超静音。感受：加班回家倒头就睡不吵，宝宝在客厅爬不怕吓。场景：回家不用管地面干不干净，交给它，你只管休息。<b>三环严丝合缝。</b>对比跳步写法：吸力强加静音，所以可以躺着了。功能直接跳场景，中间的感受到哪去了。</div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">拿你手头一个产品的卖点，三步重写：
+      <div class="li"><div class="n">1</div><div class="t">功能客观写，不带形容词。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">感受代入真实用户，写他当下什么感觉。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">场景落到一个能看见画面的生活场景。写完检查每一环接不接得上，哪里断了就是哪里跳步。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 23 S6 思维+实战 -->
+  <section class="slide"><div class="pageno">23 / 41</div><div class="kicker">工作线 · Session 6 · 交付</div>
+    <h2>交付标准 · 从执行者到顾问</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">客户买单的是你的<span class="mark">判断</span>，不是干活快。干活快 AI 比你快，你交付的如果只是个干完的活，很快被替代。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">判断立得住，靠三样：<b>结论先行、可追溯、可闭环</b>。</div></div>
+    </div>
+    <h3>交付三件套</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">结论先行：第一页就说判断，后面全是支撑。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">可追溯：每个结论跟依据，数据有出处，观点有逻辑。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">可闭环：每条建议落到谁做什么、什么时候做。</div></div>
+    </div>
+    <h3>敢于表达三前提</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">全盘 research 做完了，<b>有据</b>，不怕被问。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">不盲目表达，<b>有判断</b>，开口前想清楚了。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">不不敢表达，<b>有立场</b>，想清楚就敢说。</div></div>
+    </div>
+  </section>
+
+  <!-- 24 S6 案例+作业 -->
+  <section class="slide"><div class="pageno">24 / 41</div><div class="kicker">工作线 · Session 6</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 两份方案</div><div class="cb-body">第一份罗列市场数据、竞品动态、创意方向，看完不知道怎么做，客户感觉你查了很多但没告诉我答案。第二份第一页写清三个判断，每个判断跟依据，接三步动作，客户当场拍板。<b>差距不在信息量，在第一份没有判断。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">把你最近交出去的一份东西改成结论先行：
+      <div class="li"><div class="n">1</div><div class="t">第一页只放判断，不超过三条。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">每条判断写依据，数据出处和逻辑链。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">每条判断写下一步动作，谁做、做什么、什么时候。改完对比客户拿到哪个版本更容易拍板。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 25 S7 思维+人机分工 -->
+  <section class="slide"><div class="pageno">25 / 41</div><div class="kicker">工作线 · Session 7 · 工具</div>
+    <h2>工具提效与赋能</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">偷懒的定义，<span class="mark">不是用工具，是把必须人做的判断也甩给工具</span>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">用 AI 查资料、写初稿、整理数据，是提效。连判断都甩给 AI，交出去的是 AI 的初稿，不是你的判断，这才是偷懒。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">分不清这条线，会出两种人：工具焦虑，天天学新工具一个没用上；工具依赖，离开 AI 不会干活。</div></div>
+    </div>
+    <h3>人机分工 · 四条必须人做</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>判断</b>：选哪个方案、砍哪个方向，AI 给不出责任。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>品味</b>：贴不贴品牌调性，AI 只有数据没有品味。</div></div>
+      <div class="li"><div class="n">3</div><div class="t"><b>共情</b>：人群真正在意什么，AI 只有数据没有感受。</div></div>
+      <div class="li"><div class="n">4</div><div class="t"><b>责任</b>：交付出了问题你担，不是 AI 担。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">AI 能做的交给它：查资料、写初稿、翻译、整理数据、列大纲。省下的时间全投到上面四条。</div></div>
+    </div>
+  </section>
+
+  <!-- 26 S7 交互模式 -->
+  <section class="slide"><div class="pageno">26 / 41</div><div class="kicker">工作线 · Session 7 · 交互</div>
+    <h2>怎么和 AI 交互 · 六种模式</h2>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>发散</b>：不设限，让 AI 多角度铺开。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>圆桌</b>：让 AI 扮演多个角色，同时讨论。</div></div>
+      <div class="li"><div class="n">3</div><div class="t"><b>共创</b>：人定方向，AI 填内容，来回迭代。</div></div>
+      <div class="li"><div class="n">4</div><div class="t"><b>质疑</b>：让 AI 做你的反对派，专门挑毛病。</div></div>
+      <div class="li"><div class="n">5</div><div class="t"><b>交叉</b>：让 AI 从不同角度、不同来源核对。</div></div>
+      <div class="li"><div class="n">6</div><div class="t"><b>把关</b>：让 AI 做信息筛选和去伪。</div></div>
+    </div>
+  </section>
+
+  <!-- 27 S7 七阶段 -->
+  <section class="slide"><div class="pageno">27 / 41</div><div class="kicker">工作线 · Session 7 · 交互</div>
+    <h2>七个阶段，各用哪几种</h2>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>资料收集</b>：把关加交叉。让 AI 铺开收集再自己核对，AI 会编数据，这步人盯最紧。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>创意发散</b>：发散加圆桌。先铺量，再让 AI 扮客户、消费者、竞品同时出主意，要的是量别急着收。</div></div>
+      <div class="li"><div class="n">3</div><div class="t"><b>创意收敛</b>：质疑加交叉。让 AI 逐个挑创意毛病，收敛靠砍不靠留。</div></div>
+      <div class="li"><div class="n">4</div><div class="t"><b>方案产出</b>：共创。你定框架和主张，AI 填执行，来回磨。</div></div>
+      <div class="li"><div class="n">5</div><div class="t"><b>方案 QC</b>：把关加质疑。让 AI 质检查数据真伪、逻辑跳步，你再人工复核。</div></div>
+      <div class="li"><div class="n">6</div><div class="t"><b>方案修改</b>：共创但只做增量。改局部，不重写全篇，没让改的一个字不动。</div></div>
+      <div class="li"><div class="n">7</div><div class="t"><b>多项目协作和时间管理</b>：把关加圆桌。AI 做调度和第二大脑，不替你拍板。</div></div>
+    </div>
+  </section>
+
+  <!-- 28 S7 案例+作业 -->
+  <section class="slide"><div class="pageno">28 / 41</div><div class="kicker">工作线 · Session 7</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 用 AI 写初稿</div><div class="cb-body">用 AI 写方案初稿，快。但交出去前，有判断的人做三件事：删掉 AI 编的数据（AI 会一本正经编，假的要查掉）<br>把空话换成具体判断<br>把结论对回第一性问题（AI 初稿容易跑偏）。<b>同样是交，一种是交 AI 初稿，一种是交你的判断。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">记录你过去一周用 AI 的场景，分两栏：
+      <div class="li"><div class="n">1</div><div class="t">提效：AI 帮你干了粗活，省了时间。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">偷懒：你把判断也甩给了 AI，自己没过脑子。诚实标，偷懒比提效多，说明分工线没画清。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 29 S8 思维+实战 -->
+  <section class="slide"><div class="pageno">29 / 41</div><div class="kicker">工作线 · Session 8 · skill</div>
+    <h2>把经验变成你自己的 skill</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">这是元能力：<span class="mark">把隐性经验显性化，把方法论结构化</span>。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">一件事做对了只存在脑子里，下次还要重想，质量还不稳。固化成可复用步骤，下次直接调用，才是能力积累。做 skill、写 prompt，本质都是这个动作。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">会用工具的人多，<b>会把经验固化成方法的人少</b>。后者才是 AI 时代稀缺的人。</div></div>
+    </div>
+    <h3>四步</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">复盘：我做对了什么，关键动作是哪几步。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">提炼：把关键动作抽象成通用规则，去掉项目名词。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">固化：写成别人照着能走的步骤，要是动作不是感受。</div></div>
+      <div class="li"><div class="n">4</div><div class="t">验证：下次用它，管用留，不管用改。</div></div>
+    </div>
+  </section>
+
+  <!-- 30 S8 案例+作业 -->
+  <section class="slide"><div class="pageno">30 / 41</div><div class="kicker">工作线 · Session 8</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 把五层追问变成 prompt</div><div class="cb-body">把五层追问链写成一个可复用 prompt：任何客户需求进来，先跑五问。下次遇到我要做 campaign、我要做宣发，直接调用，不用重新想怎么问。<b>这就是 skill 的意义：把一次性想通的东西，变成下次直接能用的东西。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">挑一件你最近做对的事，四步写：
+      <div class="li"><div class="n">1</div><div class="t">复盘：关键动作是哪几步。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">提炼：去掉项目名词，留通用规则。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">固化：写成别人能照着走的步骤。</div></div>
+      <div class="li"><div class="n">4</div><div class="t">验证：下次打算在什么场景用它。写出来，就是你的第一个自己的 skill。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 31 S9 思维+看什么 -->
+  <section class="slide"><div class="pageno">31 / 41</div><div class="kicker">成长线 · Session 9 · 输入</div>
+    <h2>输入系统 · 看什么</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">输入决定输出的上限。脑子里没货，追问追不出东西，翻译翻不出画面。<span class="mark">看的目的不是攒素材，是练判断力</span>。</div></div>
+    </div>
+    <h3>看什么 · 两类全谱系</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t"><b>各类作品</b>：顶级的看天花板，烂的看它想做什么没做成（烂作品暴露意图，反而能学），平庸的看行业水位，跨品类的看避免同质化。</div></div>
+      <div class="li"><div class="n">2</div><div class="t"><b>互联网热点</b>：爆款、舆论情绪、新梗新玩法。热点会过时，但背后的人性规律不过时，这是洞察的活素材。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">核心原则：看全谱系是为了建坐标系。只见过烂的才知道好在哪里，只见过不同风格才知道自己品味落在哪。</div></div>
+    </div>
+  </section>
+
+  <!-- 32 S9 怎么看+怎么思考 -->
+  <section class="slide"><div class="pageno">32 / 41</div><div class="kicker">成长线 · Session 9 · 输入</div>
+    <h2>怎么看 · 怎么思考</h2>
+    <h3>怎么看 · 四个动作</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">主动看不是被动刷：刷是消遣，看是研究，差别在带没带问题。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">拆解式看：拆成零件，解决了什么、用了什么手法、为什么有效。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">对比式看：同类放一起比，好和烂的差距卡在哪一个点。</div></div>
+      <div class="li"><div class="n">4</div><div class="t">记录式看：看到有用的立刻提炼，不是收藏。</div></div>
+    </div>
+    <h3>看时三问</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">它为什么有效或无效，拆机制。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">它踩中了什么人性或情绪，焦虑、虚荣、归属、懒惰、炫耀，总有一个。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">我能从它身上拿走什么，不是照抄，是提炼可迁移的原则。这三问和五层追问是同一块肌肉。</div></div>
+    </div>
+  </section>
+
+  <!-- 33 S9 案例+作业 -->
+  <section class="slide"><div class="pageno">33 / 41</div><div class="kicker">成长线 · Session 9</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 爆款短视频</div><div class="cb-body">没判断的人点个赞滑走。有判断的人问三句：它为什么爆（结构、节奏、钩子）<br>它踩中什么情绪（爽点、共鸣、焦虑）<br>这个钩子能不能迁移到我的客户身上。<b>同样是刷，有人刷完就忘，有人刷完多一个可复用的手法。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">这周刷到的内容里挑三条，每条用三问拆：
+      <div class="li"><div class="n">1</div><div class="t">它为什么有效，拆机制。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">它踩中了什么人性或情绪。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">我能拿走什么，用到工作里。三条拆完记下来，就是你案例库的第一批货。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 34 S10 思维+实战 -->
+  <section class="slide"><div class="pageno">34 / 41</div><div class="kicker">成长线 · Session 10 · 沉淀</div>
+    <h2>沉淀系统</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">输入不沉淀，等于没输入。看到的、学到的、踩过的坑，不记下来，下次照样忘、照样踩。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">沉淀的关键是<span class="mark">提炼，不是收藏</span>。收藏是放进文件夹再也不看，提炼是说明白它为什么有效、下次怎么用。</div></div>
+    </div>
+    <h3>三件套</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">案例库：好案例和烂案例各记一条，为什么好、为什么烂，一句话说清。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">错题本：自己犯的错、踩的坑，记下来标根因。这本最值钱，但大多数人不敢写，因为要直面自己的蠢。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">灵感库：随时冒出来的想法、可迁移的手法，先记着，定期归类。节奏：每天记、每周清、每月归档。</div></div>
+    </div>
+  </section>
+
+  <!-- 35 S10 案例+作业 -->
+  <section class="slide"><div class="pageno">35 / 41</div><div class="kicker">成长线 · Session 10</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 两个人的对比</div><div class="cb-body">一个攒了上百条收藏链接从没整理，要用时一条想不起来。一个只攒二十条，每条写了为什么有效、什么场景能用、怎么迁移，半年后成了团队最能出判断的人。<b>差距不在数量，在有没有提炼。一百条收藏不如二十条提炼。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">建三件套，今天先做一件：把最近一个月踩过的三个坑写进错题本，每个坑写一句根因。诚实写，挑最痛的那个写，最痛的坑最值钱。</div></div>
+  </section>
+
+  <!-- 36 S11 思维+实战 -->
+  <section class="slide"><div class="pageno">36 / 41</div><div class="kicker">成长线 · Session 11 · 工具跟进</div>
+    <h2>工具跟进系统 · 不追热点追能力</h2>
+    <div class="grid">
+      <div class="li"><div class="dot"></div><div class="t">工具进化快，追是追不完的。追着跑永远追不上，最后成了工具焦虑：每个都会一点，一个没用深。</div></div>
+      <div class="li"><div class="dot"></div><div class="t">正确姿势：<span class="mark">不追热点，追能力</span>。一个新工具出来，先问它补我哪块短板，而不是它有多火。</div></div>
+    </div>
+    <h3>跟进三步</h3>
+    <div class="grid">
+      <div class="li"><div class="n">1</div><div class="t">判断：这个工具补我哪块能力，补得上才学，补不上跳过。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">嵌入：学了嵌进工作流，不是学完就扔，找一个具体场景天天用。</div></div>
+      <div class="li"><div class="n">3</div><div class="t">校准：工具在进化，人机分工线也得跟着动，过一阵重新看哪些交给工具、哪些收回来。</div></div>
+    </div>
+  </section>
+
+  <!-- 37 S11 案例+作业 -->
+  <section class="slide"><div class="pageno">37 / 41</div><div class="kicker">成长线 · Session 11</div>
+    <h2>案例 · 作业</h2>
+    <div class="casebox"><div class="ct">案例 · 两个策划面对 AI 更新</div><div class="cb-body">一个每个都注册都试，一季度下来什么都会点、什么都没用深。一个只挑一个能补短板的，比如补数据整理，嵌进周报天天用，一个月效率明显上来。<b>差距不在学得多，在学得准、用得深。</b></div></div>
+    <div class="casebox"><div class="ct">作业</div><div class="cb-body">两步：
+      <div class="li"><div class="n">1</div><div class="t">列出每周最耗时的三件重复劳动。</div></div>
+      <div class="li"><div class="n">2</div><div class="t">找一个工具能替你，先嵌进这周工作流。这周盯着这一个工具用到熟，下周评估它到底省没省时间，省了留下没省换。</div></div>
+    </div></div>
+  </section>
+
+  <!-- 38 延伸书单 上 -->
+  <section class="slide"><div class="pageno">38 / 41</div><div class="kicker">延伸书单 · 上</div>
+    <h2>延伸书单</h2>
+    <div class="cards">
+      <div class="card"><div class="t">心态与职业</div><div class="d"><b>《认知觉醒》</b>周岭 —— 讲大脑运行机制、元认知、舒适区边缘。<br>价值：搞懂自己为什么知道却做不到，学会把想法落成动作。<br><br><b>《心》</b>稻盛和夫 —— 经营哲学一切始于心，心性决定结果。<br>价值：入行先立心态，看把事当回事是什么样。<br><br><b>《纳瓦尔宝典》</b>乔根森 —— 判断力、杠杆、长期主义。<br>价值：学会把时间投到能复利的事，练判断不堆执行时长。<br><br><b>《复盘》</b>沈磊 —— 复盘方法论，项目复盘加人生复盘。<br>价值：每天复盘，在项目里和人生阶段里都更快成长。</div></div>
+      <div class="card"><div class="t">思考与第一性</div><div class="d"><b>《第一性原理》</b>李善友 —— 从本质出发重建思考，拆到不能再拆。<br>价值：拆 brief 时学会剥表象追问本质。<br><br><b>《李诞脱口秀工作手册》</b>李诞 —— 脱口秀创作的完整流程。<br>价值：让创意模板化，让好的作品有迹可循，创作不靠灵感靠方法。</div></div>
+      <div class="card"><div class="t">洞察与用户</div><div class="d"><b>《行为设计学》</b>希思 —— 动力、能力、提示三要素。<br>价值：做洞察时能理解用户为什么不行动。<br><br><b>《销售脑》</b>任瓦茨 —— 脑科学说服，销售给旧脑。<br>价值：写文案时先打动本能和情绪，不硬讲道理。</div></div>
+    </div>
+  </section>
+
+  <!-- 39 延伸书单 下 -->
+  <section class="slide"><div class="pageno">39 / 41</div><div class="kicker">延伸书单 · 下</div>
+    <h2>延伸书单</h2>
+    <div class="cards">
+      <div class="card"><div class="t">定位与营销</div><div class="d"><b>《定位》</b>里斯、特劳特 —— 定位理论源头，怎么在顾客心智里占一个位置。<br>价值：给客户做品牌定位时有经典框架，找差异化位置打进心智。<br><br><b>《人心红利》</b>江南春 —— 怎么抢占消费者心智。<br>价值：从抢流量升级到占心智。<br><br><b>《视觉锤》</b>里斯 —— 视觉是锤子语言是钉子。<br>价值：出方案不只给文字主张，还配一个记得住的视觉。<br><br><b>《疯传》</b>伯杰 —— STEPPS 六原则。<br>价值：知道怎么设计让人愿意传的内容。<br><br><b>《不做无效的营销》</b> —— 数据驱动效率。<br>价值：学会用数据算账，判断一个动作值不值得做。<br><br><b>《参与感》</b>黎万强 —— 参与感三三法则。<br>价值：学会让用户参与进来，口碑自发长。</div></div>
+      <div class="card"><div class="t">表达与说服</div><div class="d"><b>《开口就是机会》</b>Olga 姐姐 —— 35 年外企实战，怎么主动开口把话说清。<br>价值：最怕不敢说、不会提案，读完学会把判断讲明白。</div></div>
+    </div>
+  </section>
+
+  <!-- 40 播客推荐 -->
+  <section class="slide"><div class="pageno">40 / 41</div><div class="kicker">播客推荐</div>
+    <h2>播客推荐 · 听更大的盘</h2>
+    <div class="cards">
+      <div class="card"><div class="t">《温柔一刀》</div><div class="d">聊怎么做好 marketing，把概念讲透、把例子引好。<br>价值：提升和客户沟通的表达话术，营销概念怎么说清楚。</div></div>
+      <div class="card"><div class="t">《天真不天真》</div><div class="d">和杨天真学怎么问一个好问题，听嘉宾的人生思考。<br>价值：学会提问，听不同的人生样本。</div></div>
+      <div class="card"><div class="t">《品牌消费观》</div><div class="d">品牌创始人从生意底层讲品牌和生意，看全盘。<br>价值：建立 whole mapping 的全局观，不只盯着营销这个细分。</div></div>
+      <div class="card"><div class="t">《疯投圈》</div><div class="d">投资人视角看市场、赛道、品牌生意的关联，听到更多大数。<br>价值：把细分策略放进市场大盘想，看大数和细分的关联。</div></div>
+    </div>
+  </section>
+
+  <!-- 41 结语 -->
+  <section class="slide"><div class="pageno">41 / 41</div><div class="kicker">结语</div>
+    <div class="bigquote">做一个把事当个事的人，<br>然后持续让自己变强。</div>
+    <div class="sub" style="margin-top:3.5vh;">工具会变，方法会更新。但 Ownership、问对问题、选对答案、有据有判断有立场，是策划人不变的地基。守住这些，AI 时代你就不是被工具替代的人，是<span class="mark">用工具的人</span>。把这门课当起点，真正的课，在你每天干的活里、看的东西里、踩的坑里。作业不做，等于白看。</div>
+  </section>
+
+</div>
+</body>
+</html>

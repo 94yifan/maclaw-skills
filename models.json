@@ -14,14 +14,7 @@
             "text"
           ],
           "contextWindow": 1000000,
-          "maxTokens": 131072,
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "openai-completions"
+          "maxTokens": 131072
         },
         {
           "id": "glm-5",
@@ -31,14 +24,7 @@
             "text"
           ],
           "contextWindow": 200000,
-          "maxTokens": 131072,
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "openai-completions"
+          "maxTokens": 131072
         },
         {
           "id": "glm-4.7-flash",
@@ -47,15 +33,7 @@
             "text"
           ],
           "contextWindow": 200000,
-          "maxTokens": 131072,
-          "reasoning": false,
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "openai-completions"
+          "maxTokens": 131072
         },
         {
           "id": "glm-4.5-air",
@@ -65,14 +43,7 @@
             "text"
           ],
           "contextWindow": 128000,
-          "maxTokens": 98304,
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "openai-completions"
+          "maxTokens": 98304
         },
         {
           "id": "glm-5v-turbo",
@@ -83,14 +54,7 @@
             "image"
           ],
           "contextWindow": 200000,
-          "maxTokens": 131072,
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "openai-completions"
+          "maxTokens": 131072
         }
       ]
     },
@@ -117,14 +81,7 @@
             "audio"
           ],
           "contextWindow": 512000,
-          "maxTokens": 8192,
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "openai-completions"
+          "maxTokens": 8192
         }
       ]
     }

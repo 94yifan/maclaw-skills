@@ -1,31 +1,59 @@
 {
   "chart_id": "chart_brand_comparison_2",
-  "title": "品牌店效对比（亿元/店/年，约数）",
+  "title": "京东自营爆款销售对比",
   "type": "horizontalBar",
   "data": [
     {
-      "name": "老铺黄金",
-      "value": 4.59
+      "name": "椰树",
+      "value": 1350
     },
     {
-      "name": "周大福",
-      "value": 0.15
+      "name": "南国食品",
+      "value": 1250
     },
     {
-      "name": "周生生",
-      "value": 0.29
+      "name": "菲诺FreeNow",
+      "value": 1150
     },
     {
-      "name": "老凤祥",
-      "value": 0.14
+      "name": "可可满分",
+      "value": 1050
     },
     {
-      "name": "六福集团",
-      "value": 0.05
+      "name": "品香园",
+      "value": 950
     },
     {
-      "name": "谢瑞麟",
-      "value": 0.05
+      "name": "海边宽宽",
+      "value": 850
+    },
+    {
+      "name": "欢乐家",
+      "value": 750
+    },
+    {
+      "name": "林家铺子",
+      "value": 650
+    },
+    {
+      "name": "百草味",
+      "value": 550
+    },
+    {
+      "name": "来伊份",
+      "value": 450
+    },
+    {
+      "name": "UFC椰子水",
+      "value": 350
+    },
+    {
+      "name": "银鹭",
+      "value": 250
+    },
+    {
+      "name": "娃哈哈",
+      "value": 150
     }
   ],
   "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_2.html",

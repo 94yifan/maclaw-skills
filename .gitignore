@@ -4,3 +4,9 @@ __pycache__/
 *.sqlite-shm
 *.sqlite-wal
 *.bak
+
+# 临时产物统一入口（2026-09-10 孤儿文件治理）
+tmp/
+debug-*.mjs
+retry-*.mjs
+tea-daily-crawl-*.mjs

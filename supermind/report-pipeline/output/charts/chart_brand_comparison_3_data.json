@@ -1,31 +1,59 @@
 {
   "chart_id": "chart_brand_comparison_3",
-  "title": "品牌核心单品价格对比（元，约数）",
+  "title": "各品牌核心产品斤价/单件价对比",
   "type": "horizontalBar",
   "data": [
     {
-      "name": "Goro's羽毛",
-      "value": 20000
+      "name": "椰树",
+      "value": 1350
     },
     {
-      "name": "谢瑞麟双貔貅元宝手链",
-      "value": 18411
+      "name": "南国食品",
+      "value": 1250
     },
     {
-      "name": "老铺黄金古法金器",
-      "value": 8000
+      "name": "菲诺FreeNow",
+      "value": 1150
     },
     {
-      "name": "克罗心银饰",
-      "value": 3000
+      "name": "可可满分",
+      "value": 1050
     },
     {
-      "name": "Alex and Ani手镯",
-      "value": 300
+      "name": "品香园",
+      "value": 950
     },
     {
-      "name": "神都印象香灰手串",
-      "value": 99
+      "name": "海边宽宽",
+      "value": 850
+    },
+    {
+      "name": "欢乐家",
+      "value": 750
+    },
+    {
+      "name": "林家铺子",
+      "value": 650
+    },
+    {
+      "name": "百草味",
+      "value": 550
+    },
+    {
+      "name": "来伊份",
+      "value": 450
+    },
+    {
+      "name": "UFC椰子水",
+      "value": 350
+    },
+    {
+      "name": "银鹭",
+      "value": 250
+    },
+    {
+      "name": "娃哈哈",
+      "value": 150
     }
   ],
   "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_3.html",

@@ -57,6 +57,33 @@
           "maxTokens": 131072
         }
       ]
+    },
+    "dots": {
+      "baseUrl": "https://note3-prev-api.askdiandian.com",
+      "apiKey": "ak_VBi1NJCZrZ5LsBIzaRfQTUyqUUN7j",
+      "api": "openai-completions",
+      "request": {
+        "auth": {
+          "mode": "header",
+          "headerName": "api-key",
+          "value": "ak_VBi1NJCZrZ5LsBIzaRfQTUyqUUN7j"
+        }
+      },
+      "models": [
+        {
+          "id": "dots3-note-prev",
+          "name": "Dots3 Note Preview (小红书)",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image",
+            "video",
+            "audio"
+          ],
+          "contextWindow": 512000,
+          "maxTokens": 8192
+        }
+      ]
     }
   }
 }

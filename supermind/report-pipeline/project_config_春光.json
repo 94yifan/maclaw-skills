@@ -1,0 +1,87 @@
+{
+  "project_name": "春光食品 品牌扫描报告（椰基食品饮料+海南特产手信+休闲零食+糖水罐头四赛道）",
+  "industry": "椰基食品饮料 / 海南旅游特产手信 / 休闲零食 / 糖水甜品罐头",
+  "schema_version": "2.0",
+  "focus_product": "春光食品（海南春光食品，1996年成立，文昌东郊椰林，员工近2000人，创始人黄春光；椰子糖/椰子饼起家，有海南第一手信之称；2022年3月推首款椰汁对标椰树；10大系列200+品项，含椰奶清补凉/椰椰牛油果/桃胶等糖水罐头。本次合作方向：小红书种草，按燃创品牌咨询深度交付）",
+  "brands": {
+    "focus": "春光食品",
+    "deep": [
+      "椰树",
+      "南国食品",
+      "菲诺FreeNow",
+      "可可满分",
+      "品香园",
+      "海边宽宽",
+      "欢乐家",
+      "林家铺子"
+    ],
+    "reference": [
+      "椰子知道",
+      "佳果源",
+      "Vita Coco",
+      "Chaokoh俏果",
+      "椰语堂",
+      "三只松鼠",
+      "良品铺子",
+      "春光椰子王国",
+      "喜多多",
+      "真心"
+    ],
+    "summary": [
+      "百草味",
+      "来伊份",
+      "UFC椰子水",
+      "银鹭",
+      "娃哈哈"
+    ]
+  },
+  "brand_notes": {
+    "椰树": "椰汁龙头，A赛道正面竞争者",
+    "南国食品": "海南椰子糖/椰奶咖啡，同城双子星",
+    "菲诺FreeNow": "厚椰乳，生椰拿铁供应链，椰基全产业链",
+    "可可满分": "椰子水/椰乳新锐品牌",
+    "品香园": "海南特产老牌，旅游手信渠道",
+    "海边宽宽": "海口骑楼老街，海南在地文化设计化手信新锐",
+    "欢乐家": "水果罐头+椰子汁，A股上市，糖水罐头龙头",
+    "林家铺子": "水果罐头老牌，椰果黄桃/多口味"
+  },
+  "founder_name": "黄春光（海南春光食品创始人/董事长，文昌东郊人，待前置调研核实）",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": true,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": true,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {
+    "dimensions": [
+      "椰基饮品从生椰拿铁供应链红利走向C端品牌化（菲诺/可可满分/椰子知道）",
+      "海南特产手信的设计化与在地文化升级（海边宽宽 vs 老牌品香园）",
+      "糖水甜品罐头从节令礼品走向日常化与代餐化（欢乐家/林家铺子/清补凉罐头）",
+      "春光从椰味零食向椰汁饮料的品类扩张与椰树的正面竞争",
+      "旅游渠道依赖 vs 全国化电商与新媒体破圈"
+    ]
+  },
+  "special_methodology": {
+    "focus_product_analysis": "春光四赛道并列深挖：A 椰基食品饮料（椰子糖/椰子饼/椰汁/椰乳/椰子水，对标椰树/南国食品/菲诺/可可满分）→ B 海南特产手信（旅游渠道与在地文化，对标品香园/海边宽宽）→ C 休闲零食（果蔬脆/糖巧蜜饯，对标三只松鼠/良品铺子）→ D 糖水甜品罐头（椰奶清补凉/椰椰牛油果/桃胶，重点回答罐头赛道谁家的品最火，对标欢乐家/林家铺子）。交付视角：需求是小红书种草，按燃创品牌咨询深度方法论交付（五维扫描+产业链卡口+内容五分类+用户痛点+机会地图+创品策略）"
+  },
+  "output_dir": "./output/春光_20260910",
+  "output_settings": {
+    "docx_filename": "春光食品-椰基食品饮料与海南手信-V1-20260910.docx"
+  }
+}

@@ -10,3 +10,8 @@ tmp/
 debug-*.mjs
 retry-*.mjs
 tea-daily-crawl-*.mjs
+
+# 大体积录音原文件不进仓库（保留本地，转写稿与纪要入库）
+ceo/meetings/*.m4a
+ceo/meetings/*.mp3
+ceo/meetings/*.wav

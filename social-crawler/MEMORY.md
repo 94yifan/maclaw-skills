@@ -122,6 +122,13 @@ M Stand(6345199298)、Manner(6808111794)、茉酸奶(5188894132)、
 6. **柠季观察项 9/5 已关闭**：柠季 9/5 窗口 2 条实质动态（王译磊短剧星选+陆虎亲签），开奖公示未常态化，维持正常监测。
 7. **dreaming job status 不可信**（8/30、8/31、9/4 三次实证文件完整产出但 job 标 error，9/4 为 Process failed/266s）：判断 dreaming 是否失效必须查 memory/dreaming-*.md mtime+通读，status 只作监控信号。
 
+## 2026-09-12 手动补跑事件（cron 交付失败）
+
+- **现象**：11:00 tea-daily-report cron 正常跑完并写出 memory/weibo_daily_2026-09-12.md（11:08），但 job 标 error、lastDeliveryStatus=not-delivered，逸凡 11:42 群里喊「手动跑」
+- **根因**：agent run 中途有一步工具调用失败（`ls ~/.openclaw/workspace/social-crawler/scripts/` —— 该目录不存在），整个 run 被判 error，announce 交付被跳过；报告本身已完整
+- **修复动作**：手动重跑爬虫（tea-daily-crawl-0912b.mjs，输出 /tmp/tea-raw-2026-09-12-b.json），与 11:00 版 raw 合并取并集（补回 11:00-11:42 落窗的瑞幸咸芝士豆乳拿铁回归 + 补上 11:00 抓取漏掉的 11:00:43 帖），重写日报并发群（5 条消息）
+- **教训**：报告文件存在 ≠ 已送达。判断日报是否成功必须看 deliveryStatus，不看 job status；抓取脚本里禁止引用不存在的目录，任何一步工具失败都会连带吞掉交付
+
 ## 2026-09-03 窗口纪律教训（写日报前必读，8/22 铁律加强版）
 
 - 9/3 日报因窗口口径漂移漏报 2 条实质动态：古茗红颜石榴汁瓶装全国上线（9/2 11:05 发，从未进任何日报）、喜茶周三小奖励（9/2 11:07，错标无动态）

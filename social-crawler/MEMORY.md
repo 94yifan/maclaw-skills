@@ -196,6 +196,16 @@ M Stand(6345199298)、Manner(6808111794)、茉酸奶(5188894132)、
 - 5-7月所有午后沉思、知识缝合、逐日执行记录 → `memory/archive/MEMORY-full-2026-08-30.md`
 - 历史洞察（米酿趋势、IP联名方法论、HPP扩散、世界杯营销等）从归档读取
 
+## 2026-09-14 手动补跑 + cron 交付失败复现（第4次同类）
+
+- **现象**：11:00 tea-daily-report cron 跑完并写出 memory/weibo_daily_2026-09-14.md（11:04，报告内容完整），但 job 标 error（error="⚠️ ⏰ Cron failed"，duration 308s），lastDeliveryStatus=not-delivered，逸凡 16:02 群里喊手动跑
+- **修复**：16:02 补抓（tea-daily-crawl-0914b.mjs → /tmp/tea-raw-2026-09-14-b.json），与 11:00 版 raw 合并取并集（/tmp/tea-merged-2026-09-14.json），窗口 9/13 11:00~9/14 16:02，重写日报发群（4 条消息）
+- **补抓到的新增内容**：瑞幸美团超级发布（15:00）、黑糖珍珠牛乳茶校园店（14:02）、库迪 IRONMAN 收官（15:00）、古茗大柚作为拿铁预告（15:17）、幸运咖百变老K大赛（15:19）、茉莉奶白莓莓莓莓莓（14:00）、霸王茶姬浓抹香草籽（15:32）、茶百道龙眼找茬（14:03）、星巴克1MORE（10:00）、树夏时装周（15:24）、柠季黎明旭（15:40）——**若只补发 11:00 版，这些下午动态全丢**
+- **失败模式统计**：tea-daily-report 近期 error 样本 8/28、8/31、9/3、9/6、9/12、9/14，间隔 2-3 天一次；共同特征=**报告文件已完整落盘、run 标 error、announce 交付被跳过**，与内容质量无关，属交付链路问题
+- **判断铁律**：日报是否成功只看 deliveryStatus（delivered），不看 job status；job status=error 且文件存在时，先读文件确认内容完整，再决定是补发还是重跑
+- **2026-09-14 已完成硬化（逸凡确认「改」）**：cron job a19839ba-7d82-4bf5-a432-508afc110c79 prompt 已改为 ①全部动态日期（/tmp/tea-raw-<今天>.json、memory/weibo_daily_<今天>.md，禁止写死旧日期）②星巴克改为数字 UID 1741514817 ③新增「路径纪律」段：禁止 ls/引用不存在的目录（如 social-crawler/scripts/），任何一步工具失败都会连带吞掉交付。timeoutSeconds 保持 900。
+- **待逸凡确认的遗留项**：morning-crawl.sh 仍在用户 crontab（每天 10:40 跑，硬编码 6/14 文件名，输出从未被使用），删除命令：`crontab -l | grep -v morning-crawl.sh | crontab -`
+
 ## 2026-09-13 茶饮日报 cron 模板日期陈旧
 - cron 任务 tea-daily-report 的 prompt 文本仍写着 08-14 的路径（/tmp/tea-raw-2026-08-14.json、memory/weibo_daily_2026-08-14.md）
 - 实际按"今天"执行：抓取 2026-09-13、写入 memory/weibo_daily_2026-09-13.md，未覆盖 8-14 旧文件

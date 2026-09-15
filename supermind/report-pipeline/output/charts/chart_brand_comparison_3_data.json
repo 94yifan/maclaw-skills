@@ -4,55 +4,79 @@
   "type": "horizontalBar",
   "data": [
     {
-      "name": "椰树",
+      "name": "圣迪乐",
+      "value": 1950
+    },
+    {
+      "name": "正大蛋业",
+      "value": 1850
+    },
+    {
+      "name": "兰皇",
+      "value": 1750
+    },
+    {
+      "name": "咯咯哒",
+      "value": 1650
+    },
+    {
+      "name": "德青源",
+      "value": 1550
+    },
+    {
+      "name": "樱姬小町",
+      "value": 1450
+    },
+    {
+      "name": "土鸡蛋品类",
       "value": 1350
     },
     {
-      "name": "南国食品",
+      "name": "功能蛋与细分蛋",
       "value": 1250
     },
     {
-      "name": "菲诺FreeNow",
+      "name": "谷物蛋",
       "value": 1150
     },
     {
-      "name": "可可满分",
+      "name": "供港鲜蛋",
       "value": 1050
     },
     {
-      "name": "品香园",
+      "name": "渠道自有品牌蛋",
       "value": 950
     },
     {
-      "name": "海边宽宽",
+      "name": "乡巴佬",
       "value": 850
     },
     {
-      "name": "欢乐家",
+      "name": "咚咚蛋定",
       "value": 750
     },
     {
-      "name": "林家铺子",
+      "name": "日式温泉蛋料理包",
       "value": 650
     },
     {
-      "name": "百草味",
+      "name": "特仑苏",
       "value": 550
     },
     {
-      "name": "来伊份",
+      "name": "光明",
       "value": 450
     },
     {
-      "name": "UFC椰子水",
+      "name": "认养一头牛",
       "value": 350
     },
     {
-      "name": "银鹭",
+      "name": "简爱",
       "value": 250
     },
     {
-      "name": "娃哈哈",
+      "name": "每日鲜语",
       "value": 150
     }
   ],

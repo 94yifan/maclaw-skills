@@ -1,13 +1,23 @@
 {
-  "project": "春光食品 品牌扫描报告（椰基食品饮料+海南特产手信+休闲零食+糖水罐头四赛道）",
-  "started_at": "2026-09-10T13:46:40.352752",
-  "completed_at": "2026-09-10T13:46:40.411796",
+  "project": "黄天鹅 品牌扫描报告（可生食鸡蛋与高品质品牌鲜蛋赛道）",
+  "started_at": "2026-09-15T15:07:59.649015",
+  "completed_at": "2026-09-15T15:07:59.971871",
   "steps": {
+    "docx_assembly": {
+      "description": "DOCX 生成 — 纯 python-docx 重建版",
+      "status": "success",
+      "started_at": "2026-09-15T15:07:59.650565",
+      "completed_at": "2026-09-15T15:07:59.905968",
+      "error": null,
+      "outputs": [
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/黄天鹅-高品质鸡蛋-V1-20260915.docx"
+      ]
+    },
     "qa_check": {
       "description": "QA 自动检查 — 结构/内容/图表/交付四层 + 终端docx验证",
       "status": "success",
-      "started_at": "2026-09-10T13:46:40.383233",
-      "completed_at": "2026-09-10T13:46:40.411594",
+      "started_at": "2026-09-15T15:07:59.936999",
+      "completed_at": "2026-09-15T15:07:59.971714",
       "error": null,
       "outputs": [
         "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/qa_report.md"

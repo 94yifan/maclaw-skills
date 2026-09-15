@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><title>各品牌回头客/复购率对比</title>
+<head><meta charset="UTF-8"><title>天猫旗舰店爆款销售对比</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <style>
   body { margin: 0; display: flex; justify-content: center; align-items: center; background: white; }
-  #chart { width: 800px; height: 380px; }
+  #chart { width: 800px; height: 420px; }
 </style>
 </head>
 <body>
@@ -12,15 +12,15 @@
 <script>
 
 option = {
-    title: { text: '各品牌回头客/复购率对比', subtext: '数据来源: 天猫+京东', left: 'center' },
+    title: { text: '天猫旗舰店爆款销售对比', subtext: '数据来源: 天猫旗舰店', left: 'center' },
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
     grid: { left: '3%', right: '8%', bottom: '8%', containLabel: true },
-    xAxis: { type: 'value', name: '回头客率(%)', nameLocation: 'middle', nameGap: 30 },
-    yAxis: { type: 'category', data: ["椰树", "南国食品", "菲诺FreeNow", "可可满分", "品香园", "海边宽宽", "欢乐家", "林家铺子", "百草味", "来伊份", "UFC椰子水", "银鹭", "娃哈哈"], axisLabel: { fontSize: 12 } },
+    xAxis: { type: 'value', name: '已售/付款数', nameLocation: 'middle', nameGap: 30 },
+    yAxis: { type: 'category', data: ["圣迪乐", "正大蛋业", "兰皇", "咯咯哒", "德青源", "樱姬小町", "土鸡蛋品类", "功能蛋与细分蛋", "谷物蛋", "供港鲜蛋", "渠道自有品牌蛋", "乡巴佬", "咚咚蛋定", "日式温泉蛋料理包", "特仑苏", "光明", "认养一头牛", "简爱", "每日鲜语"], axisLabel: { fontSize: 12 } },
     series: [{
         name: '品牌名称对比',
         type: 'bar',
-        data: [1350, 1250, 1150, 1050, 950, 850, 750, 650, 550, 450, 350, 250, 150],
+        data: [1950, 1850, 1750, 1650, 1550, 1450, 1350, 1250, 1150, 1050, 950, 850, 750, 650, 550, 450, 350, 250, 150],
         barWidth: '60%',
         label: { show: true, position: 'right', formatter: function(p) { return p.value; } },
         itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [

@@ -210,3 +210,12 @@ M Stand(6345199298)、Manner(6808111794)、茉酸奶(5188894132)、
 - cron 任务 tea-daily-report 的 prompt 文本仍写着 08-14 的路径（/tmp/tea-raw-2026-08-14.json、memory/weibo_daily_2026-08-14.md）
 - 实际按"今天"执行：抓取 2026-09-13、写入 memory/weibo_daily_2026-09-13.md，未覆盖 8-14 旧文件
 - 建议：把 cron 里的硬编码日期改成动态日期，避免误导
+
+## 2026-09-19 cron 交付失败复现（第5次同类）+ 手动补发
+
+- **现象**：11:00 tea-daily-report 跑完并写出 memory/weibo_daily_2026-09-19.md（11:05），但 run 标 error（error=node 脚本 exec 失败，duration 310s），lastDeliveryStatus=not-delivered，逸凡 11:10 群里问「今天为什么fail」
+- **根因**：与 9/12、9/14 同类——**报告文件完整落盘，收尾阶段一步 exec（解析 raw 的 node 脚本）失败 → 整个 run 判 error → announce 投递被跳过**。与内容质量无关，属交付链路问题
+- **附带缺陷**：今日落盘文件**漏写标题/窗口头**（只从「瑞幸咖啡」开始），已补回 header
+- **修复**：11:11 未重爬（距 crawlTime 仅 11 分钟），直接补上 header 后按原样分 4 条发群（诊断1条 + 报告3条）；raw 已核验 23 品牌齐全（/tmp/tea-raw-2026-09-19.json，27 条窗口内，crawlTime 11:00）
+- **累计失败样本**：8/28、8/31、9/3、9/6、9/12、9/14、9/19，频率约 2-3 天 1 次，全部为「文件完整 + run error + 交付跳过」
+- **待办（需主 session 或逸凡）**：该失败模式无法从 dreaming/isolated 侧修复，考虑给 tea-daily-report cron 加交付重试或加一步「写文件后立即 message 发群」兜底

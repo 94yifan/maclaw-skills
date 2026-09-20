@@ -6,7 +6,7 @@
   python3 <abs>/cfo/tmp/giftlist/audit.py [--no-snapshot]
 
 输出: 总记录 / 已勾 / 明确否 / 未处理 / 同电话重复组 / 同地址重复组 / 序号缺口
-     + 变更对账（vs 最近一份「别的日期」的主快照）: 新增 / 消失 / 表内他改（字段级）
+     + 变更对账（vs 最近一份「别的日期」的主快照）: 新增 / 消失 / 缺口增量 / 表内他改（字段级）
 只读表数据；在 <脚本目录>/snapshots/ 下落快照：
   - snap_YYYY-MM-DD.json       当日主快照（每次运行覆盖，供次日对账）
   - snap_YYYY-MM-DD_HHMM.json  不可变时间快照（保留当日多次读数）
@@ -15,6 +15,7 @@
   - 序号一律读回，不推算（快照以表内真实序号为键）
   - 记录级对账：新增/消失（守卫D）
   - 字段级对账：序号相同但字段变化 → 「表内他改」（守卫K）
+  - 缺口增量对账：建后即删的记录只留缺口、内容对账看不见 → 单列「新增缺口/补齐缺口」
   - 统计口径：每条记录算一份，子记录也有礼品，不按父记录折叠
 """
 import sys, re, collections, os, json, glob, datetime, urllib.parse
@@ -110,6 +111,23 @@ def do_snapshot(rows, g):
         print(f"  - 序号{k} {v['名字']} | {v['公司']} | {v.get('电话','')}")
     if not added and not gone:
         print("  无变化")
+
+    # 缺口增量：创建后被删除的记录只表现为新增缺口（内容对账看不见），单独报出
+    def _gaps(d):
+        nums = {int(k) for k in d if k.isdigit()}
+        if not nums:
+            return set()
+        return {i for i in range(1, max(nums) + 1) if i not in nums}
+    cgap, pgap = _gaps(cur), _gaps(prev)
+    new_gap = sorted(cgap - pgap)
+    filled_gap = sorted(pgap - cgap)
+    if new_gap or filled_gap:
+        seg = []
+        if new_gap:
+            seg.append(f"新增缺口 {len(new_gap)} 个: {new_gap}")
+        if filled_gap:
+            seg.append(f"补齐缺口 {len(filled_gap)} 个: {filled_gap}")
+        print("  (缺口) " + " / ".join(seg))
 
     # 字段级：序号相同但字段变化。旧快照缺字段（如仅 名字/公司/电话）时只比双方都有的字段。
     changed = []

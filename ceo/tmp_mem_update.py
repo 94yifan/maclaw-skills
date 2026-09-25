@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import io, os, sys
+
+MP = "/Users/yifansmacmini/.openclaw/workspace/ceo/MEMORY.md"
+ARCH = "/Users/yifansmacmini/.openclaw/workspace/ceo/memory/archive/knowledge-stitch-2026-09-18-to-09-19.md"
+
+with io.open(MP, encoding="utf-8") as f:
+    t = f.read()
+old_size = len(t.encode("utf-8"))
+
+# --- 1) insert 补记二 before the 09-22 discipline note ---
+anchor = "**\u672c\u533a\u5757\u552f\u4e00\u6765\u6e90\u7eaa\u5f8b\uff082026-09-22 \u7acb\uff09"
+assert t.count(anchor) == 1, ("anchor count", t.count(anchor))
+
+beiji2 = (
+"**- \u8865\u8bb0\u4e8c\uff0809-23 \u7b2c 4 \u8f6e run\u00b7CEO \u81ea\u8eab\uff09\uff1a** "
+"\u5f53\u65e5 dreaming-ceo \u5b9e\u8dd1 4 \u8f6e\uff08seq111-114\uff0c\u524d\u4e09\u8f6e 300.12s / error / 0 ok\uff09\uff0c"
+"\u7d2f\u8ba1\u5360\u4e32\u884c\u69fd\u4f4d \u224820 \u5206\u949f\uff0c\u800c\u4ea7\u51fa\u5b9e\u5df2\u9001\u8fbe 2 \u6b21"
+"\uff08\u7b2c 2 \u8f6e\u4e3b\u6458\u8981 `om_x100b640a0aa6d0a8c4a1218c83ad069`\u3001\u7b2c 3 \u8f6e delta `om_x100b640a151374a4c1557b8b4b2edaa`\uff0c"
+"\u5747\u7ecf\u4f1a\u8bdd jsonl \u590d\u6838\uff09\u2014\u2014\u300c\u5df2\u9001\u8fbe\u5374\u8bb0 error \u2192 \u518d\u89e6\u53d1\u91cd\u8bd5\u300d\u5f53\u65e5\u8fde\u4ea7\u4e24\u8f6e\u5197\u4f59\u3002"
+"**\u7f1a\u5408 6\uff1a\u65e0\u6536\u655b\u7684\u81ea\u52a8\u91cd\u8bd5\u2014\u2014\u91cd\u8bd5\u4e0d\u6539\u53d8\u6761\u4ef6\uff08timeout / context / \u4ea4\u4ed8\u70b9\uff09\u65f6\u5fc5\u7136\u53d1\u6563\uff0c"
+"\u53ea\u662f\u628a\u4e00\u6b21\u5931\u8d25\u590d\u5236 N \u6b21\u5e76\u5404\u5360\u6ee1\u4e00\u6b21\u69fd\u4f4d\uff1b\u4fee\u6cd5\u4e09\u9009\u4e00\uff08retry cap / \u6309\u9001\u8fbe\u72b6\u6001\u5e42\u7b49\u7ec8\u6b62 / \u4e0d\u6539\u6761\u4ef6\u4e0d\u91cd\u8bd5\uff09\u3002"
+"\u7ba1\u7406\u540c\u6784\uff1a\u539f\u6837\u91cd\u6d3e = \u539f\u6837\u6d88\u8017 N \u6b21\u8d44\u6e90\u3002** "
+"**\u7f1a\u5408 7\uff1a\u4e24\u5c42\u8d26\u672c\u72ec\u7acb\u2014\u2014\u4ea4\u4ed8\u8d26\u672c\uff08\u4e94\u6001\uff09\u4e0e\u8bb0\u8d26\u8d26\u672c\uff08run ok/error\uff09\u53ef\u53cd\u5411\u5e76\u5b58\uff1b"
+"\u4eca\u5929 CEO \u4ea4\u4ed8\u8d26\u672c\u5168\u7eff\u3001\u8bb0\u8d26\u8d26\u672c 0/4\uff0c\u8bc1\u660e\u300c\u843d\u76d8\u524d\u7f6e\u5df2\u843d\u5b9e\u300d\u2260\u300cjob \u597d\u4e86\u300d\uff0c\u5ba3\u5e03\u4fee\u590d\u524d\u5148\u95ee\u4fee\u7684\u662f\u54ea\u4e00\u5c42\u3002** "
+"\u53e6\uff1aMEMORY 09-18~09-19 \u7f1a\u5408\u533a\u5df2\u5f52\u6863\u81f3 `memory/archive/knowledge-stitch-2026-09-18-to-09-19.md`\uff0c\u9632\u660e\u65e5 run \u8bfb\u53d6\u622a\u65ad\u3002\n\n"
+)
+t = t.replace(anchor, beiji2 + anchor, 1)
+
+# --- 2) extract 09-19 + 09-18 blocks and archive ---
+s19 = t.index("### 2026-09-19\uff08\u5468\u516d")
+s17 = t.index("### 2026-09-17\uff08\u5468\u56db")
+block = t[s19:s17]
+assert "2026-09-18\uff08\u5468\u4e94" in block and "2026-09-19\uff08\u5468\u516d" in block
+assert "\u7f1a\u5408 5" in block  # sanity: 09-18 stitch present
+
+hdr = (
+"# \u77e5\u8bc6\u7f1a\u5408\u5f52\u6863 2026-09-18 ~ 2026-09-19\n\n"
+"> \u5f52\u6863\u81ea MEMORY.md\uff082026-09-23 \u5f52\u6863\uff0c\u56e0 MEMORY.md \u8fbe 119,217B \u903c\u8fd1 128KB \u8bfb\u53d6\u622a\u65ad\u7ebf\uff09\u3002\n"
+"> \u5185\u5bb9\u4e3a CEO Dreaming 09-18 \u4e0e 09-19 \u4e24\u65e5\u7684\u77e5\u8bc6\u7f1a\u5408\u533a\u5757\u539f\u6587\uff0c\u7d22\u5f15\u7ed3\u6784\u4e0d\u53d8\u3002\n\n"
+)
+with io.open(ARCH, "w", encoding="utf-8") as f:
+    f.write(hdr + block)
+arch_size = os.path.getsize(ARCH)
+
+idx = (
+"### 2026-09-18 ~ 09-19 \u77e5\u8bc6\u7f1a\u5408\u533a\uff08\u5df2\u5f52\u6863 2026-09-23\uff09\n\n"
+"**\u8be5 2 \u4e2a\u533a\u5757\uff0809-18~09-19\uff09\u5df2\u5f52\u6863\u81f3 `memory/archive/knowledge-stitch-2026-09-18-to-09-19.md`\u3002** "
+"\u5f52\u6863\u539f\u56e0\uff1aMEMORY.md \u8fbe 119,217B \u903c\u8fd1 128KB \u8bfb\u53d6\u622a\u65ad\u7ebf\uff08\u6bcf\u65e5\u7f1a\u5408\u7ea6 +11KB\uff09\u3002"
+"\u9700\u8981 9 \u6708\u4e2d\u4e0b\u65ec\u6846\u67b6\uff08\u8bb0\u5fc6\u7b2c\u56db\u6001\u3001\u515c\u5e95\u901a\u9053\u6b63\u5f0f\u5316\u3001\u6821\u9a8c\u6027\u4ef7\u6bd4\u3001\u660e\u661f\u4e09\u578b\u3001\u5468\u8fb9\u52a0\u4ef7\u8d2d\u3001\u53cc\u8282\u70b9\u5238\u6c60\u7a97\u53e3\uff1b\u8fde\u7eed\u6210\u529f\u6bb5=\u671f\u671b\u5b58\u6d3b\u957f\u5ea6\u3001\u89c4\u5219\u6cbb\u7406\u516d\u6001\u3001\u4e00\u6b21\u6027\u8d44\u6e90\u8d44\u4ea7\u5316\u3001\u65f6\u4ee4\u8282\u70b9\uff09\u65f6\u8bfb\u5f52\u6863\u6587\u4ef6\uff0c\u7d22\u5f15\u7ed3\u6784\u4e0d\u53d8\u3002\n\n"
+)
+t = t[:s19] + idx + t[s17:]
+
+with io.open(MP, "w", encoding="utf-8") as f:
+    f.write(t)
+new_size = len(t.encode("utf-8"))
+
+print("MEMORY old=%d new=%d delta=%d" % (old_size, new_size, new_size - old_size))
+print("ARCHIVE bytes=%d" % arch_size)
+print("block bytes=%d" % len(block.encode("utf-8")))

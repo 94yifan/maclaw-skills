@@ -888,3 +888,9 @@ DeepSeek Pro负责研究推理和内容写作，GLM Pro负责python-docx/Dashboa
 - **10/03 未闭环清单（下次固定全量 = 10/5 周一，国庆假期内；逸凡出现即补推）**：**风险置顶**——中秋已过（农历八月十五 = 2026-09-25），53 条未处理 + 矛盾 4 条（5/264/300/308）无寄送窗口，需逸凡定「结案 / 转 2027 新年」；① cron 三项；② 序号 121 有邮寄编号未勾地址复核；③ 矛盾 4 条；④ 115 名字仍 KK（建议改 Kristen）；⑤ 费老（全表查无）；⑥ 麦昆（查无）；⑦ 哟哟 257 与新年表深圳 Yoyo 是否同人；⑧ 352 Cherry总 vs 17 cherry 是否同人；⑨ 9/21 银行流水 7 笔 627,505.00 付款方名称错配；⑩ 368 公司分类留空。
 - **触发时间漂移**：10/01 seq121 = 22:05:02；10/02 = 22:02:55；10/03 = 22:04（schedule `1 22`，多分身 dreaming 排队窗口）。
 - **本轮无新增外部风格样本**（零对外回复）。
+
+- **A1 补正（10/03 22:1x 实跑）：守卫AE 当轮 push 失败 —— curl 探活 ≠ push 可达。** `curl https://github.com`=**200**，但 `git push github HEAD` 实跑返回 `fatal: unable to access ... Failed to connect to github.com port 443 after 75014 ms`，push_exit=**128**，`github/main...HEAD`=**0 1**（本轮 commit **91828ea** 待推）。**可达性按路径分裂：curl 通路通、git https 通路上游不通。**
+- **A4：`.gitignore` 第 9 行 `tmp/` 覆盖 `cfo/tmp/`，closeout 脚本首轮未被 commit。** `git status --short -- cfo/` 显示「工作区干净」是**假干净**——ignored 文件不进入 status。此前 audit.py/rec_api.py/findmany.py 能跟踪，靠的是 9/19 的 force-add。
+- **守卫AG（新增，写入即为生效）「工作区干净」必须在忽略规则之外取证**：`git status --short` 对 `.gitignore` 覆盖路径恒为干净，据此判「已收尾」是假象。判据 = `git status --short -- cfo/`（非 ignored）+ `git status --short --ignored -- cfo/tmp/`（列出被忽略项）+ 对关键脚本 `git ls-files <path>` 确认在跟踪集。→ 已编译进 closeout 脚本第 1/2 步。依据：本轮脚本被 tmp/ 规则吞掉而 status 仍报干净。
+- **守卫Z 修订（可达性必须用实际通道探活）**：负面/正面可达结论都要标明通道 `<对象> 可达（实测 …, 通道=curl|git push）`。curl 通不等于 git 通。依据：本轮 curl=200 / push 失败。
+- **本轮收尾实读（守卫N 自证）**：commit **91828ea**（3 files: MEMORY.md / dreaming-2026-10-02.md / dreaming-2026-10-03.md）；closeout 脚本第 2 步输出 `OK: cfo/ 工作区干净`；第 3 步 push 失败（见上）；第 4 步 ahead=**0 1**；第 5 步远端取证：MEMORY 10-03 区块=**0**、dreaming-10-03=**0**、audit.py 邮寄编号=**1**。

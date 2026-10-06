@@ -8,6 +8,16 @@ TODAY="${1:?usage: dreaming_closeout.sh YYYY-MM-DD \"msg\"}"
 MSG="${2:-cfo dreaming $TODAY}"
 cd "$REPO" || { echo "FAIL: cannot cd $REPO"; exit 1; }
 
+echo "== 0) MEMORY.md 体量检查 (守卫AH: 超 128KB 即 WARN+归档) =="
+MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
+MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
+echo "MEMORY.md: ${MEMB} bytes / ${MEML} lines"
+if [ "$MEMB" -gt 131072 ]; then
+  echo "WARN: MEMORY.md 超 128KB 上限 (${MEMB}B) -> 需归档最早的零交互日区块到 cfo/memory/archive/ （守卫定义块与业务规则块不得迁出）"
+else
+  echo "OK: MEMORY.md 在 128KB 以内"
+fi
+
 echo "== 1) staged (cfo paths) =="
 git add "cfo/MEMORY.md" "cfo/memory/dreaming-$TODAY.md" 2>/dev/null
 git add -f cfo/tmp/giftlist/*.py cfo/tmp/giftlist/*.sh 2>/dev/null

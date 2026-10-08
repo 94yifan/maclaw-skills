@@ -44,6 +44,18 @@
     "feishu-bitable-creator": {
       "version": "1.0.2",
       "installedAt": 1777813414819
+    },
+    "incentive-design": {
+      "version": "1.0.5",
+      "installedAt": 1791454440562
+    },
+    "afrexai-sales-compensation": {
+      "version": "1.0.1",
+      "installedAt": 1791454446118
+    },
+    "afrexai-compensation-planner": {
+      "version": "1.0.0",
+      "installedAt": 1791454451600
     }
   }
 }

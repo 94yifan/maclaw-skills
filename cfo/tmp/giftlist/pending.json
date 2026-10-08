@@ -1,0 +1,105 @@
+{
+  "updated": "2026-10-08",
+  "note": "未闭环清单结构化源（守卫AJ）。不再例行推送；每周一只落盘；仅当某条阻碍当天动作时才即时问；逸凡主动询问时用 pending.py 一次性输出。",
+  "items": [
+    {
+      "id": "timing-midautumn",
+      "priority": "置顶",
+      "item": "中秋寄送窗口：未处理 53 条 + 矛盾 4 条（5/264/300/308）无收件信息，窗口已于 2026-09-25 关闭",
+      "default_action": "结案 / 转 2027 新年（二选一）",
+      "need": "逸凡决策",
+      "raised": "2026-09-30",
+      "status": "open"
+    },
+    {
+      "id": "cron-3fix",
+      "priority": "高",
+      "item": "dreaming-cfo 三项：timeoutSeconds 300→600 + failureAlert(after:3, announce) + schedule 频率确认",
+      "default_action": "回「改」即由主 session 执行（本 session cron update 三次实测被拒：Cron tool is restricted to the current cron job.）",
+      "need": "主 session / 人工执行",
+      "raised": "2026-08-22",
+      "status": "open"
+    },
+    {
+      "id": "row-121",
+      "priority": "低",
+      "item": "序号 121 有邮寄编号但未勾地址复核",
+      "default_action": "核对后补勾或撤编号",
+      "need": "我+逸凡确认",
+      "raised": "2026-09-25",
+      "status": "open"
+    },
+    {
+      "id": "contradiction-4",
+      "priority": "中",
+      "item": "矛盾 4 条：打了地址复核但无收件信息（5/264/300/308）",
+      "default_action": "补录收件信息 或 撤勾",
+      "need": "逸凡补录",
+      "raised": "2026-09-18",
+      "status": "open"
+    },
+    {
+      "id": "row-115-kk",
+      "priority": "低",
+      "item": "序号 115 名字仍是 KK（inn，电话唯一匹配）",
+      "default_action": "改名 Kristen",
+      "need": "逸凡回「同意」即改",
+      "raised": "2026-09-15",
+      "status": "open"
+    },
+    {
+      "id": "feilao",
+      "priority": "低",
+      "item": "费老：全表 + 新年 4 源表均查无此人",
+      "default_action": "如仍要寄，补收件信息",
+      "need": "逸凡补",
+      "raised": "2026-09-11",
+      "status": "open"
+    },
+    {
+      "id": "maikun",
+      "priority": "低",
+      "item": "麦昆：表内查无此人",
+      "default_action": "等补收件信息",
+      "need": "逸凡补",
+      "raised": "2026-09-14",
+      "status": "open"
+    },
+    {
+      "id": "yoyo-257",
+      "priority": "低",
+      "item": "哟哟（257，蓝氏）与新年表深圳 Yoyo 是否同人",
+      "default_action": "默认按不同人处理；若同人请说",
+      "need": "逸凡确认",
+      "raised": "2026-09-11",
+      "status": "open"
+    },
+    {
+      "id": "cherry-dup",
+      "priority": "低",
+      "item": "352 Cherry总（新金桥）与 17 cherry（混沌）是否同人",
+      "default_action": "默认按两人处理",
+      "need": "逸凡确认",
+      "raised": "2026-09-18",
+      "status": "open"
+    },
+    {
+      "id": "bank-721",
+      "priority": "中",
+      "item": "9/21 银行流水 7 笔 627,505.00 付款方名称与明细错配",
+      "default_action": "确认口径",
+      "need": "逸凡确认",
+      "raised": "2026-09-21",
+      "status": "open"
+    },
+    {
+      "id": "row-368-company",
+      "priority": "低",
+      "item": "序号 368（虎哥）公司/分类留空",
+      "default_action": "补公司/分类",
+      "need": "逸凡补",
+      "raised": "2026-09-22",
+      "status": "open"
+    }
+  ]
+}

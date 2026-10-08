@@ -18,9 +18,16 @@ else
   echo "OK: MEMORY.md 在 128KB 以内"
 fi
 
+echo "== 0b) pending.json 校验 (守卫AJ) =="
+if [ -f cfo/tmp/giftlist/pending.json ]; then
+  python3 -c "import json;d=json.load(open('cfo/tmp/giftlist/pending.json'));print('pending.json OK:',len([i for i in d['items'] if i.get('status')=='open']),'open')" 2>&1 || echo "WARN: pending.json 解析失败"
+else
+  echo "WARN: pending.json 缺失（守卫AJ 落地项）"
+fi
+
 echo "== 1) staged (cfo paths) =="
 git add "cfo/MEMORY.md" "cfo/memory/dreaming-$TODAY.md" 2>/dev/null
-git add -f cfo/tmp/giftlist/*.py cfo/tmp/giftlist/*.sh 2>/dev/null
+git add -f cfo/tmp/giftlist/*.py cfo/tmp/giftlist/*.sh cfo/tmp/giftlist/*.json 2>/dev/null
 git status --short -- cfo/
 echo "-- ignored/untracked under cfo/tmp (守卫AG: 假干净检查) --"
 git status --short --ignored -- cfo/tmp/ | grep -v '^\.\.' || true

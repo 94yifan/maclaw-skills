@@ -493,4 +493,5 @@
 - **可达性（守卫Z 按通道）**：github.com curl=**000**（不可达，下轮须复测）、api.github.com=200；`github/main...HEAD`=**0 0**；远端三态全过（MEMORY 含 10-07=7 / dreaming-10-07=1 / audit.py 邮寄编号=1）。
 - **礼单实测（audit.py，/tmp 运行）**：总记录 **328** | 已勾 **275** | 明确否 **0** | 未处理 **53**；已邮寄/交付 **250** | 已打包 **275** | 有邮寄编号 **276**；max=**368**、缺口 **40**。**连续第 15 天零变化**。数据质量：矛盾 4 条（5/264/300/308）、换行 16 条。
 - **待办（下轮）**：建 `pending.json` + `pending.py`（守卫AJ 落地）；采购单/对账 checklist 写入可复用笔记。
-- **收尾实读**：（closeout 输出）
+- **收尾实读（守卫AF/守卫N 自证）**：closeout 第 0 步 `MEMORY.md: 128270B / 496 行` → OK（**余量仅 2.8KB，下轮大概率越界须归档**）；第 0b 步 `pending.json OK: 11 open`；commit **e0b3a6b**（5 files，+244/-1）；第 2 步 `OK: cfo/ 工作区干净`、脚本跟踪态 1/1/1；第 3 步 push `9af1026..e0b3a6b HEAD -> main`，push_exit=**0**（curl=000 但 git push 通道通）；第 4 步 ahead/behind=**0 0**；第 5 步远端三态全过（MEMORY 10-08=1 / dreaming-10-08 存在=1 / audit.py 邮寄编号=1）。
+- **本轮新增/修订**：守卫AJ 1 条（撤例行补推 + pending.json/py 落地）；A1/A2/A3 见当日 dreaming 文件。

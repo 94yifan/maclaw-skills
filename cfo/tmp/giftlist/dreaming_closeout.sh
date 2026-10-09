@@ -27,6 +27,7 @@ fi
 
 echo "== 1) staged (cfo paths) =="
 git add "cfo/MEMORY.md" "cfo/memory/dreaming-$TODAY.md" 2>/dev/null
+git add cfo/memory/archive/ 2>/dev/null
 git add -f cfo/tmp/giftlist/*.py cfo/tmp/giftlist/*.sh cfo/tmp/giftlist/*.json 2>/dev/null
 git status --short -- cfo/
 echo "-- ignored/untracked under cfo/tmp (守卫AG: 假干净检查) --"

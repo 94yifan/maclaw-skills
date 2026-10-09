@@ -452,3 +452,5 @@
 - **可达性（守卫Z，按通道）**：`github.com` curl=**000**（不可达，实测 2026-10-09 22:0x，下轮须复测）、`api.github.com`=**200**。`github/main...HEAD`=**0 0**，`git status --short -- cfo/` 空。
 - **10/09 未闭环清单（守卫AJ：不再例行推送；每周一只落盘）**：源 = `cfo/tmp/giftlist/pending.json`（11 open）。本日为周五，非落盘窗口，零推送。下次固定窗口 = 10/12（周一）。
 - **本轮新增/修订**：守卫AH 归档第二次执行；守卫AI 待办（归档脚本化）仍在。A/B/C/D 见当日 dreaming 文件。
+- **收尾实读（守卫AF/守卫N 自证）**：closeout 第 0 步 `114,511B / 454 行 → OK`；第 0b 步 `pending.json OK: 11 open`；commit **8630233**（4 files，+144/-61）；第 2 步 `OK: cfo/ 工作区干净`、脚本跟踪态 1/1/1；第 3 步 push **失败**（`Failed to connect to github.com port 443 after 75098 ms`，push_exit=**128**）；第 4 步 ahead/behind=**0 1**；第 5 步远端三态（MEMORY 10-09=**0** / dreaming-10-09=**0** / audit.py 邮寄编号=**1**）——**远端备份未完成，待网络恢复补推（守卫AE）。**
+- **触发时间漂移**：本机 10/09 触发约 22:01（schedule `1 22`，多分身 dreaming 排队窗口；10/05–10/09 均落在 22:01–22:02）。

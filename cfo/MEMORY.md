@@ -454,3 +454,4 @@
 - **本轮新增/修订**：守卫AH 归档第二次执行；守卫AI 待办（归档脚本化）仍在。A/B/C/D 见当日 dreaming 文件。
 - **收尾实读（守卫AF/守卫N 自证）**：closeout 第 0 步 `114,511B / 454 行 → OK`；第 0b 步 `pending.json OK: 11 open`；commit **8630233**（4 files，+144/-61）；第 2 步 `OK: cfo/ 工作区干净`、脚本跟踪态 1/1/1；第 3 步 push **失败**（`Failed to connect to github.com port 443 after 75098 ms`，push_exit=**128**）；第 4 步 ahead/behind=**0 1**；第 5 步远端三态（MEMORY 10-09=**0** / dreaming-10-09=**0** / audit.py 邮寄编号=**1**）——**远端备份未完成，待网络恢复补推（守卫AE）。**
 - **触发时间漂移**：本机 10/09 触发约 22:01（schedule `1 22`，多分身 dreaming 排队窗口；10/05–10/09 均落在 22:01–22:02）。
+- **收尾补正（二次/三次提交）**：首 push（携 8630233）失败于 443 超时，**重试成功**（`af7655b..60d1eca HEAD -> main`，push_exit=0）；二次 commit **60d1eca**；ahead/behind=**0 0**；远端三态复检全过（MEMORY 10-09=**5** / dreaming-10-09 存在=**1** / audit.py 邮寄编号=**1**）。**网络为逐次间歇（10/09 curl=000 且首 push 失败、重试成功；10/08 curl=000 但 push 成功）→ 可达性逐次独立（守卫Z）。**

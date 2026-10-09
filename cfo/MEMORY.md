@@ -451,7 +451,17 @@
 - **cron 实读（守卫AB/AD 带坐标）**：上一轮 = **seq 131 / run_at 2026-10-08 22:01:34**，status=**ok**，duration=**186,723ms**，`consecutive_errors`=**0**，delivery_status=**not-requested**。近四轮全 ok：10/05 seq128 = 95,886 → 10/06 seq129 = 211,928 → 10/07 seq130 = 142,136 → 10/08 seq131 = 186,723。双峰（成功轮 ≤232s / 失败轮 300.15–300.23s）仍未破。三项配置零变化：payload_timeout_seconds=**300**、failure_alert_after **空**、delivery_mode=**none**、schedule_expr=`1 22 * * *`。**挂账第 49 天**，唯一入口 = 主 session / 人工。
 - **可达性（守卫Z，按通道）**：`github.com` curl=**000**（不可达，实测 2026-10-09 22:0x，下轮须复测）、`api.github.com`=**200**。`github/main...HEAD`=**0 0**，`git status --short -- cfo/` 空。
 - **10/09 未闭环清单（守卫AJ：不再例行推送；每周一只落盘）**：源 = `cfo/tmp/giftlist/pending.json`（11 open）。本日为周五，非落盘窗口，零推送。下次固定窗口 = 10/12（周一）。
-- **本轮新增/修订**：守卫AH 归档第二次执行；守卫AI 待办（归档脚本化）仍在。A/B/C/D 见当日 dreaming 文件。
+- **本轮新增/修订**：守卫AH 归档第二次执行；守卫AI 待办（归档脚本化）已在本日**自动重试轮**落地（见下方重试轮区块）。A/B/C/D 见当日 dreaming 文件。
 - **收尾实读（守卫AF/守卫N 自证）**：closeout 第 0 步 `114,511B / 454 行 → OK`；第 0b 步 `pending.json OK: 11 open`；commit **8630233**（4 files，+144/-61）；第 2 步 `OK: cfo/ 工作区干净`、脚本跟踪态 1/1/1；第 3 步 push **失败**（`Failed to connect to github.com port 443 after 75098 ms`，push_exit=**128**）；第 4 步 ahead/behind=**0 1**；第 5 步远端三态（MEMORY 10-09=**0** / dreaming-10-09=**0** / audit.py 邮寄编号=**1**）——**远端备份未完成，待网络恢复补推（守卫AE）。**
 - **触发时间漂移**：本机 10/09 触发约 22:01（schedule `1 22`，多分身 dreaming 排队窗口；10/05–10/09 均落在 22:01–22:02）。
 - **收尾补正（二次/三次提交）**：首 push（携 8630233）失败于 443 超时，**重试成功**（`af7655b..60d1eca HEAD -> main`，push_exit=0）；二次 commit **60d1eca**；ahead/behind=**0 0**；远端三态复检全过（MEMORY 10-09=**5** / dreaming-10-09 存在=**1** / audit.py 邮寄编号=**1**）。**网络为逐次间歇（10/09 curl=000 且首 push 失败、重试成功；10/08 curl=000 但 push 成功）→ 可达性逐次独立（守卫Z）。**
+
+### 2026-10-09 自动重试轮（session fdf5d6d3，22:21 启动；seq 132 超时后触发）
+
+- **背景**：主 run（seq 132 / 2026-10-09 22:01:19）跑满 300,185ms 后超时（last phase=tool-execution-started），**但产物在截断前已全落盘**（dreaming 文件 + MEMORY 区块 + commit 8630233/60d1eca/692d71c）。本区块为超时自动重试轮的增量。
+- **本轮唯一实质产物 —— 守卫AI 首次落地（承守卫O/守卫十八：只有我能做的修复，当轮做完）**：新增 `cfo/tmp/giftlist/memory_archive.py`（MEMORY.md 体量归档器），并编译进 `dreaming_closeout.sh` 第 0 步：**>131072B 时自动 `--apply`**，把最早的「零交互日/断档」整块迁出到 `cfo/memory/archive/`，原位留一行指针。
+  - **红线 by construction**：块标题或正文命中守卫定义标记（`**守卫X（` / 标题 `守卫X（` / 「写入即为生效」）即**整块跳过**；当日区块永不迁出。宁可少迁，绝不误迁守卫块/业务规则块。
+  - **自证（守卫N）**：在副本上实跑 `--apply`，115,707 → **103,144B（-12,563B）**，归档文件 `MEMORY-log-2026-0930_1005.md`（3 块：9/30、10/04、10/05）与 3 行指针同时生成；**守卫定义命中数归档前后均 = 10（零误迁）**；测试写入的归档文件与副本已回收，真身 MEMORY.md 未被触碰。
+- **本轮 cron 实读（守卫AB/AD 带坐标）**：**seq 132 / 2026-10-09 22:01:19 / error / 300,185ms / last phase=tool-execution-started** / consecutive_errors=**1**。近五轮：10/05 seq128 ok 95,886 → 10/06 seq129 ok 211,928 → 10/07 seq130 ok 142,136 → 10/08 seq131 ok 186,723 → 10/09 seq132 error 300,185。**10/08 三连 ok 后 10/09 再撞上限**，双峰（成功轮 ≤232s / 失败轮 300.15–300.23s）仍未破。三项配置零变化：payload_timeout_seconds=**300**、failure_alert_after **空**、delivery_mode=**none**、schedule_expr=`1 22 * * *`。**挂账第 49 天**，唯一入口 = 主 session/人工。
+- **本轮可达性（守卫Z 按通道）**：`github.com` curl=**000**、`api.github.com`=**200**；`github/main...HEAD`=**0 5**（含我的 692d71c + 其他分身 4 个 8c5c8ae/e9deaec/74c44a3/5ca5f7f）。
+- **收尾**：见下（本轮 closeout 实读）。

@@ -8,12 +8,17 @@ TODAY="${1:?usage: dreaming_closeout.sh YYYY-MM-DD \"msg\"}"
 MSG="${2:-cfo dreaming $TODAY}"
 cd "$REPO" || { echo "FAIL: cannot cd $REPO"; exit 1; }
 
-echo "== 0) MEMORY.md 体量检查 (守卫AH: 超 128KB 即 WARN+归档) =="
+echo "== 0) MEMORY.md 体量检查 + 自动归档 (守卫AH 阈值 / 守卫AI 动作) =="
 MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
 MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
 echo "MEMORY.md: ${MEMB} bytes / ${MEML} lines"
 if [ "$MEMB" -gt 131072 ]; then
-  echo "WARN: MEMORY.md 超 128KB 上限 (${MEMB}B) -> 需归档最早的零交互日区块到 cfo/memory/archive/ （守卫定义块与业务规则块不得迁出）"
+  echo "超 128KB (${MEMB}B) -> 触发 memory_archive.py --apply（守卫AI：动作编译进默认路径）"
+  python3 cfo/tmp/giftlist/memory_archive.py --apply --today "$TODAY" || echo "WARN: memory_archive.py 返回非 0"
+  MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
+  MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
+  echo "归档后: ${MEMB} bytes / ${MEML} lines"
+  if [ "$MEMB" -gt 131072 ]; then echo "WARN: 归档后仍超 128KB（无安全可迁区块）"; else echo "OK: 已回落到 128KB 以内"; fi
 else
   echo "OK: MEMORY.md 在 128KB 以内"
 fi

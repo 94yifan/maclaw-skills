@@ -68,3 +68,16 @@ echo "== 5) remote tip 三态取证 =="
 echo -n "remote MEMORY 含 $TODAY 区块: "; git show "github/main:cfo/MEMORY.md" 2>/dev/null | grep -c "$TODAY"
 echo -n "remote dreaming-$TODAY.md 存在: "; git ls-tree github/main "cfo/memory/dreaming-$TODAY.md" | wc -l | tr -d ' '
 echo -n "remote audit.py 含 邮寄编号: "; git show "github/main:cfo/tmp/giftlist/audit.py" 2>/dev/null | grep -c "邮寄编号"
+
+echo "== 6) 守卫AK cron 余量检查 (ok 轮 duration >250s 即高危；本行 10/11 落地) =="
+DB="$HOME/.openclaw/state/openclaw.sqlite"
+JOB="07cd1aef-08d4-4109-a178-a20c8adc8209"
+ROW="$(sqlite3 "$DB" "SELECT datetime(last_run_at_ms/1000,'unixepoch','+8 hours')||'|'||ifnull(last_run_status,'')||'|'||ifnull(last_duration_ms,0) FROM cron_jobs WHERE job_id='$JOB';" 2>/dev/null)"
+echo "上一轮 cron (run_at|status|duration_ms): $ROW"
+DUR="$(echo "$ROW" | awk -F'|' '{print $3}')"
+if [ -n "$DUR" ] && [ "$DUR" -gt 0 ] 2>/dev/null; then
+  echo "距 300s 上限余量: $((300000 - DUR)) ms"
+  if [ "$DUR" -gt 250000 ]; then echo "WARN 守卫AK: 上一轮 duration ${DUR}ms > 250s 高危线（裕量压缩）"; else echo "OK 守卫AK: 上一轮 duration ${DUR}ms 在 250s 高危线以下"; fi
+else
+  echo "WARN 守卫AK: 未能读到 last_duration_ms"
+fi

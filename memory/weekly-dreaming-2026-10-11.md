@@ -159,6 +159,6 @@ book 本周记录 A2 槽投递结局序列：10/05 报告写成 + commit + push 
 ## 送达留痕
 
 - 送达方式：`message` 工具显式投递至逸凡飞书私聊（ou_c4249d713be906d36ef8607efab6506f）
-- messageId：见下方投递回执
+- messageId `om_x100b638d913170a0c3da218bfcef3e7`，sentAt 2026-10-11 22:32（ok:true，receipt parts[].kind = text）
 - 本轮为 dreaming-omni 周度任务（cron e239ae49-a3bf-48eb-a948-70865190c64f），2026-10-11 22:30 启动
 - 说明：第 1 / 3 / 4 项属 scheduler 与 SOUL 配置变更，按 SOP 需逸凡确认后执行，本轮只做诊断与建议，未改动任何配置

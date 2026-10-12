@@ -655,3 +655,20 @@ Supermind 连续第 25 个零任务日（9/16–10/10），今日唯一产出＝
 ## 系统挂账状态（2026-10-11 更新，自愈假象／自述盲区／收敛转授权）
 
 Supermind 连续第 26 个零任务日（9/16–10/11），今日唯一产出＝本复盘。**本 job：全期 131 跑 / 43 ok / 88 error＝67.2%；昨日自身 seq131（10-10）error/95,342ms/not-delivered（内容在盘、交付丢失，本轮首次记账）；`payload_timeout_seconds=300`（第 38 天未改）、`payload_model` 空、`failure_alert_after` 空、schedule `3 22 * * *`。** **本日最高价值＝缝合1（自愈假象）＋缝合2（自述型状态盲区）＋缝合3（三主体收敛→转授权）。** **今晚舰队（实读）**：dreaming-social-crawler 22:00:00 ok/101,941ms；dreaming-cfo 22:01:43 ok/181,684ms；本 job 本轮；其余未入队。tea-daily-report（a19839ba）10-11 11:00 ok/269,091ms/delivered=1，**连续第 22 天**（9/20–10/11）。knowledge-graph.md 未断更（10-10 已更），本轮补 10-11 一条。supermind/MEMORY.md 归档 10-06 缝合块后回落，100KB 线内。**SC 侧今日**：header 整块消失第 12 天（根因＝payload 模板无 header 字段定义）、抓取脚本日间漂移（10-10 /tmp 变体 vs 10-11 workspace 规范脚本）、9 项需主 session 动作连续多日 0 推进。**唯一需逸凡拍板项：8 个 dreaming job `payload_timeout_seconds` 300→600（仅覆盖 timeout 类）＋`failureAlert(after:3, mode=announce)`＋排期间隔 ≥330s＋payload 模板加「写完后禁工具」硬约束＋SC payload 补 header 三行并写死规范脚本路径**（仅主 session／逸凡可执行，本 run 内 cron mutation 受限）。
+
+## 系统挂账状态（2026-10-12 更新，首个拍板项整体闭环）
+
+逸凡 16:06 在 Supermind 群回「确认」，授权执行 10-11 复盘「需你拍板」项。本 session 逐项落地并 sqlite 实读复核：
+
+**dreaming 8 job（已改，源 cron_jobs 实读）**
+- payload_timeout_seconds 300→600：SC/CFO/SP/SM/brain-mining/book/ceo/omni 全部 600
+- failureAlert after:3 / mode:announce / channel:feishu / to 逸凡 DM：8 job 全部写入
+- 排期错峰：原 22:00–22:06 每分钟一个，改为 22:00/22:06/22:12/22:18/22:24/22:30/22:36/22:42（间隔 360s ≥330s）
+- payload 末尾加硬约束：写完复盘文件、改完 MEMORY 后，本 turn 最后动作必须是纯文本输出，禁止再发起任何工具调用
+
+**tea-daily-report（a19839ba，已改）**
+- payload 补 header 必填三行（标题／窗口起止／覆盖行，写死）
+- payload 写死脚本来源（workspace 规范脚本 tea-daily-crawl-<MMDD>.mjs，禁 /tmp 变体；raw.latest 用 max(created_at)）
+- payload 加「写完文件后禁工具」硬约束；timeout 保持 900
+
+**意义**：挂牌 ≥30 天的「仅主 session 可执行」清单首次整体落地，卡点从授权缺失转为已授权待验证。验证点：今晚 22:00–22:42 舰队首跑；明日 11:00 日报 header 是否出现。

@@ -1,0 +1,41 @@
+{
+  "chart_id": "chart_brand_comparison_4",
+  "title": "各品牌回头客/复购率对比",
+  "type": "horizontalBar",
+  "data": [
+    {
+      "name": "有友食品",
+      "value": 30
+    },
+    {
+      "name": "劲仔食品",
+      "value": 28
+    },
+    {
+      "name": "盐津铺子",
+      "value": 25
+    },
+    {
+      "name": "无穷食品",
+      "value": 32
+    },
+    {
+      "name": "卤味觉醒",
+      "value": 22
+    },
+    {
+      "name": "周黑鸭",
+      "value": 35
+    },
+    {
+      "name": "区域凤爪品牌",
+      "value": 20
+    },
+    {
+      "name": "区域卤味零食品牌",
+      "value": 15
+    }
+  ],
+  "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_4.html",
+  "png_path": "chart_brand_comparison_4.png"
+}

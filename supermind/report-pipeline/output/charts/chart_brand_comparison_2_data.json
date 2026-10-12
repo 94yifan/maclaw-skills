@@ -1,0 +1,41 @@
+{
+  "chart_id": "chart_brand_comparison_2",
+  "title": "京东自营爆款销售对比",
+  "type": "horizontalBar",
+  "data": [
+    {
+      "name": "有友食品",
+      "value": 90
+    },
+    {
+      "name": "劲仔食品",
+      "value": 70
+    },
+    {
+      "name": "盐津铺子",
+      "value": 60
+    },
+    {
+      "name": "无穷食品",
+      "value": 35
+    },
+    {
+      "name": "卤味觉醒",
+      "value": 20
+    },
+    {
+      "name": "周黑鸭",
+      "value": 50
+    },
+    {
+      "name": "区域凤爪品牌",
+      "value": 6
+    },
+    {
+      "name": "区域卤味零食品牌",
+      "value": 4
+    }
+  ],
+  "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_2.html",
+  "png_path": "chart_brand_comparison_2.png"
+}

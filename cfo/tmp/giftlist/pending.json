@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-08",
+  "updated": "2026-10-12",
   "note": "未闭环清单结构化源（守卫AJ）。不再例行推送；每周一只落盘；仅当某条阻碍当天动作时才即时问；逸凡主动询问时用 pending.py 一次性输出。",
   "items": [
     {
@@ -18,7 +18,9 @@
       "default_action": "回「改」即由主 session 执行（本 session cron update 三次实测被拒：Cron tool is restricted to the current cron job.）",
       "need": "主 session / 人工执行",
       "raised": "2026-08-22",
-      "status": "open"
+      "status": "closed",
+      "closed": "2026-10-12",
+      "resolve_note": "已消除：10/11–10/12 间由主 session/人工执行——payload_timeout_seconds 300→600、failure_alert_after=3 / mode=announce / channel=feishu / to=逸凡、schedule_expr `1 22`→`6 22`（7 个 dreaming 作业全部错峰 0/6/12/18/24/30/36/42）。10/12 22:0x 实读 cron_jobs 核验。"
     },
     {
       "id": "row-121",

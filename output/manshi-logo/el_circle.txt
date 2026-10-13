@@ -1,0 +1,1 @@
+<circle cx="2300" cy="2700" r="444" fill="#FFEADF"/>

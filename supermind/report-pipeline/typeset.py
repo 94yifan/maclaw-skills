@@ -688,8 +688,7 @@ class ReportTypesetter:
     # 子解析器：Markdown 表格
     # -----------------------------------------------------------------
 
-    @staticmethod
-    def _parse_md_table(doc, lines: list, i: int) -> int:
+    def _parse_md_table(self, doc, lines: list, i: int) -> int:
         """解析 | 列 | 分隔 | 的 Markdown 表格，转为 docx 表格。"""
         header_cells = [c.strip() for c in lines[i].split('|')[1:-1]]
         i += 2  # 跳过表头 + 分隔行
@@ -700,14 +699,13 @@ class ReportTypesetter:
                 rows.append(cells)
             i += 1
         if header_cells and rows:
-            # 复用 _add_data_table 逻辑（构造临时 DataTable）
+            # 用实例自身渲染表格（self.cfg 必须可用；
+            # 旧实现用 __new__ 造假实例导致 self.cfg 缺失，含表格正文必崩）
             dt = DataTable(
                 title='', headers=header_cells, rows=rows,
                 header_bg='1F3864', zebra_bg='EDF1F8',
             )
-            ReportTypesetter._add_data_table(
-                ReportTypesetter.__new__(ReportTypesetter), doc, dt
-            )
+            self._add_data_table(doc, dt)
         return i
 
     # -----------------------------------------------------------------

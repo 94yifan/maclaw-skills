@@ -442,6 +442,8 @@ Validation Standard - 如何判断这个 Skill 值得长期保留
 
 ## CEO 固定节律与等待协议（2026-07-31 更新）
 
+- **Session 巡检为 Dreaming 第一步（2026-10-12 新增·守卫AM 同步）：** 每晚写复盘「今日概况」之前，先读 `~/.openclaw/agents/ceo/sessions/` 中当日 mtime 变更的 jsonl，逐条列出当日 user/业务消息。**判定「有交互/有产出」以 session 目录（真源）为准，`memory/<TODAY>.md` 缺失不构成「无交互」证据。** 缺这一步，禁止写「静默 / 零交付」字样。依据：10-12 若只读 memory 目录会把业务日写成「静默 D4」，真交互在 session jsonl；CFO 同日同款（守卫AM）。
+- **业务交互即落盘（2026-10-12 新增）：** 凡在飞书完成的实质业务交付（报告/方案/判断），当轮或当晚必须写进 workspace（`work/` 或 `memory/`），并留需求原文与待决项；产出只在消息里 = 无可见出口，跨 session 不可续。
 - **默认交付形态：直接发消息（2026-08-01 逸凡明确）：** 不设固定交付节律，不主动创建飞书云文档。逸凡不需要 CEO 观察报告。Dreaming 复盘写入本地 memory 文件，摘要通过 message 工具直接发给逸凡——一条消息就够。仅当逸凡明确要求文档时才创建飞书文档，且必须 create→write→read 三步验证，确认内容非空后再发链接，绝不发空白或未验证的文档。
 - **输出等待协议（D1-D7）：** 逸凡密集交互后的消化窗口内（前两轮实测5天/9天，平均7天），CEO 不分析回归时间、不调整已有判断、不产生干预信号。只需要在 Dreaming 中记录「今日静默 D[N]」，不解释、不预测。D8+ 才触发判断。
 - **系统修复二分法：** 分身出问题时的修复选项只有「修复」（改配置/prompt）和「停止」（禁用cron）两个，没有「降频」。降频只有在触发频率同步降低时才有意义，否则就是降产不降耗。
@@ -485,10 +487,8 @@ Validation Standard - 如何判断这个 Skill 值得长期保留
    - 修复方案：更新Dreaming cron payload，在分析步骤前加入"检查并执行前次Dreaming执行项"步骤，同时将系统健康扫描（检查所有关联cron状态）固化为SOP第一步
    - 替代方案：每次Dreaming开头主动读取前次dreaming文件并执行其修复项
 
-3. **所有agent Dreaming cron超时300秒过短导致集体失效**（2026-07-10新增）
-   - 阻塞原因：当前cron context受限，无法修改其他agent cron
-   - 修复方案：在非受限session中将所有agent Dreaming cron的timeoutSeconds从300增加到600；同步更新tea-daily-report的timeout
-   - 替代方案：CEO每次Dreaming主动读取所有agent cron状态作为系统健康日志
+3. ~~**所有agent Dreaming cron超时300秒过短导致集体失效**（2026-07-10新增）~~ **✅ 已闭环（2026-10-12 16:09–16:10，逸凡 16:06 授权）**：8 个 dreaming job `payload_timeout_seconds` 300→600、`failureAlert(after:3, announce/feishu)`、排期错峰 22:00/06/12/18/24/30/36/42（≥330s）；tea-daily-report timeout 维持 900。本会话 `cron_jobs.updated_at` 实测。保留记录以存档（连推 38 天的唯一决定项，授权到位当天闭环）。
+   - 遗留：改 timeout 只救超时型失败，救不了「收尾轮工具调用污染」型（SP/BM/book/supermind/CEO 同族）；后者靠 payload 收尾禁工具条款缓解，仍须逐轮验证。
 
 4. **CEO固定交付（周六全局状态扫描）未设置cron**（2026-07-10新增）
    - 阻塞原因：同上，cron工具受限

@@ -483,3 +483,17 @@
 - **A/B/C/D 见 `memory/dreaming-2026-10-13.md`**
 - **未闭环清单（守卫AJ：不例行推送）**：源 = `cfo/tmp/giftlist/pending.json`（**10 open** + 本轮新增 `cron-prompt-wording` = 11）。置顶：中秋窗口已关（9/25），53 条未处理 + 矛盾 4 条（5/264/300/308）需定「结案 / 转 2027 新年」。
 
+## 2026-10-14（周三）零交互日第 2 天 + 守卫AM 边界首次实测（工作区活跃 ≠ CFO 交互）
+
+> 骨架先写（守卫AA/守卫W）。取证数据随后 edit 增量填充。
+
+- **零交互**（10/12 业务日后第 2 天）：`cfo/memory/2026-10-14.md` 不存在；`~/.openclaw/agents/cfo/sessions/` 当日唯一被写入的 jsonl = 本轮 dreaming（d9f12c81，22:06 启动）。飞书 0 收发、礼单 0 录入。判定依据 = 守卫AM（cfo session 目录巡检）。
+- **A1（P1，本轮最高价值）守卫AM 边界首次实测：工作区高度活跃 ≠ CFO 有交互。** 今日工作区有大量活动 —— 新建 skill `manshi-visual-layout`、产出品牌名片（`output/manshi-card/`）、根 memory 375 行、且 **cfo/SOUL.md 被同步更新**（推理守卫六 新增「图片/排版类 coding 例外（2026-10-14 逸凡确认）」）；但这些**全部由 main agent（Omni，session f8b2b66b，21:25）**完成，CFO agent 当日 session 目录零业务写入。**规则：判定 CFO 当日有无交互，唯一依据 = cfo/session 目录当日被写入的非 cron jsonl；其他 agent 的活动、乃至同步进 cfo/SOUL.md 的规则，均不构成 CFO 交互。** 若按「git 有提交 / SOUL 变了」判定会误报业务日。
+- **A2（P2）跨 agent 同步规则在无场景 agent 处空转**：今日 cfo/SOUL.md 新增的「图片/排版类 coding 例外」，其产出主体（品牌图片）由 main agent 完成，CFO 当日未触发该规则。风险同推理守卫七（无决策点绑定的规则零效力）。**建议：同步进某 agent SOUL 的规则，须在条目内注明执行主体，避免无场景 agent 长期携带死规则（待逸凡确认是否收敛）。**
+- **实测快照（10/14 22:0x audit.py，从 workspace 根运行）**：总记录 **328**（顶层314+子14）| 已勾 **275**（顶层261+子14）| 明确否 **0** | 未处理 **53**；已邮寄/交付 **250**（顶层236+子14）| 已打包 **275**（顶层261+子14）| 有邮寄编号 **276**（顶层262+子14）；序号 max=**368** | 缺口 **40 个**。变更对账 vs snap_2026-10-13：**新增 0 / 消失 0 / 字段变化 0**（**连续第 19 天零变化**）。数据质量十九轮恒定：矛盾 4 条（5/264/300/308）、换行 16 条、同电话重复 1 组（预期1/异常0）、同址疑似 6 组（异常5/预期1）。低优先：序号 121 有邮寄编号未勾地址复核。
+- **cron 实读（守卫AB/AD 带坐标）**：上一轮 = **seq137 / run_at 2026-10-13 22:06:00**，status=**ok**，duration=**162,208ms**，`consecutive_errors`=**0**，delivery_status=not-requested。三项**已是修复后值**：payload_timeout_seconds=**600**、failure_alert_after=**3** / mode=**announce** / channel=feishu / to=逸凡、schedule_expr=**`6 22 * * *`**。守卫AK：余量 **437,792ms**，高危线 480,000ms（600s×80%），**OK**。近五轮全 ok：10/09 297,729 → 10/10 250,487 → 10/11 181,684 → 10/12 261,873 → 10/13 162,208。
+- **可达性（守卫Z 按通道）**：`github.com` curl=**000**（不可达，实测 2026-10-14 22:0x，下轮须复测）、`api.github.com`=**200**。`github/main...HEAD`=**0 10**——我的仅 **896c253**（10/13 dream），其余为 Omni 今日 056cd74/8ca4697 + book/supermind 多笔（共享仓库全局量，逐轮重判归属，守卫AC/A4）。按守卫AE：push 失败即记账不重试。
+- **未闭环清单（守卫AJ：不例行推送）**：源 = `cfo/tmp/giftlist/pending.json`（**11 open**）。置顶：中秋窗口已关（9/25），53 条未处理 + 矛盾 4 条（5/264/300/308）需定「结案 / 转 2027 新年」。新增：`cron-prompt-wording`（prompt 内文仍写 22:01，schedule 已 `6 22`，需主 session）。
+- **A/B/C/D 见 `memory/dreaming-2026-10-14.md`**。
+- **收尾实读（守卫AF/守卫N 自证）**：见 dreaming-2026-10-14.md 收尾段。
+

@@ -1784,3 +1784,26 @@ DeepSeek Pro负责研究推理和内容写作，GLM Pro负责python-docx/Dashboa
 ## 休息日前置提醒规则（2026-08-20 逸凡确认）
 
 涉及充值、付款、交付等需要前置安排的特殊提醒，创建时先判断提醒日是否休息日（周末/法定节假日/客户方特殊休息日）；落在休息日则提早到前一个工作日提醒。判断依据：官方节假日安排 + 逸凡/负责人告知的客户方休息日。已写入 xhs-task-reminder 规则17 + lanshi SOUL 工作原则8。
+
+## 曼拾品牌资产（2026-10-14 建，详见 memory/manshi-brand-identity.md）
+
+**这是曼拾主业务的核心品牌底表，凡涉及 logo / 名片 / PPT / 品牌叙事 / 文化说明的任务，先读 `memory/manshi-brand-identity.md`。**
+
+要点速记：
+- 现用 logo：红圆 #F8223E + 白**五叶草**（5 片心形叶围中心叶芯 + 一弯曲茎）+ 圆内浅色凤凰祥纹做底。⚠️ 不是蒲公英（2026-10-14 逸凡纠正），文案里禁止写蒲公英；五叶草代表幸运的传播。浅色底版 = `output/manshi-logo/manshi_logo_transparent_2000.png`。
+- 彩色 M 标是**旧 logo**，已归档，不要再用于交付（2026-10-14 逸凡澄清）。
+- 使命：陪伴长期主义品牌创造势能；初心：只做有效营销，帮客户生意真正增长；价值观三条：态度至诚（感恩利他）、结果导向、积极不放弃。
+- 五心体系（提给逸凡待定稿）：实效心 / 长期心 / 至诚心（对外即公益）/ 结果心 / 成长心，花蕊=初心，茎=积极不放弃。
+- 凤凰叙事主线：凤凰是风，五叶草是幸运，风把幸运吹向更远的地方 → 幸运的传播；古义凤为雄凰为雌，不偏性别。完整释义见 memory/manshi-brand-identity.md 与 output/manshi-card/brand-onepager/品牌释义全文_v1.md（v2 内容）。
+- 元素色：#F8223E / #F93957 / #FF94B9 / #FFEADF / #65CDBC / #8CF160 / #EFFD5B / #D27D33。
+
+### 交付经验（2026-10-14）
+- 逸凡发参考图时先问清角色（信息源 / 版式参考 / 最终设计），别默认要 1:1 复刻——这次我多做了一版无用的旧 logo 名片。
+- 飞书一条消息只带一张图；message 工具 attachments 传 PNG 时 type=file 会降级成 image，要真文件得走 im/v1/files API。
+- 图片理解：minimax VLM 余额不足、dots 404，glm-5v-turbo 可用但必须传 ≤600px 缩略图，否则 60s 超时。
+- PIL 渲染排版自检：取 lum<190 的 ink bbox 检查四边留白，比靠眼睛可靠。
+
+## 已安装 Skills 追加（2026-10-14）
+
+- **manshi-visual-layout**（2026-10-14 apply，逸凡授权）：曼拾品牌图片排版流水线 skill。编排式：S0 对齐 → S1 拆素材 → S2 排版规格 → S3 Chrome 无头渲染 → S4 自动适配（K 二分）→ S5 三重校验（swift+Vision OCR / ink 与密度量测 / glm-5v-turbo 审美）→ S6 飞书交付（真文件走 API）→ S7 记忆。支持文件：templates/page_a4.html、scripts/render_page.py、extract_elements.py、ocr_check.sh + ocr.swift、feishu_send_file.py、references/brand-assets.md。位置 `skills/manshi-visual-layout/`。
+  - 逸凡同期确认：图片/排版类 coding 由主会话亲自写，不再转 GLM（推理守卫六已加例外，并同步到 7 个 subagent SOUL）。

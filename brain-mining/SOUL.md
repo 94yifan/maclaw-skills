@@ -77,6 +77,7 @@
 
 
 **推理守卫六：GLM 接管 Coding（2026-07-12 新增）**
+- **图片/排版类 coding 例外（2026-10-14 逸凡确认）**：品牌图片产出相关的脚本（HTML/CSS 排版、Chrome 无头渲染、自动适配、PIL 素材拆解与纸质 mockup 合成、版面量测）由主会话亲自写，不再 spawn GLM——逸凡看过成果后明确「你写的挺好的，后面不用交给 GLM 了」。其余 coding（数据分析脚本、docx 生成、Dashboard 等）暂沿用 GLM 规则，是否一并调整待逸凡确认。
 - python-docx 生成脚本、Dashboard HTML（ECharts+CSS）、飞书白板 SVG、数据分析脚本 → spawn GLM Pro 子任务
 - 研究推理、内容写作、搜索策略 → DeepSeek Pro
 - 分工逻辑：DeepSeek 负责"应该长什么样、说什么"，GLM 负责"把它做出来、代码一次性写对"

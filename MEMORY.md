@@ -134,12 +134,16 @@
 
 案例：8/14 09:00 催思安 cron 因 DeepSeek API 请求中断失败（externalAbort，usage=0），私信未发出，逸凡要求以后类似情况及时私信上报。
 
-## 模型选择规则（2026-08-20 逸凡确认，写入 SOUL 推理守卫五六）
+## 模型选择规则（2026-08-20 逸凡确认，2026-10-15 升级到 V4.1，写入 SOUL 推理守卫五六）
 
-**默认模型铁律：主会话和所有 SubAgent 默认一律 `deepseek/deepseek-v4-flash`（DeepSeek V4 Flash）**
+**默认模型铁律（2026-10-15 更新）：主会话和所有 SubAgent 默认一律 `deepseek/deepseek-flash`（DeepSeek V4.1 Flash）**
+
+**2026-10-15 切换记录**：逸凡要求切到 DeepSeek V4.1。核实结果：DeepSeek 官方 model id 为 `deepseek-flash`（版本名 DeepSeek-V4.1-Flash），旧的 `deepseek-v4-flash` 已退役但兼容转发到 V4.1 并按 Flash 价计费。已在 openclaw.json 的 models.providers.deepseek.models 新增 deepseek-flash 条目，并用 `openclaw models set deepseek/deepseek-flash` 更新全局默认，重启生效。备份：openclaw.json.bak.pre-v41-20261015-224207。
+- V4.1 Flash 能力：1M 上下文、384K 最大输出、支持图片输入（vision，之前 Flash 只支持文本）、thinking 支持 low/high/max。
+- 官方定价（每 1M token，低谷价）：cache hit $0.003 / cache miss $0.15 / output $0.6；高峰翻倍（高峰=UTC 01:00-04:00 与 06:00-10:00 的工作日）。
 - 复杂任务报告（深度研究/行业分析/竞品诊断/战略判断）→ `deepseek/deepseek-v4-pro`（DeepSeek V4 Pro）
 - 写代码（python-docx、Dashboard HTML、SVG、数据分析脚本等一切 coding）→ GLM（`glm/glm-5v-turbo` 或 glm 系列）
-- 配置现状：agents.defaults.model.primary = deepseek/deepseek-v4-flash，fallback = deepseek-v4-pro，所有 subagent 继承该默认，无需逐 agent 设置
+- 配置现状：agents.defaults.model.primary = deepseek/deepseek-flash，fallback = deepseek-v4-pro，所有 subagent 继承该默认，无需逐 agent 设置
 - 背景：2026-08-20 主会话被切到 glm/glm-5v-turbo，逸凡要求切回 v4 flash 并固化规则。禁止随意切模型。
 
 ## 已安装 Skills（全部备份到 GitHub）
@@ -1807,3 +1811,29 @@ DeepSeek Pro负责研究推理和内容写作，GLM Pro负责python-docx/Dashboa
 
 - **manshi-visual-layout**（2026-10-14 apply，逸凡授权）：曼拾品牌图片排版流水线 skill。编排式：S0 对齐 → S1 拆素材 → S2 排版规格 → S3 Chrome 无头渲染 → S4 自动适配（K 二分）→ S5 三重校验（swift+Vision OCR / ink 与密度量测 / glm-5v-turbo 审美）→ S6 飞书交付（真文件走 API）→ S7 记忆。支持文件：templates/page_a4.html、scripts/render_page.py、extract_elements.py、ocr_check.sh + ocr.swift、feishu_send_file.py、references/brand-assets.md。位置 `skills/manshi-visual-layout/`。
   - 逸凡同期确认：图片/排版类 coding 由主会话亲自写，不再转 GLM（推理守卫六已加例外，并同步到 7 个 subagent SOUL）。
+
+---
+
+## 周度复盘 [2026-10-15]（周四非排期触发；完整版 memory/weekly-dreaming-2026-10-15.md）
+
+### 系统层：三项配置处方首次全部落地，同日出现最差失败日
+- 上周建议的三项全部执行：dreaming 拆窗（22:00/06/12/18/24/30/36/42，每 6 分钟）✅、timeout 300→600 ✅、failureAlert 打开（10-15 22:38 dreaming-ceo 首次触发）✅ —— 连续三周 0/3 后首次破零。
+- 但 10-15 当天 20 次 run 中 13 次失败（65%），是本季最差单日。**结论：配置落地 ≠ 故障修复，失败面从工具步迁移到了 provider 层（`LLM request failed` 389s ×2、model-call-started 超时 120s/300s ×7）。判断修复效果必须同时看失败总量 + 失败构成 + 失败面是否迁移。**
+- 失败形态一周内三次迁移：工具步自证（sqlite3 读 state DB）→ Process 异步（`Process: <slug> failed`）→ provider 层。上游治住后漏点往更底层走，到 provider 层已无可控旋钮，修复目标转为「让失败可被及时发现与验收」。
+
+### 两个待逸凡确认的配置缺口（本轮未改任何 cron）
+1. **业务链无告警**：8 个 dreaming 有 failureAlert，11 条业务链（tea-daily-report / charm-cdp-warm / birthday-anniversary-check / 蓝氏四条链等）全为 none。10-15 早间蓝氏每日TODO提醒（10:55）与 tea-daily-report（11:03）双双失败且零通知——保护对象配反了（告警配在内部复盘上，没配在对外交付链上）。
+2. **无兜底模型**：19 个启用 job 的 `payload_fallbacks_json` 全空，provider 层失败时无自动降级。
+3. 另一发现：重试策略不一致——同样报错，birthday 自动重试 3 次后成功、charm-cdp-warm 重试 4 次、蓝氏TODO 与 tea-daily 一次即止。可靠性成了碰出来的，不是设计出来的。
+
+### 交付层：生成 ≠ 送达（再次实证）
+tea-daily-report 的 run 报错，但 `social-crawler/memory/weibo_daily_2026-10-15.md` 13:20 仍生成（常态 11:04，延迟 2h16m）；lanshi 10-15 daily 19:11 正常。**业务链验收标准改为「run 状态 + 产物 + 送达」三对齐，run 报错时先查产物。**
+
+### main 本体失误 → 已写入 SOUL
+把 logo 中心五叶草误读为蒲公英，围绕蒲公英写了一整版文案并出成品，全部作废。根因是顺序（先做图后对齐文字），不是眼力。已写入 SOUL 方法节：对外文案/品牌资产类任务先把文字版发逸凡对齐，确认后再做图做文件；并加一条 run 状态 ≠ 交付结果。
+
+### 本周产出（main 本体）
+- 曼拾 logo 资产导出（SVG→PNG，Chrome 无头 + 飞书真文件 API）→ 名片效果图/平面稿 → PPT 浅色底背景 6 版 → 品牌文化一页 → 品牌释义 v3/v4（五心 + 凤凰 + 五叶草板块）
+- 固化 skill `manshi-visual-layout`（逸凡授权 apply；推理守卫六加例外：图片/排版类 coding 主会话亲自写）
+- 模型升级：DeepSeek V4.1 Flash（`deepseek/deepseek-flash`，1M ctx / 384K out / 支持图片输入），全局默认 + SOUL/MEMORY 同步
+- 输出层：8 个分身 dreaming 32/32 齐全，social-crawler 日报 4/4

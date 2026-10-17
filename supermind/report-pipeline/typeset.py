@@ -60,6 +60,8 @@ class ThemeColors:
 
 # 默认中文字体
 DEFAULT_FONT = 'PingFang SC'
+# Markdown 表格分隔行：允许 |---|、| --- |、|:--:|、|---:|
+MD_TABLE_SEP = re.compile(r'^\|(\s*:?-{3,}:?\s*\|)+$')
 
 # 标题样式配置：(样式名, 字号, 加粗, 颜色)
 DEFAULT_HEADING_STYLES = [
@@ -589,9 +591,10 @@ class ReportTypesetter:
                 continue
 
             # Markdown 表格（管道符语法）
+            # 分隔行允许空格与对齐冒号：| --- | :---: | ---: |
             if (i + 1 < len(lines)
-                    and lines[i].startswith('|')
-                    and lines[i + 1].startswith('|---')):
+                    and lines[i].lstrip().startswith('|')
+                    and MD_TABLE_SEP.match(lines[i + 1].strip())):
                 i = self._parse_md_table(doc, lines, i)
                 continue
 
@@ -693,7 +696,7 @@ class ReportTypesetter:
         header_cells = [c.strip() for c in lines[i].split('|')[1:-1]]
         i += 2  # 跳过表头 + 分隔行
         rows = []
-        while i < len(lines) and lines[i].startswith('|'):
+        while i < len(lines) and lines[i].lstrip().startswith('|'):
             cells = [c.strip() for c in lines[i].split('|')[1:-1]]
             if len(cells) == len(header_cells):
                 rows.append(cells)

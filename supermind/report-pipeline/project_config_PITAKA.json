@@ -1,0 +1,98 @@
+{
+  "project_name": "PITAKA 品牌与手机壳赛道分析报告（高端手机壳 / 芳纶纤维）",
+  "industry": "手机壳 / 手机保护配件 / 高端手机壳（芳纶纤维·凯夫拉）",
+  "schema_version": "2.0",
+  "framework_version": "V4",
+  "report_type": "深度品牌扫描",
+  "focus_product": "PITAKA（深圳品牌，以芳纶纤维/凯夫拉材质手机壳为核心，延伸 MagSafe 磁吸生态配件；客单价处于高端带，海外市场占比高于国内，国内属高端小众品类心智）",
+  "brands": {
+    "focus": "PITAKA",
+    "deep": [
+      "图拉斯",
+      "CASETIFY",
+      "决色",
+      "LLC",
+      "邦克仕"
+    ],
+    "reference": [
+      "EVUTEC",
+      "UAG",
+      "OtterBox",
+      "Mous",
+      "Spigen",
+      "dbrand",
+      "Apple 官方保护壳",
+      "三星官方保护壳",
+      "洛克 ROCK",
+      "倍思",
+      "绿联",
+      "闪魔",
+      "摩米士",
+      "Native Union",
+      "Nomad",
+      "Incase"
+    ],
+    "summary": [
+      "白牌/工厂直供壳（9.9-39 元价格带）",
+      "手机连锁与运营商自有品牌壳"
+    ]
+  },
+  "brand_notes": {
+    "图拉斯": "TORRAS，深圳蓝禾技术旗下，功能防护+支架/散热创新，大众高端价格带，国内高端手机壳份额领先",
+    "CASETIFY": "香港起家的全球潮流个性化手机壳品牌，联名+定制打法，客单价高，品牌溢价来自设计而非材质",
+    "决色": "防摔功能派，华为官方合作伙伴，军规防护心智，国内安卓+苹果双线",
+    "LLC": "凯夫拉/芳纶纤维手机壳，抖音内容驱动，与 PITAKA 同材质同价格带，最直接对手（Zylon 内衬、N52 磁吸）",
+    "邦克仕": "Benks，芳纶纤维+钢化膜+充电配件全品类，价格带与 PITAKA 有重叠，渠道覆盖更广",
+    "EVUTEC": "凯夫拉手机壳老牌（黄金甲系列），与 LLC 供应链高度关联，材质赛道参照",
+    "UAG": "美国军规防护壳，品类防护天花板，国内小众高价",
+    "OtterBox": "美国防护壳龙头，全球规模参照",
+    "Mous": "英国材质+防护创新品牌，内容营销标杆",
+    "dbrand": "北美皮肤/贴膜+壳，DTC 内容打法参照"
+  },
+  "founder_name": "",
+  "data_sources": {
+    "ecommerce_platforms": [
+      "tmall",
+      "jd",
+      "douyin"
+    ],
+    "ecommerce_required": true
+  },
+  "modules_enabled": {
+    "pre_research": true,
+    "founder_research": false,
+    "innovation_strategy": true,
+    "five_dimension": true,
+    "complete_book": true,
+    "industry_chain_map": true,
+    "content_type_classification": true,
+    "user_pain_points": true,
+    "quantitative_modeling": false,
+    "opportunity_map": true,
+    "adversarial_review": true
+  },
+  "tier_visible": false,
+  "industry_trends": {
+    "dimensions": [
+      "手机壳从低价耗材转向材质消费与配件生态，高端带（200 元以上）增速高于大盘",
+      "材质分层：TPU/PC 主流带、液态硅胶舒适带、芳纶纤维/凯夫拉高端带、金属/皮革小众带",
+      "MagSafe 磁吸生态把壳从保护件变成功能件，磁吸力/兼容性成为新参数",
+      "内容渠道分化：抖音讲参数与手感，小红书讲审美与搭配，天猫承接搜索与转化",
+      "国产品牌出海（PITAKA/图拉斯/邦克仕）与国际品牌入华（CASETIFY/UAG）双向挤压"
+    ]
+  },
+  "special_methodology": {
+    "focus_product_analysis": "PITAKA 三条竞争线：① 同材质直接线（LLC、邦克仕、EVUTEC——芳纶纤维/凯夫拉价格带正面竞争）② 功能防护线（图拉斯、决色、UAG、OtterBox——防护与磁吸功能参数对比）③ 潮流溢价线（CASETIFY、dbrand、官方壳——品牌叙事与联名如何支撑高客单）。核心分析轴：材质稀缺性叙事能否撑住高端溢价，以及 PITAKA 的全球化品牌资产能否在国内市场转化为份额。交付按燃创品牌咨询深度方法论（五维扫描+产业链卡口+内容五分类+用户痛点+机会地图+创品策略）"
+  },
+  "output_dir": "./output/PITAKA_20261017",
+  "output_subdir": "PITAKA_20261017",
+  "output_settings": {
+    "docx_filename": "PITAKA-高端手机壳-V1-20261017.docx"
+  },
+  "_project_meta": {
+    "pipeline_version": "2.0",
+    "created_at": "2026-10-17",
+    "schema_version": "2.0",
+    "notes": "逸凡指定竞品底线：图拉斯、CASETIFY、决色、LLC。deep 第 5 席加邦克仕（同材质价格带重叠），EVUTEC/UAG 等放 reference，待逸凡确认是否升 deep。创始人非品牌核心变量，founder_research 关闭。"
+  }
+}

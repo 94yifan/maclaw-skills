@@ -41,6 +41,7 @@ v2.0 (2026-07-26): 融入Codex对抗式审查+evidence tier系统+产业链地�
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -241,18 +242,29 @@ def main():
                     old_path.unlink()
                     print(f"   清理旧命名文件: {old_name}")
             # 再清理标准文件
+            # 归档代替删除（SOUL 边界：覆盖文件先备份）
+            from datetime import datetime as _dt
+            _stamp = _dt.now().strftime("%Y%m%d-%H%M%S")
+            _arch_root = BASE_DIR / "output" / "archive" / f"cleanup-{_stamp}"
+            def _archive(src: Path, sub: str):
+                dst_dir = _arch_root / sub
+                dst_dir.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(src), str(dst_dir / src.name))
             for f in content_dir_path.glob("*.md"):
+                # pre_research.md 是 Gate 1 的确认对象，重跑不得移走（门禁不得销毁自己的标的）
+                if f.name in ("pre_research.md", "pre_research_template.md"):
+                    continue
                 if f.name not in ("_FILL_COMPLETE.md", "_ECOMMERCE_DONE.md", "_CONTENT_REWRITE_DONE.md"):
-                    f.unlink()
+                    _archive(f, "content")
             for subdir in content_dir_path.glob("*/"):
                 if subdir.is_dir():
-                    shutil.rmtree(subdir)
+                    dst_dir = _arch_root / "content"
+                    dst_dir.mkdir(parents=True, exist_ok=True)
+                    shutil.move(str(subdir), str(dst_dir / subdir.name))
         if charts_dir_path.exists():
-            for f in charts_dir_path.glob("*.html"):
-                f.unlink()
-            for f in charts_dir_path.glob("*.png"):
-                f.unlink()
-        print("  ✓ 已清理 output/content/ (.md) 和 output/charts/ (.html/.png)")
+            for f in list(charts_dir_path.glob("*.html")) + list(charts_dir_path.glob("*.png")):
+                _archive(f, "charts")
+        print(f"  ✓ 已归档（非删除）旧产物到 output/archive/cleanup-{_stamp}/")
 
     for num, name, desc, automated, agent in steps_to_run:
         print(f"    Step {num}: {name} — {desc}")
@@ -335,24 +347,60 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
 - 产出: 创品谱系+优先级+风险边界
 - 触发条件: 燃创咨询切入时
 """
-        with open(research_path, "w", encoding="utf-8") as f:
-            f.write(research_content)
+        # 已有研究版则不覆盖（门禁的确认对象不得被重跑销毁）
+        _tpl_path = BASE_DIR / "output" / "content" / "pre_research_template.md"
+        _keep = False
+        if research_path.exists():
+            try:
+                _existing = research_path.read_text(encoding="utf-8")
+            except Exception:
+                _existing = ""
+            if _existing.strip() and _existing != research_content and len(_existing) > len(research_content):
+                _keep = True
+        if _keep:
+            _tpl_path.write_text(research_content, encoding="utf-8")
+            print("  ↷ 检测到已有研究版 pre_research.md，保留不覆盖（模板另存 pre_research_template.md）")
+        else:
+            research_path.write_text(research_content, encoding="utf-8")
         step_success(step_name, [str(research_path)])
 
         # ⛔ Gate 1: 竞品框架确认 — 未经逸凡确认不得继续
         confirm_path = BASE_DIR / "output" / "content" / "competitor_confirmed.txt"
+        # Gate 1 校验：存在性 + 项目绑定 + 时效 + 确认人（守卫十三第三档）
+        from datetime import date as _date, datetime as _dt2
+        _gate_reason = None
         if not confirm_path.exists():
+            _gate_reason = "确认文件不存在"
+        else:
+            _txt = confirm_path.read_text(encoding="utf-8", errors="ignore")
+            _proj = project_config.project_name.strip()
+            if _proj not in _txt:
+                _gate_reason = f"确认文件未绑定本项目（缺项目名: {_proj}）"
+            if _gate_reason is None:
+                _m = re.search(r"date\s*[:：]\s*(\d{4}-\d{2}-\d{2})", _txt)
+                if not _m:
+                    _gate_reason = "确认文件缺日期行（date: YYYY-MM-DD）"
+                else:
+                    try:
+                        _d = _dt2.strptime(_m.group(1), "%Y-%m-%d").date()
+                    except ValueError:
+                        _gate_reason = "确认日期格式非法"
+                    else:
+                        if abs((_date.today() - _d).days) > 2:
+                            _gate_reason = f"确认已过时效（{_m.group(1)}，超过 2 天）"
+            if _gate_reason is None and not re.search(r"(confirmed_by|确认人)\s*[:：]\s*\S", _txt):
+                _gate_reason = "确认文件缺确认人（confirmed_by: xxx）"
+        if _gate_reason:
             print("\n" + "="*60)
             print("  ⛔ Pipeline 暂停：竞品框架确认")
             print("="*60)
-            print("  竞品框架已生成: output/content/pre_research.md")
-            print("  请在飞书群中发送竞品框架摘要，等待逸凡确认。")
-            print("  逸凡回复'确认'/'没问题'/'开始跑'后，手动创建以下文件再重新运行:")
-            print(f"  touch {confirm_path}")
+            print(f"  未通过原因: {_gate_reason}")
+            print("  竞品框架: output/content/pre_research.md")
+            print("  确认文件须含三行：project / date / confirmed_by")
+            print(f"  示例: printf 'project: {project_config.project_name}\\ndate: '$(date +%F)'\\nconfirmed_by: 逸凡\\n' > {confirm_path}")
             print("="*60)
             sys.exit(0)
-        else:
-            print("  ✓ 竞品框架已确认 (competitor_confirmed.txt)")
+        print("  ✓ 竞品框架已确认（项目绑定 + 时效 + 确认人三项校验通过）")
         return
     
     # ── Step 3: 数据采集 ──

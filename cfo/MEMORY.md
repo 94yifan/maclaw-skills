@@ -486,3 +486,24 @@
 - **未闭环清单（守卫AJ：不例行推送）**：源 = `cfo/tmp/giftlist/pending.json`（**11 open**）。置顶：中秋窗口已关（9/25），53 条未处理 + 矛盾 4 条（5/264/300/308）需定「结案 / 转 2027 新年」。待主 session：`cron-prompt-wording`（prompt 内文仍写 22:01，schedule 已 `6 22`）。
 - **A/B/C/D 见 `memory/dreaming-2026-10-15.md`**。
 - **收尾实读（守卫AF/守卫N 自证）**：见 dreaming-2026-10-15.md 收尾段。
+
+## 2026-10-16（周五）整轮丢失（10/17 补记，守卫AO 首次执行）
+
+- **零交互**：`cfo/memory/2026-10-16.md` 不存在；session 目录当日唯一写入 = 该轮 dreaming（c5123b2e，3,320B，22:06:01 启动）。
+- **该轮 dreaming 零产物**：seq140 / run_at 2026-10-16 22:06:00 / status=**error** / duration=**25,967ms** / error=`cron: job interrupted by gateway restart`。`dreaming-2026-10-16.md` 不存在、MEMORY 无当日区块、无 audit 快照（本轮对账只能退回 snap_2026-10-15）。
+- **同批 5 个 dreaming job 同一时段同错**（平台级，非 CFO 独有）：91561143 = 22:00:00 / 40,544ms；**07cd1aef cfo = 22:06:00 / 25,967ms**；218d4b80 = 22:24:00 / 28,473ms；2fba54e5 = 22:30:00 / 33,065ms；4db50a04 = 22:36:00 / 29,206ms —— 全部 `interrupted by gateway restart`。
+- **可见性**：`consecutive_errors`=1 < `failure_alert_after`=3，delivery_status=**unknown** → 整日丢失无任何通知。
+- **业务影响**：10/15–10/17 三天礼单零变化（audit vs snap_2026-10-15：新增 0 / 消失 0 / 字段变化 0），丢的只是记忆链，无业务数据缺口。
+
+## 2026-10-17（周六）零交互日 + 失败形态第四次迁移（gateway restart）+ 守卫AN/AO
+
+- **零交互**（10/12 业务日后第 5 天）：`cfo/memory/2026-10-17.md` 不存在；`~/.openclaw/agents/cfo/sessions/` 当日唯一被写入的 jsonl = 本轮 dreaming（f2fe15e4，23:36 启动）。判定依据 = 守卫AM（session 目录巡检）。
+- **A1（P0，本轮最高价值）失败形态第四次迁移：超时 → 模型挂起 → 进程 kill → gateway 重启。** 序列证据：9/22–10/04 撞 300s 上限；8/4–8/21 十八轮模型调用起即挂起零产物；10/14 seq138 进程被 kill（489,813ms）；**10/16 seq140 `interrupted by gateway restart`（25,967ms，同批 5 个 job 全灭）**。前三类能由 timeout / failureAlert 部分覆盖，**gateway 重启只能靠「重启后补跑 + 缺失日回填」**——配置层处方对此类失效零作用。
+- **A2（P1）单次失败仍不可见（10/15 A2 的第二次证据，且这次代价是一整天）。** `failure_alert_after`=3 只覆盖连败；10/16 整日丢失时 consecutive_errors=1，`delivery_status`=unknown，逸凡零感知。**建议：after 3 → 1（单次 error 即 announce），待主 session 拍板。**
+- **A3（P1）触发时间漂移创新高：本轮 23:35（schedule `6 22`），系 22:06 窗口错过后的 catch-up。** 10/17 另有 06:57:57（874aef37 前序 13013736）与 09:35:50（874aef37）两个 job 同样 `interrupted by gateway restart`（211,138ms / 362,676ms）→ 10/16–10/17 gateway 处于反复重启状态，非单次事故。**含义：整轮丢失会重复发生，回填不能靠人记得。**
+- **实测快照（10/17 23:38 audit.py，从 cfo 根运行）**：总记录 **328**（顶层314+子14）| 已勾 **275**（顶层261+子14）| 明确否 **0** | 未处理 **53**；已邮寄/交付 **250**（顶层236+子14）| 已打包 **275** | 有邮寄编号 **276**（顶层262+子14）；序号 max=**368** | 缺口 **40 个**。变更对账 vs snap_2026-10-15：**新增 0 / 消失 0 / 字段变化 0**（跨 10/16 无快照，实为连续第 22 天零变化）。数据质量恒定：矛盾 4 条（5/264/300/308）、换行 16 条、同电话 1 组（预期1）、同址 6 组（异常5/预期1）。低优先：序号 121 有邮寄编号未勾地址复核。
+- **cron 实读（守卫AB/AD 带坐标）**：上一轮 = **seq140 / 2026-10-16 22:06:00 / error / 25,967ms / interrupted by gateway restart**，`consecutive_errors`=**1**。配置（已是修复后值）：payload_timeout_seconds=**600**、failure_alert_after=**3** / mode=announce / channel=feishu、delivery_mode=**none**、schedule_expr=**`6 22 * * *`**。**守卫AK 动态阈值：25,967ms 远低于 480,000ms 高危线 → 该指标对 gateway 重启类失败无预警力**（耗时短恰恰是失败特征）。挂账项仅剩 after 3→1 与 prompt 内文时间（已属主 session 范围）。
+- **守卫AN（新增，写入即为生效）骨架必须排在任何读取之前**：dreaming 落顺序固定为 ① `date` ② **MEMORY 当日区块 + dreaming 骨架（双写）** ③ 才读 SOUL/MEMORY/当日 memory ④ 取证分析。依据：10/16 轮 26s 内全部动作都是 read，零写动作，故零产物；守卫AA 只规定了「骨架前置」，没规定「骨架早于读取」，执行时被 prompt 的第 2 步读文件顶到了后面。**判据：本轮 date 之后的第一条命令必须是写骨架，不是 read。**
+- **守卫AO（新增，写入即为生效）gateway 重启类失败必须当轮回填缺失日**：每轮开场查上一轮 run 状态，若 error 含 `interrupted by gateway restart`，先补写缺失日的 MEMORY 区块（零交互声明 + 数据零变化结论 + 该轮 seq 与耗时），再做当日复盘。落点 = 本轮开场前两个工具调用之内。依据：10/16 整日丢失，若无回填，记忆链永久少一天。
+- **未闭环清单（守卫AJ：不例行推送）**：源 = `cfo/tmp/giftlist/pending.json`（**11 open**）。置顶：中秋窗口已关（9/25），53 条未处理 + 矛盾 4 条（5/264/300/308）需定「结案 / 转 2027 新年」。**新增待主 session：failureAlert after 3 → 1**（单次失败可见）。
+- **A/B/C/D 见 `memory/dreaming-2026-10-17.md`**。

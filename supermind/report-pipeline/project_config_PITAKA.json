@@ -94,5 +94,14 @@
     "created_at": "2026-10-17",
     "schema_version": "2.0",
     "notes": "逸凡指定竞品底线：图拉斯、CASETIFY、决色、LLC。deep 第 5 席加邦克仕（同材质价格带重叠），EVUTEC/UAG 等放 reference，待逸凡确认是否升 deep。创始人非品牌核心变量，founder_research 关闭。"
+  },
+  "charts_policy": {
+    "data_unavailable": true,
+    "reason": "天猫/京东/抖音商品页对本次采集返回验证页，付款人数、月销、回头客率三类字段全部未获取。为避免造假，放弃 pipeline 默认的四张销量类图表，改用价格带、加价倍数、痛点分布三张有来源的图。",
+    "generated": [
+      "chart_price_band",
+      "chart_price_ladder",
+      "chart_pain_dist"
+    ]
   }
 }

@@ -51,6 +51,32 @@ from typing import Dict, List, Optional
 BASE_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(BASE_DIR))
 
+
+def gate1_reason(confirm_path: Path, project_name: str) -> Optional[str]:
+    """Gate 1 竞品框架确认校验：存在性 + 项目绑定 + 时效 + 确认人（守卫十三第三档）。
+
+    返回 None 表示通过，否则返回未通过原因。
+    字段名兼容真实凭证写法：date / 确认时间 / 日期；confirmed_by / 确认人。
+    """
+    if not confirm_path.exists():
+        return "确认文件不存在"
+    txt = confirm_path.read_text(encoding="utf-8", errors="ignore")
+    proj = project_name.strip()
+    if proj and proj not in txt:
+        return f"确认文件未绑定本项目（缺项目名: {proj}）"
+    m = re.search(r"(?:date|确认时间|日期)\s*[:：]\s*(\d{4}-\d{2}-\d{2})", txt)
+    if not m:
+        return "确认文件缺日期（须含 date:/确认时间: YYYY-MM-DD）"
+    try:
+        d = datetime.strptime(m.group(1), "%Y-%m-%d").date()
+    except ValueError:
+        return "确认日期格式非法"
+    if abs((datetime.now().date() - d).days) > 2:
+        return f"确认已过时效（{m.group(1)}，超过 2 天）"
+    if not re.search(r"(?:confirmed_by|确认人)\s*[:：]\s*\S", txt):
+        return "确认文件缺确认人（confirmed_by: xxx）"
+    return None
+
 from steps.utils import (
     init_status, load_status, save_status,
     step_start, step_success, step_fail, step_skip, mark_complete,
@@ -367,36 +393,14 @@ def _execute_step(num: int, name: str, desc: str, automated: bool,
         # ⛔ Gate 1: 竞品框架确认 — 未经逸凡确认不得继续
         confirm_path = BASE_DIR / "output" / "content" / "competitor_confirmed.txt"
         # Gate 1 校验：存在性 + 项目绑定 + 时效 + 确认人（守卫十三第三档）
-        from datetime import date as _date, datetime as _dt2
-        _gate_reason = None
-        if not confirm_path.exists():
-            _gate_reason = "确认文件不存在"
-        else:
-            _txt = confirm_path.read_text(encoding="utf-8", errors="ignore")
-            _proj = project_config.project_name.strip()
-            if _proj not in _txt:
-                _gate_reason = f"确认文件未绑定本项目（缺项目名: {_proj}）"
-            if _gate_reason is None:
-                _m = re.search(r"date\s*[:：]\s*(\d{4}-\d{2}-\d{2})", _txt)
-                if not _m:
-                    _gate_reason = "确认文件缺日期行（date: YYYY-MM-DD）"
-                else:
-                    try:
-                        _d = _dt2.strptime(_m.group(1), "%Y-%m-%d").date()
-                    except ValueError:
-                        _gate_reason = "确认日期格式非法"
-                    else:
-                        if abs((_date.today() - _d).days) > 2:
-                            _gate_reason = f"确认已过时效（{_m.group(1)}，超过 2 天）"
-            if _gate_reason is None and not re.search(r"(confirmed_by|确认人)\s*[:：]\s*\S", _txt):
-                _gate_reason = "确认文件缺确认人（confirmed_by: xxx）"
+        _gate_reason = gate1_reason(confirm_path, project_config.project_name)
         if _gate_reason:
             print("\n" + "="*60)
             print("  ⛔ Pipeline 暂停：竞品框架确认")
             print("="*60)
             print(f"  未通过原因: {_gate_reason}")
             print("  竞品框架: output/content/pre_research.md")
-            print("  确认文件须含三行：project / date / confirmed_by")
+            print("  确认文件须含：项目名 / 日期(date 或 确认时间) / 确认人(confirmed_by 或 确认人)")
             print(f"  示例: printf 'project: {project_config.project_name}\\ndate: '$(date +%F)'\\nconfirmed_by: 逸凡\\n' > {confirm_path}")
             print("="*60)
             sys.exit(0)

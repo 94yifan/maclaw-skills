@@ -61,7 +61,7 @@ class ThemeColors:
 # 默认中文字体
 DEFAULT_FONT = 'PingFang SC'
 # Markdown 表格分隔行：允许 |---|、| --- |、|:--:|、|---:|
-MD_TABLE_SEP = re.compile(r'^\|(\s*:?-{3,}:?\s*\|)+$')
+MD_TABLE_SEP = re.compile(r'^\|(\s*:?-+:?\s*\|)+$')
 
 # 标题样式配置：(样式名, 字号, 加粗, 颜色)
 DEFAULT_HEADING_STYLES = [

@@ -1,0 +1,42 @@
+{
+  "updated": "2026-10-18T22:36:00+08:00",
+  "purpose": "Dreaming 开场必读：上一轮承诺的执行复核。每条必须有验证读数，不能只有文本。",
+  "items": [
+    {
+      "id": "update-loop-p0",
+      "承诺原文": "更新死循环待逸凡按一下（launchctl bootout gui/501/openclaw.update.once / 网关交 launchd 托管 / Node 升 26.x）",
+      "承诺日": "2026-10-17",
+      "触发点": "每晚 Dreaming Step 0",
+      "状态": "blocked-on-user",
+      "验证读数": "2026-10-18 22:36 launchctl: state=running, runs=10630, last exit code=1; node v25.8.1; log 29.5MB/65261 lines",
+      "失败后果": "7 agent 定时任务再次整轮失效（10-16 已实证 47 小时空窗）"
+    },
+    {
+      "id": "memory-archive",
+      "承诺原文": "下轮第一动作归档 10-10~10-12 缝合区块",
+      "承诺日": "2026-10-17",
+      "触发点": "每晚 Dreaming Step 0",
+      "状态": "done",
+      "验证读数": "MEMORY.md 124556B -> 104761B; archive 20701B (wc -c 实测 10-18)",
+      "失败后果": "MEMORY 撞 128KB 读取截断，缝合区被截掉"
+    },
+    {
+      "id": "tea-daily-alert",
+      "承诺原文": "tea-daily-report 设 failure_alert_after=1（连续 3 次 error 零告警）",
+      "承诺日": "2026-10-18",
+      "触发点": "主 session 可用时（cron mutation 受限）",
+      "状态": "blocked-on-main-session",
+      "验证读数": "cron_jobs.failure_alert_after = None; consecutive_errors=3; 2026-10-18 11:00 error/802657ms",
+      "失败后果": "日报断链继续无人知，第 7 次可预期"
+    },
+    {
+      "id": "visible-layer-qa",
+      "承诺原文": "把可见层质检清单写成脚本级 checklist，交给 supermind pipeline 使用",
+      "承诺日": "2026-10-18",
+      "触发点": "下一次有交付类任务经过 CEO 时",
+      "状态": "planned",
+      "验证读数": "待建 work/delivery-qa/checklist.md",
+      "失败后果": "格式类返工继续由客户发现（PITAKA 10-18 已发生一次）"
+    }
+  ]
+}

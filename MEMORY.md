@@ -1841,3 +1841,30 @@ tea-daily-report 的 run 报错，但 `social-crawler/memory/weibo_daily_2026-10
 ## 供应商收款信息（付款审批复用）
 
 - **上海沐南之心咨询管理有限公司**｜支付宝：wangmunan@cloudask.cn｜用途：设计改装（2026-10-18 首次付款 17050，发票后补）｜审批实例 6AA03097-093D-4E30-AFB8-B7263473ACD8
+
+---
+
+## 系统事故与检查方法（2026-10-18 周度复盘沉淀）
+
+### 事故1：10-16 全天停摆（网关托管缺失）
+
+- 事实：10-15 23:56 网关卡死；10-16 00:04 `gateway-restart.log` 记 `Could not find service "ai.openclaw.gateway" in domain for user gui: 501` 后仍写 `restart done`（假成功）；10-16 全天 `task_runs` 零记录、`/tmp/openclaw` 无日志文件；10-17 23:32 由 zsh 手工拉起（PID 86159，PPID=-zsh）。
+- 根因：`ai.openclaw.gateway.plist` 存在且 KeepAlive=true，但 `launchctl list` 里没有它 → 托管失效，网关是裸进程。
+- 代价：10-16 七条业务链全缺（蓝氏四条 + 茶饮日报 + 生日周年 + CDP 预热），补发靠人肉。
+- **检查方法（必须记住）**：判断服务是否真被托管，看两件事——`launchctl list | grep 服务名` 有没有，以及进程 `ps -o ppid` 的父进程是不是 shell。plist 存在 ≠ 托管生效。
+
+### 事故2：自动更新死循环
+
+- 事实：`openclaw.update.once` 反复执行 `npm i openclaw@2026.10.3`，日志 `this OpenClaw release requires Node >=24.16.0 <25 || >=26.1.0`，本机 node v25.8.1 落在排除区。
+- 量级：10-17 701 次 `Update Result: ERROR`，10-18 4224 次，npm CPU 158%，单日日志 74 MB。
+- **规则**：任何自动重试都必须配失败计数上限 + 一次升级通道；同一原因连续失败 N 次即停并要求人工介入，否则重试变自伤。
+
+### 三条可复用判断
+
+1. **建议没被执行 ≠ 风险消失，只是延期计提**——10-15 提的「给业务链开 failureAlert」零落地，3 天后 10-16 停摆零通知，代价如期到账。
+2. **run 状态是过程信号，产物和送达才是结果信号**——三次验证：10-15 日报 run 报错后 2h16m 生成；10-18 run 11:00 失败、产物 11:18 落盘。查故障第一动作查产物，不要先重跑。
+3. **工作重心漂移会让运维成为默认牺牲项**——本周 4 个执行日里 2 天全天做品牌资产，10-16 事故本体零感知。规则：连续两天以上全天交付，第三天强制安排一次系统巡检。
+
+### 审批类 API 教训（feishu-approval-submitter 已回写）
+
+account（收款账户）控件实测：`widgetAccountBankName` 只能传对象且 key 必须 `bankNameZh`；支行/地区字段一律写不进（plain string 报 1395006）；完整开户行落「付款明细」文本域。**流程规则：涉及多轮试错的表单控件，先提最小测试单验证可写字段，再用正式单；不要拿真单试错**（10-18 因此撤回 3 次、产生 3 个无效 instance）。

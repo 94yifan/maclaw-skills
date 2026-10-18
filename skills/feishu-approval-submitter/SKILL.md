@@ -159,3 +159,19 @@ def create_instance(token, approval_code, open_id, form_data):
         headers={"Authorization": f"Bearer {token}"}, json=payload)
     return resp.json()['data']['instance_code']
 ```
+
+## account（收款账户）控件实测结论（2026-10-18 补充）
+
+官方文档明确 account 属于「创建审批实例 API 不支持的控件」，实战结论：
+
+| 字段 | 可用性 | 正确写法 |
+|------|--------|----------|
+| widgetAccountName | ✅ 字符串 | `"公司/个人名"` |
+| widgetAccountNumber | ✅ 字符串 | `"账号"` |
+| widgetAccountBankName | ✅ 只能是对象，key 必须是 `bankNameZh` | `{"bankNameZh":"中国银行"}`；错 key（如 bankName）会写入空对象 |
+| widgetAccountBankBranch | ❌ 支行写不进去（bankBranchName / bankBranchNameZh 均失败） | 支行信息写入「付款明细」textarea |
+| widgetAccountBankArea | ❌ 空 | 同上 |
+| plain string | ❌ 报 1395006 控件值不合法 | 不要用字符串 |
+
+**标准做法：** account 只传 户名 + 账号 + `{"bankNameZh":"开户行总行名"}`，完整开户行（含支行）写进付款明细，提交后回查 instance 确认户名/账号正确。
+回查响应里 text 若是 `[123 34 ...]` 形式，是服务端字节序列化，用 `bytes(json.loads(text)).decode()` 还原可读。

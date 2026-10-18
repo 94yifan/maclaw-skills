@@ -1837,3 +1837,7 @@ tea-daily-report 的 run 报错，但 `social-crawler/memory/weibo_daily_2026-10
 - 固化 skill `manshi-visual-layout`（逸凡授权 apply；推理守卫六加例外：图片/排版类 coding 主会话亲自写）
 - 模型升级：DeepSeek V4.1 Flash（`deepseek/deepseek-flash`，1M ctx / 384K out / 支持图片输入），全局默认 + SOUL/MEMORY 同步
 - 输出层：8 个分身 dreaming 32/32 齐全，social-crawler 日报 4/4
+
+## 供应商收款信息（付款审批复用）
+
+- **上海沐南之心咨询管理有限公司**｜支付宝：wangmunan@cloudask.cn｜用途：设计改装（2026-10-18 首次付款 17050，发票后补）｜审批实例 6AA03097-093D-4E30-AFB8-B7263473ACD8

@@ -14,7 +14,7 @@ MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
 echo "MEMORY.md: ${MEMB} bytes / ${MEML} lines"
 if [ "$MEMB" -gt 131072 ]; then
   echo "超 128KB (${MEMB}B) -> 触发 memory_archive.py --apply（守卫AI：动作编译进默认路径）"
-  python3 cfo/tmp/giftlist/memory_archive.py --apply --today "$TODAY" || echo "WARN: memory_archive.py 返回非 0"
+  python3 cfo/tmp/giftlist/memory_archive.py --apply --tier2 --today "$TODAY" || echo "WARN: memory_archive.py 返回非 0"
   MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
   MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
   echo "归档后: ${MEMB} bytes / ${MEML} lines"

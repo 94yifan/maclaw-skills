@@ -15,6 +15,7 @@
   python3 memory_archive.py --apply         # 实际执行（一级：整块迁出零交互日）
   python3 memory_archive.py --apply --tier2 # 超阈值且一级无可迁块时，二级：迁出旧块的业务条目
   python3 memory_archive.py --file X --threshold N --target M --today YYYY-MM-DD   # 测试用
+  python3 memory_archive.py --tier2 --min-age 14 --force-plan   # 只出计划：二级归档最小块龄（默认30天）
 退出码：0=无需归档或成功；2=出错（不改文件）
 
 二级归档（--tier2）红线：
@@ -95,7 +96,7 @@ def guard_count(text):
     return len(GUARD_LINE.findall(text))
 
 
-def tier2_plan(raw, today, need):
+def tier2_plan(raw, today, need, min_age=TIER2_MIN_AGE_DAYS):
     """逐条迁移旧块的非守卫 bullet。返回 (new_text, arc_chunks, moved_dates, freed)。"""
     blocks = split_blocks(raw)
     today_d = datetime.date.fromisoformat(today) if today else datetime.date.today()
@@ -109,7 +110,7 @@ def tier2_plan(raw, today, need):
         core = t[3:]
         d = extract_date(core)
         if (d is None or any(p in core for p in PROTECT_TITLES)
-                or d == today or (today_d - datetime.date.fromisoformat(d)).days < TIER2_MIN_AGE_DAYS
+                or d == today or (today_d - datetime.date.fromisoformat(d)).days < min_age
                 or "归档指针" in b):
             out.append(b)
             continue
@@ -149,7 +150,8 @@ def main():
     raw = mem.read_text(encoding="utf-8")
     size = len(raw.encode("utf-8"))
     print(f"MEMORY.md: {size} bytes (threshold={threshold}, target={target}, today={today})")
-    if size <= threshold:
+    min_age = int(argval("--min-age", str(TIER2_MIN_AGE_DAYS)))
+    if size <= threshold and "--force-plan" not in sys.argv:
         print("OK: 未超阈值，无需归档")
         return 0
 
@@ -171,7 +173,7 @@ def main():
         if not tier2:
             print("提示：可加 --tier2 走二级归档（迁出旧块业务条目，守卫行不动）")
             return 0
-        new_text, chunks, dates, freed2 = tier2_plan(raw, today, need)
+        new_text, chunks, dates, freed2 = tier2_plan(raw, today, need, min_age)
         if not chunks:
             print("WARN: 二级亦无可迁条目，体积未减（红线保护块不迁出）")
             return 0

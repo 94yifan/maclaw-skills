@@ -18,6 +18,13 @@ if [ "$MEMB" -gt 131072 ]; then
   MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
   MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
   echo "归档后: ${MEMB} bytes / ${MEML} lines"
+  if [ "$MEMB" -gt 131072 ]; then
+    echo "二级(30天) 仍超 -> 升级 min-age 14（守卫AV：归档容量须实测，不得假设滚动供给足够）"
+    python3 cfo/tmp/giftlist/memory_archive.py --apply --tier2 --min-age 14 --today "$TODAY" || echo "WARN: 升级归档返回非 0"
+    MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
+    MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
+    echo "升级归档后: ${MEMB} bytes / ${MEML} lines"
+  fi
   if [ "$MEMB" -gt 131072 ]; then echo "WARN: 归档后仍超 128KB（无安全可迁区块）"; else echo "OK: 已回落到 128KB 以内"; fi
 else
   echo "OK: MEMORY.md 在 128KB 以内"
@@ -90,3 +97,7 @@ if [ -n "$DUR" ] && [ "$DUR" -gt 0 ] 2>/dev/null && [ -n "$TMO" ] && [ "$TMO" -g
 else
   echo "WARN 守卫AK: 未能读到 last_duration_ms / payload_timeout_seconds"
 fi
+
+echo "== 7) 上一轮诊断层告警 (守卫AW: 工具级失败只落在 lastDiagnostics，无通知出口) =="
+DIAG="$(sqlite3 "$DB" "SELECT ifnull(json_extract(state_json,'$.lastDiagnosticSummary'),'') FROM cron_jobs WHERE job_id='$JOB';" 2>/dev/null)"
+if [ -n "$DIAG" ]; then echo "WARN 上一轮存在诊断告警: $DIAG"; else echo "OK: 上一轮无诊断告警"; fi

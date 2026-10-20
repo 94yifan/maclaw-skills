@@ -4,36 +4,32 @@
   "type": "horizontalBar",
   "data": [
     {
-      "name": "有友食品",
-      "value": 25
+      "name": "图拉斯",
+      "value": 750
     },
     {
-      "name": "劲仔食品",
-      "value": 30
+      "name": "CASETIFY",
+      "value": 650
     },
     {
-      "name": "盐津铺子",
-      "value": 20
+      "name": "决色",
+      "value": 550
     },
     {
-      "name": "无穷食品",
-      "value": 28
+      "name": "LLC",
+      "value": 450
     },
     {
-      "name": "卤味觉醒",
-      "value": 35
+      "name": "邦克仕",
+      "value": 350
     },
     {
-      "name": "周黑鸭",
-      "value": 42
+      "name": "白牌/工厂直供壳（9.9-39 元价格带）",
+      "value": 250
     },
     {
-      "name": "区域凤爪品牌",
-      "value": 22
-    },
-    {
-      "name": "区域卤味零食品牌",
-      "value": 18
+      "name": "手机连锁与运营商自有品牌壳",
+      "value": 150
     }
   ],
   "html_file": "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/charts/chart_brand_comparison_3.html",

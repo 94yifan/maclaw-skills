@@ -249,3 +249,11 @@ M Stand(6345199298)、Manner(6808111794)、茉酸奶(5188894132)、
 - **已修（本会话）**：新建 canonical `tea-daily-crawl.mjs`——WINDOW_END 开抓前冻结一次、写入每品牌 ok/total/fetched/error、items 保留微博 id；`node --check` 通过，未实跑（明日首跑验证）。`skills/weibo-daily-report/SKILL.md` 增 8 条「口径与自检铁律」，覆盖 canonical 脚本、header 引用 raw、采集说明可溯源、守恒式披露、23 品牌全列、跨天去重、品类顺序、有动态计数口径。
 - **未闭环（需主 session/逸凡）**：① `openclaw.update.once` 仍在跑，runs=14874（昨日 10537，+4337/日），last exit=1，node v25.8.1 不满足 2026.10.3 engines，版本仍 2026.6.9；② 10-16 日报仍缺（cron_run_logs 无 10-16 记录，memory 无文件）；③ 飞书云文档存档未恢复。
 - **判断**：10-18 dreaming 的 4 项改进今天落地 0 项。写进复盘不等于会执行，能落地的必须改写脚本或 skill 约束，落不了地的必须点名到人。
+
+## 2026-10-20 cron 失败（第7次同类交付链路）+ 已加固兜底
+
+- **现象**：11:00 tea-daily-report 写出 memory/weibo_daily_2026-10-20.md（11:05，内容完整），run 标 error「list files in /tmp/tea-raw-2026-10-19.json → run python3 inline script 失败」，duration 321s，deliveryStatus=not-delivered，逸凡 11:06 群里问「为什么跑崩了」
+- **根因**：与 9/12、9/14、9/19、10-18 同型——**收尾阶段一步无关工具调用（读昨日 raw 核对）报错 → 整轮 run 判 error → announce 投递被整体跳过**。报告与 raw 已核对一致：23 品牌全部 ok=1，窗口内 38 条、14 品牌有动态
+- **本次修复（已生效）**：cron job prompt 增两条硬约束——① 禁止读取 /tmp 下今天以外的任何 raw，需要核对只用今天文件；② 交付兜底：本 turn 只要出现任意一次工具报错，立即停止核对，用 message 工具把日报分 3-4 条发到群（chat:oc_96796887fcf96dba638afa646fbb6bb2），因为 run 判 error 时 announce 必然被跳过
+- **补发**：11:06 已按 raw 原样分 4 条发群（诊断 1 条 + 报告 3 条），未重爬
+- **累计样本**：8/28、8/31、9/3、9/6、9/12、9/14、9/19、10-18、10-20，频率约 2-3 天 1 次，形态高度一致：文件完整 + run error + 交付跳过

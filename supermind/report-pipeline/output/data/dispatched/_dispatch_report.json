@@ -1,12 +1,28 @@
 {
-  "project": "王小卤 品牌与赛道分析报告（休闲卤味零食）",
-  "generated_at": "2026-10-12T16:17:23.953626",
+  "project": "PITAKA 品牌与手机壳赛道分析报告（高端手机壳 / 芳纶纤维）",
+  "generated_at": "2026-10-17T23:56:03.896365",
   "stats": {
     "total_records_dispatched": 0,
     "targets_written": 0,
     "data_sources_processed": 0
   },
   "targets": [
-    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/_dispatch_report.json"
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_无穷食品.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_劲仔食品.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_盐津铺子.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_区域凤爪品牌.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_周黑鸭.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_区域卤味零食品牌.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_周黑鸭.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_卤味觉醒.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_有友食品.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_盐津铺子.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_劲仔食品.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_无穷食品.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_区域卤味零食品牌.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_有友食品.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/_dispatch_report.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/tmall_区域凤爪品牌.json",
+    "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/data/dispatched/jd_卤味觉醒.json"
   ]
 }

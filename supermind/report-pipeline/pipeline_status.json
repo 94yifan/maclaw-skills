@@ -1,30 +1,20 @@
 {
   "project": "PITAKA 品牌与手机壳赛道分析报告（高端手机壳 / 芳纶纤维）",
-  "started_at": "2026-10-17T23:34:27.299265",
-  "completed_at": null,
+  "started_at": "2026-10-18T00:09:59.680405",
+  "completed_at": "2026-10-18T00:09:59.731883",
   "steps": {
-    "step_1": {
-      "description": "确认行业/品牌范围/深度/框架版本",
+    "qa_check": {
+      "description": "QA 自动检查 — 结构/内容/图表/交付四层 + 终端docx验证",
       "status": "success",
-      "started_at": "2026-10-17T23:34:27.309282",
-      "completed_at": "2026-10-17T23:34:27.309442",
+      "started_at": "2026-10-18T00:09:59.706664",
+      "completed_at": "2026-10-18T00:09:59.731680",
       "error": null,
       "outputs": [
-        "项目配置: PITAKA 品牌与手机壳赛道分析报告（高端手机壳 / 芳纶纤维）"
-      ]
-    },
-    "step_2": {
-      "description": "赛道框定+竞品筛选+创始人背景挖掘",
-      "status": "success",
-      "started_at": "2026-10-17T23:49:35.266992",
-      "completed_at": "2026-10-17T23:49:35.267258",
-      "error": null,
-      "outputs": [
-        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/content/pre_research.md"
+        "/Users/yifansmacmini/.openclaw/workspace/supermind/report-pipeline/output/reports/qa_report.md"
       ]
     }
   },
-  "current_step": "step_2",
-  "overall": "idle",
+  "current_step": null,
+  "overall": "completed",
   "errors": []
 }

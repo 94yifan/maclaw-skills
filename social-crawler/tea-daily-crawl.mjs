@@ -150,8 +150,11 @@ async function main() {
       const inWindow = posts.filter(p => {
         const ts = parseDate(p.created);
         if (!ts) return false;
+        // 2026-10-20 修正：容差从 -5 分钟改为 0。抓取开始后发布（ts > WINDOW_END）的帖子一律不进本窗口，
+        // 否则 header 声称的 windowEnd 与实际正文时间不一致（10-19 55 秒漂移、10-20 1 秒漂移同源）。
+        // 这些帖子会落在次日窗口左端，不会丢数据。
         const age = WINDOW_END - ts.getTime();
-        return age <= WINDOW_MS && age >= -5 * 60 * 1000;
+        return age <= WINDOW_MS && age >= 0;
       });
       inWindow.sort((a, b) => parseDate(b.created) - parseDate(a.created));
       const items = inWindow.map(p => ({ id: p.id, t: cleanHtml(p.text), d: p.created, r: p.reposts_count, c: p.comments_count, l: p.attitudes_count }));

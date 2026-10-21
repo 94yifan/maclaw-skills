@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-20",
+  "updated": "2026-10-21",
   "note": "未闭环清单结构化源（守卫AJ）。不再例行推送；每周一只落盘；仅当某条阻碍当天动作时才即时问；逸凡主动询问时用 pending.py 一次性输出。",
   "items": [
     {
@@ -107,9 +107,9 @@
       "id": "cron-prompt-wording",
       "priority": "高",
       "item": "dreaming prompt 内文与已生效守卫冲突：① 内文仍写「晚上10点01分」，实际 schedule 为 `6 22`（22:06）；② 步骤顺序为 1-date → 2-读文件 → 4-写文件，与守卫 AA/AN「date 之后第一条命令必须是写骨架」直接矛盾，导致 AN 在 10/17 建立后 10/20 仍被违反",
-      "default_action": "主 session 改 cron payload：内文时间改 22:06；步骤重排为 1=date → 1.5=写 MEMORY 骨架+dreaming 骨架 → 2=读 SOUL/MEMORY/当日 memory → 3=复盘 → 4=回填",
+      "default_action": "主 session 改 cron payload：内文时间改 22:06；步骤重排为 1=date → 1.5=写 MEMORY 骨架+dreaming 骨架 → 2=读 SOUL/MEMORY/当日 memory → 3=复盘 → 4=回填。第 1+1.5 步已由 cfo/tmp/giftlist/dreaming_open.py 实现（一条命令完成 date + 双骨架，幂等，路径由 __file__ 推导，已实测），payload 只需调用该脚本。",
       "need": "主 session / 人工执行",
-      "raised": "2026-10-13（2026-10-20 扩充步骤重排，升为高）",
+      "raised": "2026-10-13（2026-10-20 扩充步骤重排并升为高；2026-10-21 第三轮违反，脚本落地）",
       "status": "open"
     }
   ]

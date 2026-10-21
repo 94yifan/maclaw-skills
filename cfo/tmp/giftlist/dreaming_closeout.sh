@@ -98,6 +98,17 @@ else
   echo "WARN 守卫AK: 未能读到 last_duration_ms / payload_timeout_seconds"
 fi
 
+echo "== 6b) 上一轮 error 归类 (守卫AX: status=error 不等于失败轮) =="
+ERR="$(sqlite3 "$DB" "SELECT ifnull(last_error,'') FROM cron_jobs WHERE job_id='$JOB';" 2>/dev/null)"
+echo "last_error: ${ERR:-<空>}"
+case "$ERR" in
+  "") echo "OK: 无 error" ;;
+  *timeout*) echo "归类: 超时截断（撞 payload_timeout，产物可能已落盘，须核对 commit）" ;;
+  *"gateway restart"*) echo "归类: 进程级 gateway 重启（守卫AO 须当轮回填缺失日）" ;;
+  *"Process:"*|*killed*|*"SIGKILL"*) echo "归类: 进程级子进程失败/被杀（须核对产物完整性）" ;;
+  *) echo "WARN 守卫AX: 错误文本非超时/重启/进程类 = 工具层失败。判定失败轮前必须三读数对齐：产物（commit + 远端命中）、收尾（最后一条 assistant 消息 stopReason）、运行（status/duration）。三者齐全且收尾正常则归『已恢复的工具失败』，不计失败轮。" ;;
+esac
+
 echo "== 7) 上一轮诊断层告警 (守卫AW: 工具级失败只落在 lastDiagnostics，无通知出口) =="
 DIAG="$(sqlite3 "$DB" "SELECT ifnull(json_extract(state_json,'$.lastDiagnosticSummary'),'') FROM cron_jobs WHERE job_id='$JOB';" 2>/dev/null)"
 if [ -n "$DIAG" ]; then echo "WARN 上一轮存在诊断告警: $DIAG"; else echo "OK: 上一轮无诊断告警"; fi

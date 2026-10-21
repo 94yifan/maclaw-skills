@@ -508,3 +508,16 @@
 - **cron（守卫AB/AD 带坐标）**：seq **143** / 2026-10-19 22:06:00 / **ok** / **280,497ms** / consecutive_errors 0；配置 timeout **600**、failure_alert_after **3** + announce + feishu + `user:ou_c4249d713be906d36ef8607efab6506f`、delivery **none**、`6 22 * * *`。守卫 AK：280,497 vs 480,000 通过，但占预算 **47%**，为近 6 轮最高。
 - **未闭环（守卫AJ：不例行推送）**：`pending.json` **11 open**，今日更新（cron-prompt-wording 升高 + 扩充）。置顶：中秋窗口已关，53 条未处理 + 矛盾 4 条需定结案或转 2027 新年。
 - **A/B/C/D 全文见 `memory/dreaming-2026-10-20.md`**。
+
+## 2026-10-21（周三）零交互日第 2 天 + 守卫AX（status=error 不等于失败轮，归因已编译进 closeout）
+
+- **零交互**（10/20 后第 2 天）：session 目录当日唯一被写入的 jsonl = 本轮 dreaming（5ba5e5c7）；`memory/2026-10-21.md` 不存在。飞书 0 收发、礼单 0 动作。今日无 gateway 重启，其他分身 7 个 job 全 ok。
+- **A1（P0，本轮最高价值）上一轮 seq 144 的 status=error 是已恢复的工具失败，不是失败轮**：10/20 22:06:00 起跑，202,847ms，error 原文 `⚠️ 🩹 Apply Patch failed`。同一轮实读：14:08:19Z 一次 apply_patch 返回 Invalid patch hunk（补丁体缺 @@ 标记），14:08:23Z 改用 exec 打补丁成功（patched / syntax OK），14:09:22Z 最后一条 assistant 消息 stopReason=stop、纯文本、无工具调用；两笔 commit ca99e25 / f7de2d2 均已是 github/main 祖先。**三读数里只有 status 一项是负的，status 被中途工具失败固定住。** 代价两向：consecutive_errors 假计 1（再来两次同类即触发 after=3 误报）；更危险的是真失败与假失败共用一条 status，只能靠产物对账区分。
+- **守卫AX（新增，写入即为生效）失败轮判定必须三读数对齐**：产物（commit 且为远端祖先）、收尾（最后一条 assistant 消息 stopReason=stop 且无悬挂工具调用）、运行（status / duration / error 文本）。仅 status=error 而错误文本非超时、非 gateway restart、非进程被杀者，归「已恢复的工具失败」，不计失败轮；三者中任一缺失才判失败。**已编译进 `dreaming_closeout.sh` 第 6b 步**（按 error 文本自动归类，工具层失败时打印 WARN 提示核对三读数）。
+- **A2（P1）守卫AN 连续第三轮违反（10/19、10/20、10/21）**：本轮 date 之后头两个动作仍是 read。根因确认在 payload 步骤顺序，靠纪律无用。**已落地 `cfo/tmp/giftlist/dreaming_open.py`**：一条命令完成 date + MEMORY 占位区块 + dreaming 骨架，路径由 __file__ 推导，幂等；实跑两遍返回 exists，创建路径在隔离副本中实测通过（真实工作区零写入）。pending 的 cron-prompt-wording 已补该脚本作为第 1+1.5 步的实现。
+- **A3（P2）体量余量只剩约 4.5KB**：骨架写入后 MEMORY.md 126,508B（含 dreaming 骨架合计 126,715B），阈值 131,072B。业务日单块 1.5 到 4KB，明日业务日大概率越界；tier2 30 天档 10/20 实测只可迁 1,389B，不足，收尾会自动切 14 天档（实测可迁 21,059B）。阈值策略仍待逸凡定。
+- **A4（P2）ahead=1 不是我的**：`github/main..HEAD` 唯一提交 c2ef941 = CEO 10/20 dreaming；我 10/20 的两笔均已在远端。curl 200/200，收尾按守卫AE 实跑 push 清队。
+- **实测快照（10/21 22:1x audit.py，cfo 根运行）**：总记录 **328** | 已勾 **275** | 明确否 **0** | 未处理 **53**；已邮寄/交付 **250** | 已打包 **275** | 有邮寄编号 **276**；max **368** | 缺口 **40**；对账 vs snap_2026-10-20 新增 0 / 消失 0 / 字段变化 0（**连续第 26 天**）。数据质量：矛盾 4（5/264/300/308）、换行 16、同电话 1 组（预期）、同址 6 组（异常 5 / 预期 1）。
+- **cron（守卫AB/AD 带坐标）**：seq **144** / 2026-10-20 22:06:00 / **error（见 A1，实为已恢复的工具失败）** / **202,847ms** / consecutive_errors 1；配置 timeout 600、failure_alert_after 3 + announce + feishu、delivery none、`6 22 * * *`。守卫AK：202,847 vs 高危线 480,000 通过，余量 397,153ms。
+- **未闭环（守卫AJ：不例行推送）**：pending.json 11 open（10/21 更新 cron-prompt-wording）。置顶：中秋窗口已关，53 条未处理 + 矛盾 4 条待定结案或转 2027 新年。
+- **A/B/C/D 全文见 `memory/dreaming-2026-10-21.md`**。

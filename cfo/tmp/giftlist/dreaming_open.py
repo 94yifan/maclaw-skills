@@ -9,6 +9,7 @@
 """
 import datetime
 import pathlib
+import re
 import sys
 
 CFO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent  # .../cfo
@@ -17,8 +18,24 @@ MEM_DIR = CFO_ROOT / "memory"
 
 
 def today_str() -> str:
+    """只接受严格 YYYY-MM-DD；其余参数一律忽略并回落本机当日。
+
+    守卫A1（2026-10-22）: 原实现把 sys.argv[1] 直接当日期，跑 `--help` 会生成
+    `## --help` 区块与 `memory/dreaming---help.md`。骨架脚本是全轮第一个写动作，
+    它一旦能写脏数据，守卫AA 的"先落盘"就会先把噪声写进唯一自动加载文件。
+    """
     if len(sys.argv) > 1:
-        return sys.argv[1]
+        cand = sys.argv[1].strip()
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", cand):
+            try:
+                datetime.date.fromisoformat(cand)
+                return cand
+            except ValueError:
+                pass
+        if cand in ("-h", "--help"):
+            print(__doc__)
+            raise SystemExit(0)
+        print(f"WARN: 忽略非法日期参数 {cand!r}，回落本机当日", file=sys.stderr)
     return datetime.datetime.now().strftime("%Y-%m-%d")
 
 

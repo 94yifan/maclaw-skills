@@ -1,0 +1,9 @@
+{
+  "_note": "dreaming 首步读取并 +1，禁手算。last_updated 为写入日期。",
+  "sp_zero_task_days": 36,
+  "sp_consecutive_ok_delivered": 5,
+  "sp_last_ok_seq": 144,
+  "sp_last_ok_date": "2026-10-22",
+  "sc_output_days_streak": 69,
+  "last_updated": "2026-10-23"
+}

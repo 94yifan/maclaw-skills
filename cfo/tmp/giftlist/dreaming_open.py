@@ -10,11 +10,14 @@
 import datetime
 import pathlib
 import re
+import subprocess
 import sys
 
 CFO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent  # .../cfo
 MEMORY = CFO_ROOT / "MEMORY.md"
 MEM_DIR = CFO_ROOT / "memory"
+ARCHIVER = CFO_ROOT / "tmp" / "giftlist" / "memory_archive.py"
+PRECHECK_BYTES = 130_000  # 留 1KB 余量：本节骨架 + 当日区块约 250-400B
 
 
 def today_str() -> str:
@@ -72,6 +75,22 @@ def ensure_dreaming_skeleton(today: str) -> str:
 
 def main() -> int:
     today = today_str()
+
+    # 守卫AI/AH 前置：写入前先量体量，越线先归档再写（不等到收尾第 0 步）。
+    # 依据 10/22 D2 —— 检查在写之后只告警，等于让越界态存在于两轮之间；
+    # 若本轮中途被 gateway restart 打断，下一轮 startups 仍要读超限文件。
+    if MEMORY.exists() and MEMORY.stat().st_size > PRECHECK_BYTES and ARCHIVER.exists():
+        size_before = MEMORY.stat().st_size
+        print(f"PRECHECK: MEMORY.md {size_before} bytes > {PRECHECK_BYTES}，先归档再写")
+        rc = subprocess.run(
+            [sys.executable, str(ARCHIVER), "--apply", "--tier2", "--today", today],
+            capture_output=True, text=True,
+        ).returncode
+        size_after = MEMORY.stat().st_size
+        print(f"PRECHECK: memory_archive.py rc={rc} | {size_before} → {size_after} bytes")
+        if rc != 0:
+            print("WARN: 归档器返回非 0，继续写入（收尾第 0 步会重试）", file=sys.stderr)
+
     m = ensure_memory_block(today)
     d = ensure_dreaming_skeleton(today)
     size = MEMORY.stat().st_size

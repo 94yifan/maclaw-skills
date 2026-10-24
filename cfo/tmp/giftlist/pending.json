@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-10-24",
   "note": "未闭环清单结构化源（守卫AJ）。不再例行推送；每周一只落盘；仅当某条阻碍当天动作时才即时问；逸凡主动询问时用 pending.py 一次性输出。",
   "items": [
     {
@@ -111,6 +111,17 @@
       "need": "主 session / 人工执行 ｜ 10/23：已有构造性绕过——无参 dreaming_open.py 作为每轮第一条命令（自带 today_str 并打印 TODAY=），骨架与日期合并为同一动作；prompt 顺序修改降为 P2，不再作为阻塞项。",
       "raised": "2026-10-13（2026-10-20 扩充步骤重排并升为高；2026-10-21 第三轮违反，脚本落地）；2026-10-22 第四轮违反，性质升级为规则硬冲突（守 AN 即违指令，守指令即违 AN）",
       "status": "open"
+    },
+    {
+      "id": "failure-alert-signal",
+      "priority": "中",
+      "item": "提案「failureAlert after 3→1」撤销：status=error 与「记忆链断」不同层，after:1 会对工具尾错轮次误报",
+      "default_action": "改用产物缺失检测（已落地 dreaming_open.py PRODUCT-CHECK：MEMORY 区块命中数 + dreaming 字节 ≥800）",
+      "need": "已闭环，仅存档防再提案",
+      "raised": "2026-10-17",
+      "status": "closed",
+      "closed": "2026-10-24",
+      "resolve_note": "证据：seq140 10-16 error/25,967ms/gateway restart → 零产物（dreaming-2026-10-16.md 不存在）；seq144 10-20 error/202,847ms/Apply Patch failed → 产物齐全（dreaming 10,360B + MEMORY 区块）。同一 status 两种结局，status 报警一真一假。三例实测：10/20 PASS、10/16 FAIL、10/23 PASS。"
     }
   ]
 }

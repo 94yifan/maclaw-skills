@@ -518,3 +518,15 @@
 - **cron（守卫AB/AD 带坐标）**：上一轮 **seq 146 / 2026-10-22 22:07:28 / ok / 88,812ms** / consecutive_errors **0**；配置 timeout **600**、failure_alert after **3** + announce + feishu、delivery **none**、`6 22 * * *`（Asia/Shanghai）。守卫AK：88,812 vs 高危线 480,000 通过，余量 **511,188ms**，本轮为 600s 下最轻的一次。
 - **未闭环（守卫AJ：不例行推送）**：`pending.json` **11 open**（10/23 更新：`cron-prompt-wording` 降为 P2，附构造性绕过说明）。置顶：中秋窗口已关，53 条未处理 + 矛盾 4 条待定「结案 / 转 2027 新年」。
 - **A/B/C/D 全文见 `memory/dreaming-2026-10-23.md`**。
+
+## 2026-10-24（周六）零交互日第 5 天 + 守卫BA（失败可见性以产物为准）
+
+- **零交互**（10/20 业务日后第 5 天）：session 目录当日被写入的 jsonl 只有本轮 dreaming（`99bdfaeb`，22:06 启动）；`memory/2026-10-24.md` 不存在；飞书 0 收发、礼单 0 动作。其他 7 个 cron job 今日 7 ok / 1 error（`a19839ba` 11:10 携 `Process: delta-breeze failed`，639,283ms，其 timeout=900 故非超时）。
+- **A1（P1，本轮最高价值）「failureAlert after 3→1」提案撤销 —— 指标与被保护对象不同层。** 证据：seq140 / 10-16 / error / 25,967ms / gateway restart → **零产物**（`dreaming-2026-10-16.md` 不存在，区块靠 10/17 回填）；seq144 / 10-20 / error / 202,847ms / `Apply Patch failed` → **产物齐全**（`dreaming-2026-10-20.md` 10,360B + MEMORY 区块在 468 行）。同一 status 一真一假，after:1 会把工具尾错轮次推给逸凡，用噪声换可见性。**已落地**：`dreaming_open.py` 新增 PRODUCT-CHECK，每轮开场判上一轮产物三读数（MEMORY 区块命中数 + dreaming 字节 ≥800，status/duration 仅作坐标），三例实测 10/20 PASS、10/16 FAIL、10/23 PASS；pending 新增 `failure-alert-signal`（closed）防再提案。
+- **守卫BA（新增，写入即为生效）失败可见性以产物为准，不以 status 为准**：凡判断「这一轮有没有产出」，读数取被保护对象的实际存在性与体量（MEMORY 区块命中数、产物文件字节），`status` 只作坐标不作结论。判据 = 报警阈值必须与被保护对象同层（守卫二十②的落地形态）。依据：10/16 与 10/20 两轮同 status 不同结局。**与守卫AK 的关系：AK 防「撞上限」，BA 防「假红灯与假绿灯」——耗时读数对 gateway 重启与工具尾错都无判别力。**
+- **A2（P2）守卫AN 第六轮违反，本轮停止重复记录**：序为 `date` → read MEMORY → 写骨架，骨架仍在读之后。**根因为环路不是纪律**：规则写在 MEMORY，要生效须先 read，而违反发生在 read 之前；唯一出口是改 cron payload 步骤顺序，本 session mutation 仅 remove 自身（四次实测被拒）。残留风险已量化：骨架晚 3 次调用约 40–60s，仅当进程在该窗口内死亡才零产物（10/16 为 26s），且 PRODUCT-CHECK 已能次日自动发现。**处置：不再作为新一轮错误记录，`cron-prompt-wording` 保持 P2。**
+- **A3（P2）read MEMORY.md 截断 6,822 字符未当轮补读**：尾部 10/21–10/23 三块不在视野，我先跑 audit/cron 才 grep 补 10/20 一块。**动作：出现 truncated 标记即 `grep -n "^## 2026-10"` 定位 + 分段 read 补齐尾部三块，再开始分析。**
+- **实测快照（10/24 22:0x audit.py，cfo 根运行）**：总记录 **328** | 已勾 **275** | 明确否 **0** | 未处理 **53**；已邮寄/交付 **250** | 已打包 **275** | 有邮寄编号 **276**；max **368** | 缺口 **40**；对账 vs snap_2026-10-23 新增 0 / 消失 0 / 字段变化 0（**连续第 29 天**）。数据质量：同前（矛盾 4 / 换行 16 / 同电话 1 组预期 / 同址 6 组异常 5）。**按 10/24 C 项新规：同读数连续 3 轮不变即压成一行，仅在变化时展开。**
+- **cron（守卫AB/AD 带坐标）**：上一轮 **seq 147 / 2026-10-23 22:08:07 / ok / 127,519ms** / consecutive_errors **0**；配置 timeout **600**、failure_alert after **3** + announce + feishu、delivery **none**、`6 22 * * *`（Asia/Shanghai）。守卫AK：127,519 vs 高危线 480,000 通过，余量 **472,481ms**。本轮 seq 148 尚未落库。
+- **未闭环（守卫AJ：不例行推送）**：`pending.json` **11 open**（10/24 更新：新增 `failure-alert-signal` closed）。置顶：中秋窗口已关，53 条未处理 + 矛盾 4 条待定「结案 / 转 2027 新年」。
+- **A/B/C/D 全文见 `memory/dreaming-2026-10-24.md`**（D 列表本轮首次清空：两条已落地、两条按判据当场删除）。

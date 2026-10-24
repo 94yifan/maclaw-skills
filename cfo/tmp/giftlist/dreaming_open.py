@@ -8,8 +8,10 @@
 幂等: 当日区块/骨架已存在则不重复写。
 """
 import datetime
+import os
 import pathlib
 import re
+import sqlite3
 import subprocess
 import sys
 
@@ -18,6 +20,9 @@ MEMORY = CFO_ROOT / "MEMORY.md"
 MEM_DIR = CFO_ROOT / "memory"
 ARCHIVER = CFO_ROOT / "tmp" / "giftlist" / "memory_archive.py"
 PRECHECK_BYTES = 130_000  # 留 1KB 余量：本节骨架 + 当日区块约 250-400B
+DB = pathlib.Path(os.path.expanduser("~/.openclaw/state/openclaw.sqlite"))
+JOB_ID = "07cd1aef-08d4-4109-a178-a20c8adc8209"
+MIN_PRODUCT_BYTES = 800  # 骨架本身约 130B，真产物 8-10KB
 
 
 def today_str() -> str:
@@ -73,6 +78,53 @@ def ensure_dreaming_skeleton(today: str) -> str:
     return "created"
 
 
+def _last_run() -> tuple[str, str, int] | None:
+    """读上一轮 (日期, status, duration_ms)。只读打开，失败即返回 None。"""
+    if not DB.exists():
+        return None
+    try:
+        con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+        row = con.execute(
+            "select datetime(last_run_at_ms/1000,'unixepoch','+8 hours'),"
+            " last_run_status, last_duration_ms from cron_jobs where job_id=?",
+            (JOB_ID,),
+        ).fetchone()
+        con.close()
+    except Exception as exc:  # noqa: BLE001
+        print(f"WARN: 读 cron_jobs 失败（{exc}），跳过产物校验", file=sys.stderr)
+        return None
+    if not row or not row[1]:
+        return None
+    return str(row[0]), str(row[1]), int(row[2] or 0)
+
+
+def check_prev_product() -> None:
+    """守卫AO 泛化（2026-10-24）：判「上一轮产物是否齐全」，不看 error 文本。
+
+    依据：10/16 seq140 error（gateway restart）零产物真丢一天；10/20 seq144
+    error（Apply Patch failed, 202.8s）产物齐全（dreaming 10,360B + MEMORY 区块）。
+    同一 status=error 两种结局 —— 以 status 报警必然一真一假，以产物报警才准。
+    """
+    run = _last_run()
+    if run is None:
+        return
+    stamp, status, dur = run
+    date = stamp[:10]
+    forced = os.environ.get("DREAMING_CHECK_DATE", "").strip()
+    if forced:
+        date = forced
+    mem_hit = MEMORY.read_text().count(f"## {date}")
+    df = MEM_DIR / f"dreaming-{date}.md"
+    d_size = df.stat().st_size if df.exists() else 0
+    ok = mem_hit >= 1 and d_size >= MIN_PRODUCT_BYTES
+    todo = "无需回填" if ok else "产物缺失，本轮开场先回填该日区块（守卫AO）"
+    print(
+        f"PRODUCT-CHECK: {date} | 上一轮 {stamp} status={status} dur={dur}ms"
+        f" | MEMORY 区块={mem_hit} dreaming={d_size}B | {'PASS' if ok else 'FAIL'}"
+        f" | {todo}"
+    )
+
+
 def main() -> int:
     today = today_str()
 
@@ -93,6 +145,7 @@ def main() -> int:
 
     m = ensure_memory_block(today)
     d = ensure_dreaming_skeleton(today)
+    check_prev_product()
     size = MEMORY.stat().st_size
     print(f"TODAY={today}")
     print(f"MEMORY 区块: {m} | {MEMORY} ({size} bytes)")

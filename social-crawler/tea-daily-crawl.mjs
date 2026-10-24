@@ -114,8 +114,19 @@ async function fetchBrandPosts(page, uid, windowEnd, maxPages = 4) {
 }
 
 async function main() {
-  const browser = await chromium.connectOverCDP('http://127.0.0.1:9333');
-  console.log('Connected CDP 9333');
+  // 2026-10-22：CDP 端口改成有序回退，避免单端口挂掉整轮直接失败（10-17 双端口同时失败属环境问题，重试无意义）
+  let browser = null, usedPort = null;
+  for (const port of [9333, 18800]) {
+    try {
+      browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`, { timeout: 60000 });
+      usedPort = port;
+      break;
+    } catch (e) {
+      console.log(`CDP ${port} 连接失败：${(e.message || '').slice(0, 80)}`);
+    }
+  }
+  if (!browser) throw new Error('CDP 9333 与 18800 均连接失败，本轮无数据');
+  console.log(`Connected CDP ${usedPort}`);
   const ctx = browser.contexts()[0] || await browser.newContext();
   let page = (await ctx.pages()).find(p => p.url().includes('m.weibo.cn')) || await ctx.newPage();
 
@@ -127,12 +138,15 @@ async function main() {
   const windowStart = new Date(WINDOW_END - 24 * 3600 * 1000);
   const WINDOW_MS = 24 * 3600 * 1000;
   const fmt = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  // 2026-10-22：windowEnd 必须带秒。窗口右端冻结到秒，header 只写分钟会让「11:00:07 的帖在 11:00 窗口内」看起来像漂移（10-22 茶百道实例）
+  const fmtSec = d => `${fmt(d)}:${String(d.getSeconds()).padStart(2,'0')}`;
   const output = {
     date: dateStr,
     crawlTime,
-    windowEnd: fmt(windowEndDate),
-    windowStart: fmt(windowStart),
+    windowEnd: fmtSec(windowEndDate),
+    windowStart: fmtSec(windowStart),
     source: 'm.weibo.cn API via CDP (per-brand nav)',
+    cdpPort: usedPort,
     brands: []
   };
 
@@ -177,10 +191,33 @@ async function main() {
   }
 
   await page.close().catch(() => {});
+  // 2026-10-22：记录抓取起止，用于把「整轮 duration」拆成抓取段和写作段（10-21/10-22 连续两轮 586s→665s，无法归因）
+  output.crawlStartedAt = fmtSec(windowEndDate);
+  output.crawlFinishedAt = fmtSec(new Date());
   const outPath = `/tmp/tea-raw-${dateStr}.json`;
   writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log('=== 完成 === 数据已写入', outPath);
   console.log(`窗口：${output.windowStart} – ${output.windowEnd}`);
+
+  // 2026-10-22：输出逐条台账。写报告时按台账逐行交代（bullet / 合并到X / 剔除原因），
+  // 禁止用「总数倒推」凑守恒式——10-22 就是这么把 2 条爷爷不泡茶静默吞掉的。
+  const ledgerPath = `/tmp/tea-ledger-${dateStr}.md`;
+  const lines = [`# 窗口逐条台账 ${dateStr}`, `> 窗口 ${output.windowStart} – ${output.windowEnd}｜来源 ${outPath}`, ''];
+  let n = 0;
+  for (const b of output.brands) {
+    lines.push(`## ${b.brand}（${b.items.length} 条）`);
+    if (b.items.length === 0) lines.push(`- 无：latest=${b.latest || 'n/a'} total=${b.total ?? 'n/a'} ok=${b.ok}`);
+    for (const it of b.items) {
+      n++;
+      const when = (it.d || '').replace(/ \+0800 \d{4}$/, '');
+      lines.push(`- [ ] #${n} \`${it.id}\` ${when}｜${(it.t || '').slice(0, 60).replace(/\s+/g, ' ')}`);
+    }
+    lines.push('');
+  }
+  lines.push(`合计 ${n} 条。每条必须落到「正文 bullet」或「合并到某条」或「剔除＋原因」，写完后逐行打勾。`);
+  writeFileSync(ledgerPath, lines.join('\n'));
+  console.log('逐条台账已写入', ledgerPath);
+
   let active = 0, totalPosts = 0, errs = 0, empty = 0;
   for (const b of output.brands) {
     if (b.error) errs++;
@@ -188,6 +225,15 @@ async function main() {
     if (b.items && b.items.length > 0) { active++; totalPosts += b.items.length; }
   }
   console.log(`${active}/23 个品牌24h窗口内有动态, 共 ${totalPosts} 条, 请求错误 ${errs} 个, 接口无返回(total=0) ${empty} 个`);
+
+  // 2026-10-24：抓取完成后必须显式退出。
+  // 走 chromium.connectOverCDP 时 websocket 会一直挂住 Node 事件循环：数据与台账已经写完，
+  // 进程却不退出 → exec 超时被 terminate → cron 判 "Process failed" → announce 投递被跳过。
+  // 10-18 sharp-harbor、10-24 delta-breeze 是同一签名（报告完整、run error、交付靠兜底补发）。
+  // 注意：不要调 browser.close()，那是关掉用户的浏览器；直接退进程即可。
+  await new Promise(resolve => process.stdout.write('', resolve));
+  console.log('=== 进程退出 ===');
+  process.exit(0);
 }
 
 main().catch(e => { console.error('FATAL:', e); process.exit(1); });

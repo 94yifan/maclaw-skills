@@ -1,9 +1,10 @@
 {
-  "_note": "dreaming 首步读取并 +1，禁手算。last_updated 为写入日期。",
+  "_note": "dreaming 首步读取并 +1，禁手算。last_updated 为写入日期。连续计数归零必须写 break 字段。",
   "sp_zero_task_days": 36,
-  "sp_consecutive_ok_delivered": 5,
+  "sp_consecutive_ok_delivered": 0,
   "sp_last_ok_seq": 144,
   "sp_last_ok_date": "2026-10-22",
-  "sc_output_days_streak": 69,
-  "last_updated": "2026-10-23"
+  "sp_last_delivery_break": "2026-10-23 seq145 error(Apply Patch failed)/delivered=0",
+  "sc_output_days_streak": 70,
+  "last_updated": "2026-10-24"
 }

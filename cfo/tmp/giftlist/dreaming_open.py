@@ -19,7 +19,8 @@ CFO_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent  # .../cfo
 MEMORY = CFO_ROOT / "MEMORY.md"
 MEM_DIR = CFO_ROOT / "memory"
 ARCHIVER = CFO_ROOT / "tmp" / "giftlist" / "memory_archive.py"
-PRECHECK_BYTES = 130_000  # 留 1KB 余量：本节骨架 + 当日区块约 250-400B
+BLOCK_RESERVE = 4_096  # 当日区块 + 骨架的保守增量上限
+PRECHECK_BYTES = 131_072 - BLOCK_RESERVE  # 126,976：判据带增量，不只看当前值
 DB = pathlib.Path(os.path.expanduser("~/.openclaw/state/openclaw.sqlite"))
 JOB_ID = "07cd1aef-08d4-4109-a178-a20c8adc8209"
 MIN_PRODUCT_BYTES = 800  # 骨架本身约 130B，真产物 8-10KB
@@ -131,15 +132,43 @@ def main() -> int:
     # 守卫AI/AH 前置：写入前先量体量，越线先归档再写（不等到收尾第 0 步）。
     # 依据 10/22 D2 —— 检查在写之后只告警，等于让越界态存在于两轮之间；
     # 若本轮中途被 gateway restart 打断，下一轮 startups 仍要读超限文件。
-    if MEMORY.exists() and MEMORY.stat().st_size > PRECHECK_BYTES and ARCHIVER.exists():
+    # 判据必须带增量：10/25 开场 129,093B 通过了旧的 130,000B 预检，
+    # 但当日区块本身就 2-4KB，写入即越过 131,072 —— 「预检通过、写入越界」
+    # 等于把越界态留给收尾。故比较对象是 size + 预留增量。
+    if MEMORY.exists() and MEMORY.stat().st_size + BLOCK_RESERVE > 131_072 and ARCHIVER.exists():
         size_before = MEMORY.stat().st_size
-        print(f"PRECHECK: MEMORY.md {size_before} bytes > {PRECHECK_BYTES}，先归档再写")
+        print(
+            f"PRECHECK: MEMORY.md {size_before}B + 预留 {BLOCK_RESERVE}B > 131072，"
+            f"先归档再写（阈值 {PRECHECK_BYTES}B）"
+        )
         rc = subprocess.run(
-            [sys.executable, str(ARCHIVER), "--apply", "--tier2", "--today", today],
+            [
+                sys.executable, str(ARCHIVER), "--apply", "--tier2",
+                "--threshold", str(PRECHECK_BYTES), "--today", today,
+            ],
             capture_output=True, text=True,
         ).returncode
         size_after = MEMORY.stat().st_size
         print(f"PRECHECK: memory_archive.py rc={rc} | {size_before} → {size_after} bytes")
+        if size_after >= size_before:
+            # 守卫AV：容量机制必须双实测。30 天档在业务日密集时会被「近 14 天
+            # 新增 > 30 天可迁」反超，此时一律升到 14 天档，并把二级归档的
+            # 实测释放量打印出来（不靠参数天数充当有效性证明）。
+            print("PRECHECK: 30 天档零释放，升 14 天档重试（守卫AV）")
+            subprocess.run(
+                [
+                    sys.executable, str(ARCHIVER), "--apply", "--tier2", "--min-age", "14",
+                    "--threshold", str(PRECHECK_BYTES), "--today", today,
+                ],
+                capture_output=True, text=True,
+            )
+            size_after = MEMORY.stat().st_size
+            print(f"PRECHECK: 14 天档后 {size_before} → {size_after} bytes（释放 {size_before - size_after}B）")
+        if size_after >= size_before:
+            print(
+                "WARN: 归档器零释放（可迁量不足增量），本轮写入后必越界，收尾须人核",
+                file=sys.stderr,
+            )
         if rc != 0:
             print("WARN: 归档器返回非 0，继续写入（收尾第 0 步会重试）", file=sys.stderr)
 

@@ -43,6 +43,38 @@ echo "当日被写入的 session jsonl（含本轮 dreaming）:"
 find "$SESS_DIR" -maxdepth 1 -name '*.jsonl' -newermt "$TODAY 00:00" -print 2>/dev/null | sed 's#.*/##'
 if [ -f "cfo/memory/$TODAY.md" ]; then echo "当日 memory 文件: 存在"; else echo "当日 memory 文件: 不存在（判断是否零交互须以 session 目录为准，不得默认）"; fi
 
+echo "== 0d) 骨架顺序自检 (守卫AN: 第一条工具调用必须是 dreaming_open.py) =="
+python3 - "$SESS_DIR" "$TODAY" <<'PY'
+import glob, json, os, sys
+sess_dir, today = sys.argv[1], sys.argv[2]
+cands = [p for p in glob.glob(os.path.join(sess_dir, "*.jsonl")) if os.path.getmtime(p) >= 0]
+cands.sort(key=os.path.getmtime, reverse=True)
+first = None
+for p in cands[:3]:
+    for line in open(p, errors="ignore"):
+        try:
+            o = json.loads(line)
+        except Exception:
+            continue
+        msg = o.get("message") or {}
+        for c in msg.get("content") or []:
+            if isinstance(c, dict) and c.get("type") == "toolCall":
+                cmd = str((c.get("arguments") or {}).get("command", ""))
+                first = (os.path.basename(p), c.get("name"), cmd[:80])
+                break
+        if first:
+            break
+    if first:
+        break
+if not first:
+    print("WARN 守卫AN: 未找到当日工具调用记录，无法自检")
+else:
+    f, name, cmd = first
+    ok = "dreaming_open.py" in cmd
+    print(f"首个工具调用: {name} | {cmd}")
+    print(("OK 守卫AN: 首调用即骨架脚本" if ok else "WARN 守卫AN: 首调用不是骨架脚本（先读后写第 N 轮）"))
+PY
+
 echo "== 1) staged (cfo paths) =="
 git add "cfo/MEMORY.md" "cfo/memory/dreaming-$TODAY.md" 2>/dev/null
 git add cfo/memory/archive/ 2>/dev/null

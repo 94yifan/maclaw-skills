@@ -130,7 +130,7 @@
 📦 2026-09-14 至 09-23 七份系统挂账状态快照已归档 → memory/archive/status-blocks-2026-09.md（2026-10-25 归档，当前状态见文末最新状态块）
 
 - **MEMORY.md 膨胀 = cron 超时结构性根因（2026-08-29 新增，P1）**：SC 的 Dreaming cron 连续 30+ 天超时停摆实锤根因 = MEMORY.md 膨胀（76KB+/730 行）；08-12~15 曾连续 4 天超时同因。治本方案：缝合区季度归档机制（memory/archive/，只保留最近 5 天缝合+索引），目标体积控制 100KB 内。监控：每次 Dreaming 自检字节数。**（2026-09-14 实测：supermind/MEMORY.md 写后 95,090B——09-09 缝合今日归档（主文件保留 09-10 至 09-14 五天），归档规则执行中，100KB 线以内；repo 根 /workspace/MEMORY.md 180,946B 仍超 150KB 线；SP MEMORY.md 428,164B 第 6 天（405→417→428KB，+11KB/日），SP 已成为下一个超载风险点，治理动作需逸凡授权跨主体文件）**
-- **GitHub push 恢复（2026-09-09 确认）→ 09-12 起连续中断，09-14 仍不可达（第 3 天）**：09-12、09-13、09-14 均 `Failed to connect to github.com port 443 after 75004 ms`（网络层不可达），本地 commit 正常（09-13 = dce6adc）。规则：变更即本地 commit，push 每日尝试一次，失败只记录不重试循环，恢复后一次性补齐。
+- **GitHub push 状态（2026-10-25 更新：已恢复）**：09-09 恢复后 09-12 至 09-19 连续不可达（`Failed to connect to github.com port 443`），09-18 曾短暂恢复；**2026-10-25 22:4x 实推成功 `b6a0151..f959caa HEAD -> main`（exit=0），挂账解除**。规则沿用：变更即本地 commit，push 每日尝试一次，失败只记录不重试循环。remote 已更正为 `94yifan/maclaw-skills`。
 - **SC 微博日报稳定观察窗第 20 天（⚠️ 已过时，2026-09-21 对账修正）**：08-16~09-04 连续 20 天正常产出，8/22 铁律以来执行质量达峰值（header 窗口=crawlTime、无动态品牌逐秒匹配 raw.latest、交叉验证零缺陷）。产出端稳定，但机制端（触发源，100% 依赖主 session 手动/日报无 cron job）未定位，未宣布已修复——tea-daily-report 建 11:00 cron job 仍挂账待逸凡确认。**【2026-09-21 对账修正：两条与事实不符——① 触发源早已定位，`cron_jobs` 表 tea-daily-report（a19839ba）创建 6/29，至 09-21 累计运行 113 次（其中 error 51 次），「无 cron job/靠手动」为误记；② 「连续 20 天正常」是窗口选择产生的读数，改用全量分母则 9 月 21 次运行 6 次 error＝28.6%。对账源：`~/.openclaw/state/openclaw.sqlite`（cron_jobs / cron_run_logs），复核日 2026-09-21。】**
 - **SC 系统动作挂账（2026-09-04，连续 4-7 天）**：①【✅ 已闭环 2026-09-17；2026-09-21 复核仍成立：`crontab -l` 输出 0 字节、`/tmp/tea-morning-crawl.log` 已不存在】morning-crawl.sh 每晨 10:42 污染 6/14 旧文件（末次 9/16，累计 19 天空跑）——删除命令 `crontab -l | grep -v morning-crawl.sh | crontab -`，isolated exec 环境 crontab 写入已双实证挂起（SC 09-04 + 主 session cron run 09-04 复现，kill 后条目原样保留未半改），唯一路径=主 session 主机/逸凡终端；②SC dreaming cron timeoutSeconds 300→600 + model deepseek-v4-pro（上次实际 197s 贴近上限）；③tea-daily-report 建 11:00 cron job；④飞书云文档存档恢复（逸凡核心诉求 P1）；⑤CFO cron（jobId=07cd1aef-08d4-4109-a178-a20c8adc8209）timeoutSeconds 300→600 + failureAlert，挂账第 14 天。执行边界图见 09-04 缝合点 3。
 - **代码类待办静态优先**：step_skip 已静态验证疑似修复（utils.py:271 有定义、pipeline.py import 完整、import 测试通过），待下次生产运行最终确认。教训：代码类待办默认先静态验证（grep+import 测试），不等待生产触发。
@@ -674,3 +674,5 @@ skill 就是 SOP，照着执行就行了，不需要想"这样会不会太啰嗦
 **体量与图谱**：MEMORY.md 本轮写入前 96,010B；今日归档 10-20 缝合块至 `memory/archive/knowledge-stitch-2026-10.md` 后写六条缝合与状态块，控制 100KB 线内；knowledge-graph.md 追加 2026-10-25 节点五条。
 
 **待逸凡（压成一行，连续第 10 天零回执，按守卫二十一不再单独重报）**：①update.once 三选一（默认 A 升级 Node）；②10-16 日报补档或放弃；③跨主体 MEMORY 归档授权（SP 已超 640KB）。
+
+**GitHub push**：本轮 `git push github HEAD:main` 成功（b6a0151..f959caa，exit=0），连续多日不可达的挂账今日解除，记录在已知悬而未决区块。

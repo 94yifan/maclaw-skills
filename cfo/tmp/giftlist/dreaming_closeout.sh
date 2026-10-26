@@ -130,6 +130,28 @@ else
   echo "WARN 守卫AK: 未能读到 last_duration_ms / payload_timeout_seconds"
 fi
 
+echo "== 6a) 时间坐标对齐 (守卫BC: ts 是完成时刻，起跑 = ts - duration) =="
+LOG="$(sqlite3 "$DB" "SELECT ifnull(datetime(ts/1000,'unixepoch','+8 hours'),'')||'|'||ifnull(duration_ms,0)||'|'||ifnull(datetime((ts-duration_ms)/1000,'unixepoch','+8 hours'),'')||'|'||ifnull(seq,'') FROM cron_run_logs WHERE job_id='$JOB' ORDER BY seq DESC LIMIT 1;" 2>/dev/null)"
+echo "最新日志 (ts_完成|duration_ms|起跑=ts-duration|seq): $LOG"
+SEQ="$(echo "$LOG" | awk -F'|' '{print $4}')"
+LTS="$(echo "$LOG" | awk -F'|' '{print $1}')"
+LDUR="$(echo "$LOG" | awk -F'|' '{print $2}')"
+LSTART="$(echo "$LOG" | awk -F'|' '{print $3}')"
+if [ -n "$LTS" ] && [ -n "$LDUR" ] && [ "$LDUR" -gt 0 ] 2>/dev/null; then
+  ETS="$(date -j -f '%Y-%m-%d %H:%M:%S' "$LTS" +%s 2>/dev/null)"
+  ESTART="$(date -j -f '%Y-%m-%d %H:%M:%S' "$LSTART" +%s 2>/dev/null)"
+  if [ -n "$ETS" ] && [ -n "$ESTART" ]; then
+    DIFF=$(( (ETS - ESTART) * 1000 ))
+    SKEW=$(( DIFF - LDUR )); [ "$SKEW" -lt 0 ] && SKEW=$(( -SKEW ))
+    echo "seq $SEQ 起跑 $LSTART / 完成 $LTS / 耗时 ${LDUR}ms / 差 ${DIFF}ms / 偏差 ${SKEW}ms"
+    if [ "$SKEW" -le 2000 ]; then echo "OK 守卫BC: ts - duration = 起跑时刻（口径自洽）"; else echo "WARN 守卫BC: 完成时刻与耗时不自洽（偏差 ${SKEW}ms），引用前须核对字段来源"; fi
+  else
+    echo "WARN 守卫BC: 时间解析失败（$LTS / $LSTART）"
+  fi
+else
+  echo "WARN 守卫BC: 未能读到 cron_run_logs 最新一行"
+fi
+
 echo "== 6b) 上一轮 error 归类 (守卫AX: status=error 不等于失败轮) =="
 ERR="$(sqlite3 "$DB" "SELECT ifnull(last_error,'') FROM cron_jobs WHERE job_id='$JOB';" 2>/dev/null)"
 echo "last_error: ${ERR:-<空>}"

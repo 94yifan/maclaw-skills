@@ -40,7 +40,10 @@ today = sys.argv[1]
 mem = pathlib.Path("cfo/MEMORY.md").read_text(encoding="utf-8")
 m = re.search(r"(?ms)^## " + re.escape(today) + r".*?(?=^## |\Z)", mem)
 block = m.group(0) if m else ""
-hit = [k for k in ("新增待办", "待办：", "待办:") if k in block]
+# 只认业务待办行：守卫定义行自身含「待办」字样，须排除，否则每条新守卫都会点亮本检查
+scan = "\n".join(l for l in block.split("\n")
+                 if "写入即为生效" not in l and not l.lstrip().startswith("- **守卫"))
+hit = [k for k in ("新增待办", "待办：", "待办:") if k in scan]
 d = json.load(open("cfo/tmp/giftlist/pending.json"))
 upd = d.get("updated", "?")
 if hit and upd != today:

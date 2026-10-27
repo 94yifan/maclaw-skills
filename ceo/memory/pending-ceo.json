@@ -1,33 +1,46 @@
 {
- "updated": "2026-10-25T22:50:00+08:00",
+ "updated": "2026-10-27T22:45:00+08:00",
  "purpose": "Dreaming 开场必读：上一轮承诺的执行复核。状态只允许 done / waiting-external / overdue 三态。waiting-external 必须写全「依赖谁 / 最晚时点 / 超时升级动作」，缺一即视为挂账并在复盘公示。overdue 只允许存在一项（多条权限类逾期合并为一条，读数并列），且每晚占复盘首行三行、不占分析段（守卫二十一）。2026-10-24 起每项必须带 last_verified_at，引用前校验 ≤24h，超时当场重跑读数（A3 修法）。",
  "items": [
   {
+   "id": "sc-header-caliber",
+   "承诺原文": "SC 日报 header 总条数改为由正文 count 派生，删除独立生成的「共 43 条动态」；抽奖公示品牌统一计「无动态」",
+   "承诺日": "2026-10-27",
+   "触发点": "SC 下一次日报生产前（每日 11:00）",
+   "状态": "waiting-external",
+   "依赖谁": "逸凡一句话（改交付格式需确认）；执行者 SC（有 SKILL 与 cron prompt 写权限）",
+   "最晚时点": "2026-10-28 11:00",
+   "超时升级动作": "无回复则维持现状，但每晚复盘固定一行标注「客户可查证的矛盾仍在」，不重复解释",
+   "验证读数": "2026-10-27 实测：header「共 43 条动态」/ 正文 `grep -c '^【'` = 26 / 台账 [x] = 43 / 「有动态 14 家·无动态 9 家」而 43 条中 5 条来自被判无动态的柠季、东方墨兰。10-26 同机制判了相反结果。",
+   "last_verified_at": "2026-10-27T22:30:00+08:00",
+   "失败后果": "客户点开品牌微博即可当场证伪一行，整份报告的准确性被打折；缺口读法分歧已在 SP/SM 之间产生 17 vs 3 两个数"
+  },
+  {
    "id": "permission-blocked",
-   "承诺原文": "合并三项：①update 死循环（launchctl bootout gui/501/openclaw.update.once / 网关交 launchd 托管 / Node 升 26.x）；②v2 新并：把「收尾禁工具调用 + 自证读数必须 || true」两条条款落到七个 dreaming payload（原 delivery-guard-dist，依赖 supermind 分发，10-25 22:00 到期零分发，按守卫二十四判定委托同源失效，改由逸凡/主 session 一次批量改）；③跨主体 MEMORY 归档授权（SP 644KB / BM 584KB 均超单次读取上限）。",
+   "承诺原文": "合并两项（第三项已于 2026-10-27 拆出删除）：①update 死循环（launchctl bootout gui/501/openclaw.update.once / 网关交 launchd 托管 / Node 升 26.x）；②跨主体 MEMORY 归档授权（SP 665KB / BM 584KB 均超单次读取上限）。【2026-10-27 拆出的第三项】原「把收尾禁工具 + 自证读数 || true 落到七个 dreaming payload」与「delivery.bestEffort」：本会话实读 8/8 payload 已含禁工具条款（10-26 证伪）；bestEffort 无任何会话具备 cron 写权限（restricted run 仅允许删除自身），判定「无执行者的待决项」，按守卫二十一停止推送并从此项删除，不再计入逾期。",
    "合并日": "2026-10-22",
    "合并原因": "两条同为「需 cron 写权限 / 本机命令权限」，且原 tea-daily-alert 最晚时点 2026-10-22 22:00 已过；按「overdue 只允许一项」并成一条权限类逾期，避免 overdue 列表膨胀成噪声。",
    "触发点": "每晚 Dreaming Step 0",
-   "状态": "overdue",
-   "依赖谁": "逸凡（本机命令权限 + 一次批量授权；agent 无 cron 写权限、改他人 job 会破坏模板一致性）",
-   "最晚时点": "2026-10-21 22:00（update.once）/ 2026-10-25 22:00（payload 收尾条款，已逾期）",
-   "逾期天数": 5,
-   "超时升级动作": "每晚复盘首行三行单列（读数 / 逾期天数 / 一句决定），不再重写分析；逸凡任一交互时当场提一次，不重复",
-   "验证读数": "①update.once 2026-10-25 22:36：launchctl state=running / runs=46,338（24h +10,233，约 8.5 秒一轮）/ last exit=1 / node v25.8.1；/tmp/openclaw-update.log 108,840,166B（24h +11.6MB）。②cron_jobs 实读：七个 dreaming 均 payload_timeout_s=600、failure_alert_after=3；tea-daily-report timeout=900、failure_alert_after=3（此前记录的 NULL 已不成立，该项销账）——但 payload 收尾条款仍无一条写入。③2026-10-25 舰队 12 跑 8 ok / 4 error，4 error 全为收尾读/校验命令（tea / SP / supermind / BM），产物 4/4 在盘、交付 4/4 = 0。",
-   "last_verified_at": "2026-10-25T22:45:00+08:00",
-   "失败后果": "①7 agent 定时任务随时整轮失效（10-16 已实证 47 小时空窗）。②收尾族今日 4 例、族累计 7–10 例（首次 10-18），每 1–2 天损失一份 20KB 级复盘交付且不报错。"
+   "状态": "waiting-external",
+   "依赖谁": "逸凡（本机命令权限）",
+   "最晚时点": "2026-10-28 22:00（update.once 自 10-18 起）",
+   "逾期天数": 6,
+   "超时升级动作": "不再逐日重报；逸凡任一交互时提一次，仅报读数与一句决定。",
+   "验证读数": "2026-10-27 22:35 实读：launchctl state=running / runs=48,637 / /tmp/openclaw-update.log 130,564,217B / exit=1 / node v25.8.1（不满足新版 engines）；SP MEMORY 665,296B、BM MEMORY 超单次读取上限；SC/CFO dreaming delivery_mode=none，8 跑 not-requested（10-27 实测）。",
+   "last_verified_at": "2026-10-27T22:35:00+08:00",
+   "失败后果": "①7 agent 定时任务随时整轮失效（10-16 已实证 47 小时空窗）；②跨主体复盘无归档出口，读不到即不可调用（10-27 缝合2）。"
   },
   {
    "id": "delivery-guard-dist",
    "承诺原文": "把「收尾禁工具调用 + 自证读数必须 || true 或走 run-status.sh 类脚本」两条条款分发到七分身 dreaming payload / SOUL",
    "承诺日": "2026-10-22",
    "触发点": "supermind 下一次执行守卫同步或 payload 分发前",
-   "状态": "overdue",
+   "状态": "done",
    "依赖谁": "supermind（持有七分身 SOUL / payload 分发能力；CEO 单侧改他人 job 会破坏编号与模板一致性）",
    "最晚时点": "2026-10-25 22:00",
    "超时升级动作": "已执行升级：并入 permission-blocked，向逸凡提一次「需主 session 批量改 7 个 dreaming payload 收尾条款」，条款原文见 memory/dreaming-2026-10-25.md B2。",
-   "验证读数": "supermind 10-25 dreaming 全文 grep payload/dist/分发 = 0 命中（只有它自己的 B1）；同期 4 个 error 全是收尾族。委托方与缺陷同源，判定委托路径无效。",
-   "last_verified_at": "2026-10-25T22:40:00+08:00",
+   "验证读数": "2026-10-27 销账：8/8 dreaming payload 实读已含收尾禁工具条款（10-26 证伪原判）；delivery.bestEffort 无执行者（restricted cron 仅允许删自身），按守卫二十一停止推送。本项不再挂账。",
+   "last_verified_at": "2026-10-27T22:35:00+08:00",
    "失败后果": "每个主体必须独立踩一次坑才覆盖一次；按当前节奏每 1-2 天损失一份复盘交付（20KB 产物 + 一整轮分析），且损失不报错",
    "merged_into": "permission-blocked",
    "逾期天数": 1
@@ -38,8 +51,8 @@
    "承诺日": "2026-10-18",
    "触发点": "每晚 Dreaming，MEMORY >120KB 即归档最旧区块",
    "状态": "done",
-   "验证读数": "2026-10-24：起始 116,281B → 归档 10-19 区块 7,433B 至 memory/archive/knowledge-stitch-2026-10-19.md → 109,679B → 写入 10-24 区块后 120,754B。下轮（>120KB）归档 10-20 区块。",
-   "last_verified_at": "2026-10-24T23:05:00+08:00",
+   "验证读数": "2026-10-27：113,181B → 归档 10-24 区块 7,474B 至 memory/archive/knowledge-stitch-2026-10-24.md → 写入 10-27 区块后 113,102B。归档线自今日起由 120KB 降到 110KB（守卫：留 18KB 余量给当天写入）。",
+   "last_verified_at": "2026-10-27T22:45:00+08:00",
    "失败后果": "MEMORY 撞 128KB 读取截断，缝合区被截掉"
   },
   {
@@ -100,5 +113,6 @@
    "失败后果": "承载 agent 按旧状态推理且自洽，下一轮汇报或对账出现与真源相反的结论"
   }
  ],
- "overdue_display_rule": "overdue 单条展示：delivery-guard-dist 已 merged_into=permission-blocked，复盘首行只算一条。"
+ "overdue_display_rule": "overdue 单条展示：delivery-guard-dist 已 merged_into=permission-blocked，复盘首行只算一条。",
+ "消费约定": "2026-10-27 新增：任何标 waiting-external 的项，若连续 6 晚零回复且无执行者，按守卫二十一停止日推，只留盘；有执行者的项才可占用逸凡一次决策带宽，每晚至多 1 条。"
 }

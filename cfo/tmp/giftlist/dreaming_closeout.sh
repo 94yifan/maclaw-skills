@@ -33,6 +33,21 @@ fi
 echo "== 0b) pending.json 校验 (守卫AJ) =="
 if [ -f cfo/tmp/giftlist/pending.json ]; then
   python3 -c "import json;d=json.load(open('cfo/tmp/giftlist/pending.json'));print('pending.json OK:',len([i for i in d['items'] if i.get('status')=='open']),'open')" 2>&1 || echo "WARN: pending.json 解析失败"
+  # 守卫BE：待办只认 pending.json —— 当日区块写了「待办」而 pending.json 未更新即漏记
+  python3 - "$TODAY" <<'PY'
+import json, pathlib, re, sys
+today = sys.argv[1]
+mem = pathlib.Path("cfo/MEMORY.md").read_text(encoding="utf-8")
+m = re.search(r"(?ms)^## " + re.escape(today) + r".*?(?=^## |\Z)", mem)
+block = m.group(0) if m else ""
+hit = [k for k in ("新增待办", "待办：", "待办:") if k in block]
+d = json.load(open("cfo/tmp/giftlist/pending.json"))
+upd = d.get("updated", "?")
+if hit and upd != today:
+    print(f"WARN 守卫BE: 当日区块含待办标记 {hit}，但 pending.json updated={upd} != {today}（待办漏记）")
+else:
+    print(f"OK 守卫BE: pending.json updated={upd}，当日待办标记 {len(hit)} 处")
+PY
 else
   echo "WARN: pending.json 缺失（守卫AJ 落地项）"
 fi

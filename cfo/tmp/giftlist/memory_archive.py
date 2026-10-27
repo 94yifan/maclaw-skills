@@ -136,10 +136,52 @@ def tier2_plan(raw, today, need, min_age=TIER2_MIN_AGE_DAYS):
     return "".join(out), arc_chunks, moved_dates, freed
 
 
+
+def self_test() -> int:
+    """隔离自测：临时目录完整跑一遍 tier2，断言真实归档零变化（守卫BD 判据）。"""
+    import hashlib
+    import subprocess
+    import tempfile
+    tmp = pathlib.Path(tempfile.mkdtemp(prefix="memarch_selftest_"))
+    mem = tmp / "MEMORY.md"
+    shutil.copy2(DEFAULT_MEM, mem)
+    before_src = len(mem.read_bytes())
+    real_before = {p.name: hashlib.md5(p.read_bytes()).hexdigest()
+                   for p in ARCH.glob("*.md")} if ARCH.exists() else {}
+    rc = subprocess.run([sys.executable, str(HERE), "--apply", "--tier2",
+                         "--min-age", "14", "--threshold", "1", "--file", str(mem)],
+                        capture_output=True, text=True).returncode
+    tmp_arch = tmp / "memory" / "archive"
+    made = sorted(p.name for p in tmp_arch.glob("*.md")) if tmp_arch.exists() else []
+    after_src = len(mem.read_bytes())
+    real_after = {p.name: hashlib.md5(p.read_bytes()).hexdigest()
+                  for p in ARCH.glob("*.md")} if ARCH.exists() else {}
+    checks = [
+        ("子进程 rc=0", rc == 0),
+        ("临时目录产出归档文件", len(made) > 0),
+        ("MEMORY 字节下降", after_src < before_src),
+        ("真实归档零变化", real_before == real_after),
+    ]
+    for name, ok in checks:
+        print(("OK  " if ok else "FAIL") + f" {name}")
+    print(f"   src {before_src} -> {after_src}；tmp archive={made}；real archive={sorted(real_after)}")
+    shutil.rmtree(tmp, ignore_errors=True)
+    return 0 if all(ok for _, ok in checks) else 1
+
+
 def main():
+    if "--self-test" in sys.argv:
+        raise SystemExit(self_test())
     apply = "--apply" in sys.argv
     tier2 = "--tier2" in sys.argv
     mem = pathlib.Path(argval("--file", str(DEFAULT_MEM)))
+    # 守卫BD 前置（A1 修复）：--file 只隔离 MEMORY 路径、归档目录仍指真实路径，
+    # 2026-10-27 一次隔离测试因此污染了真实 memory/archive/。归档目录一律随 MEMORY 推导。
+    global ARCH
+    if "--archive-dir" in sys.argv:
+        ARCH = pathlib.Path(argval("--archive-dir", str(ARCH)))
+    elif "--file" in sys.argv:
+        ARCH = mem.parent / "memory" / "archive"
     threshold = int(argval("--threshold", THRESHOLD))
     target = int(argval("--target", TARGET))
     today = argval("--today", datetime.date.today().isoformat())

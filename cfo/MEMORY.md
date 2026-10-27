@@ -534,3 +534,16 @@
 - **A2（P1）守卫AN 第八轮违反，处置=撤销规则本身**：自 10/23 定「首条命令固定无参 `dreaming_open.py`」后连续 4 轮零执行。规则写在被读文件里（自指）、残留风险仅 40–60s 窗口、兜底已有（0d 取证 + PRODUCT-CHECK）。**留检测，删规范，不再每轮记录。**
 - **未闭环（守卫AJ：不例行推送）**：`pending.json` **11 open**（置顶：中秋窗口已关，53 条未处理 + 矛盾 4 条待定「结案 / 转 2027 新年」）。
 - **A/B/C/D 全文见 `memory/dreaming-2026-10-26.md`**。
+
+## 2026-10-27（周二）零交互日第 8 天 + 守卫BD/BE（隔离路径单根 / 待办唯一来源）
+
+- **零交互**（10/20 业务日后第 8 天）：sessions 目录今日仅写入本轮 `5694bad0`；`memory/2026-10-27.md` 不存在；飞书 0 收发、礼单 0 动作；其他 9 个 cron job 今日全 ok、无 gateway restart。上一轮 PRODUCT-CHECK PASS（10-26 区块在册 + dreaming 6,011B）。
+- **礼单**：328 条｜已勾 275｜未处理 53｜max 368｜缺口 40；对账 vs snap_10-26 零变化（**连续第 32 天**，按 C 规则压一行）。
+- **cron**：seq 150 / 起跑 2026-10-26 22:06:00 / ok / 107,327ms / consecutive_errors 0；配置 timeout 600、after 3 + announce + feishu、delivery none、`6 22 * * *`；完成 22:07:47，`ts - duration = 22:06:00` 与 `last_run_at_ms` 一致（守卫BC 断言通过）；余量 492,673ms。
+- **A1（P0，已修 + 自测）隔离测试污染真实归档**：`memory_archive.py` 的 `--file` 只换 MEMORY 路径，`ARCH` 是模块常量恒指 `cfo/memory/archive`；今日用 `--file /tmp/archt/MEMORY.md` 跑 `--apply --tier2`，写进了真实 `MEMORY-bullets-2026-09/10.md`。已备份 + `git checkout` 还原（archive 目录 git status 已空），并把归档目录改为随 `--file` 推导（新增 `--archive-dir`），补 `--self-test`：临时目录实跑 tier2，断言临时产出、MEMORY 下降、真实归档 MD5 不变，四项全 OK。**与 10/20 A3（deliver_log.py --self-test 污染真实路径）同类第二次；上次只修单脚本、未抽通则。**
+- **A2（P1）业务阻塞项 15 天不在 pending.json**：10/12「招财进宝回款名录」权限不足（应用 Omni，code 1254302）导致「已开票待回款金额」无法计算，该条在 pending.json grep 命中 **0**，只以散文存在于 MEMORY 10/12 区块；今日复测仍 1254302。已 `pending.py --add` 立项 `receivables-perm-omni`（高，open 11→12）。
+- **A3（P1）判断先于实测**：我第一版结论「该条即将被归档清出 MEMORY」被实跑推翻——10/12 区块含 2 处守卫定义，命中红线整块跳过，Omni 行归档后仍留存（残留 2 / 归档命中 0）。**plan 级读数不能支撑块级结论（守卫二十）。**
+- **守卫BD（新增，写入即为生效）隔离测试必须单根推导全部落盘路径**：测试注入点须覆盖所有写入目录，不止主文件；判据 = 测试跑完后「真实路径 MD5/mtime 不变」+「产物只出现在临时目录」两条同时成立，且写成 `--self-test` 可复跑。依据 A1。
+- **守卫BE（新增，写入即为生效）待办只认 pending.json 一个来源**：凡「新增待办/待办：」出现在 MEMORY 或复盘文件，同一轮必须 `pending.py --add`（严格校验 + 按 id 幂等）；判据落点 = `dreaming_closeout.sh` 第 0b 步（当日区块含待办标记而 pending.json updated != 今日 → WARN）。是守卫BB 在任务维度的同构。
+- **C 项首次给出趋势读数**：零交互日区块体量 10/20–10/24 为 3,867–4,116B，10/25 起 2,002–2,168B（**-48%**），10/03/10/24 的压缩规则已实际生效。
+- **A/B/C/D 全文见 `memory/dreaming-2026-10-27.md`**。

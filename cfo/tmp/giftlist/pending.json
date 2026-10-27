@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-24",
+  "updated": "2026-10-27",
   "note": "未闭环清单结构化源（守卫AJ）。不再例行推送；每周一只落盘；仅当某条阻碍当天动作时才即时问；逸凡主动询问时用 pending.py 一次性输出。",
   "items": [
     {
@@ -122,6 +122,15 @@
       "status": "closed",
       "closed": "2026-10-24",
       "resolve_note": "证据：seq140 10-16 error/25,967ms/gateway restart → 零产物（dreaming-2026-10-16.md 不存在）；seq144 10-20 error/202,847ms/Apply Patch failed → 产物齐全（dreaming 10,360B + MEMORY 区块）。同一 status 两种结局，status 报警一真一假。三例实测：10/20 PASS、10/16 FAIL、10/23 PASS。"
+    },
+    {
+      "id": "receivables-perm-omni",
+      "priority": "高",
+      "item": "「招财进宝回款名录」应用 Omni 无编辑权限，「已开票待回款金额」自 10/12 起无法计算；2026-10-27 复测仍 code 1254302",
+      "default_action": "逸凡在表格「分享」中把应用 Omni 加为可编辑协作者，回一句「加好了」，我立即重测并算出金额",
+      "need": "逸凡操作",
+      "status": "open",
+      "added": "2026-10-27"
     }
   ]
 }

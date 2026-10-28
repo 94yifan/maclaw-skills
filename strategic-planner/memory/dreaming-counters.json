@@ -1,11 +1,11 @@
 {
   "_note": "dreaming 首步读取并 +1，禁手算。last_updated 为写入日期。连续计数归零必须写 break 字段。",
-  "sp_zero_task_days": 39,
-  "sp_consecutive_ok_delivered": 1,
-  "sp_last_ok_seq": 148,
-  "sp_last_ok_date": "2026-10-26",
-  "sc_output_days_streak": 73,
-  "last_updated": "2026-10-27",
-  "spot_note": "2026-10-26 seq148 ok/delivered=1，交付链恢复；2026-10-27 本次 run 待复核。SC header 43 vs 正文 26，缺口 17（第 4 次不闭合）。",
+  "sp_zero_task_days": 40,
+  "sp_consecutive_ok_delivered": 2,
+  "sp_last_ok_seq": 149,
+  "sp_last_ok_date": "2026-10-27",
+  "sc_output_days_streak": 74,
+  "last_updated": "2026-10-28",
+  "spot_note": "2026-10-27 seq149 ok/delivered=1，连续 2；SC header 32 vs 正文 27，缺口 5（第 5 次不闭合，17→5）；SC 已建 report-structure-check.mjs，根因＝同一 header 两套口径互斥。SP 日起 MEMORY 日块 ≤2200B。",
   "sp_last_delivery_break": "2026-10-25 seq147 error/delivered=0 (sqlite agent_id 字段不存在)"
 }

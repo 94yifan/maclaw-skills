@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-10-28",
   "note": "未闭环清单结构化源（守卫AJ）。不再例行推送；每周一只落盘；仅当某条阻碍当天动作时才即时问；逸凡主动询问时用 pending.py 一次性输出。",
   "items": [
     {
@@ -131,6 +131,15 @@
       "need": "逸凡操作",
       "status": "open",
       "added": "2026-10-27"
+    },
+    {
+      "id": "memory-guard-compaction",
+      "priority": "中",
+      "item": "MEMORY.md 守卫定义 41 行/16,266B、每天约 +400B、红线不可迁，归档机制无法消化（今日实测可释放 917/1,701/1,853B 均小于日块 2,002B）",
+      "default_action": "做一次守卫压缩：同族合并（失败判定AX/BA、容量AH/AI/AZ/BB/BD、待办AJ/BE）、已撤销项压一行（守卫AN 已撤、guardJ 被B5/AJ取代）、长理由迁 archive 只留规则句；动规则文本前先回一句确认",
+      "need": "need",
+      "status": "open",
+      "added": "2026-10-28"
     }
   ]
 }

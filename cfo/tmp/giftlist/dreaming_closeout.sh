@@ -9,25 +9,29 @@ MSG="${2:-cfo dreaming $TODAY}"
 cd "$REPO" || { echo "FAIL: cannot cd $REPO"; exit 1; }
 
 echo "== 0) MEMORY.md 体量检查 + 自动归档 (守卫AH 阈值 / 守卫AI 动作) =="
+# 守卫BB：阈值单一来源。PRE_LINE = 下一轮 dreaming_open.py 预检线（超了下一轮必须先归档才能写）
+# HARD_LINE = read 工具单次上限，越界即真损伤。两者不得混用。
+PRE_LINE=126976
+HARD_LINE=131072
 MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
 MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
-echo "MEMORY.md: ${MEMB} bytes / ${MEML} lines"
-if [ "$MEMB" -gt 131072 ]; then
+echo "MEMORY.md: ${MEMB} bytes / ${MEML} lines | 预检线 ${PRE_LINE} 余量 $((PRE_LINE - MEMB))B | 硬线 ${HARD_LINE} 余量 $((HARD_LINE - MEMB))B"
+if [ "$MEMB" -gt "$PRE_LINE" ]; then
   echo "超 128KB (${MEMB}B) -> 触发 memory_archive.py --apply（守卫AI：动作编译进默认路径）"
   python3 cfo/tmp/giftlist/memory_archive.py --apply --tier2 --today "$TODAY" || echo "WARN: memory_archive.py 返回非 0"
   MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
   MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
   echo "归档后: ${MEMB} bytes / ${MEML} lines"
-  if [ "$MEMB" -gt 131072 ]; then
-    echo "二级(30天) 仍超 -> 升级 min-age 14（守卫AV：归档容量须实测，不得假设滚动供给足够）"
+  if [ "$MEMB" -gt "$PRE_LINE" ]; then
+    echo "二级(30天) 仍超预检线 -> 升级 min-age 14（守卫AV：归档容量须实测，不得假设滚动供给足够）"
     python3 cfo/tmp/giftlist/memory_archive.py --apply --tier2 --min-age 14 --today "$TODAY" || echo "WARN: 升级归档返回非 0"
     MEMB="$(wc -c < cfo/MEMORY.md | tr -d ' ')"
     MEML="$(wc -l < cfo/MEMORY.md | tr -d ' ')"
     echo "升级归档后: ${MEMB} bytes / ${MEML} lines"
   fi
-  if [ "$MEMB" -gt 131072 ]; then echo "WARN: 归档后仍超 128KB（无安全可迁区块）"; else echo "OK: 已回落到 128KB 以内"; fi
+  if [ "$MEMB" -gt "$HARD_LINE" ]; then echo "WARN: 归档后仍超硬线 ${HARD_LINE}（无安全可迁区块，须改策略）"; elif [ "$MEMB" -gt "$PRE_LINE" ]; then echo "WARN: 已降到硬线内但仍超预检线，下一轮需先归档才能写"; else echo "OK: 已回落，余量 $((PRE_LINE - MEMB))B"; fi
 else
-  echo "OK: MEMORY.md 在 128KB 以内"
+  echo "OK: MEMORY.md 在预检线以内（余量 $((PRE_LINE - MEMB))B）"
 fi
 
 echo "== 0b) pending.json 校验 (守卫AJ) =="
@@ -91,6 +95,19 @@ else:
     ok = "dreaming_open.py" in cmd
     print(f"首个工具调用: {name} | {cmd}")
     print(("OK 守卫AN: 首调用即骨架脚本" if ok else "WARN 守卫AN: 首调用不是骨架脚本（先读后写第 N 轮）"))
+PY
+
+echo "== 0e) 当日区块体量 (守卫BF: MEMORY 只放摘要，明细进 dreaming 文件) =="
+python3 - "$TODAY" <<'PY'
+import re, sys, pathlib
+today = sys.argv[1]
+t = pathlib.Path("cfo/MEMORY.md").read_text(encoding="utf-8")
+m = re.search(r"(?ms)^## " + re.escape(today) + r".*?(?=^## |\Z)", t)
+if not m:
+    print(f"WARN 守卫BF: 当日区块缺失")
+else:
+    n = len(m.group(0).encode())
+    print(("OK" if n <= 1200 else "WARN") + f" 守卫BF: 当日区块 {n}B（上限 1200B，明细应在 dreaming-{today}.md）")
 PY
 
 echo "== 1) staged (cfo paths) =="

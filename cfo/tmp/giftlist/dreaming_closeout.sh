@@ -110,26 +110,30 @@ else:
     print(("OK" if n <= 1200 else "WARN") + f" 守卫BF: 当日区块 {n}B（上限 1200B，明细应在 dreaming-{today}.md）")
 PY
 
-echo "== 0f) 容量跑道与供需比 (守卫BG: 判据是有货可搬的多少天，不是本次有没有搬) =="
-python3 - <<'PY'
+echo "== 0f) 容量全池与跑道 (守卫BG: 带 need 的 plan 是切片，不是容量；容量一律 --target 0 测全池) =="
+python3 - <<'PY2'
 import re, sys, pathlib, subprocess
 PRE = 126976
+GUARD = re.compile(r"\*\*守卫[A-Z]{1,2}（|写入即为生效|守卫[A-Z]{1,2}（")
 t = pathlib.Path("cfo/MEMORY.md").read_text(encoding="utf-8")
 size = len(t.encode()); margin = PRE - size
 blocks = re.findall(r"(?ms)^## (2026-\d\d-\d\d)[^\n]*\n(.*?)(?=^## |\Z)", t)
-sizes = [len(("## " + d + b).encode()) for d, b in blocks][-7:]
-avg = sum(sizes) / len(sizes) if sizes else 0
-out = subprocess.run([sys.executable, "cfo/tmp/giftlist/memory_archive.py",
-                      "--force-plan", "--tier2", "--min-age", "7"],
+last_d, last_b = blocks[-1] if blocks else ("", "")
+demand = len(("## " + last_d + last_b).encode())
+refill = sum(len(l.encode()) + 1 for l in last_b.splitlines() if l.strip() and not GUARD.search(l))
+net = demand - refill
+out = subprocess.run([sys.executable, "cfo/tmp/giftlist/memory_archive.py", "--force-plan",
+                      "--tier2", "--min-age", "7", "--target", "0"],
                      capture_output=True, text=True).stdout
-m = re.search(r"freed≈(\d+)", out); supply = int(m.group(1)) if m else 0
-runway = margin / avg if avg else 99.0
-print(f"守卫BG: 余量 {margin}B | 近 7 日日块均值 {avg:.0f}B/天 -> 跑道 {runway:.1f} 天 | 二级 7 天档可释放 {supply}B")
-if runway < 3:
-    print(f"WARN 守卫BG: 跑道 {runway:.1f} 天 < 3，扩容决策（压缩守卫定义 / 抬阈值）已成阻塞项")
-if supply < avg:
-    print(f"WARN 守卫BG: 供给 {supply}B < 日增 {avg:.0f}B，存量清仓不可持续（供需比 1:{avg/supply:.1f}）" if supply else "WARN 守卫BG: 供给 0B，归档已断供")
-PY
+m = re.search(r"freed≈(\d+)", out); stock = int(m.group(1)) if m else 0
+runway = (margin + stock) / net if net > 0 else float("inf")
+print(f"守卫BG: 余量 {margin}B | 本轮日块 {demand}B（可迁 {refill}B / 不可迁 {net}B）| 二级 7 天档全池 {stock}B")
+print(f"守卫BG: 净增 {net}B/天 -> 跑道（余量+全池）{runway:.0f} 天")
+if net > 0 and runway < 14:
+    print(f"WARN 守卫BG: 跑道 {runway:.0f} 天 < 14，扩容决策（压缩守卫定义 / 抬阈值）已成阻塞项")
+if net > 0 and refill < demand:
+    print(f"WARN 守卫BG: 日可迁 {refill}B < 日块 {demand}B，长期净增 {net}B/天，归档只能延后不能消除")
+PY2
 
 echo "== 1) staged (cfo paths) =="
 git add "cfo/MEMORY.md" "cfo/memory/dreaming-$TODAY.md" 2>/dev/null

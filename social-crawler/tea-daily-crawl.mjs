@@ -115,10 +115,11 @@ async function fetchBrandPosts(page, uid, windowEnd, maxPages = 4) {
 
 async function main() {
   // 2026-10-22：CDP 端口改成有序回退，避免单端口挂掉整轮直接失败（10-17 双端口同时失败属环境问题，重试无意义）
+  // 2026-10-26：9333 连续 4 天（10-23~10-26）connectOverCDP 失败，每天固定浪费 60 秒超时；改为 18800 优先、单端口 20 秒
   let browser = null, usedPort = null;
-  for (const port of [9333, 18800]) {
+  for (const port of [18800, 9333]) {
     try {
-      browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`, { timeout: 60000 });
+      browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`, { timeout: 20000 });
       usedPort = port;
       break;
     } catch (e) {
@@ -210,7 +211,8 @@ async function main() {
     for (const it of b.items) {
       n++;
       const when = (it.d || '').replace(/ \+0800 \d{4}$/, '');
-      lines.push(`- [ ] #${n} \`${it.id}\` ${when}｜${(it.t || '').slice(0, 60).replace(/\s+/g, ' ')}`);
+      // 2026-10-26：每行带「→ 待归属」占位，写报告时必须替换成 正文/合并到#id/剔除＋原因；ledger-check.mjs 视「待归属」为未闭合
+      lines.push(`- [ ] #${n} \`${it.id}\` ${when}｜${(it.t || '').slice(0, 60).replace(/\s+/g, ' ')} → 待归属`);
     }
     lines.push('');
   }

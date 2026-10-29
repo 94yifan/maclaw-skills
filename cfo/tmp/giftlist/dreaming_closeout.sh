@@ -110,6 +110,27 @@ else:
     print(("OK" if n <= 1200 else "WARN") + f" 守卫BF: 当日区块 {n}B（上限 1200B，明细应在 dreaming-{today}.md）")
 PY
 
+echo "== 0f) 容量跑道与供需比 (守卫BG: 判据是有货可搬的多少天，不是本次有没有搬) =="
+python3 - <<'PY'
+import re, sys, pathlib, subprocess
+PRE = 126976
+t = pathlib.Path("cfo/MEMORY.md").read_text(encoding="utf-8")
+size = len(t.encode()); margin = PRE - size
+blocks = re.findall(r"(?ms)^## (2026-\d\d-\d\d)[^\n]*\n(.*?)(?=^## |\Z)", t)
+sizes = [len(("## " + d + b).encode()) for d, b in blocks][-7:]
+avg = sum(sizes) / len(sizes) if sizes else 0
+out = subprocess.run([sys.executable, "cfo/tmp/giftlist/memory_archive.py",
+                      "--force-plan", "--tier2", "--min-age", "7"],
+                     capture_output=True, text=True).stdout
+m = re.search(r"freed≈(\d+)", out); supply = int(m.group(1)) if m else 0
+runway = margin / avg if avg else 99.0
+print(f"守卫BG: 余量 {margin}B | 近 7 日日块均值 {avg:.0f}B/天 -> 跑道 {runway:.1f} 天 | 二级 7 天档可释放 {supply}B")
+if runway < 3:
+    print(f"WARN 守卫BG: 跑道 {runway:.1f} 天 < 3，扩容决策（压缩守卫定义 / 抬阈值）已成阻塞项")
+if supply < avg:
+    print(f"WARN 守卫BG: 供给 {supply}B < 日增 {avg:.0f}B，存量清仓不可持续（供需比 1:{avg/supply:.1f}）" if supply else "WARN 守卫BG: 供给 0B，归档已断供")
+PY
+
 echo "== 1) staged (cfo paths) =="
 git add "cfo/MEMORY.md" "cfo/memory/dreaming-$TODAY.md" 2>/dev/null
 git add cfo/memory/archive/ 2>/dev/null

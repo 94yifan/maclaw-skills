@@ -31,9 +31,18 @@ try {
 
 const lines = ledger.split('\n');
 const lineById = new Map();
+// 2026-10-30 修复：台账里的合并目标可能写成序号（`合并到 #4`）而不是 10 位 id。
+// 旧正则只认 10 位以上数字，序号写法一律落到 else 分支被当成「正文」，
+// 于是 5 条合并静默消失、报出「正文 31」而正文实际 26 条 bullet，门禁照样打「逐条闭合」。
+// 现在先建 序号→id 映射，再按 id 归一。
+const idByIndex = new Map();
 for (const ln of lines) {
   const m = ln.match(/`(\d{10,})`/);
-  if (m) lineById.set(m[1], ln);
+  if (m) {
+    lineById.set(m[1], ln);
+    const idx = ln.match(/^\s*-\s*\[[ x]\]\s*#(\d+)/);
+    if (idx) idByIndex.set(idx[1], m[1]);
+  }
 }
 
 // 先按 raw 顺序解析全部台账行，得到 id → {kind, target, brand}
@@ -46,10 +55,11 @@ for (const b of (raw.brands || [])) {
     const ln = lineById.get(String(it.id));
     if (!ln) continue;
     const arrow = ln.split('→')[1] || '';
-    const mTarget = arrow.match(/合并到\s*#?(\d{10,})/);
+    const mTarget = arrow.match(/合并到\s*#?(\d+)/);
     if (mTarget) {
       kindById.set(String(it.id), '合并');
-      targetById.set(String(it.id), mTarget[1]);
+      const rawTarget = mTarget[1];
+      targetById.set(String(it.id), rawTarget.length >= 10 ? rawTarget : (idByIndex.get(rawTarget) || rawTarget));
     } else if (/剔除/.test(arrow)) {
       kindById.set(String(it.id), '剔除');
     } else if (arrow.trim()) {

@@ -14,9 +14,12 @@ const getArg = (k, d) => {
   return i >= 0 && args[i + 1] ? args[i + 1] : d;
 };
 const today = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
-const reportPath = getArg('--report', `memory/weibo_daily_${today}.md`);
+// 2026-10-30 修复：位置参数曾被静默忽略（传旧文件路径仍去读今天文件，打印「结构通过」），
+// 属守卫二十第①段「读数读错对象」。现在位置参数按 --report 处理，并在输出首行打印真实读取路径。
+const positional = args.find((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--')));
+const reportPath = getArg('--report', positional || `memory/weibo_daily_${today}.md`);
 const ledgerPath = getArg('--ledger', `/tmp/tea-ledger-${today}.md`);
-const expectBrands = Number(getArg('--brands', '23'));
+const expectBrands = Number(getArg('--brands', '24'));
 
 let rep = '';
 try {
@@ -31,6 +34,13 @@ const lines = rep.split('\n');
 const issues = [];
 const info = [];
 const advisories = [];
+
+// 2026-10-30 修复：台账与报告可能不是同一天（传旧报告却默认读今天台账），
+// 错配会让门禁报出一堆「静默合并」假阳性。只在日期匹配或显式传 --ledger 时做归属交叉核对。
+const repDateMatch = (rep.match(/^#\s*茶饮品牌微博日报\s*(\d{4}-\d{2}-\d{2})/m) || [])[1] || '';
+const ledgerExplicit = args.includes('--ledger');
+const ledgerDateMatch = (ledgerPath.match(/(\d{4}-\d{2}-\d{2})/) || [])[1] || '';
+const ledgerPaired = ledgerExplicit || (repDateMatch && repDateMatch === ledgerDateMatch);
 
 // ---------- 1. header ----------
 const head = lines.slice(0, 6).filter(l => l.trim());
@@ -85,7 +95,18 @@ for (let i = 0; i < lines.length; i++) {
     bulletsOrder.push({ brand: curBrand, text: line });
     for (const [name, re] of BANNED) if (re.test(line)) bannedHits.push(`L${i + 1} ${curBrand}｜${name}｜${line.slice(0, 40)}`);
     for (const [name, re] of SOFT) if (re.test(line)) advisories.push(`L${i + 1} ${curBrand}｜${name}｜${line.slice(0, 40)}`);
-    for (const t of (line.match(/\b\d{1,2}:\d{2}\b/g) || [])) advisories.push(`L${i + 1} ${curBrand}｜出现时刻 ${t}（活动时间可保留，发帖时间必须删）`);
+    // 2026-10-30 修复（对应 10-29 B4 未落地）：时刻提示要区分「活动时间」与「发帖时间」。
+    // 判据：时刻前后 12 字内出现活动语义词即视为活动时间，不提示。10-29 当天 4 条提示全是误报，
+    // 提示区长期误报会把真错误训练成背景噪音（门禁精度与召回同样要守）。
+    const ACT_CTX = /(月|日|至|起|止|截止|限时|活动|每日|每天|开抽|开奖|营业|时段|上架|上线|前|–|—|~|～)/;
+    for (const m of line.matchAll(/\b\d{1,2}:\d{2}\b/g)) {
+      const t = m[0];
+      const from = Math.max(0, m.index - 12);
+      const to = Math.min(line.length, m.index + t.length + 12);
+      const ctx = line.slice(from, to);
+      if (ACT_CTX.test(ctx)) continue;
+      advisories.push(`L${i + 1} ${curBrand}｜出现时刻 ${t}（活动时间可保留，发帖时间必须删）`);
+    }
   }
 }
 
@@ -111,6 +132,7 @@ if (mCount) {
   if (K !== totalBullets) {
     let brk = '';
     try {
+      if (!ledgerPaired) throw new Error('ledger date mismatch');
       const led = fs.readFileSync(ledgerPath, 'utf8');
       const cut = (led.match(/→\s*剔除/g) || []).length;
       const mrg = (led.match(/→\s*合并/g) || []).length;
@@ -122,7 +144,9 @@ if (mCount) {
 }
 
 // ---------- 4. 台账「一行一 bullet」：抓静默合并 ----------
-if (fs.existsSync(ledgerPath)) {
+if (!ledgerPaired) {
+  info.push(`台账未配对（报告 ${repDateMatch || '无日期'} vs 台账 ${ledgerDateMatch || '无日期'}），跳过归属交叉核对`);
+} else if (fs.existsSync(ledgerPath)) {
   const led = fs.readFileSync(ledgerPath, 'utf8');
   const rows = new Map();
   let cur = null;

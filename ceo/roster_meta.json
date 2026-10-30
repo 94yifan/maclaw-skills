@@ -1,0 +1,12 @@
+{
+  "source": "ehr_full",
+  "status": "ok",
+  "count": 45,
+  "synced_at": "2026-10-30 15:30:53",
+  "birthday_covered": 45,
+  "entry_covered": 45,
+  "title_covered": 45,
+  "contact_crosscheck": 45,
+  "crosscheck_ok": true,
+  "error": null
+}

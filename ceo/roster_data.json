@@ -1,366 +1,902 @@
 [
   {
-    "name": "李越",
-    "level": "",
-    "title": "媒介执行",
-    "entry_date": "2026-06-01",
-    "birthday": "1997-03-15"
+    "name": "牛文丽",
+    "employee_no": "216",
+    "title": "PM管培生",
+    "entry_date": "2026-10-26",
+    "birthday": "2002-03-12",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_8329aa0ba78d39af552cc130c499947f",
+    "job_level": "P0",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
-    "name": "胥旖璐",
-    "level": "",
-    "title": "实习生",
-    "entry_date": "2026-06-01",
-    "birthday": "2005-04-14"
+    "name": "刘翰泽",
+    "employee_no": "215",
+    "title": "商务",
+    "entry_date": "2026-10-26",
+    "birthday": "2003-10-07",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-c58f55bc0cca8a3857ab24094a501be6",
+    "open_id": "ou_fd57373d450e9046820e1a2ad8046822",
+    "job_level": "P1-",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "陈昊",
+    "employee_no": "214",
+    "title": "新媒体策划",
+    "entry_date": "2026-10-19",
+    "birthday": "2002-03-26",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-ccc0a97b0bb474886d0e75e86276551c",
+    "open_id": "ou_32575a45ddf427c47c2ec0102e1e674d",
+    "job_level": "P1",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "王坤",
+    "employee_no": "213",
+    "title": "运营体系与项目质量经理",
+    "entry_date": "2026-09-20",
+    "birthday": "1989-06-01",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_954efa0ce6968a360fb4a635b687ad9f",
+    "job_level": "M2",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "张翔宇",
+    "employee_no": "212",
+    "title": "PM管培生",
+    "entry_date": "2026-09-01",
+    "birthday": "2002-05-22",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_4b00c86a6de5bab33792571de963b075",
+    "job_level": "P1",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "韩昊东",
+    "employee_no": "211",
+    "title": "竞价运营策略管培生",
+    "entry_date": "2026-08-31",
+    "birthday": "2004-04-06",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-d3f0b089b9e0a891bdd07523a0d1d34f",
+    "open_id": "ou_5af35184ae313f0fb21c2ee5fed48670",
+    "job_level": "P0",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "胡云鹏",
+    "employee_no": "210",
+    "title": "竞价运营策略",
+    "entry_date": "2026-08-31",
+    "birthday": "2002-11-19",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-d3f0b089b9e0a891bdd07523a0d1d34f",
+    "open_id": "ou_b2bc92afe64890beae314028b524490c",
+    "job_level": "P1",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "郭露忆",
+    "employee_no": "208",
+    "title": "策划管培生",
+    "entry_date": "2026-08-26",
+    "birthday": "2004-05-20",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-ccc0a97b0bb474886d0e75e86276551c",
+    "open_id": "ou_4aa058ca3a6333ed1e5e88cfbfe8331e",
+    "job_level": "P1",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "赵帆",
+    "employee_no": "207",
+    "title": "竞价运营策略",
+    "entry_date": "2026-08-24",
+    "birthday": "1995-06-05",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-d3f0b089b9e0a891bdd07523a0d1d34f",
+    "open_id": "ou_ee4b190bdc87c32d641a7d51c9475edb",
+    "job_level": "P2",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "成超杰",
+    "employee_no": "205",
+    "title": "竞价运营策略",
+    "entry_date": "2026-08-13",
+    "birthday": "1999-11-04",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-d3f0b089b9e0a891bdd07523a0d1d34f",
+    "open_id": "ou_6072005886200484576c460f53624d8c",
+    "job_level": "P1",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "梁超慧",
+    "employee_no": "204",
+    "title": "媒介执行",
+    "entry_date": "2026-08-04",
+    "birthday": "2002-12-10",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_dec5216d0a07d815c4bec5d0799a67b8",
+    "job_level": "P1",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "黄嘉成",
+    "employee_no": "202",
+    "title": "新媒体策划",
+    "entry_date": "2026-07-13",
+    "birthday": "2003-08-29",
+    "employee_type": 6,
+    "status": 2,
+    "department_id": "od-ccc0a97b0bb474886d0e75e86276551c",
+    "open_id": "ou_88ef33aceb2088e675e80d54dadcf134",
+    "job_level": "P1",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "张雨晨",
+    "employee_no": "201",
+    "title": "新媒体策划",
+    "entry_date": "2026-07-13",
+    "birthday": "2004-06-15",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-ccc0a97b0bb474886d0e75e86276551c",
+    "open_id": "ou_6296d6ceaa30ef888ad2be9b44cb500c",
+    "job_level": "P1",
+    "conversion_date": "2026-10-12",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
+  },
+  {
+    "name": "张宇璇",
+    "employee_no": "199",
+    "title": "竞价运营策略管培生",
+    "entry_date": "2026-07-01",
+    "birthday": "2004-04-28",
+    "employee_type": 2,
+    "status": 2,
+    "department_id": "od-d3f0b089b9e0a891bdd07523a0d1d34f",
+    "open_id": "ou_891cfd3cc978bb225b884bb5bbc8d5f5",
+    "job_level": "P0",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "刘佳仪",
-    "level": "",
+    "employee_no": "196",
     "title": "竞价运营专家",
     "entry_date": "2026-05-28",
-    "birthday": "1998-03-19"
-  },
-  {
-    "name": "赵辛娜",
-    "level": "",
-    "title": "实习生",
-    "entry_date": "2026-05-18",
-    "birthday": "2001-06-08"
+    "birthday": "1998-03-19",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-d3f0b089b9e0a891bdd07523a0d1d34f",
+    "open_id": "ou_e87fb4e8a6182b2a74c2a33842dcaf20",
+    "job_level": "M3",
+    "conversion_date": "2026-08-27",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "温翔",
-    "level": "",
+    "employee_no": "194",
     "title": "预备PM",
     "entry_date": "2026-05-12",
-    "birthday": "1997-02-17"
+    "birthday": "1997-02-17",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-aa8d030728c41d18bf8994a357bed997",
+    "open_id": "ou_ca37e1a8a97a5aae4d9eb5eb98affb71",
+    "job_level": "P2+",
+    "conversion_date": "2026-08-12",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
-    "name": "陈柯辰",
-    "level": "",
+    "name": "陈小辰",
+    "employee_no": "193",
     "title": "媒介执行",
     "entry_date": "2026-05-11",
-    "birthday": "2002-01-24"
-  },
-  {
-    "name": "柯林国",
-    "level": "",
-    "title": "实习生",
-    "entry_date": "2026-05-06",
-    "birthday": "2005-09-12"
+    "birthday": "2002-01-24",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-a6b67096a549a348c9b78f1a20f913b1",
+    "open_id": "ou_30f3329b63805edb8aa24fd47f454876",
+    "job_level": "P1+",
+    "conversion_date": "2026-08-11",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "秦姗",
-    "level": "",
+    "employee_no": "190",
     "title": "媒介执行",
     "entry_date": "2026-05-06",
-    "birthday": "2000-10-29"
-  },
-  {
-    "name": "肖天",
-    "level": "",
-    "title": "AD",
-    "entry_date": "2026-04-21",
-    "birthday": "2025-02-22"
+    "birthday": "2000-10-29",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-a9b041dda78d194b4051abdf0d8c05fd",
+    "open_id": "ou_f53150168f981e202d2b9de311ed9e4d",
+    "job_level": "P1+",
+    "conversion_date": "2026-08-05",
+    "probation_months": 0,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "熊智童",
-    "level": "",
+    "employee_no": "185",
     "title": "竞价运营策略",
     "entry_date": "2026-04-07",
-    "birthday": "2003-11-16"
+    "birthday": "2003-11-16",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-d3f0b089b9e0a891bdd07523a0d1d34f",
+    "open_id": "ou_ec17f79929ed9aac75468b60957b2c60",
+    "job_level": "P3+",
+    "conversion_date": "2026-07-10",
+    "probation_months": 6,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "王满",
-    "level": "",
-    "title": "选人媒介",
+    "employee_no": "184",
+    "title": "媒介执行",
     "entry_date": "2026-04-07",
-    "birthday": "2002-06-07"
-  },
-  {
-    "name": "陈心怡",
-    "level": "",
-    "title": "竞价运营策略",
-    "entry_date": "2026-04-02",
-    "birthday": "2002-04-15"
-  },
-  {
-    "name": "鬼鬼",
-    "level": "",
-    "title": "新媒体策划",
-    "entry_date": "2026-03-23",
-    "birthday": "1998-07-29"
-  },
-  {
-    "name": "刘元秀",
-    "level": "",
-    "title": "出纳",
-    "entry_date": "2026-03-19",
-    "birthday": "2002-03-07"
+    "birthday": "2002-06-07",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_c31838182e91ff295f765ecd772e2472",
+    "job_level": "P1+",
+    "conversion_date": "2026-07-07",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "李思月",
-    "level": "",
-    "title": "选人媒介",
+    "employee_no": "179",
+    "title": "媒介执行",
     "entry_date": "2026-03-09",
-    "birthday": "2003-07-27"
-  },
-  {
-    "name": "吴丹红",
-    "level": "",
-    "title": "策划管培生",
-    "entry_date": "2026-03-04",
-    "birthday": "2004-03-29"
+    "birthday": "2003-07-27",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_d5aebf641e97914c3e9ec28c46d0336a",
+    "job_level": "P2+",
+    "conversion_date": "2026-06-09",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "许艺馨",
-    "level": "",
+    "employee_no": "174",
     "title": "媒介执行",
     "entry_date": "2026-01-19",
-    "birthday": "2004-03-31"
-  },
-  {
-    "name": "朱静雯",
-    "level": "",
-    "title": "实习生",
-    "entry_date": "2026-01-14",
-    "birthday": "2006-11-08"
-  },
-  {
-    "name": "刘星茹",
-    "level": "",
-    "title": "内容媒介",
-    "entry_date": "2026-01-12",
-    "birthday": "2001-09-21"
+    "birthday": "2004-03-31",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-dad61802940c327eb0fbe46b2c8c8a37",
+    "open_id": "ou_7f1e9fe29aefcabf9104c3d95a8e1cc7",
+    "job_level": "P2",
+    "conversion_date": "2026-04-19",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "贾梦瑶",
-    "level": "",
-    "title": "竞价运营策略管培生",
+    "employee_no": "169",
+    "title": "竞价运营策略",
     "entry_date": "2026-01-06",
-    "birthday": "2003-12-30"
-  },
-  {
-    "name": "王雅君",
-    "level": "P3",
-    "title": "HRBP",
-    "entry_date": "2025-12-08",
-    "birthday": "1998-07-11"
+    "birthday": "2003-12-30",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-76a3042d6d3776ea3d32c468a62c65ba",
+    "open_id": "ou_223eba697071a363dfb43fc62b7aee54",
+    "job_level": "P0",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "邢慧峰",
-    "level": "P1",
-    "title": "选人媒介",
+    "employee_no": "163",
+    "title": "媒介执行",
     "entry_date": "2025-12-01",
-    "birthday": "2000-12-05"
+    "birthday": "2000-12-05",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_041f3c1063f96d406582434a3309127a",
+    "job_level": "P1",
+    "conversion_date": "2026-02-28",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "陈文龙",
-    "level": "P2-",
+    "employee_no": "162",
     "title": "竞价运营策略",
     "entry_date": "2025-11-24",
-    "birthday": "1999-02-02"
+    "birthday": "1999-02-02",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-0125cc670ce5a07b73f711529d2972f8",
+    "open_id": "ou_fb8d92b82b61bcc93015adf4bfc009a9",
+    "job_level": "P2+",
+    "conversion_date": "2026-02-11",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "赵瑾",
-    "level": "P2",
+    "employee_no": "160",
     "title": "竞价运营策略",
     "entry_date": "2025-11-19",
-    "birthday": "1996-05-03"
+    "birthday": "1996-05-03",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-76a3042d6d3776ea3d32c468a62c65ba",
+    "open_id": "ou_61e58bc80c6506b187686eb0fcac01a6",
+    "job_level": "P2",
+    "conversion_date": "2026-02-11",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "杨鸿雁",
-    "level": "P1",
-    "title": "选人媒介",
+    "employee_no": "158",
+    "title": "媒介执行",
     "entry_date": "2025-11-10",
-    "birthday": "2003-10-08"
+    "birthday": "2003-10-08",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_ec38468dab41dc26dabe715e0ea70c0c",
+    "job_level": "P1",
+    "conversion_date": "2026-02-06",
+    "probation_months": 3,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "李想",
-    "level": "P1+",
+    "employee_no": "157",
     "title": "内容媒介",
     "entry_date": "2025-11-06",
-    "birthday": "1997-12-29"
+    "birthday": "1997-12-29",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-6f34124fd657c64cf30c28a8c23ada0a",
+    "open_id": "ou_b8295ee578ee9342406a2035d3a0c90f",
+    "job_level": "P2+",
+    "conversion_date": "2026-02-06",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "张娜",
-    "level": "P2",
+    "employee_no": "155",
     "title": "HR",
     "entry_date": "2025-10-30",
-    "birthday": "1997-03-21"
-  },
-  {
-    "name": "慈瑞敏",
-    "level": "P3",
-    "title": "财务BP",
-    "entry_date": "2025-10-20",
-    "birthday": "1997-07-08"
-  },
-  {
-    "name": "王欣然",
-    "level": "P2",
-    "title": "选人媒介",
-    "entry_date": "2025-10-20",
-    "birthday": "2002-11-01"
+    "birthday": "1997-03-21",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-6e474d986a59055b9a0e79aa1df76a66",
+    "open_id": "ou_3e5d8cb47dc6f9d00f27eb4fc953f1e5",
+    "job_level": "P2-",
+    "conversion_date": "2026-01-30",
+    "probation_months": 6,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "吕鑫怡",
-    "level": "P1+",
+    "employee_no": "151",
     "title": "内容媒介",
     "entry_date": "2025-10-20",
-    "birthday": "2003-02-13"
-  },
-  {
-    "name": "陈薪朴",
-    "level": "P3",
-    "title": "HR",
-    "entry_date": "2025-10-09",
-    "birthday": "2002-11-17"
+    "birthday": "2003-02-13",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-12d1c92fff451a8caf8d6f71556a467b",
+    "open_id": "ou_8fe5c752aa16d2b2c570ff6b6a21d4a5",
+    "job_level": "P1+",
+    "conversion_date": "2026-01-16",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "史瑞钰",
-    "level": "P1",
+    "employee_no": "146",
     "title": "内容媒介",
     "entry_date": "2025-08-19",
-    "birthday": "1999-04-23"
-  },
-  {
-    "name": "力量",
-    "level": "",
-    "title": "财务BP",
-    "entry_date": "2025-07-31",
-    "birthday": ""
+    "birthday": "1999-04-23",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-6f34124fd657c64cf30c28a8c23ada0a",
+    "open_id": "ou_96278477dee35ae0c12d80b0b5abe970",
+    "job_level": "P1+",
+    "conversion_date": "2025-11-19",
+    "probation_months": 3,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "米慧蓉",
-    "level": "P2-",
+    "employee_no": "140",
     "title": "预备PM",
     "entry_date": "2025-07-01",
-    "birthday": "2003-02-25"
+    "birthday": "2003-02-25",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-dad61802940c327eb0fbe46b2c8c8a37",
+    "open_id": "ou_116707dd00c6ee796e7fe9f8ae1bdb92",
+    "job_level": "P2",
+    "conversion_date": "2025-10-01",
+    "probation_months": 3,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "蔡维佳",
-    "level": "P2",
+    "employee_no": "139",
     "title": "预备PM",
     "entry_date": "2025-06-24",
-    "birthday": "1995-03-21"
-  },
-  {
-    "name": "金靖婷",
-    "level": "P2-",
-    "title": "新媒体策划",
-    "entry_date": "2025-06-03",
-    "birthday": "1994-09-26"
+    "birthday": "1995-03-21",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-12d1c92fff451a8caf8d6f71556a467b",
+    "open_id": "ou_db15eeafce3c814feb129caf5eac5e27",
+    "job_level": "P2",
+    "conversion_date": "2025-09-24",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "陈雪",
-    "level": "P2",
+    "employee_no": "131",
     "title": "HR",
     "entry_date": "2025-04-24",
-    "birthday": "2002-10-17"
+    "birthday": "2002-10-17",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-6e474d986a59055b9a0e79aa1df76a66",
+    "open_id": "ou_eccd1b37cccb36c3abcf3b600fcc933a",
+    "job_level": "P2",
+    "conversion_date": "2025-10-24",
+    "probation_months": 6,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "雷雨甜",
-    "level": "P2",
+    "employee_no": "123",
     "title": "预备PM",
     "entry_date": "2025-04-08",
-    "birthday": "2026-05-21"
+    "birthday": "2026-05-21",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-6f34124fd657c64cf30c28a8c23ada0a",
+    "open_id": "ou_cdba08f91fb2afa67044f97793e64b27",
+    "job_level": "P2",
+    "conversion_date": "2025-07-08",
+    "probation_months": 3,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "任云霞",
-    "level": "P1+",
+    "employee_no": "113",
     "title": "内容媒介",
     "entry_date": "2025-03-03",
-    "birthday": "2000-09-21"
+    "birthday": "2000-09-21",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-dad61802940c327eb0fbe46b2c8c8a37",
+    "open_id": "ou_289447b6f7767bd4ade9acd3378bdfc2",
+    "job_level": "P2",
+    "conversion_date": "2025-06-03",
+    "probation_months": 3,
+    "employee_form_status": 1,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "陈思安",
-    "level": "P2+",
+    "employee_no": "105",
     "title": "竞价运营策略",
     "entry_date": "2025-01-07",
-    "birthday": "1995-12-08"
-  },
-  {
-    "name": "李沁育",
-    "level": "P2+",
-    "title": "内容媒介",
-    "entry_date": "2024-10-25",
-    "birthday": "2000-10-25"
-  },
-  {
-    "name": "董强（沐风）",
-    "level": "P4",
-    "title": "竞价运营策略",
-    "entry_date": "2024-10-22",
-    "birthday": "1994-09-04"
-  },
-  {
-    "name": "李学婷",
-    "level": "P2",
-    "title": "预备PM",
-    "entry_date": "2024-10-08",
-    "birthday": "2001-07-23"
+    "birthday": "1995-12-08",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-0125cc670ce5a07b73f711529d2972f8",
+    "open_id": "ou_0b93c01c6406716e01bab2f3e2c09485",
+    "job_level": "P3",
+    "conversion_date": "2025-04-07",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "贺婷",
-    "level": "P2-",
-    "title": "选人媒介",
+    "employee_no": "073",
+    "title": "媒介执行",
     "entry_date": "2024-09-02",
-    "birthday": "2000-11-15"
+    "birthday": "2000-11-15",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_012c32cf7ac0909eb4ff3126936ee86c",
+    "job_level": "P2",
+    "conversion_date": "2024-12-02",
+    "probation_months": 3,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "Yoyo",
-    "level": "M4",
+    "employee_no": "062",
     "title": "COO",
     "entry_date": "2024-06-12",
-    "birthday": "1987-02-06"
+    "birthday": "1987-02-06",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-c58f55bc0cca8a3857ab24094a501be6",
+    "open_id": "ou_a0a137fa32c622172931f0bdba840450",
+    "job_level": "M4",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "赵雪宁",
-    "level": "P2",
+    "employee_no": "049",
     "title": "内容媒介",
     "entry_date": "2024-04-24",
-    "birthday": "2001-08-11"
+    "birthday": "2001-08-11",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-12d1c92fff451a8caf8d6f71556a467b",
+    "open_id": "ou_434db18a1d6d59b514d574e5d0a1d990",
+    "job_level": "P2",
+    "conversion_date": "2024-07-24",
+    "probation_months": 3,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "王菲",
-    "level": "P1",
+    "employee_no": "040",
     "title": "内容媒介",
     "entry_date": "2024-02-23",
-    "birthday": "1999-06-29"
+    "birthday": "1999-06-29",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-dad61802940c327eb0fbe46b2c8c8a37",
+    "open_id": "ou_bc033890284681d27430940789599c69",
+    "job_level": "P1",
+    "conversion_date": "2024-05-23",
+    "probation_months": 3,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "杨滢荻",
-    "level": "M3",
+    "employee_no": "014",
     "title": "策略总监",
     "entry_date": "2023-07-10",
-    "birthday": "2001-04-06"
+    "birthday": "2001-04-06",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-cfed506376aa9c8724154331a450bff2",
+    "open_id": "ou_37e8df85ba27dc247c78660114184c98",
+    "job_level": "M3",
+    "conversion_date": "2023-11-17",
+    "probation_months": 6,
+    "employee_form_status": 2,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "居晓珺",
-    "level": "P1",
+    "employee_no": "013",
     "title": "新媒体策划PM",
     "entry_date": "2023-05-22",
-    "birthday": "2000-12-07"
+    "birthday": "2000-12-07",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-c58f55bc0cca8a3857ab24094a501be6",
+    "open_id": "ou_e7a0e2497ce0828c9c955b13f3c16bec",
+    "job_level": "P1+",
+    "conversion_date": "2023-10-01",
+    "probation_months": 3,
+    "employee_form_status": 3,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "延紫婧",
-    "level": "M2",
+    "employee_no": "007",
     "title": "交付中心负责人",
     "entry_date": "2023-02-22",
-    "birthday": "2000-01-06"
+    "birthday": "2000-01-06",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-34e32296c0621ec89c827c09a26fb698",
+    "open_id": "ou_0e5a5609cd0f64fd67b8dea8333c1129",
+    "job_level": "M2",
+    "conversion_date": "2023-04-17",
+    "probation_months": 3,
+    "employee_form_status": 1,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   },
   {
     "name": "李逸凡",
-    "level": "M5",
+    "employee_no": "001",
     "title": "曼拾创始人",
     "entry_date": "2017-09-04",
-    "birthday": ""
-  },
-  {
-    "name": "葛诗佳",
-    "level": "M5",
-    "title": "广告业务CEO",
-    "entry_date": "2016-01-12",
-    "birthday": ""
+    "birthday": "1994-09-04",
+    "employee_type": 1,
+    "status": 2,
+    "department_id": "od-bdedbb6b3292cd402a9eaf374c1474d1",
+    "open_id": "ou_c4249d713be906d36ef8607efab6506f",
+    "job_level": "M5",
+    "conversion_date": "",
+    "probation_months": 0,
+    "employee_form_status": 1,
+    "sources": {
+      "base": "ehr",
+      "birth": "ehr",
+      "entry": "ehr"
+    }
   }
 ]

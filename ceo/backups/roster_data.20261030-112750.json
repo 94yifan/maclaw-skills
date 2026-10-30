@@ -1,0 +1,814 @@
+[
+  {
+    "name": "牛文丽",
+    "employee_no": "216",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_8329aa0ba78d39af552cc130c499947f",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "刘翰泽",
+    "employee_no": "215",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_fd57373d450e9046820e1a2ad8046822",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "陈昊",
+    "employee_no": "214",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_32575a45ddf427c47c2ec0102e1e674d",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "王坤",
+    "employee_no": "213",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_954efa0ce6968a360fb4a635b687ad9f",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "张翔宇",
+    "employee_no": "212",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_4b00c86a6de5bab33792571de963b075",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "韩昊东",
+    "employee_no": "211",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_5af35184ae313f0fb21c2ee5fed48670",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "胡云鹏",
+    "employee_no": "210",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_b2bc92afe64890beae314028b524490c",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "郭露忆",
+    "employee_no": "208",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_4aa058ca3a6333ed1e5e88cfbfe8331e",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "赵帆",
+    "employee_no": "207",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_ee4b190bdc87c32d641a7d51c9475edb",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "成超杰",
+    "employee_no": "205",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_6072005886200484576c460f53624d8c",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "梁超慧",
+    "employee_no": "204",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_dec5216d0a07d815c4bec5d0799a67b8",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "黄嘉成",
+    "employee_no": "202",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_88ef33aceb2088e675e80d54dadcf134",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "张雨晨",
+    "employee_no": "201",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_6296d6ceaa30ef888ad2be9b44cb500c",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "张宇璇",
+    "employee_no": "199",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_891cfd3cc978bb225b884bb5bbc8d5f5",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "刘佳仪",
+    "employee_no": "196",
+    "title": "竞价运营专家",
+    "entry_date": "2026-05-28",
+    "birthday": "1998-03-19",
+    "status": 2,
+    "open_id": "ou_e87fb4e8a6182b2a74c2a33842dcaf20",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "温翔",
+    "employee_no": "194",
+    "title": "预备PM",
+    "entry_date": "2026-05-12",
+    "birthday": "1997-02-17",
+    "status": 2,
+    "open_id": "ou_ca37e1a8a97a5aae4d9eb5eb98affb71",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "陈小辰",
+    "employee_no": "193",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_30f3329b63805edb8aa24fd47f454876",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "秦姗",
+    "employee_no": "190",
+    "title": "媒介执行",
+    "entry_date": "2026-05-06",
+    "birthday": "2000-10-29",
+    "status": 2,
+    "open_id": "ou_f53150168f981e202d2b9de311ed9e4d",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "熊智童",
+    "employee_no": "185",
+    "title": "竞价运营策略",
+    "entry_date": "2026-04-07",
+    "birthday": "2003-11-16",
+    "status": 2,
+    "open_id": "ou_ec17f79929ed9aac75468b60957b2c60",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "王满",
+    "employee_no": "184",
+    "title": "选人媒介",
+    "entry_date": "2026-04-07",
+    "birthday": "2002-06-07",
+    "status": 2,
+    "open_id": "ou_c31838182e91ff295f765ecd772e2472",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "李思月",
+    "employee_no": "179",
+    "title": "选人媒介",
+    "entry_date": "2026-03-09",
+    "birthday": "2003-07-27",
+    "status": 2,
+    "open_id": "ou_d5aebf641e97914c3e9ec28c46d0336a",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "许艺馨",
+    "employee_no": "174",
+    "title": "媒介执行",
+    "entry_date": "2026-01-19",
+    "birthday": "2004-03-31",
+    "status": 2,
+    "open_id": "ou_7f1e9fe29aefcabf9104c3d95a8e1cc7",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "贾梦瑶",
+    "employee_no": "169",
+    "title": "竞价运营策略管培生",
+    "entry_date": "2026-01-06",
+    "birthday": "2003-12-30",
+    "status": 2,
+    "open_id": "ou_223eba697071a363dfb43fc62b7aee54",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "邢慧峰",
+    "employee_no": "163",
+    "title": "选人媒介",
+    "entry_date": "2025-12-01",
+    "birthday": "2000-12-05",
+    "status": 2,
+    "open_id": "ou_041f3c1063f96d406582434a3309127a",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "陈文龙",
+    "employee_no": "162",
+    "title": "竞价运营策略",
+    "entry_date": "2025-11-24",
+    "birthday": "1999-02-02",
+    "status": 2,
+    "open_id": "ou_fb8d92b82b61bcc93015adf4bfc009a9",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "赵瑾",
+    "employee_no": "160",
+    "title": "竞价运营策略",
+    "entry_date": "2025-11-19",
+    "birthday": "1996-05-03",
+    "status": 2,
+    "open_id": "ou_61e58bc80c6506b187686eb0fcac01a6",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "杨鸿雁",
+    "employee_no": "158",
+    "title": "选人媒介",
+    "entry_date": "2025-11-10",
+    "birthday": "2003-10-08",
+    "status": 2,
+    "open_id": "ou_ec38468dab41dc26dabe715e0ea70c0c",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "李想",
+    "employee_no": "157",
+    "title": "内容媒介",
+    "entry_date": "2025-11-06",
+    "birthday": "1997-12-29",
+    "status": 2,
+    "open_id": "ou_b8295ee578ee9342406a2035d3a0c90f",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "张娜",
+    "employee_no": "155",
+    "title": "HR",
+    "entry_date": "2025-10-30",
+    "birthday": "1997-03-21",
+    "status": 2,
+    "open_id": "ou_3e5d8cb47dc6f9d00f27eb4fc953f1e5",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "吕鑫怡",
+    "employee_no": "151",
+    "title": "内容媒介",
+    "entry_date": "2025-10-20",
+    "birthday": "2003-02-13",
+    "status": 2,
+    "open_id": "ou_8fe5c752aa16d2b2c570ff6b6a21d4a5",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "史瑞钰",
+    "employee_no": "146",
+    "title": "内容媒介",
+    "entry_date": "2025-08-19",
+    "birthday": "1999-04-23",
+    "status": 2,
+    "open_id": "ou_96278477dee35ae0c12d80b0b5abe970",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "米慧蓉",
+    "employee_no": "140",
+    "title": "预备PM",
+    "entry_date": "2025-07-01",
+    "birthday": "2003-02-25",
+    "status": 2,
+    "open_id": "ou_116707dd00c6ee796e7fe9f8ae1bdb92",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "蔡维佳",
+    "employee_no": "139",
+    "title": "预备PM",
+    "entry_date": "2025-06-24",
+    "birthday": "1995-03-21",
+    "status": 2,
+    "open_id": "ou_db15eeafce3c814feb129caf5eac5e27",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "陈雪",
+    "employee_no": "131",
+    "title": "HR",
+    "entry_date": "2025-04-24",
+    "birthday": "2002-10-17",
+    "status": 2,
+    "open_id": "ou_eccd1b37cccb36c3abcf3b600fcc933a",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "雷雨甜",
+    "employee_no": "123",
+    "title": "预备PM",
+    "entry_date": "2025-04-08",
+    "birthday": "2026-05-21",
+    "status": 2,
+    "open_id": "ou_cdba08f91fb2afa67044f97793e64b27",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "任云霞",
+    "employee_no": "113",
+    "title": "内容媒介",
+    "entry_date": "2025-03-03",
+    "birthday": "2000-09-21",
+    "status": 2,
+    "open_id": "ou_289447b6f7767bd4ade9acd3378bdfc2",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "陈思安",
+    "employee_no": "105",
+    "title": "竞价运营策略",
+    "entry_date": "2025-01-07",
+    "birthday": "1995-12-08",
+    "status": 2,
+    "open_id": "ou_0b93c01c6406716e01bab2f3e2c09485",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "贺婷",
+    "employee_no": "073",
+    "title": "选人媒介",
+    "entry_date": "2024-09-02",
+    "birthday": "2000-11-15",
+    "status": 2,
+    "open_id": "ou_012c32cf7ac0909eb4ff3126936ee86c",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "Yoyo",
+    "employee_no": "062",
+    "title": "COO",
+    "entry_date": "2024-06-12",
+    "birthday": "1987-02-06",
+    "status": 2,
+    "open_id": "ou_a0a137fa32c622172931f0bdba840450",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "赵雪宁",
+    "employee_no": "049",
+    "title": "内容媒介",
+    "entry_date": "2024-04-24",
+    "birthday": "2001-08-11",
+    "status": 2,
+    "open_id": "ou_434db18a1d6d59b514d574e5d0a1d990",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "王菲",
+    "employee_no": "040",
+    "title": "内容媒介",
+    "entry_date": "2024-02-23",
+    "birthday": "1999-06-29",
+    "status": 2,
+    "open_id": "ou_bc033890284681d27430940789599c69",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "杨滢荻",
+    "employee_no": "014",
+    "title": "策略总监",
+    "entry_date": "2023-07-10",
+    "birthday": "2001-04-06",
+    "status": 2,
+    "open_id": "ou_37e8df85ba27dc247c78660114184c98",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "居晓珺",
+    "employee_no": "013",
+    "title": "新媒体策划PM",
+    "entry_date": "2023-05-22",
+    "birthday": "2000-12-07",
+    "status": 2,
+    "open_id": "ou_e7a0e2497ce0828c9c955b13f3c16bec",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "延紫婧",
+    "employee_no": "007",
+    "title": "交付中心负责人",
+    "entry_date": "2023-02-22",
+    "birthday": "2000-01-06",
+    "status": 2,
+    "open_id": "ou_0e5a5609cd0f64fd67b8dea8333c1129",
+    "sources": {
+      "base": "ehr",
+      "birth": "legacy_table",
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "李逸凡",
+    "employee_no": "001",
+    "title": "曼拾创始人",
+    "entry_date": "2017-09-04",
+    "birthday": "",
+    "status": 2,
+    "open_id": "ou_c4249d713be906d36ef8607efab6506f",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": "legacy_table"
+    }
+  },
+  {
+    "name": "郭子涵",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_3d17c751162071ed36c7c1329de56119",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "赖天悟",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_69a167ba78b6a180dc5087a2546d0828",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "李晓岩",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_75bba1044a03ca70f29a998613825929",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "雷雨露",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_a987a39e9a6a22fb000cdf81d265285e",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "丁嘉欣",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_02144108ce8b983c5daa165b4034b883",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "李佳豪",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_e9f937bcfac63430d9dc28bcf8853469",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "李欣",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_6540108954ab4e56b61931de34070c74",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "崔丽君",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_2ebc8e060f98607cf1f17a566ac5df77",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "王美琪",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_9044d35d81e43c583744d88069fa1cd2",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "郝俊婷",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_c2233d91faf8224cb4b7f1c83039b664",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "范诗诗",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_4a88ae7acb3829a756b7f3fc6992151f",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "秦奥美",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_b00e776a958572592645b577788e54f3",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  },
+  {
+    "name": "央拉",
+    "employee_no": "",
+    "title": "",
+    "entry_date": "",
+    "birthday": "",
+    "status": 3,
+    "open_id": "ou_0950ad98e5651c3fbb8f7cd798cbc630",
+    "sources": {
+      "base": "ehr",
+      "birth": null,
+      "entry": null
+    }
+  }
+]

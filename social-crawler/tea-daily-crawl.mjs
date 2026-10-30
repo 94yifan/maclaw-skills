@@ -38,6 +38,7 @@ const brands = [
   { name: '柠季', uid: '7592401864' },
   { name: '挪瓦咖啡', uid: '7268463229' },
   { name: '东方墨兰', uid: '8005590706' },
+  { name: '李若桃', uid: '3135764617' },
 ];
 
 function parseDate(createdStr) {
@@ -173,6 +174,9 @@ async function main() {
       });
       inWindow.sort((a, b) => parseDate(b.created) - parseDate(a.created));
       const items = inWindow.map(p => ({ id: p.id, t: cleanHtml(p.text), d: p.created, r: p.reposts_count, c: p.comments_count, l: p.attitudes_count }));
+      // 2026-10-30：latest 是全时间线最新（可能晚于 windowEnd），不能用来判断「窗口内有没有动态」。
+      // 判断有无动态只看 latestInWindow；latest 仅用于观察账号是否活跃。
+      const latestInWindow = items.length ? items[0].d : null;
       output.brands.push({
         brand: brand.name,
         uid: brand.uid,
@@ -181,11 +185,12 @@ async function main() {
         fetched: result.fetched,
         error: result.error,
         latest,
+        latestInWindow,
         items
       });
-      process.stdout.write(`抓${posts.length}条/窗口内${items.length}条 ok=${result.ok} total=${result.total} latest=${latest}\n`);
+      process.stdout.write(`抓${posts.length}条/窗口内${items.length}条 ok=${result.ok} total=${result.total} latest=${latest} 窗内最新=${latestInWindow || '无'}\n`);
     } catch (e) {
-      output.brands.push({ brand: brand.name, uid: brand.uid, ok: 0, total: null, fetched: 0, error: (e.message || '').slice(0, 120), items: [], latest: null });
+      output.brands.push({ brand: brand.name, uid: brand.uid, ok: 0, total: null, fetched: 0, error: (e.message || '').slice(0, 120), items: [], latest: null, latestInWindow: null });
       process.stdout.write(`err: ${(e.message||'').slice(0, 60)}\n`);
     }
     await new Promise(r => setTimeout(r, 5000 + Math.random() * 2500));
@@ -226,7 +231,7 @@ async function main() {
     if (b.ok && b.total === 0) empty++;
     if (b.items && b.items.length > 0) { active++; totalPosts += b.items.length; }
   }
-  console.log(`${active}/23 个品牌24h窗口内有动态, 共 ${totalPosts} 条, 请求错误 ${errs} 个, 接口无返回(total=0) ${empty} 个`);
+  console.log(`${active}/${brands.length} 个品牌24h窗口内有动态, 共 ${totalPosts} 条, 请求错误 ${errs} 个, 接口无返回(total=0) ${empty} 个`);
 
   // 2026-10-24：抓取完成后必须显式退出。
   // 走 chromium.connectOverCDP 时 websocket 会一直挂住 Node 事件循环：数据与台账已经写完，

@@ -59,13 +59,12 @@ else
   echo "WARN: pending.json 缺失（守卫AJ 落地项）"
 fi
 
-echo "== 0c) 当日交互巡检 (守卫AM: 不得默认零交互) =="
-SESS_DIR="$HOME/.openclaw/agents/cfo/sessions"
-echo "当日被写入的 session jsonl（含本轮 dreaming）:"
-find "$SESS_DIR" -maxdepth 1 -name '*.jsonl' -newermt "$TODAY 00:00" -print 2>/dev/null | sed 's#.*/##'
-if [ -f "cfo/memory/$TODAY.md" ]; then echo "当日 memory 文件: 存在"; else echo "当日 memory 文件: 不存在（判断是否零交互须以 session 目录为准，不得默认）"; fi
+echo "== 0c) 当日交互巡检 (守卫AM: 不得默认零交互 / 守卫BB: 单入口) =="
+python3 cfo/tmp/giftlist/day_probe.py "$TODAY" || echo "WARN: day_probe.py 返回非 0"
+python3 -c "import pathlib,sys; sys.exit(0 if pathlib.Path('cfo/memory/$TODAY.md').exists() else 1)" && echo "当日 memory 文件: 存在" || echo "当日 memory 文件: 不存在（判断是否零交互须以 session 目录为准，不得默认）"
 
 echo "== 0d) 骨架顺序自检 (守卫AN: 第一条工具调用必须是 dreaming_open.py) =="
+SESS_DIR="$HOME/.openclaw/agents/cfo/sessions"
 python3 - "$SESS_DIR" "$TODAY" <<'PY'
 import glob, json, os, sys
 sess_dir, today = sys.argv[1], sys.argv[2]

@@ -9,7 +9,10 @@ roster_sync.py v3 — 从飞书人事（标准版 ehr v1, view=full）重建在�
   2. view=full 会同时返回身份证号、银行卡、社保公积金、户口等极高敏字段。
      本脚本只按白名单提取 7 个字段，其余一律不落地、不写文件、不打印。
      白名单：name / employee_no / employee_type / status / hire_date / birthday / job.name / department_id
-  3. 在职口径：status 2（试用/在职）+ 3（正式）；5=已离职，不取。
+  3. 在职口径（2026-10-30 实测修正）：status 2 = 在职，唯一有效口径；
+     status 3 = 已离职（14 人，全部查不到通讯录），status 5 = 历史离职（238 人），两者一律不取。
+     ⚠️ 曾按「2=试用、3=正式」推断，把 14 名离职人员算成在职，对外报了 58 人；
+     真值 45 人。语义必须由通讯录交叉校验得出，不得按字面猜。
 
 输出：
   roster_data.json  在职名册，字段缺省即 data_unavailable，不猜测、不回填旧表
